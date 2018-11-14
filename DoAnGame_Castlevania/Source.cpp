@@ -14,7 +14,7 @@
 #include"define.h"
 #include "Zombie.h"
 #include"BigFire.h"
-#include"Candle.h"
+
 //#include"Map.h"
 
 

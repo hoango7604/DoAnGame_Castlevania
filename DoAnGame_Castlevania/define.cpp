@@ -2,11 +2,3 @@
 
 
 
-define::define()
-{
-}
-
-
-define::~define()
-{
-}

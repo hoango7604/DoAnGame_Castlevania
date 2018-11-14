@@ -33,6 +33,6 @@ public:
 	int GetRows() { return this->rows; }
 	int GetTileWidth() { return this->tileWidth; }
 	int GetTileHeight() { return this->tileHeight; }
-};
+};*/
 
 
