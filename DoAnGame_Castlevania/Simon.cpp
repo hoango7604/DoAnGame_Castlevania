@@ -3,7 +3,7 @@
 
 #include "Simon.h"
 #include "Game.h"
-#include "ViewPort.h"
+
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 580
 
@@ -70,24 +70,20 @@ void Simon::Render()
 		{
 			if (vx == 0)
 			{
-				if (nx > 0) ani = SIMON_ANI_BIG_IDLE_RIGHT;
-				else ani = SIMON_ANI_BIG_IDLE_LEFT;
+				if (nx > 0 && state != SIMON_STATE_HIT)
+					ani = SIMON_ANI_BIG_IDLE_RIGHT;
+				else if (nx < 0 && state != SIMON_STATE_HIT )
+					ani = SIMON_ANI_BIG_IDLE_LEFT;
+				else if (nx > 0 && state == SIMON_STATE_HIT)
+					ani = SIMON_ANI_HIT_RIGHT;
+				else
+					ani = SIMON_ANI_HIT_LEFT;
 			}
 			else if (vx > 0)
 				ani = SIMON_ANI_BIG_WALKING_RIGHT;
 			else ani = SIMON_ANI_BIG_WALKING_LEFT;
 		}
-		else if (level == SIMON_LEVEL_SMALL)
-		{
-			if (vx == 0)
-			{
-				if (nx > 0) ani = SIMON_ANI_SMALL_IDLE_RIGHT;
-				else ani = SIMON_ANI_SMALL_IDLE_LEFT;
-			}
-			else if (vx > 0)
-				ani = SIMON_ANI_SMALL_WALKING_RIGHT;
-			else ani = SIMON_ANI_SMALL_WALKING_LEFT;
-		}
+		
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
@@ -98,6 +94,7 @@ void Simon::Render()
 
 void Simon::SetState(int state)
 {
+			
 	CGameObject::SetState(state);
 
 	switch (state)
@@ -118,10 +115,9 @@ void Simon::SetState(int state)
 	case SIMON_STATE_DIE:
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
-	/*case SIMON_STATE_MOVE:
-		vx = SIMON_WALKING_SPEED;
-		nx = 1;
-		break;*/
+	case SIMON_STATE_HIT:
+		vx = 0;		
+		break;
 	}
 }
 
