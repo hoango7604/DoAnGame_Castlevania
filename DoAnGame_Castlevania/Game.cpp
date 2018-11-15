@@ -57,7 +57,7 @@ void CGame::Init(HWND hWnd)
 */
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
-	D3DXVECTOR3 p(x -x_cam, y-y_cam, 0);
+	D3DXVECTOR3 p(x -x_cam, y, 0);
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -182,11 +182,20 @@ void CGame::ProcessKeyboard()
 	for (DWORD i = 0; i < dwElements; i++)
 	{
 		int KeyCode = keyEvents[i].dwOfs;
+		
 		int KeyState = keyEvents[i].dwData;
 		if ((KeyState & 0x80) > 0)
+		{
+			
 			keyHandler->OnKeyDown(KeyCode);
+			
+		}
 		else
-			keyHandler->OnKeyUp(KeyCode);
+		{				
+			keyHandler->OnKeyUp(KeyCode);			
+		}
+			
+		
 	}
 }
 

@@ -35,4 +35,3 @@ public:
 	int GetTileHeight() { return this->tileHeight; }
 };*/
 
-

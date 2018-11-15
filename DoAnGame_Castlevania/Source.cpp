@@ -28,49 +28,69 @@ vector<LPGAMEOBJECT> objects;
 
 class CSampleKeyHander : public CKeyEventHandler
 {
+	
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
+
+	DWORD t;
+	bool y = true;
+	
+	
 };
 
 CSampleKeyHander * keyHandler;
 
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	switch (KeyCode)
+	if (y == true)
 	{
-	case DIK_SPACE:
-		simon->SetState(SIMON_STATE_JUMP);
-		break;
-	case DIK_B: // reset
-		simon->SetState(SIMON_STATE_IDLE);
-		simon->SetLevel(SIMON_LEVEL_BIG);
-		simon->SetPosition(50.0f, 0.0f);
-		simon->SetSpeed(0, 0);
-		break;
-	/*case DIK_A:		
-		simon->SetState(SIMON_STATE_HIT);*/
+		switch (KeyCode)
+		{
+		case DIK_SPACE:
+			simon->SetState(SIMON_STATE_JUMP);
+			break;
+		case DIK_B: // reset
+			simon->SetState(SIMON_STATE_IDLE);
+			simon->SetLevel(SIMON_LEVEL_BIG);
+			simon->SetPosition(50.0f, 0.0f);
+			simon->SetSpeed(0, 0);
+			break;
+		case DIK_A:
+		{	
+			y = false;
+			simon->SetState(SIMON_STATE_HIT);				
+			break;
+		}
+		
+		}
 	}
+	
+	
 }
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	y = true;
 }
 
 void CSampleKeyHander::KeyState(BYTE *states)
 {
-	 
-	if (simon->GetState() == SIMON_STATE_DIE) return;
-	if (game->IsKeyDown(DIK_RIGHT))
-		simon->SetState(SIMON_STATE_WALKING_RIGHT);
-	else if (game->IsKeyDown(DIK_LEFT))
-		simon->SetState(SIMON_STATE_WALKING_LEFT);	
-	else if (game->IsKeyDown(DIK_A))
-		simon->SetState(SIMON_STATE_HIT);
-	else
-		simon->SetState(SIMON_STATE_IDLE);
+	if(y==true)
+	{
+		if (simon->GetState() == SIMON_STATE_DIE) return;
+		if (game->IsKeyDown(DIK_RIGHT))
+			simon->SetState(SIMON_STATE_WALKING_RIGHT);
+		else if (game->IsKeyDown(DIK_LEFT))
+			simon->SetState(SIMON_STATE_WALKING_LEFT);
+		/*else if (game->IsKeyDown(DIK_A))
+			simon->SetState(SIMON_STATE_HIT);*/
+		else if (game->IsKeyDown(DIK_DOWN))
+				simon->SetState(SIMON_STATE_SIT);
+		else
+			simon->SetState(SIMON_STATE_IDLE);
+
+	}
 }
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -119,25 +139,33 @@ void LoadResources()
 	sprites->Add(10002, 375, 0, 401, 64, texSimon);		// đi phải
 	sprites->Add(10003, 314, 0, 344, 64, texSimon);
 	
-	sprites->Add(10004, 74, 0, 112, 64, texSimon);		// đánh phải
-	sprites->Add(10005, 120, 0, 171, 64, texSimon);		
+	sprites->Add(10004, 74, 0, 112, 64, texSimon);		// đánh phải			
 	sprites->Add(10006, 14, 0, 59, 64, texSimon);
-	sprites->Add(10007, 434, 0, 469, 64, texSimon);
+	sprites->Add(10005, 120, 0, 171, 64, texSimon);
+	
+
+	sprites->Add(10018, 196, 17, 230, 64, texSimon); // ngồi phải
+
+	sprites->Add(10020, 196, 17, 230, 64, texSimon); // nhảy phải
+
 	LPDIRECT3DTEXTURE9 texSimon2 = textures->Get(ID_TEX_SIMON_2);
 	sprites->Add(10011, 11, 0, 47, 64, texSimon2);		// đứng im trái
 
 	sprites->Add(10012, 74, 0, 107, 64, texSimon2);		// đi trái
 	sprites->Add(10013, 132, 0, 171, 64, texSimon2);
 
-	sprites->Add(10014, 372, 0, 404, 64, texSimon2);		// đánh trái
-	sprites->Add(10015, 313, 0, 360, 64, texSimon2);		
+	sprites->Add(10014, 372, 0, 404, 64, texSimon2);		// đánh trái			
 	sprites->Add(10016, 421, 0, 464, 64, texSimon2);
-	sprites->Add(10017, 11, 0, 47, 64, texSimon2);
+	sprites->Add(10015, 313, 0, 360, 64, texSimon2);
+	
+
+	sprites->Add(10019, 254, 17, 286, 64, texSimon2); // ngồi trái
+
+	sprites->Add(10021, 254, 17, 286, 64, texSimon2);//nhảy trái
 	
 	sprites->Add(10099, 180, 237, 240, 264, texSimon);		// chết 
 	
-	//đánh trái 
-	//đánh phải
+	
 	
 
 	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_BRICK);
@@ -161,12 +189,12 @@ void LoadResources()
 		
 
 	LPANIMATION ani;
-
-	ani = new CAnimation(100);	
+// start simon
+	ani = new CAnimation(100);	//đứng phải
 	ani->Add(10001);
 	animations->Add(400, ani);
 
-	ani = new CAnimation(100);	
+	ani = new CAnimation(100);	//đứng trái
 	ani->Add(10011);
 	animations->Add(401, ani);
 
@@ -174,59 +202,78 @@ void LoadResources()
 
 	
 
-	ani = new CAnimation(100);	
+	ani = new CAnimation(100);	//đi phải
 	ani->Add(10001);
 	ani->Add(10002);
 	ani->Add(10003);
 	animations->Add(500, ani);
 
-	ani = new CAnimation(100);	
+	ani = new CAnimation(100);	//đi trái
 	ani->Add(10011);
 	ani->Add(10012);
 	ani->Add(10013);
 	animations->Add(501, ani);
 
-	ani = new CAnimation(100);
+	ani = new CAnimation(150); //đánh phải
 	ani->Add(10004);
-	ani->Add(10005);
 	ani->Add(10006);
-	ani->Add(10007);
+	ani->Add(10005);
+	
 	animations->Add(402, ani);
 
-	ani = new CAnimation(100);
-	ani->Add(10014);
-	ani->Add(10015);
+	ani = new CAnimation(150);//đánh trái
+	ani->Add(10014);	
 	ani->Add(10016);
-	ani->Add(10017);
+	ani->Add(10015);
+	
 	animations->Add(403, ani);
-		
-	ani = new CAnimation(100);		
+
+	ani = new CAnimation(100); //ngồi phải
+	ani->Add(10018);
+	animations->Add(404, ani);
+
+	ani = new CAnimation(100);//ngồi trái
+	ani->Add(10019);
+	animations->Add(405, ani);
+
+	ani = new CAnimation(100);//nhảy phải
+	ani->Add(10020);
+	animations->Add(406, ani);
+
+	ani = new CAnimation(100);//nhảy trái
+	ani->Add(10021);
+	animations->Add(407, ani);
+
+	ani = new CAnimation(100);	//chết	
 	ani->Add(10099);
 	animations->Add(599, ani);
-
-	ani = new CAnimation(100);		
+// end simon
+	ani = new CAnimation(100);	//đất
 	ani->Add(20001);
 	animations->Add(601, ani);
 
-	ani = new CAnimation(100);
+	ani = new CAnimation(100); //zombie
 	ani->Add(30001);
 	ani->Add(30002);
 	animations->Add(602, ani);
 
-	ani = new CAnimation(100);
+	ani = new CAnimation(100); //fire
 	ani->Add(40011);
 	ani->Add(40012);
 	animations->Add(700, ani);
 	
 	simon = new Simon();
-	simon->AddAnimation(400);		
-	simon->AddAnimation(401);		
-	simon->AddAnimation(500);		
-	simon->AddAnimation(501);	
-	simon->AddAnimation(402);
-	simon->AddAnimation(403);
-
-	simon->AddAnimation(599);		
+	simon->AddAnimation(400);	// đứng phải	
+	simon->AddAnimation(401);	//đứng trái	
+	simon->AddAnimation(500);	// đi phải
+	simon->AddAnimation(501);	//đi trái
+	simon->AddAnimation(402);	//đánh phải 
+	simon->AddAnimation(403);	//đánh trái
+	simon->AddAnimation(404);	//ngồi phải
+	simon->AddAnimation(405);	//ngồi trái
+	simon->AddAnimation(406);	//nhảy phải 
+	simon->AddAnimation(407);	//nhảy trái
+	simon->AddAnimation(599);	//chết
 	
 	simon->SetPosition(150, 327);
 	objects.push_back(simon);
@@ -237,14 +284,14 @@ void LoadResources()
 		ground->SetPosition(0 + i * 32.0f, 407);
 		objects.push_back(ground);
 	}
-	for (int i = 0; i < 2; i++)
+	/*for (int i = 0; i < 2; i++)
 	{
 		Zombie *zombie = new Zombie();
 		zombie->AddAnimation(602);
 		zombie->SetPosition(0 + i *64, 350);
 		zombie->SetState(ZOMBIE_STATE_WALKING);
 		objects.push_back(zombie);
-	}
+	}*/
 	
 		BigFire *bigfire = new BigFire();
 		bigfire->AddAnimation(700);
@@ -272,7 +319,7 @@ void LoadResources()
 		objects.push_back(bigfire5);
 		LPDIRECT3DTEXTURE9 tileset1 = textures->Get(ID_TEX_TILESET);
 		/*sprite = new CSprite(500000,0,0,256,64,tileset1);
-		map = new	Map(6, 24, sprite, 64, 64);
+		map = new	Map(24, 96, sprite, 16, 16);
 		map->LoadMatrixMap("Castlevania\\Mapstate.txt");*/
 }
 
@@ -294,10 +341,14 @@ void Update(DWORD dt)
 	
 	float x, y;
 	simon->GetPosition(x, y);
-	if (x > SCREEN_WIDTH / 2)
+
+	if (x > SCREEN_WIDTH / 2 && x< 1536 - SCREEN_WIDTH/2)
 	{
 		game->x_cam = x - SCREEN_WIDTH / 2;
-		game->y_cam = y - SCREEN_HEIGHT / 2;
+		game->y_cam = y ;
+	}
+	else {
+		
 	}
 	//map->Draw(game->x_cam, game->y_cam);
 }
@@ -315,19 +366,42 @@ void Render()
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-		/*CTextures * textures = CTextures::GetInstance();
+		CTextures * textures = CTextures::GetInstance();
 		LPDIRECT3DTEXTURE9 tex = textures->Get(ID_TEX_LV1);
-		D3DXVECTOR3 p(0, 110, 0);
-		RECT r;
-		r.left = 0;
-		r.top = 0;
-		r.right = 1536;
-		r.bottom = 328;
-		spriteHandler->Draw(tex, &r, NULL, &p, D3DCOLOR_XRGB( 255, 255, 255));
-		*/
+		float x, y;
+		simon->GetPosition(x, y);
+		if (x < SCREEN_WIDTH / 2){
+			D3DXVECTOR3 p(0,80,0);
+			RECT r;
+			r.left = 0;
+			r.top = 0;
+			r.right = 640;
+			r.bottom = 480;
+			spriteHandler->Draw(tex, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
+		}
+		else if( x < 1536 - SCREEN_WIDTH / 2 && x > SCREEN_WIDTH/2){
+
+			D3DXVECTOR3 p(0, 80,0);
+			RECT r;
+			r.left = x - SCREEN_WIDTH / 2;
+			r.top = 0;
+			r.right = 640 + x;
+			r.bottom = 480;
+			spriteHandler->Draw(tex, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
+		}
+		else {
+			D3DXVECTOR3 p(0, 80, 0);
+			RECT r;
+			r.left = 1536 - SCREEN_WIDTH ;
+			r.top = 0;
+			r.right = 640 + x;
+			r.bottom = 480;
+			spriteHandler->Draw(tex, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
+		}
+
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();
-		
+
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}
@@ -389,7 +463,7 @@ int Run()
 	int done = 0;
 	DWORD frameStart = GetTickCount();
 	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
-	//GameTime *time = new GameTime;
+	
 	while (!done)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))

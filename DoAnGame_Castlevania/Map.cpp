@@ -1,4 +1,4 @@
-/*#include "Map.h"
+/*#include"Map.h"
 #include "Textures.h"
 #include "Game.h"
 #include "Sprites.h"
@@ -112,16 +112,15 @@ void Map::Draw(float x,float y)
 		for (int j = colStart; j <= colEnd; j++)
 		{
 			//tileRect dung de lay ra RECT trong tile set de ve
-			tileRect.left = (matrix[i][j] % 24) * tileWidth; // 16 is number of column in tileset
-			tileRect.top = (matrix[i][j] / 24) * tileHeight;
+ 			tileRect.left = (matrix[i][j] % 16) * tileWidth; // 16 is number of column in tileset
+			tileRect.top = (matrix[i][j] / 16) * tileHeight;
 			tileRect.right = tileRect.left + tileWidth;
 			tileRect.bottom = tileRect.top + tileHeight;
 
 			//tile pos la vi tri de ve tile len camera
 			//tilePos = viewPort->ConvertPosInViewPort(D3DXVECTOR3(j * tileWidth, i * tileHeight + 40, 0));
-			CGame::GetInstance()->Draw(x, y,tileSet->getTexture() ,(float)tileRect.left, (float)tileRect.top, (float)tileRect.right, (float)tileRect.bottom);
+ 			CGame::GetInstance()->Draw(x*tileWidth, y*tileHeight,tileSet->GetTexture() ,(float)tileRect.left, (float)tileRect.top, (float)tileRect.right, (float)tileRect.bottom);
 			//tileSet->Draw(x, y, 255); //cast pos to int-type to avoid tearing tilemap
 		}
 	}
-}
-*/
+}*/

@@ -63,31 +63,47 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 void Simon::Render()
 {
 	int ani;
+	if (vy < 0  && state == SIMON_STATE_JUMP)
+	{
+		
+		if (nx < 0)
+		ani = SIMON_ANI_JUMP_RIGHT;
+		ani = SIMON_ANI_JUMP_LEFT;
+	}
 	if (state == SIMON_STATE_DIE)
 		ani = SIMON_ANI_DIE;
 	else
-		if (level == SIMON_LEVEL_BIG)
+	{
+		if (vx == 0)
 		{
-			if (vx == 0)
-			{
-				if (nx > 0 && state != SIMON_STATE_HIT)
-					ani = SIMON_ANI_BIG_IDLE_RIGHT;
-				else if (nx < 0 && state != SIMON_STATE_HIT )
-					ani = SIMON_ANI_BIG_IDLE_LEFT;
-				else if (nx > 0 && state == SIMON_STATE_HIT)
-					ani = SIMON_ANI_HIT_RIGHT;
-				else
-					ani = SIMON_ANI_HIT_LEFT;
-			}
-			else if (vx > 0)
-				ani = SIMON_ANI_BIG_WALKING_RIGHT;
-			else ani = SIMON_ANI_BIG_WALKING_LEFT;
+			if (nx > 0 && state != SIMON_STATE_HIT && state != SIMON_STATE_SIT && state != SIMON_STATE_JUMP)
+				ani = SIMON_ANI_BIG_IDLE_RIGHT;
+			else if (nx < 0 && state != SIMON_STATE_HIT && state != SIMON_STATE_SIT && state != SIMON_STATE_JUMP)
+				ani = SIMON_ANI_BIG_IDLE_LEFT;
+			else if (nx > 0 && state == SIMON_STATE_HIT)
+				ani = SIMON_ANI_HIT_RIGHT;
+			else if (nx < 0 && state == SIMON_STATE_HIT)
+				ani = SIMON_ANI_HIT_LEFT;
+			else if (nx > 0 && state == SIMON_STATE_SIT)
+				ani = SIMON_ANI_SIT_RIGHT;
+			else if (nx < 0 && state == SIMON_STATE_SIT)
+				ani = SIMON_ANI_SIT_LEFT;
+
 		}
+		else if (vx > 0)
+			ani = SIMON_ANI_BIG_WALKING_RIGHT;
+		
+		else ani = SIMON_ANI_BIG_WALKING_LEFT;
+	}
 		
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-	animations[ani]->Render(x , y, alpha);
+	
+	if(ani == SIMON_ANI_SIT_RIGHT || ani== SIMON_ANI_SIT_LEFT)
+	animations[ani]->Render(x , y+17, alpha);
+	else
+	animations[ani]->Render(x, y , alpha);
 
 	RenderBoundingBox();
 }
@@ -115,9 +131,10 @@ void Simon::SetState(int state)
 	case SIMON_STATE_DIE:
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
-	case SIMON_STATE_HIT:
+	case SIMON_STATE_HIT || SIMON_STATE_SIT:
 		vx = 0;		
 		break;
+	
 	}
 }
 
