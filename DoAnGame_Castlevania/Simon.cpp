@@ -5,7 +5,7 @@
 #include "Game.h"
 
 #define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 580
+#define SCREEN_HEIGHT 480
 
 
 
@@ -55,23 +55,24 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 	}
-	
+	whip->SetPosition(x, y);
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void Simon::Render()
 {
-	int ani;
-	if (vy < 0  && state == SIMON_STATE_JUMP)
+	int ani,aniWhip=-1;
+	 if (y != 289 && state == SIMON_STATE_JUMP)
 	{
-		
-		if (nx < 0)
+
+	if (nx > 0)
 		ani = SIMON_ANI_JUMP_RIGHT;
+	else
 		ani = SIMON_ANI_JUMP_LEFT;
 	}
 	if (state == SIMON_STATE_DIE)
-		ani = SIMON_ANI_DIE;
+		ani = SIMON_ANI_DIE;	
 	else
 	{
 		if (vx == 0)
@@ -81,13 +82,19 @@ void Simon::Render()
 			else if (nx < 0 && state != SIMON_STATE_HIT && state != SIMON_STATE_SIT && state != SIMON_STATE_JUMP)
 				ani = SIMON_ANI_BIG_IDLE_LEFT;
 			else if (nx > 0 && state == SIMON_STATE_HIT)
+			{
 				ani = SIMON_ANI_HIT_RIGHT;
+				aniWhip = WHIP_RIGHT;
+			}
 			else if (nx < 0 && state == SIMON_STATE_HIT)
+			{
 				ani = SIMON_ANI_HIT_LEFT;
+				aniWhip = WHIP_LEFT;
+			}
 			else if (nx > 0 && state == SIMON_STATE_SIT)
 				ani = SIMON_ANI_SIT_RIGHT;
 			else if (nx < 0 && state == SIMON_STATE_SIT)
-				ani = SIMON_ANI_SIT_LEFT;
+				ani = SIMON_ANI_SIT_LEFT;			
 
 		}
 		else if (vx > 0)
@@ -105,6 +112,11 @@ void Simon::Render()
 	else
 	animations[ani]->Render(x, y , alpha);
 
+	if (aniWhip != -1)
+	{		
+		whip->animations[aniWhip]->Render(x , y , alpha);
+
+	}
 	RenderBoundingBox();
 }
 

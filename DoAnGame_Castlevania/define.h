@@ -36,6 +36,9 @@
 #define SIMON_ANI_JUMP_LEFT				9
 #define SIMON_ANI_DIE					10
 
+#define WHIP_RIGHT 						0
+#define WHIP_LEFT						1
+
 #define	SIMON_LEVEL_SMALL	1
 #define	SIMON_LEVEL_BIG		2
 
@@ -66,4 +69,5 @@
 #define ID_TEX_FIRE 40
 #define ID_TEX_CANDLE 45
 #define ID_TEX_WHIP 50
-#define ID_TEX_TILESET 55
+#define ID_TEX_WHIP_2 55
+#define ID_TEX_TILESET 60

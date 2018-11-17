@@ -1,4 +1,4 @@
-/*#include <d3dx9.h>
+#include <d3dx9.h>
 #include <d3d9.h>
 #include <vector>
 #pragma once
@@ -33,5 +33,5 @@ public:
 	int GetRows() { return this->rows; }
 	int GetTileWidth() { return this->tileWidth; }
 	int GetTileHeight() { return this->tileHeight; }
-};*/
+};
 

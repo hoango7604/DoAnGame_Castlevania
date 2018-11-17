@@ -1,4 +1,4 @@
-/*#include"Map.h"
+#include"Map.h"
 #include "Textures.h"
 #include "Game.h"
 #include "Sprites.h"
@@ -123,4 +123,4 @@ void Map::Draw(float x,float y)
 			//tileSet->Draw(x, y, 255); //cast pos to int-type to avoid tearing tilemap
 		}
 	}
-}*/
+}

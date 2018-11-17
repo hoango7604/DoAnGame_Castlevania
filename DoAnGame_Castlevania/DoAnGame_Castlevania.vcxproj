@@ -133,11 +133,14 @@
     <ClInclude Include="define.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameStateOne.h" />
+    <ClInclude Include="GameStateTwo.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="Whip.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
@@ -146,12 +149,15 @@
     <ClCompile Include="define.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameStateOne.cpp" />
+    <ClCompile Include="GameStateTwo.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="Whip.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
