@@ -48,13 +48,10 @@
     <ClInclude Include="Ground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameStateOne.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameStateTwo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Whip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Candle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -95,13 +92,10 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameStateOne.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameStateTwo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Whip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Candle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -129,12 +129,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BigFire.h" />
+    <ClInclude Include="Candle.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameStateOne.h" />
-    <ClInclude Include="GameStateTwo.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Simon.h" />
@@ -145,12 +144,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BigFire.cpp" />
+    <ClCompile Include="Candle.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="define.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameStateOne.cpp" />
-    <ClCompile Include="GameStateTwo.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Simon.cpp" />

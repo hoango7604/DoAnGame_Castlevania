@@ -34,7 +34,10 @@
 #define SIMON_ANI_SIT_LEFT				7
 #define SIMON_ANI_JUMP_RIGHT			8
 #define SIMON_ANI_JUMP_LEFT				9
-#define SIMON_ANI_DIE					10
+#define SIMON_ANI_SIT_HIT_RIGHT			10
+#define SIMON_ANI_SIT_HIT_LEFT			11
+
+#define SIMON_ANI_DIE					12
 
 #define WHIP_RIGHT 						0
 #define WHIP_LEFT						1
@@ -71,3 +74,6 @@
 #define ID_TEX_WHIP 50
 #define ID_TEX_WHIP_2 55
 #define ID_TEX_TILESET 60
+#define ID_TEX_BRICK2 65
+#define ID_TEX_LADDER 70
+#define ID_TEX_LADDER_LEFT 75
