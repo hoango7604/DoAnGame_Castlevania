@@ -39,9 +39,9 @@ class CSampleKeyHander : public CKeyEventHandler
 	virtual void OnKeyUp(int KeyCode);
 public:
 	DWORD timeStartWhip = 0;
-	DWORD timeStartJump = 0;
+	
 	bool NotOnWhip = true;
-	bool NotOnJump = true;
+	
 	
 };
 
@@ -51,28 +51,26 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	if (NotOnWhip == true )
 	{
-		switch (KeyCode)
-		{
-		case DIK_A:
+		
+		if(KeyCode == DIK_A)
 		{
 			timeStartWhip = GetTickCount();
 			NotOnWhip = false;
-			simon->SetState(SIMON_STATE_HIT);
-			break;
+			simon->SetState(SIMON_STATE_HIT);			
 		}
-		case DIK_SPACE:
+		else if(KeyCode == DIK_SPACE)
+		{
 			simon->SetState(SIMON_STATE_JUMP);
-			break;
-		case DIK_B: // reset
+		}
+		else if (KeyCode == DIK_B)
+		{
 			simon->SetState(SIMON_STATE_IDLE);
 			simon->SetLevel(SIMON_LEVEL_BIG);
 			simon->SetPosition(50.0f, 150.0f);
 			simon->SetSpeed(0, 0);
-			break;
-
 		}
 
-	}
+		}
 	
 }
 
@@ -83,16 +81,21 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 
 void CSampleKeyHander::KeyState(BYTE *states)
 {
+	if (simon->GetState() == SIMON_STATE_DIE) return;
 	if (NotOnWhip == true )
-	{
-		if (simon->GetState() == SIMON_STATE_DIE) return;
+	{		
 		if (game->IsKeyDown(DIK_RIGHT))
 			simon->SetState(SIMON_STATE_WALKING_RIGHT);
 		else if (game->IsKeyDown(DIK_LEFT))
-			simon->SetState(SIMON_STATE_WALKING_LEFT);				
+			simon->SetState(SIMON_STATE_WALKING_LEFT);
+		else if (game->IsKeyDown(DIK_A))
+		{
+			simon->SetState(SIMON_STATE_HIT);
+		}
 		else
 			simon->SetState(SIMON_STATE_IDLE);
 	}
+	
 	
 	
 }
@@ -117,10 +120,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	TO-DO: Improve this function by loading texture,sprite,animation,object from file
 */
 void LoadResources()
-{
-	
-	
-	
+{			
 	textures->Add(ID_TEX_SIMON, L"Castlevania\\Simon_right.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_SIMON_2, L"Castlevania\\Simon_ver_editted.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_LV1, L"Castlevania\\lv1.png", D3DCOLOR_XRGB(176, 224, 248));
@@ -145,21 +145,34 @@ void LoadResources()
 
 
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
-
-
+	#pragma region Addsprite
 	sprites->Add(10001, 434, 0, 469, 64, texSimon);		// đứng im phải
 
 	sprites->Add(10002, 375, 0, 401, 64, texSimon);		// đi phải
 	sprites->Add(10003, 314, 0, 344, 64, texSimon);
 
 	sprites->Add(10004, 120, 0, 171, 64, texSimon);		// đánh phải			
-	sprites->Add(10005, 74,0,111,64, texSimon);
+	sprites->Add(10005, 74, 0, 111, 64, texSimon);
 	sprites->Add(10006, 14, 0, 59, 64, texSimon);
 
-	sprites->Add(10028, 120, 0, 171, 64, texSimon);		// ngồi đánh phải			
-	sprites->Add(10029, 74, 0, 111, 64, texSimon);
-	sprites->Add(10030, 14, 0, 59, 64, texSimon);
-	
+	sprites->Add(10028, 0, 83, 49, 131, texSimon);		// ngồi đánh phải			
+	sprites->Add(10029, 435, 150, 469, 197, texSimon);
+	sprites->Add(10030, 376, 151, 421, 197, texSimon);
+
+	sprites->Add(10034, 120, 135, 168, 197, texSimon);		// trên thang phải đánh phải			
+	sprites->Add(10035, 76, 134, 109, 197, texSimon);
+	sprites->Add(10036, 17, 136, 59, 197, texSimon);
+
+	sprites->Add(10040, 302, 134, 351, 197, texSimon);		// trên thang trái đánh phải			
+	sprites->Add(10041, 257, 133, 290, 197, texSimon);
+	sprites->Add(10042, 197, 134, 240, 197, texSimon);
+
+	sprites->Add(10046, 141, 67, 164, 130, texSimon); // lên thang phải
+	sprites->Add(10047, 199, 67, 229, 130, texSimon);
+
+	sprites->Add(10052, 141, 67, 164, 130, texSimon); //xuống thang trái
+	sprites->Add(10053, 318, 67, 351, 130, texSimon);
+
 
 	sprites->Add(10018, 196, 17, 230, 64, texSimon); // ngồi phải
 
@@ -175,14 +188,28 @@ void LoadResources()
 	sprites->Add(10015, 372, 0, 404, 64, texSimon2);
 	sprites->Add(10016, 421, 0, 464, 64, texSimon2);
 
-	sprites->Add(10031, 313, 0, 358, 64, texSimon2);		// ngồi đánh trái				
-	sprites->Add(10032, 372, 0, 404, 64, texSimon2);
-	sprites->Add(10033, 421, 0, 464, 64, texSimon2);
+	sprites->Add(10031, 432, 83, 477, 130, texSimon2);		// ngồi đánh trái				
+	sprites->Add(10032, 13, 149, 44, 197, texSimon2);
+	sprites->Add(10033, 60, 151, 105, 197, texSimon2);
+
+	sprites->Add(10037, 131, 134, 177, 197, texSimon2);		// trên thang phải đánh trái			
+	sprites->Add(10038, 193, 134, 225, 197, texSimon2);
+	sprites->Add(10039, 240, 151, 284, 197, texSimon2);
+
+	sprites->Add(10043, 312, 134, 361, 197, texSimon2);		// trên thang trái đánh trái			
+	sprites->Add(10044, 371, 134, 405, 197, texSimon2);
+	sprites->Add(10045, 420, 151, 466, 197, texSimon2);
 
 
-	sprites->Add(10019, 254, 17, 286, 64, texSimon2); // ngồi trái
+	sprites->Add(10048, 187, 67, 215, 130, texSimon2); // xuống thang phải
+	sprites->Add(10049, 129, 67, 163, 130, texSimon2);
 
-	sprites->Add(10021, 254, 17, 286, 64, texSimon2);//nhảy trái
+	sprites->Add(10050, 187, 67, 215, 130, texSimon2); //lên thang trái
+	sprites->Add(10051, 250, 67, 283, 197, texSimon2);
+
+	sprites->Add(10019, 256, 17, 286, 64, texSimon2); // ngồi trái
+
+	sprites->Add(10021, 256, 17, 286, 64, texSimon2);//nhảy trái
 
 	sprites->Add(10099, 180, 237, 240, 264, texSimon);		// chết 
 
@@ -220,8 +247,8 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texEnemy3 = textures->Get(ID_TEX_CANDLE);
 	sprites->Add(40013, 0, 0, 16, 32, texEnemy3);
 	sprites->Add(40014, 16, 0, 32, 32, texEnemy3);
-
-
+#pragma endregion
+	
 	LPANIMATION ani;
 	
 	#pragma region SimonAnimation
@@ -313,41 +340,41 @@ void LoadResources()
 	animations->Add(413, ani);
 
 	ani = new CAnimation(150);//trên thang trái đánh phải
-	ani->Add(10034);
-	ani->Add(10035);
-	ani->Add(10036);
-	animations->Add(412, ani);
-
-	ani = new CAnimation(150);//trên thang trái đánh trái
-	ani->Add(10037);
-	ani->Add(10038);
-	ani->Add(10039);
-	animations->Add(413, ani);
-
-	/*
-	ani = new CAnimation(100);//lên thang phải
-	ani->Add(10037);
-	ani->Add(10038);
-	
+	ani->Add(10040);
+	ani->Add(10041);
+	ani->Add(10042);
 	animations->Add(414, ani);
 
-	ani = new CAnimation(150);//xuống thang phải
-	ani->Add(10037);
-	ani->Add(10038);
-	
+	ani = new CAnimation(150);//trên thang trái đánh trái
+	ani->Add(10043);
+	ani->Add(10044);
+	ani->Add(10045);
 	animations->Add(415, ani);
 
-	ani = new CAnimation(100);//lên thang trái
-	ani->Add(10037);
-	ani->Add(10038);
+	
+	ani = new CAnimation(100);//lên thang phải
+	ani->Add(10046);
+	ani->Add(10047);
 	
 	animations->Add(416, ani);
 
-	ani = new CAnimation(100);//xuống thang trái
-	ani->Add(10037);
-	ani->Add(10038);
+	ani = new CAnimation(150);//xuống thang phải
+	ani->Add(10048);
+	ani->Add(10049);
 	
-	animations->Add(415, ani);*/
+	animations->Add(417, ani);
+
+	ani = new CAnimation(100);//lên thang trái
+	ani->Add(10050);
+	ani->Add(10051);
+	
+	animations->Add(418, ani);
+
+	ani = new CAnimation(100);//xuống thang trái
+	ani->Add(10052);
+	ani->Add(10053);
+	
+	animations->Add(419, ani);
 
 	ani = new CAnimation(100);	//chết	
 	ani->Add(10099);
@@ -397,6 +424,15 @@ void LoadResources()
 	simon->AddAnimation(407);	//nhảy trái
 	simon->AddAnimation(410);	//ngồi đánh phải 
 	simon->AddAnimation(411);	//ngồi đánh trái
+	simon->AddAnimation(412);	//trên thang phải đánh phải
+	simon->AddAnimation(413);	//trên thang phải đánh trái
+	simon->AddAnimation(414);	//trên thang trái đánh phải
+	simon->AddAnimation(415);	//trên thang trái đánh trái
+	simon->AddAnimation(416);	//lên thang phải
+	simon->AddAnimation(417);	//xuống thang phải
+	simon->AddAnimation(418);	//lên thang trái
+	simon->AddAnimation(419);	//xuống thang trái
+
 	simon->AddAnimation(599);	//chết
 	simon->whip->AddAnimation(408);//roi phải
 	simon->whip->AddAnimation(409);//roi trái
@@ -482,7 +518,7 @@ void Update(DWORD dt)
 {	
 	#pragma region KeyHandler
 	
-	if (GetTickCount() - keyHandler->timeStartWhip > 450)
+	if (GetTickCount() - keyHandler->timeStartWhip  >= 450)
 	{
 		keyHandler->NotOnWhip = true;
 	}

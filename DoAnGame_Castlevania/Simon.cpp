@@ -207,11 +207,7 @@ void Simon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 		right = x + SIMON_BIG_BBOX_WIDTH;
 		bottom = y + SIMON_BIG_BBOX_HEIGHT;
 	}
-	else
-	{
-		right = x + SIMON_SMALL_BBOX_WIDTH;
-		bottom = y + SIMON_SMALL_BBOX_HEIGHT;
-	}
+	
 }
 
 
