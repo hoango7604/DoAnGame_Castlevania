@@ -53,8 +53,14 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	{
 		switch (KeyCode)
 		{
+		case DIK_A:
+		{
+			timeStartWhip = GetTickCount();
+			NotOnWhip = false;
+			simon->SetState(SIMON_STATE_HIT);
+			break;
+		}
 		case DIK_SPACE:
-			
 			simon->SetState(SIMON_STATE_JUMP);
 			break;
 		case DIK_B: // reset
@@ -63,14 +69,6 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 			simon->SetPosition(50.0f, 150.0f);
 			simon->SetSpeed(0, 0);
 			break;
-		case DIK_A:
-		{
-
-			timeStartWhip = GetTickCount();
-			NotOnWhip = false;
-			simon->SetState(SIMON_STATE_HIT);
-			break;
-		}
 
 		}
 
@@ -139,7 +137,7 @@ void LoadResources()
 	textures->Add(ID_TEX_CANDLE, L"Castlevania\\1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_LADDER, L"Castlevania\\3.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_LADDER_LEFT, L"Castlevania\\3_.png", D3DCOLOR_XRGB(255, 0, 255));
-
+	textures->Add(ID_TEX_BBOX, L"Castlevania\\bbox.png", D3DCOLOR_XRGB(255,255,255));
 	/*LPDIRECT3DTEXTURE9 tileset1 = textures->Get(ID_TEX_TILESET);
 	sprite = new CSprite(500000, 0, 0, 256, 64, tileset1);
 	map = new	Map(24, 96, sprite, 16, 16);
@@ -225,8 +223,8 @@ void LoadResources()
 
 
 	LPANIMATION ani;
-#pragma region SimonAnimation
-
+	
+	#pragma region SimonAnimation
 
 	ani = new CAnimation(100);	//đứng phải
 	ani->Add(10001);
@@ -235,7 +233,6 @@ void LoadResources()
 	ani = new CAnimation(100);	//đứng trái
 	ani->Add(10011);
 	animations->Add(401, ani);
-
 
 	ani = new CAnimation(100);	//đi phải
 	ani->Add(10001);
@@ -355,8 +352,11 @@ void LoadResources()
 	ani = new CAnimation(100);	//chết	
 	ani->Add(10099);
 	animations->Add(599, ani);
-#pragma endregion
-#pragma region ObjectAnimation
+	
+	#pragma endregion
+
+	#pragma region ObjectAnimation
+
 	ani = new CAnimation(100);	//đất
 	ani->Add(20001);
 	animations->Add(601, ani);
@@ -379,8 +379,11 @@ void LoadResources()
 	ani->Add(40013);
 	ani->Add(40014);
 	animations->Add(800, ani);
-#pragma endregion
-#pragma region simon
+
+	#pragma endregion
+
+	#pragma region simon
+
 	simon = new Simon();
 	simon->AddAnimation(400);	// đứng phải	
 	simon->AddAnimation(401);	//đứng trái	
@@ -399,10 +402,11 @@ void LoadResources()
 	simon->whip->AddAnimation(409);//roi trái
 	simon->SetPosition(1500, 327);
 	objects.push_back(simon);
-#pragma endregion
+
+	#pragma endregion
 
 	
-#pragma region Ground
+	#pragma region Ground
 	for (int i = 0; i < 50; i++)
 	{
 		Ground *ground = new Ground();
@@ -410,9 +414,10 @@ void LoadResources()
 		ground->SetPosition(0 + i * 32.0f, 407);
 		objects.push_back(ground);
 	}
-#pragma endregion
+	#pragma endregion
 
-#pragma region BigFire
+	#pragma region BigFire
+
 	BigFire *bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->SetPosition(335, 350);
@@ -437,8 +442,8 @@ void LoadResources()
 	bigfire5->AddAnimation(700);
 	bigfire5->SetPosition(1267, 350);
 	objects.push_back(bigfire5);
-#pragma endregion
 
+	#pragma endregion
 }
 
 void LoadResourceLv2() {
@@ -452,7 +457,6 @@ void LoadResourceLv2() {
 	
 	for (int i = 0; i < 5; i++)
 	{
-
 		Candle *candle = new Candle();
 		candle->AddAnimation(800);
 		candle->SetPosition(65 + i * 255, 350);		
@@ -460,7 +464,6 @@ void LoadResourceLv2() {
 	}
 	for (int i = 0; i < 4; i++)
 	{
-
 		Candle *candle = new Candle();
 		candle->AddAnimation(800);
 		candle->SetPosition(195 + i * 257, 290);		
@@ -477,17 +480,18 @@ void LoadResourceLv2() {
 }
 void Update(DWORD dt)
 {	
-#pragma region KeyHandler
+	#pragma region KeyHandler
 	
 	if (GetTickCount() - keyHandler->timeStartWhip > 450)
 	{
 		keyHandler->NotOnWhip = true;
 	}
-#pragma endregion
+	#pragma endregion
 	
 	float x, y;
 	simon->GetPosition(x, y);
-#pragma region Resource
+
+	#pragma region Resource
 	if (x > 1536 && lv2 == false) {
 		for (int i = objects.size(); i > 1; i--)
 			objects.pop_back();
@@ -505,8 +509,9 @@ void Update(DWORD dt)
 		
 	}
 	
-#pragma endregion
-#pragma region Collision
+	#pragma endregion
+
+	#pragma region Collision
 	vector<LPGAMEOBJECT> coObjects;
 	for (int i = 1; i < objects.size(); i++)
 	{
@@ -517,8 +522,9 @@ void Update(DWORD dt)
 	{
 		objects[i]->Update(dt, &coObjects);
 	}
-#pragma endregion		
-#pragma region Camera
+	#pragma endregion	
+
+	#pragma region Camera
 	if (lv2 == false)
 	{
 		if (x > SCREEN_WIDTH / 2 && x < 1536 - SCREEN_WIDTH / 2)
@@ -556,7 +562,7 @@ void Update(DWORD dt)
 		}
 
 	}
-#pragma endregion
+	#pragma endregion
 	//map->Draw(game->x_cam, game->y_cam);
 }
 
@@ -639,8 +645,10 @@ void Render()
 			}
 		}
 		
-		for (int i = 0; i < objects.size(); i++)
+		for (int i = 1; i < objects.size(); i++)
 			objects[i]->Render();
+
+		objects[0]->Render();
 
 		spriteHandler->End();
 		d3ddv->EndScene();

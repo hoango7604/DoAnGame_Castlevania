@@ -17,6 +17,7 @@ typedef CGameObject * LPGAMEOBJECT;
 
 struct CCollisionEvent;
 typedef CCollisionEvent * LPCOLLISIONEVENT;
+
 struct CCollisionEvent
 {
 	LPGAMEOBJECT obj;
@@ -28,8 +29,6 @@ struct CCollisionEvent
 		return a->t < b->t;
 	}
 };
-
-
 
 class CGameObject
 {
@@ -44,6 +43,7 @@ public:
 	float vx;
 	float vy;
 
+	// Game object direction: left - right (where it's face is)
 	int nx;
 
 	int state;
@@ -63,7 +63,6 @@ public:
 	void RenderBoundingBox();
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
-	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	void FilterCollision(
 		vector<LPCOLLISIONEVENT> &coEvents,
 		vector<LPCOLLISIONEVENT> &coEventsResult,
@@ -76,11 +75,11 @@ public:
 
 	CGameObject();
 
+	virtual void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
-
 
 	~CGameObject();
 };

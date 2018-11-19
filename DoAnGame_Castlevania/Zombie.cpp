@@ -1,5 +1,6 @@
 #include "Zombie.h"
 #include "define.h"
+
 void Zombie::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
@@ -20,6 +21,12 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
 
+	if (state == ZOMBIE_STATE_DIE)
+	{
+		SetSpeed(0.0f, 0.0f);
+		return;
+	}
+
 	x += dx;
 	y += dy;
 
@@ -30,6 +37,8 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (vx > 0 && x > SCREEN_WIDTH) {
 		x = SCREEN_WIDTH; vx = -vx;
 	}
+
+
 }
 
 void Zombie::Render()
@@ -37,6 +46,7 @@ void Zombie::Render()
 	int ani = ZOMBIE_ANI_WALKING;
 	if (state == ZOMBIE_STATE_DIE) {
 		ani = ZOMBIE_ANI_DIE;
+		return;
 	}
 
 	animations[ani]->Render(x, y);
