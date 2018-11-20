@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-
+#include <math.h>
 #include "debug.h"
 #include "Game.h"
 #include "GameObject.h"
@@ -16,6 +16,7 @@
 #include"BigFire.h"
 #include"Candle.h"
 #include"Map.h"
+#include "Stair.h"
 
 
 CGame *game;
@@ -30,6 +31,7 @@ bool countLoadResourceLv2 = false;
 CSprites * sprites = CSprites::GetInstance();
 CAnimations * animations = CAnimations::GetInstance();
 CTextures * textures = CTextures::GetInstance();
+
 
 class CSampleKeyHander : public CKeyEventHandler
 {
@@ -128,6 +130,7 @@ void LoadResources()
 	textures->Add(ID_TEX_BRICK, L"Castlevania\\2.png", D3DCOLOR_XRGB(3, 26, 110));
 	textures->Add(ID_TEX_BRICK2, L"Castlevania\\BRICK1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_ZOMBIE, L"Castlevania\\ZOMBIE.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ZOMBIE_RIGHT, L"Castlevania\\ZOMBIE_right.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_PANTHER, L"Castlevania\\PANTHER.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_FIRE, L"Castlevania\\123.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_CANDLE, L"Castlevania\\1.png", D3DCOLOR_XRGB(255, 0, 255));
@@ -138,11 +141,11 @@ void LoadResources()
 	textures->Add(ID_TEX_LADDER, L"Castlevania\\3.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_LADDER_LEFT, L"Castlevania\\3_.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_BBOX, L"Castlevania\\bbox.png", D3DCOLOR_XRGB(255,255,255));
-	/*LPDIRECT3DTEXTURE9 tileset1 = textures->Get(ID_TEX_TILESET);
+	LPDIRECT3DTEXTURE9 tileset1 = textures->Get(ID_TEX_TILESET);
 	sprite = new CSprite(500000, 0, 0, 256, 64, tileset1);
-	map = new	Map(24, 96, sprite, 16, 16);
-	map->LoadMatrixMap("Castlevania\\Mapstate.txt");*/
-
+	map = new	Map(48, 10, sprite, 32, 32); // 48 12 16 16
+	map->LoadMatrixMap("Castlevania\\Mapstate.txt");
+	
 
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 	#pragma region Addsprite
@@ -232,7 +235,11 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ZOMBIE);
 	sprites->Add(30001, 0, 0, 32, 64, texEnemy); // đi trái 
-	sprites->Add(30002, 32, 0, 68, 64, texEnemy);
+	sprites->Add(30002, 36, 0, 68, 64, texEnemy);
+
+	LPDIRECT3DTEXTURE9 texEnemy0 = textures->Get(ID_TEX_ZOMBIE_RIGHT);
+	sprites->Add(30003, 0, 0, 32, 64, texEnemy0); // đi Phải 
+	sprites->Add(30004, 36, 0, 68, 64, texEnemy0);
 
 	LPDIRECT3DTEXTURE9 texEnemy1 = textures->Get(ID_TEX_PANTHER);
 	sprites->Add(30011, 0, 0, 50, 32, texEnemy1); // báo
@@ -247,6 +254,12 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texEnemy3 = textures->Get(ID_TEX_CANDLE);
 	sprites->Add(40013, 0, 0, 16, 32, texEnemy3);
 	sprites->Add(40014, 16, 0, 32, 32, texEnemy3);
+
+	LPDIRECT3DTEXTURE9 texMisc3 = textures->Get(ID_TEX_LADDER);
+	sprites->Add(40015, 0, 0, 32, 32, texMisc3);
+
+	LPDIRECT3DTEXTURE9 texMisc4 = textures->Get(ID_TEX_LADDER_LEFT);
+	sprites->Add(40016, 0, 0, 32, 32, texMisc4);
 #pragma endregion
 	
 	LPANIMATION ani;
@@ -384,16 +397,21 @@ void LoadResources()
 
 	#pragma region ObjectAnimation
 
-	ani = new CAnimation(100);	//đất
+	ani = new CAnimation(100);	//đất1
 	ani->Add(20001);
 	animations->Add(601, ani);
 
-	ani = new CAnimation(100); //zombie
+	ani = new CAnimation(100); //zombie đi trái
 	ani->Add(30001);
 	ani->Add(30002);
 	animations->Add(602, ani);
 
-	ani = new CAnimation(100);	//đất
+	ani = new CAnimation(100); //zombie đi phải
+	ani->Add(30003);
+	ani->Add(30004);
+	animations->Add(604, ani);
+
+	ani = new CAnimation(100);	//đất2
 	ani->Add(20002);
 	animations->Add(603, ani);
 
@@ -406,6 +424,14 @@ void LoadResources()
 	ani->Add(40013);
 	ani->Add(40014);
 	animations->Add(800, ani);
+
+	ani = new CAnimation(0); //STAIR RIHGT
+	ani->Add(40015);	
+	animations->Add(801, ani);
+
+	ani = new CAnimation(0); //STAIR LEFT
+	ani->Add(40016);
+	animations->Add(802, ani);
 
 	#pragma endregion
 
@@ -454,6 +480,7 @@ void LoadResources()
 
 	#pragma region BigFire
 
+	
 	BigFire *bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->SetPosition(335, 350);
@@ -480,6 +507,7 @@ void LoadResources()
 	objects.push_back(bigfire5);
 
 	#pragma endregion
+	
 }
 
 void LoadResourceLv2() {
@@ -490,7 +518,20 @@ void LoadResourceLv2() {
 		ground->SetPosition(0 + i * 32.0f, 414);
 		objects.push_back(ground);
 	}
-	
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->AddAnimation(603);
+		ground->SetPosition(1377 + i * 32.0f, 284);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		Ground *ground = new Ground();
+		ground->AddAnimation(603);
+		ground->SetPosition(1503 + i * 32.0f, 210);
+		objects.push_back(ground);
+	}
 	for (int i = 0; i < 5; i++)
 	{
 		Candle *candle = new Candle();
@@ -505,14 +546,46 @@ void LoadResourceLv2() {
 		candle->SetPosition(195 + i * 257, 290);		
 		objects.push_back(candle);
 	}
+	for (int i = 0; i < 4; i++)
+	{
+		Stair *stair = new Stair();
+		stair->AddAnimation(801);
+		stair->SetPosition(1247 + i * 32, 379 - i * 32);
+		objects.push_back(stair);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Stair *stair = new Stair();
+		stair->AddAnimation(801);
+		stair->SetPosition(1439 + i * 32.0, 252 - i * 32);
+		objects.push_back(stair);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Stair *stair = new Stair();
+		stair->AddAnimation(802);
+		stair->SetPosition(1824 + i * 32.0, 220 + i * 32);
+		objects.push_back(stair);
+
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		Stair *stair = new Stair();
+		stair->AddAnimation(801);
+		stair->SetPosition(2590 + i * 32.0, 379 - i * 32);
+		objects.push_back(stair);
+	}
 	for (int i = 0; i < 2; i++)
 	{
 		Zombie *zombie = new Zombie();
 		zombie->AddAnimation(602);
+		zombie->AddAnimation(604);
 		zombie->SetPosition(0 + i * 64, 350);
 		zombie->SetState(ZOMBIE_STATE_WALKING);
 		objects.push_back(zombie);
 	}
+	
+	//1250 335 1265 320 1280 305*/ 3 10 6 8
 }
 void Update(DWORD dt)
 {	
@@ -563,15 +636,15 @@ void Update(DWORD dt)
 	#pragma region Camera
 	if (lv2 == false)
 	{
-		if (x > SCREEN_WIDTH / 2 && x < 1536 - SCREEN_WIDTH / 2)
+		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
 		{
 
 			game->x_cam = x - SCREEN_WIDTH / 2;
 			game->y_cam = 0;
 		}
-		else if (x > 1536 - SCREEN_WIDTH / 2)
+		else if (x > MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
 		{
-			game->x_cam = 1536 - SCREEN_WIDTH;
+			game->x_cam = MAX_WIDTH_LV1 - SCREEN_WIDTH;
 			game->y_cam = 0;
 		}
 		else
@@ -582,13 +655,13 @@ void Update(DWORD dt)
 	}
 	else
 	{
-		if (x > SCREEN_WIDTH / 2 && x < 3040 - SCREEN_WIDTH / 2)
+		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2)
 		{
 			game->x_cam = x - SCREEN_WIDTH / 2;
 			game->y_cam = 0;
 		}
-		else if (x > 3040 - SCREEN_WIDTH / 2) {
-			game->x_cam = 3040 - SCREEN_WIDTH;
+		else if (x > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2) {
+			game->x_cam = MAX_WIDTH_LV2 - SCREEN_WIDTH;
 			game->y_cam = 0;
 		}
 		else
@@ -599,7 +672,7 @@ void Update(DWORD dt)
 
 	}
 	#pragma endregion
-	//map->Draw(game->x_cam, game->y_cam);
+	
 }
 
 
@@ -618,34 +691,36 @@ void Render()
 		CTextures * textures = CTextures::GetInstance();
 		LPDIRECT3DTEXTURE9 tex = textures->Get(ID_TEX_LV1);
 		LPDIRECT3DTEXTURE9 tex2 = textures->Get(ID_TEX_LV1_2);
+		float z, t;
+		simon->GetSpeed(z, t);
 		float x, y;
 		simon->GetPosition(x, y);
-		if (lv2 == false) {
+		/*if (lv2 == false) {
 			if (x < SCREEN_WIDTH / 2) {
 				D3DXVECTOR3 p(0, 80, 0);
-				RECT r;
+				RECT r ;
 				r.left = 0;
 				r.top = 0;
 				r.right = 640;
 				r.bottom = 480;
 				spriteHandler->Draw(tex, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 			}
-			else if (x < 1536 - SCREEN_WIDTH / 2 && x > SCREEN_WIDTH / 2) {
+			else if (x < MAX_WIDTH_LV1 - SCREEN_WIDTH / 2 && x > SCREEN_WIDTH / 2) {
 
 				D3DXVECTOR3 p(0, 80, 0);
 				RECT r;
-				r.left = x - SCREEN_WIDTH / 2;
+				r.left = x - SCREEN_WIDTH/2;
 				r.top = 0;
-				r.right = 640 + x;
+				r.right = 640 +x;
 				r.bottom = 480;
 				spriteHandler->Draw(tex, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 			}
 			else {
 				D3DXVECTOR3 p(0, 80, 0);
 				RECT r;
-				r.left = 1536 - SCREEN_WIDTH;
+				r.left = MAX_WIDTH_LV1 - SCREEN_WIDTH;
 				r.top = 0;
-				r.right = 640 + x;
+				r.right =  640 + x ;
 				r.bottom = 480;
 				spriteHandler->Draw(tex, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 			}
@@ -660,31 +735,32 @@ void Render()
 				r.bottom = 480;
 				spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 			}
-			else if (x < 3040 - SCREEN_WIDTH / 2 && x > SCREEN_WIDTH / 2) {
+			else if (x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2 && x > SCREEN_WIDTH / 2) {
 
 				D3DXVECTOR3 p(0, 60, 0);
 				RECT r;
-				r.left = x - SCREEN_WIDTH / 2;
+				r.left = (x - SCREEN_WIDTH / 2);
 				r.top = 0;
-				r.right = 640 + x;
+				r.right = z>0? 642 + x:638 +x;
 				r.bottom = 480;
 				spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 			}
 			else {
 				D3DXVECTOR3 p(0, 60, 0);
 				RECT r;
-				r.left = 3040 - SCREEN_WIDTH;
+				r.left = MAX_WIDTH_LV2 - SCREEN_WIDTH;
 				r.top = 0;
-				r.right = 640 + x;
+				r.right = (640 + x);
 				r.bottom = 480;
 				spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 			}
-		}
-		
-		for (int i = 1; i < objects.size(); i++)
+		}*/
+		if(lv2==false)
+		map->Draw(game->x_cam, game->y_cam);
+		for (int i = objects.size() -1; i > -1; i--)
 			objects[i]->Render();
 
-		objects[0]->Render();
+		
 
 		spriteHandler->End();
 		d3ddv->EndScene();

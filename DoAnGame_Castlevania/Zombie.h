@@ -10,8 +10,9 @@
 #define ZOMBIE_STATE_WALKING 100
 #define ZOMBIE_STATE_DIE 200
 
-#define ZOMBIE_ANI_WALKING 0
-#define ZOMBIE_ANI_DIE 1
+#define ZOMBIE_ANI_WALKING_LEFT 0
+#define ZOMBIE_ANI_WALKING_RIGHT 1
+#define ZOMBIE_ANI_DIE 2
 
 class Zombie : public CGameObject
 {

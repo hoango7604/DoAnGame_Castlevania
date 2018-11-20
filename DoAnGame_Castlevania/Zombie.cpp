@@ -34,8 +34,8 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x = 0; vx = -vx;
 	}
 
-	if (vx > 0 && x > SCREEN_WIDTH) {
-		x = SCREEN_WIDTH; vx = -vx;
+	if (vx > 0 && x > MAX_WIDTH_LV2) {
+		x = MAX_WIDTH_LV2; vx = -vx;
 	}
 
 
@@ -43,13 +43,20 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void Zombie::Render()
 {
-	int ani = ZOMBIE_ANI_WALKING;
+	int ani ;
+	
 	if (state == ZOMBIE_STATE_DIE) {
 		ani = ZOMBIE_ANI_DIE;
 		return;
 	}
+	else {
+		if (vx < 0)
+			ani = ZOMBIE_ANI_WALKING_LEFT;
+		else if (vx > 0)
+			ani = ZOMBIE_ANI_WALKING_RIGHT;
 
-	animations[ani]->Render(x, y);
+		animations[ani]->Render(x, y);
+	}
 	//RenderBoundingBox();
 }
 

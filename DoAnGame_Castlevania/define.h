@@ -1,4 +1,4 @@
-#define SIMON_WALKING_SPEED		0.1f 
+#define SIMON_WALKING_SPEED		0.2f 
 //0.1f
 #define SIMON_JUMP_SPEED_Y		0.6f
 #define SIMON_JUMP_DEFLECT_SPEED 0.2f
@@ -59,7 +59,8 @@
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 580
-
+#define MAX_WIDTH_LV1  1536
+#define MAX_WIDTH_LV2  3070
 #define MAX_FRAME_RATE 120
 
 //texture
@@ -70,6 +71,7 @@
 #define ID_TEX_SIMON_2 30
 #define ID_TEX_PANTHER 25
 #define ID_TEX_ZOMBIE 35
+#define ID_TEX_ZOMBIE_RIGHT 36
 #define ID_TEX_FIRE 40
 #define ID_TEX_CANDLE 45
 #define ID_TEX_WHIP 50

@@ -1,9 +1,11 @@
+#pragma once
+
 #include "GameObject.h"
 
-#define BRICK_BBOX_WIDTH  32
-#define BRICK_BBOX_HEIGHT 32
+#define STAIR_BBOX_WIDTH  32
+#define STAIR_BBOX_HEIGHT 32
 
-class Ground : public CGameObject
+class Stair : public CGameObject
 {
 public:
 	virtual void Render();
