@@ -542,7 +542,7 @@ void LoadResourceLv2() {
 		ground->SetPosition(1503 + i * 32.0f, 218);
 		objects.push_back(ground);
 	}
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		Ground *ground = new Ground();
 		
@@ -637,7 +637,7 @@ void Update(DWORD dt)
 		{
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(30, 150);
+			simon->SetPosition(1300, 150);
 		}
 		
 	}

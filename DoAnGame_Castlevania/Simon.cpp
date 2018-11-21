@@ -7,7 +7,7 @@
 #include "Candle.h"
 #include "Zombie.h"
 #include "Ground.h"
-
+#include"Stair.h"
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
@@ -23,7 +23,7 @@ void Simon::CalcPotentialCollisions(
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (!dynamic_cast<Candle *>(coObjects->at(i)) && !dynamic_cast<BigFire *>(coObjects->at(i))) {
+		if (!dynamic_cast<Candle *>(coObjects->at(i)) && !dynamic_cast<BigFire *>(coObjects->at(i)) && !dynamic_cast<Stair *>(coObjects->at(i))) {
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
 			if (e->t > 0 && e->t <= 1.0f)
