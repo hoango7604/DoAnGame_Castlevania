@@ -1,3 +1,5 @@
+#include "define.h"
+
 #include "Whip.h"
 #include "Zombie.h"
 #include "Candle.h"
@@ -5,32 +7,21 @@
 
 void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (step < 2)
+	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		step++;
-		return;
-	}
-	else {
-		
-		for (UINT i = 0; i < coObjects->size(); i++)
+		if (dynamic_cast<Zombie *>(coObjects->at(i)))
 		{
-			if (dynamic_cast<Zombie *>(coObjects->at(i)))
+			Zombie *zombie = dynamic_cast<Zombie *>(coObjects->at(i));
+			float zl, zr, zt, zb;
+			zombie->GetBoundingBox(zl, zt, zr, zb);
+			if (x < zl && x + BB_WHIP_WIDTH > zr && y > zt && y + BB_WHIP_HEIGHT < zb)
 			{
-				Zombie *zombie = dynamic_cast<Zombie *>(coObjects->at(i));
-				float zl, zr, zt, zb;
-				zombie->GetBoundingBox(zl, zt, zr, zb);
-				if (x < zl && x + BB_WHIP_WIDTH > zr && y > zt && y + BB_WHIP_HEIGHT < zb) 
-				{
-					if (zombie->GetState() != ZOMBIE_STATE_DIE) {
-						zombie->SetState(ZOMBIE_STATE_DIE);
-						//SetState(SIMON_STATE_DIE);
-					}
+				if (zombie->GetState() != ZOMBIE_STATE_DIE) {
+					zombie->SetState(ZOMBIE_STATE_DIE);
 				}
-
 			}
-		}
 
-		step = 0;
+		}
 	}
 }
 

@@ -7,7 +7,8 @@
 #include "Candle.h"
 #include "Zombie.h"
 #include "Ground.h"
-#include"Stair.h"
+#include "Stair.h"
+
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
@@ -42,9 +43,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 
 	// Has completed attack animation
-	if (GetTickCount() - attackTime >= SIMON_TIMER_ATTACK)
+	if (isAttack == true && GetTickCount() - attackTime >= SIMON_TIMER_ATTACK)
 	{
 		isAttack = false;
+		// Check collision between whip and game objects here
+		whip->Update(dt, coObjects);
 	}
 
 	// Simple fall down
@@ -75,8 +78,16 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// when simon attack
 	if (isAttack == true)
 	{
-		whip->SetPosition(x, y);
-		whip->Update(dt, coObjects);
+		if (nx > 0)
+		{
+			// Whip position equal to simon position
+			whip->SetPosition(x, y);
+		}
+		else
+		{
+			// Whip position equal to simon position + simon width - whip width
+			whip->SetPosition(x + SIMON_STAND_BBOX_WIDTH - BB_WHIP_WIDTH, y);
+		}
 	}
 
 	// Handle Simon go over screen camera
@@ -160,6 +171,7 @@ void Simon::Render()
 				{
 					ani = SIMON_ANI_ATTACK_RIGHT;
 				}
+				aniWhip = WHIP_RIGHT;
 			}
 			else
 			{
@@ -171,6 +183,7 @@ void Simon::Render()
 				{
 					ani = SIMON_ANI_ATTACK_LEFT;
 				}
+				aniWhip = WHIP_LEFT;
 			}
 		}
 		else if (isJump)
@@ -235,7 +248,6 @@ void Simon::Render()
 	}
 
 	RenderBoundingBox();
-	whip->RenderBoundingBox();
 }
 
 void Simon::SetState(int state)
@@ -277,8 +289,17 @@ void Simon::SetAction(int action)
 	switch (action)
 	{
 	case SIMON_ACTION_ATTACK:
+		// Ngat tat ca trang thai (tru ngoi)
+		// Neu dang nhay toi thi de nguyen van toc, neu khong thi dung lai va danh
 		isAttack = true;
+		if (!isJump)
+			vx = 0;
+		isJump = false;
+		isMoving = false;
+		attackTime = GetTickCount();
 		break;
+		// Don gian la cho nhay, khong ngat bat ki trang thai nao
+		// Them van toc nhay
 	case SIMON_ACTION_JUMP:
 		isJump = true;
 		vy = -SIMON_JUMP_SPEED_Y;
