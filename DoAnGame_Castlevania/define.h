@@ -30,15 +30,17 @@
 #define SIMON_ANI_JUMP_LEFT				9
 #define SIMON_ANI_SIT_ATTACK_RIGHT		10
 #define SIMON_ANI_SIT_ATTACK_LEFT		11
-#define SIMON_ANI_HITR_RLADDER			12
-#define SIMON_ANI_HITL_RLADDER			13
-#define SIMON_ANI_HITR_LLADDER			14
-#define SIMON_ANI_HITL_LLADDER			15
-#define SIMON_ANI_WALKUP_RLADDER		16
-#define SIMON_ANI_WALKDOWN_RLADDER		17
+#define SIMON_ANI_HITR_RLADDER			12 // hit right on stair which has up-direction from left to right
+#define SIMON_ANI_HITL_RLADDER			13  
+#define SIMON_ANI_HITR_LLADDER			14 //hit right on stair which has up-direction from right to left 
+#define SIMON_ANI_HITL_LLADDER			15 //use dik_ and nx to select ani
+#define SIMON_ANI_WALKUP_RLADDER		16 // walk up on stair which has up-direction from left to right
+#define SIMON_ANI_WALKDOWN_RLADDER		17 //
 #define SIMON_ANI_WALKUP_LLADDER		18
 #define SIMON_ANI_WALKDOWN_LLADDER		19
-#define SIMON_ANI_DIE					20
+#define SIMON_ANI_HURT_LEFT				20
+#define SIMON_ANI_HURT_RIGHT			21
+#define SIMON_ANI_DIE					22
 
 #define WHIP_RIGHT 						0
 #define WHIP_LEFT						1
@@ -88,3 +90,8 @@
 #define ID_TEX_BRICK2					65
 #define ID_TEX_LADDER					70
 #define ID_TEX_LADDER_LEFT				75
+#define ID_TEX_STAIR_BOT				80
+#define ID_TEX_STAIR_TOP				85
+#define ID_TEX_MERMAN_RIGHT				90
+#define ID_TEX_MERMAN_LEFT				95
+#define ID_TEX_BAT                      100 

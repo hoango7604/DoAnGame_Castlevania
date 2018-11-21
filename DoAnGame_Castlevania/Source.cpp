@@ -17,7 +17,10 @@
 #include "Candle.h"
 #include "Map.h"
 #include "Stair.h"
-
+#include "RedBat.h"
+#include "Panther.h"
+#include "MerMan.h"
+#include "CheckStair.h"
 CGame *game;
 
 Simon * simon;
@@ -143,6 +146,12 @@ void LoadResources()
 	textures->Add(ID_TEX_LADDER, L"Castlevania\\3.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_LADDER_LEFT, L"Castlevania\\3_.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_BBOX, L"Castlevania\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_TEX_STAIR_BOT, L"Castlevania\\stair_bottom.png", D3DCOLOR_XRGB(0, 0, 255));//
+	textures->Add(ID_TEX_STAIR_TOP, L"Castlevania\\stair_top.png", D3DCOLOR_XRGB(0, 0, 255));
+	textures->Add(ID_TEX_MERMAN_LEFT, L"Castlevania\\MERMAN.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_TEX_MERMAN_RIGHT, L"Castlevania\\MERMAN_right.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_TEX_BAT, L"Castlevania\\BAT.png", D3DCOLOR_XRGB(255, 255, 255));
+
 	LPDIRECT3DTEXTURE9 tileset1 = textures->Get(ID_TEX_TILESET);
 	sprite = new CSprite(500000, 0, 0, 256, 64, tileset1);
 	map = new	Map(48, 10, sprite, 32, 32); // 48 12 16 16
@@ -182,6 +191,8 @@ void LoadResources()
 	sprites->Add(10018, 196, 17, 230, 64, texSimon); // ngồi phải
 
 	sprites->Add(10020, 196, 17, 230, 64, texSimon); // nhảy phải
+	
+	sprites->Add(10054, 436, 67, 471, 130, texSimon);//bị đánh từ bên trái
 
 	LPDIRECT3DTEXTURE9 texSimon2 = textures->Get(ID_TEX_SIMON_2);
 	sprites->Add(10011, 11, 0, 47, 64, texSimon2);		// đứng im trái
@@ -215,6 +226,8 @@ void LoadResources()
 	sprites->Add(10019, 256, 17, 286, 64, texSimon2); // ngồi trái
 
 	sprites->Add(10021, 256, 17, 286, 64, texSimon2);//nhảy trái
+
+	sprites->Add(10055, 12, 70, 41, 130, texSimon2);//bị đánh từ bên phải
 
 	sprites->Add(10099, 180, 237, 240, 264, texSimon);		// chết 
 
@@ -262,6 +275,13 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMisc4 = textures->Get(ID_TEX_LADDER_LEFT);
 	sprites->Add(40016, 0, 0, 32, 32, texMisc4);
+
+	LPDIRECT3DTEXTURE9 texMisc5 = textures->Get(ID_TEX_STAIR_BOT);
+	sprites->Add(40017, 0, 0, 32, 32, texMisc5);
+
+	LPDIRECT3DTEXTURE9 texMisc6 = textures->Get(ID_TEX_STAIR_TOP);
+	sprites->Add(40018, 0, 0, 32, 32, texMisc6);
+
 #pragma endregion
 
 	LPANIMATION ani;
@@ -370,26 +390,30 @@ void LoadResources()
 	ani = new CAnimation(100);//lên thang phải
 	ani->Add(10046);
 	ani->Add(10047);
-
 	animations->Add(416, ani);
 
 	ani = new CAnimation(150);//xuống thang phải
 	ani->Add(10048);
 	ani->Add(10049);
-
 	animations->Add(417, ani);
 
 	ani = new CAnimation(100);//lên thang trái
 	ani->Add(10050);
 	ani->Add(10051);
-
 	animations->Add(418, ani);
 
 	ani = new CAnimation(100);//xuống thang trái
 	ani->Add(10052);
 	ani->Add(10053);
-
 	animations->Add(419, ani);
+
+	ani = new CAnimation(100);//bị đánh từ bên trái
+	ani->Add(10054);	
+	animations->Add(420, ani);
+
+	ani = new CAnimation(100);//bị đánh từ bên phải
+	ani->Add(10055);	
+	animations->Add(421, ani);
 
 	ani = new CAnimation(100);	//chết	
 	ani->Add(10099);
@@ -435,6 +459,14 @@ void LoadResources()
 	ani->Add(40016);
 	animations->Add(802, ani);
 
+	ani = new CAnimation(0); //STAIR BOT
+	ani->Add(40017);
+	animations->Add(803, ani);
+
+	ani = new CAnimation(0); //STAIR TOP
+	ani->Add(40018);
+	animations->Add(804, ani);
+
 #pragma endregion
 
 #pragma region simon
@@ -460,8 +492,10 @@ void LoadResources()
 	simon->AddAnimation(417);	//xuống thang phải
 	simon->AddAnimation(418);	//lên thang trái
 	simon->AddAnimation(419);	//xuống thang trái
-
+	simon->AddAnimation(420);	//bị đánh từ bên trái
+	simon->AddAnimation(421);	//bị đánh từ bên phải
 	simon->AddAnimation(599);	//chết
+
 	simon->whip->AddAnimation(408);//roi phải
 	simon->whip->AddAnimation(409);//roi trái
 	simon->SetPosition(1500, 327);
@@ -529,7 +563,7 @@ void LoadResourceLv2() {
 		ground->SetPosition(1503 + i * 32.0f, 218);
 		objects.push_back(ground);
 	}
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		Ground *ground = new Ground();
 
@@ -542,6 +576,15 @@ void LoadResourceLv2() {
 
 		ground->SetPosition(2782 + i * 32.0f, 220);
 		objects.push_back(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Zombie *zombie = new Zombie();
+		zombie->AddAnimation(602);
+		zombie->AddAnimation(604);
+		zombie->SetPosition(0 + i * 64, 350);
+		zombie->SetState(ZOMBIE_STATE_WALKING);
+		objects.push_back(zombie);
 	}
 	for (int i = 0; i < 5; i++)
 	{
@@ -571,6 +614,7 @@ void LoadResourceLv2() {
 		stair->SetPosition(1439 + i * 32.0, 252 - i * 32);
 		objects.push_back(stair);
 	}
+	
 	for (int i = 0; i < 2; i++)
 	{
 		Stair *stair = new Stair();
@@ -586,16 +630,16 @@ void LoadResourceLv2() {
 		stair->SetPosition(2590 + i * 32.0, 379 - i * 32);
 		objects.push_back(stair);
 	}
-	for (int i = 0; i < 2; i++)
-	{
-		Zombie *zombie = new Zombie();
-		zombie->AddAnimation(602);
-		zombie->AddAnimation(604);
-		zombie->SetPosition(0 + i * 64, 350);
-		zombie->SetState(ZOMBIE_STATE_WALKING);
-		objects.push_back(zombie);
-	}
+	
+	CheckStair *checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(1247, 379);
+	objects.push_back(checkstair);
 
+	CheckStair *checkstair1 = new CheckStair();
+	checkstair1->AddAnimation(804);
+	checkstair1->SetPosition(1343,283);
+	objects.push_back(checkstair1);
 	//1250 335 1265 320 1280 305*/ 3 10 6 8
 }
 void Update(DWORD dt)
