@@ -51,55 +51,65 @@ CSampleKeyHander * keyHandler;
 
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
-	if (NotOnWhip == true )
+	// Nhay
+	if (KeyCode == DIK_SPACE)
 	{
-		
-		if(KeyCode == DIK_A)
-		{
-			timeStartWhip = GetTickCount();
-			NotOnWhip = false;
-			simon->SetState(SIMON_STATE_HIT);			
-		}
-		else if(KeyCode == DIK_SPACE)
-		{
-			simon->SetState(SIMON_STATE_JUMP);
-		}
-		else if (KeyCode == DIK_B)
-		{
-			simon->SetState(SIMON_STATE_IDLE);
-			simon->SetLevel(SIMON_LEVEL_BIG);
-			simon->SetPosition(50.0f, 150.0f);
-			simon->SetSpeed(0, 0);
-		}
-
-		}
-	
+		if (simon->isJump == false && simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
+			simon->SetAction(SIMON_ACTION_JUMP);
+	}
+	// Danh
+	else if (KeyCode = DIK_A)
+	{
+		if (simon->isAttack == false)
+			simon->SetAction(SIMON_ACTION_ATTACK);
+	}
 }
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
-	
+	// Ngoi
+	if (KeyCode == DIK_DOWN)
+	{
+		simon->isSit = false;
+		simon->y -= SIMON_SIT_TO_STAND;
+	}
+	// Di bo
+	else if (KeyCode == DIK_RIGHT || KeyCode == DIK_LEFT)
+	{
+		simon->isMoving = false;
+		simon->vx = 0;
+	}
 }
 
 void CSampleKeyHander::KeyState(BYTE *states)
 {
+	// Chet
 	if (simon->GetState() == SIMON_STATE_DIE) return;
-	if (NotOnWhip == true )
-	{		
-		if (game->IsKeyDown(DIK_RIGHT))
-			simon->SetState(SIMON_STATE_WALKING_RIGHT);
-		else if (game->IsKeyDown(DIK_LEFT))
-			simon->SetState(SIMON_STATE_WALKING_LEFT);
-		else if (game->IsKeyDown(DIK_A))
-		{
-			simon->SetState(SIMON_STATE_HIT);
-		}
-		else
-			simon->SetState(SIMON_STATE_IDLE);
+
+	// Them xu ly len xuong cau thang nua, chua co
+
+	// Ngoi
+	if (game->IsKeyDown(DIK_DOWN))
+	{
+		if (!simon->isOnStair && !simon->isAttack && !simon->isJump)
+			simon->SetState(SIMON_STATE_SIT);
 	}
-	
-	
-	
+
+	// Di bo
+	if (game->IsKeyDown(DIK_RIGHT))
+	{
+		if (!simon->isSit && !simon->isOnStair)
+			simon->SetState(SIMON_STATE_WALK);
+		simon->nx = 1.0f;
+	}
+	else if (game->IsKeyDown(DIK_LEFT))
+	{
+		if (!simon->isSit && !simon->isOnStair)
+			simon->SetState(SIMON_STATE_WALK);
+		simon->nx = -1.0f;
+	}
+
+	// Neu khong co gi xay ra se dung im
 }
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

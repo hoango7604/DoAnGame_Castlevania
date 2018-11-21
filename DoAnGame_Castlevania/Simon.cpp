@@ -6,7 +6,8 @@
 #include "BigFire.h"
 #include "Candle.h"
 #include "Zombie.h"
-#include "Stair.h"
+#include "Ground.h"
+
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
@@ -22,7 +23,7 @@ void Simon::CalcPotentialCollisions(
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (!dynamic_cast<Candle *>(coObjects->at(i)) && !dynamic_cast<BigFire *>(coObjects->at(i)) && !dynamic_cast<Stair *>(coObjects->at(i))) {
+		if (!dynamic_cast<Candle *>(coObjects->at(i)) && !dynamic_cast<BigFire *>(coObjects->at(i))) {
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
 			if (e->t > 0 && e->t <= 1.0f)
@@ -40,6 +41,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
+	// Has completed attack animation
+	if (GetTickCount() - attackTime >= SIMON_TIMER_ATTACK)
+	{
+		isAttack = false;
+	}
+
 	// Simple fall down
 	vy += SIMON_GRAVITY * dt;
 
@@ -52,6 +59,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
+	// Set idle state
+	if (!isOnStair && !isSit && !isMoving && !isJump && !isAttack)
+	{
+		SetState(SIMON_STATE_IDLE);
+	}
+
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
 	{
@@ -60,7 +73,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	// when simon attack
-	if (state == SIMON_STATE_HIT)
+	if (isAttack == true)
 	{
 		whip->SetPosition(x, y);
 		whip->Update(dt, coObjects);
@@ -68,9 +81,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	// Handle Simon go over screen camera
 	float leftCorner = CGame::GetInstance()->x_cam;
-	float rightCorner = leftCorner + SCREEN_WIDTH - 3*SIMON_BIG_BBOX_WIDTH;
+	float rightCorner = leftCorner + SCREEN_WIDTH - SIMON_STAND_BBOX_WIDTH;
 	// Left corner
-	if (x < leftCorner) 
+	if (x < leftCorner)
 	{
 		x = 0;
 	}
@@ -114,6 +127,13 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					//SetState(SIMON_STATE_DIE);
 				}
 			}
+			else if (dynamic_cast<Ground *>(e->obj))
+			{
+				// Da cham dat
+				// Khong va cham theo phuong ngang
+				if (e->nx == 0)
+					isJump = false;
+			}
 		}
 	}
 	// clean up collision events
@@ -123,77 +143,146 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 void Simon::Render()
 {
 	int ani, aniWhip = -1;
+
 	if (state == SIMON_STATE_DIE)
 		ani = SIMON_ANI_DIE;
 	else
-		
-	// If stay idle
-	if (vx == 0)
 	{
-		if (nx > 0)
+		if (isAttack)
 		{
-			if (state != SIMON_STATE_HIT)
-				ani = SIMON_ANI_BIG_IDLE_RIGHT;
-			else 
+			if (nx > 0)
 			{
-				ani = SIMON_ANI_HIT_RIGHT;
-				aniWhip = WHIP_RIGHT;
+				if (isSit)
+				{
+					ani = SIMON_ANI_SIT_ATTACK_RIGHT;
+				}
+				else
+				{
+					ani = SIMON_ANI_ATTACK_RIGHT;
+				}
+			}
+			else
+			{
+				if (isSit)
+				{
+					ani = SIMON_ANI_SIT_ATTACK_LEFT;
+				}
+				else
+				{
+					ani = SIMON_ANI_ATTACK_LEFT;
+				}
 			}
 		}
-
-		else
+		else if (isJump)
 		{
-			if (state != SIMON_STATE_HIT)
-				ani = SIMON_ANI_BIG_IDLE_LEFT;
-			else 
+			if (nx > 0)
+				ani = SIMON_ANI_JUMP_RIGHT;
+			else
+				ani = SIMON_ANI_JUMP_LEFT;
+		}
+		// Right direction
+		else if (nx > 0)
+		{
+			switch (state)
 			{
-				ani = SIMON_ANI_HIT_LEFT;
-				aniWhip = WHIP_LEFT;
+			case SIMON_STATE_STAIR_MOVING:
+				break;
+			case SIMON_STATE_SIT:
+				if (isAttack)
+					ani = SIMON_ANI_SIT_ATTACK_RIGHT;
+				else
+					ani = SIMON_ANI_SIT_RIGHT;
+				break;
+			case SIMON_STATE_WALK:
+				ani = SIMON_ANI_WALKING_RIGHT;
+				break;
+			case SIMON_STATE_IDLE:
+				ani = SIMON_ANI_IDLE_RIGHT;
+				break;
+			}
+		}
+		// Left direction
+		else if (nx < 0)
+		{
+			switch (state)
+			{
+			case SIMON_STATE_STAIR_MOVING:
+				break;
+			case SIMON_STATE_SIT:
+				if (isAttack)
+					ani = SIMON_ANI_SIT_ATTACK_LEFT;
+				else
+					ani = SIMON_ANI_SIT_LEFT;
+				break;
+			case SIMON_STATE_WALK:
+				ani = SIMON_ANI_WALKING_LEFT;
+				break;
+			case SIMON_STATE_IDLE:
+				ani = SIMON_ANI_IDLE_LEFT;
+				break;
 			}
 		}
 	}
-	else if (vx > 0)
-		ani = SIMON_ANI_BIG_WALKING_RIGHT;
-	else ani = SIMON_ANI_BIG_WALKING_LEFT;
-	
+
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-	
-	animations[ani]->Render(x, y , alpha);
+
+	animations[ani]->Render(x, y, alpha);
 
 	if (aniWhip != -1)
 	{
-		whip->animations[aniWhip]->Render(x , y , alpha);
+		whip->animations[aniWhip]->Render(x, y, alpha);
 	}
+
 	RenderBoundingBox();
 	whip->RenderBoundingBox();
 }
 
 void Simon::SetState(int state)
 {
-			
 	CGameObject::SetState(state);
 
 	switch (state)
 	{
-	case SIMON_STATE_WALKING_RIGHT:
-		vx = SIMON_WALKING_SPEED;
-		nx = 1;
+	case SIMON_STATE_DIE:
+		isDead = true;
+		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
-	case SIMON_STATE_WALKING_LEFT:
-		vx = -SIMON_WALKING_SPEED;
-		nx = -1;
+	case SIMON_STATE_STAIR_MOVING:
+		isOnStair = true;
 		break;
-	case SIMON_STATE_JUMP:
-		vy = -SIMON_JUMP_SPEED_Y;
+	case SIMON_STATE_SIT:
+		isSit = true;
+		vx = 0;
+		break;
+	case SIMON_STATE_WALK:
+		isMoving = true;
+		if (nx == 1.0f)
+		{
+			vx = SIMON_WALKING_SPEED;
+		}
+		else if (nx == -1.0f)
+		{
+			vx = -SIMON_WALKING_SPEED;
+		}
+		break;
 	case SIMON_STATE_IDLE:
 		vx = 0;
 		break;
-	case SIMON_STATE_DIE:
-		vy = -SIMON_DIE_DEFLECT_SPEED;
+	}
+}
+
+void Simon::SetAction(int action)
+{
+	switch (action)
+	{
+	case SIMON_ACTION_ATTACK:
+		isAttack = true;
 		break;
-	 
-	
+	case SIMON_ACTION_JUMP:
+		isJump = true;
+		vy = -SIMON_JUMP_SPEED_Y;
+		break;
 	}
 }
 
@@ -202,12 +291,17 @@ void Simon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 	left = x;
 	top = y;
 
-	if (level == SIMON_LEVEL_BIG)
+	if (state != SIMON_STATE_SIT)
 	{
-		right = x + SIMON_BIG_BBOX_WIDTH;
-		bottom = y + SIMON_BIG_BBOX_HEIGHT;
+		right = x + SIMON_STAND_BBOX_WIDTH;
+		bottom = y + SIMON_STAND_BBOX_HEIGHT;
 	}
-	
+	else
+	{
+		right = x + SIMON_SIT_BBOX_WIDTH;
+		bottom = y + SIMON_SIT_BBOX_HEIGHT;
+	}
+
 }
 
 
