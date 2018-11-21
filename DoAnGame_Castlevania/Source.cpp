@@ -126,7 +126,7 @@ void LoadResources()
 	textures->Add(ID_TEX_SIMON, L"Castlevania\\Simon_right.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_SIMON_2, L"Castlevania\\Simon_ver_editted.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_LV1, L"Castlevania\\lv1.png", D3DCOLOR_XRGB(176, 224, 248));
-	textures->Add(ID_TEX_LV1_2, L"Castlevania\\lv2.png", D3DCOLOR_XRGB(176, 224, 248));
+	textures->Add(ID_TEX_LV1_2, L"Castlevania\\maplv2.png", D3DCOLOR_XRGB(176, 224, 248));
 	textures->Add(ID_TEX_BRICK, L"Castlevania\\2.png", D3DCOLOR_XRGB(3, 26, 110));
 	textures->Add(ID_TEX_BRICK2, L"Castlevania\\BRICK1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_ZOMBIE, L"Castlevania\\ZOMBIE.png", D3DCOLOR_XRGB(255, 0, 255));
@@ -514,22 +514,36 @@ void LoadResourceLv2() {
 	for (int i = 0; i < 96; i++)
 	{
 		Ground *ground = new Ground();
-		ground->AddAnimation(603);
+		
 		ground->SetPosition(0 + i * 32.0f, 414);
 		objects.push_back(ground);
 	}
 	for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
-		ground->AddAnimation(603);
+		
 		ground->SetPosition(1377 + i * 32.0f, 284);
 		objects.push_back(ground);
 	}
 	for (int i = 0; i < 10; i++)
 	{
 		Ground *ground = new Ground();
-		ground->AddAnimation(603);
-		ground->SetPosition(1503 + i * 32.0f, 210);
+		
+		ground->SetPosition(1503 + i * 32.0f, 218);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		Ground *ground = new Ground();
+		
+		ground->SetPosition(1854 + i * 32.0f, 284);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		Ground *ground = new Ground();
+		
+		ground->SetPosition(2782 + i * 32.0f, 220);
 		objects.push_back(ground);
 	}
 	for (int i = 0; i < 5; i++)
@@ -695,68 +709,41 @@ void Render()
 		simon->GetSpeed(z, t);
 		float x, y;
 		simon->GetPosition(x, y);
-		/*if (lv2 == false) {
-			if (x < SCREEN_WIDTH / 2) {
-				D3DXVECTOR3 p(0, 80, 0);
-				RECT r ;
-				r.left = 0;
-				r.top = 0;
-				r.right = 640;
-				r.bottom = 480;
-				spriteHandler->Draw(tex, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
-			}
-			else if (x < MAX_WIDTH_LV1 - SCREEN_WIDTH / 2 && x > SCREEN_WIDTH / 2) {
-
-				D3DXVECTOR3 p(0, 80, 0);
-				RECT r;
-				r.left = x - SCREEN_WIDTH/2;
-				r.top = 0;
-				r.right = 640 +x;
-				r.bottom = 480;
-				spriteHandler->Draw(tex, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
-			}
-			else {
-				D3DXVECTOR3 p(0, 80, 0);
-				RECT r;
-				r.left = MAX_WIDTH_LV1 - SCREEN_WIDTH;
-				r.top = 0;
-				r.right =  640 + x ;
-				r.bottom = 480;
-				spriteHandler->Draw(tex, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
-			}
-		}
+		
+		if(lv2==false)
+		map->Draw(game->x_cam, game->y_cam);
 		else {
 			if (x < SCREEN_WIDTH / 2) {
-				D3DXVECTOR3 p(0, 60, 0);
+				D3DXVECTOR3 p(0, 92, 0);
 				RECT r;
 				r.left = 0;
-				r.top = 0;
+				r.top = 18;
 				r.right = 640;
 				r.bottom = 480;
 				spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 			}
 			else if (x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2 && x > SCREEN_WIDTH / 2) {
 
-				D3DXVECTOR3 p(0, 60, 0);
+				D3DXVECTOR3 p(0, 92, 0);
 				RECT r;
 				r.left = (x - SCREEN_WIDTH / 2);
-				r.top = 0;
-				r.right = z>0? 642 + x:638 +x;
+				r.top = 18;
+				r.right = z > 0 ? 642 + x : 638 + x;
 				r.bottom = 480;
 				spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 			}
 			else {
-				D3DXVECTOR3 p(0, 60, 0);
+				D3DXVECTOR3 p(0, 92, 0);
 				RECT r;
 				r.left = MAX_WIDTH_LV2 - SCREEN_WIDTH;
-				r.top = 0;
+				r.top = 18;
 				r.right = (640 + x);
 				r.bottom = 480;
 				spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 			}
-		}*/
-		if(lv2==false)
-		map->Draw(game->x_cam, game->y_cam);
+			
+			
+		}
 		for (int i = objects.size() -1; i > -1; i--)
 			objects[i]->Render();
 

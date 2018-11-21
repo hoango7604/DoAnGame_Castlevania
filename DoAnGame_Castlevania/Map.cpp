@@ -104,8 +104,8 @@ void Map::Draw(float x,float y)
 
 	int colStart = (int)x / tileWidth;
 	int colEnd = ((int)x + cameraWidth) / tileWidth < cols - 1 ? (x + cameraWidth) / tileWidth : cols - 1;
-	int rowStart = (int)y / tileHeight;
-	int rowEnd = ((int)y + cameraHeight) / tileHeight < rows - 1 ? (y + cameraHeight) / tileHeight : rows - 1;
+	int rowStart = (int)y /   tileHeight;
+	int rowEnd = ((int)y +  cameraHeight) / tileHeight < rows - 1 ? (y + cameraHeight) / tileHeight : rows - 1;
 
 	for (int i = rowStart; i <= rowEnd; i++)
 	{
