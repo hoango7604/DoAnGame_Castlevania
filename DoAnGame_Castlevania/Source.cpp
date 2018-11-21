@@ -29,8 +29,14 @@ Map *map;
 CSprite *sprite;
 vector<LPGAMEOBJECT> objects;
 vector<int> willDeleteObjects;
+bool lv1 = true;
 bool lv2 = false;
+bool lv2_1 = false;
+bool boss = false;
 bool countLoadResourceLv2 = false;
+bool countLoadResourceLv2_1 = false;
+bool countLoadResourceboss = false;
+DWORD timer; // load enemy
 CSprites * sprites = CSprites::GetInstance();
 CAnimations * animations = CAnimations::GetInstance();
 CTextures * textures = CTextures::GetInstance();
@@ -49,7 +55,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	// Nhay
 	if (KeyCode == DIK_SPACE)
 	{
-		if (simon->isJump == false && simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
+		if (/*simon->isJump == false &&*/ simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
 			simon->SetAction(SIMON_ACTION_JUMP);
 	}
 	// Danh
@@ -642,17 +648,30 @@ void LoadResourceLv2() {
 	objects.push_back(checkstair1);
 	//1250 335 1265 320 1280 305*/ 3 10 6 8
 }
+void LoadResourceLv2_1()
+{
+	for (int i = 0; i < 96; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(0 + i * 32.0f, 414);
+		objects.push_back(ground);
+	}
+}
 void Update(DWORD dt)
 {
 	float x, y;
 	simon->GetPosition(x, y);
 
 #pragma region Resource
-	if (x > 1536 && lv2 == false) {
-		for (int i = objects.size(); i > 1; i--)
-			objects.pop_back();
+	if (lv1 == true)
+	{
+		if (x > 1536 ) {
+			for (int i = objects.size() -1; i > 0; i--)
+				objects.pop_back();
 
-		lv2 = true;
+			lv2 = true;
+			lv1 = false;
+		}
 	}
 	if (lv2 == true)
 	{
@@ -660,9 +679,40 @@ void Update(DWORD dt)
 		{
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(30, 150);
+			simon->SetPosition(3000, 155);
+			timer = GetTickCount();
 		}
-
+		else if(countLoadResourceLv2 == true && x < 3032  )
+		{
+			if (GetTickCount() - timer > 5000)
+			{
+				Zombie *zombie = new Zombie();
+				zombie->AddAnimation(602);
+				zombie->AddAnimation(604);
+				zombie->SetPosition(1300, 350);
+				zombie->SetState(ZOMBIE_STATE_WALKING);
+				objects.push_back(zombie);
+				timer = timer + 5000;
+			}
+		}
+		else  //check point
+		{
+			lv2_1 = true;
+			lv2 = false;
+		}
+	}
+	if (lv2_1 == true)
+	{
+		
+		if (countLoadResourceLv2_1 == false)
+		{
+			for (int i = objects.size()-1; i > 0; i--)
+				objects.pop_back();
+			//simon->SetPosition(50, 150);
+			LoadResourceLv2_1();
+			countLoadResourceLv2_1 = true;
+		}
+		
 	}
 
 #pragma endregion
@@ -715,7 +765,7 @@ void Update(DWORD dt)
 			game->y_cam = 0;
 		}
 	}
-	else
+	else if( lv2 == true)
 	{
 		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2)
 		{
@@ -732,6 +782,24 @@ void Update(DWORD dt)
 			game->y_cam = 0;
 		}
 
+	}
+	else if (lv2_1 == true)
+	{
+		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2)
+		{
+			game->x_cam = x - SCREEN_WIDTH / 2;
+			game->y_cam = 0;
+		}
+		else if (x > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2) {
+			game->x_cam = MAX_WIDTH_LV2 - SCREEN_WIDTH;
+			game->y_cam = 0;
+		}
+		else
+		{
+			game->x_cam = 0;
+			game->y_cam = 0;
+		}
+		game->GetDirectInput()->Unacquire();
 	}
 #pragma endregion
 
@@ -758,9 +826,10 @@ void Render()
 		float x, y;
 		simon->GetPosition(x, y);
 
-		if (lv2 == false)
+		if (lv1 == true)
 			map->Draw(game->x_cam, game->y_cam);
-		else {
+		else if (lv2 == true){
+			
 			if (x < SCREEN_WIDTH / 2) {
 				D3DXVECTOR3 p(0, 92, 0);
 				RECT r;
@@ -776,7 +845,7 @@ void Render()
 				RECT r;
 				r.left = (x - SCREEN_WIDTH / 2);
 				r.top = 18;
-				r.right = z > 0 ? 642 + x : 638 + x;
+				r.right = 640 + x;
 				r.bottom = 480;
 				spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 			}
@@ -791,6 +860,16 @@ void Render()
 			}
 
 
+		}
+		else if (lv2_1 == true)
+		{
+			D3DXVECTOR3 p(0, 92, 0);
+			RECT r;
+			r.left = x - SCREEN_WIDTH/2;
+			r.top = 18;
+			r.right = (640 + x);
+			r.bottom = 480;
+			spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 		}
 		for (int i = objects.size() - 1; i > -1; i--)
 			objects[i]->Render();
