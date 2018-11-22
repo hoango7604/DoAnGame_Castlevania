@@ -1,5 +1,5 @@
 #define SIMON_WALKING_SPEED				0.1f 
-#define SIMON_JUMP_SPEED_Y				0.52f
+#define SIMON_JUMP_SPEED_Y				0.55f
 #define SIMON_JUMP_DEFLECT_SPEED		0.2f
 #define SIMON_GRAVITY					0.002f
 #define SIMON_DIE_DEFLECT_SPEED			0.5f
@@ -118,6 +118,7 @@
 #define ID_TEX_BRICK					20
 #define ID_TEX_SIMON_2					30
 #define ID_TEX_PANTHER					25
+#define ID_TEX_PANTHER_RIGHT			26
 #define ID_TEX_ZOMBIE					35
 #define ID_TEX_ZOMBIE_RIGHT				36
 #define ID_TEX_FIRE						40
@@ -135,3 +136,4 @@
 #define ID_TEX_MERMAN_LEFT				95
 #define ID_TEX_BAT                      100 
 #define ID_TEX_HEART					105
+#define ID_TEX_BOSS						110

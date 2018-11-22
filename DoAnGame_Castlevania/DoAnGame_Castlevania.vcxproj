@@ -136,6 +136,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="Heart.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MerMan.h" />
     <ClInclude Include="Panther.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="Whip.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
@@ -156,6 +158,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Heart.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MerMan.cpp" />
     <ClCompile Include="Panther.cpp" />
@@ -165,6 +168,7 @@
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Whip.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>

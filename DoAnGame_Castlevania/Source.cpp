@@ -145,6 +145,7 @@ void LoadResources()
 	textures->Add(ID_TEX_ZOMBIE, L"Castlevania\\ZOMBIE.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_ZOMBIE_RIGHT, L"Castlevania\\ZOMBIE_right.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_PANTHER, L"Castlevania\\PANTHER.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_PANTHER_RIGHT, L"Castlevania\\PANTHER_right.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_FIRE, L"Castlevania\\123.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_CANDLE, L"Castlevania\\1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_WHIP, L"Castlevania\\WHIP.png", D3DCOLOR_XRGB(255, 0, 255));
@@ -157,9 +158,11 @@ void LoadResources()
 	textures->Add(ID_TEX_BBOX, L"Castlevania\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_STAIR_BOT, L"Castlevania\\stair_bottom.png", D3DCOLOR_XRGB(0, 0, 255));//
 	textures->Add(ID_TEX_STAIR_TOP, L"Castlevania\\stair_top.png", D3DCOLOR_XRGB(0, 0, 255));
-	textures->Add(ID_TEX_MERMAN_LEFT, L"Castlevania\\MERMAN.png", D3DCOLOR_XRGB(255, 255, 255));
-	textures->Add(ID_TEX_MERMAN_RIGHT, L"Castlevania\\MERMAN_right.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_TEX_MERMAN_LEFT, L"Castlevania\\MERMAN.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_MERMAN_RIGHT, L"Castlevania\\MERMAN_right.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_HEART, L"Castlevania\\SMALL_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_BAT, L"Castlevania\\BAT.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_BOSS, L"Castlevania\\VAMPIRE_BAT.png", D3DCOLOR_XRGB(255, 0, 255));
 
 
 
@@ -263,9 +266,35 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texEnemy1 = textures->Get(ID_TEX_PANTHER);
 	sprites->Add(30011, 0, 0, 50, 32, texEnemy1); // báo
-	sprites->Add(30012, 64, 0, 120, 32, texEnemy1);
+	sprites->Add(30012, 64, 0, 120, 32, texEnemy1); // báo chạy trái
 	sprites->Add(30013, 126, 0, 188, 32, texEnemy1);
 	sprites->Add(30014, 188, 0, 256, 32, texEnemy1);
+
+	LPDIRECT3DTEXTURE9 texEnemy10 = textures->Get(ID_TEX_PANTHER_RIGHT);	
+	sprites->Add(30015, 136, 0, 190, 32, texEnemy10); //báo  chạy phải
+	sprites->Add(30016, 67, 0, 130, 32, texEnemy10);
+	sprites->Add(30017, 0, 0, 64, 32, texEnemy10);
+
+	LPDIRECT3DTEXTURE9 texEnemy11 = textures->Get(ID_TEX_BAT);
+	sprites->Add(30018, 0, 0, 32, 32, texEnemy11); // dơi // nằm chờ
+	sprites->Add(30019, 32, 0, 64, 32, texEnemy11);
+	sprites->Add(30020, 64, 0, 96, 32, texEnemy11);
+	sprites->Add(30021, 96, 0, 128, 32, texEnemy11);
+
+	LPDIRECT3DTEXTURE9 texEnemy12 = textures->Get(ID_TEX_BOSS);
+	sprites->Add(30022, 27, 0, 67, 38, texEnemy12); // boss // nằm chờ
+	sprites->Add(30023, 98, 0, 200, 45, texEnemy12);
+	sprites->Add(30024, 213, 0, 281, 45, texEnemy12);
+	
+	LPDIRECT3DTEXTURE9 texEnemy13 = textures->Get(ID_TEX_MERMAN_LEFT);
+	sprites->Add(30025, 0, 0, 32, 64, texEnemy13); //người cá trái
+	sprites->Add(30026, 32, 0, 64, 64, texEnemy13);
+	sprites->Add(30027, 64, 0, 96, 64, texEnemy13);
+
+	LPDIRECT3DTEXTURE9 texEnemy14 = textures->Get(ID_TEX_MERMAN_RIGHT);
+	sprites->Add(30028, 64, 0, 96, 64, texEnemy14); // người cá phải
+	sprites->Add(30029, 32, 0, 64, 64, texEnemy14);
+	sprites->Add(30030, 0, 0, 32, 64, texEnemy14);
 
 	LPDIRECT3DTEXTURE9 texEnemy2 = textures->Get(ID_TEX_FIRE);
 	sprites->Add(40011, 0, 0, 32, 64, texEnemy2);
@@ -453,11 +482,17 @@ void LoadResources()
 	ani->Add(30011);
 	animations->Add(605, ani);
 
-	ani = new CAnimation(100); //panther chạy
+	ani = new CAnimation(100); //panther chạy trái
 	ani->Add(30012);
 	ani->Add(30013);
 	ani->Add(30014);
 	animations->Add(606, ani);
+
+	ani = new CAnimation(100); //panther chạy phải
+	ani->Add(30015);
+	ani->Add(30016);
+	ani->Add(30017);
+	animations->Add(607, ani);
 
 	ani = new CAnimation(100); //fire
 	ani->Add(40011);
@@ -625,24 +660,79 @@ void LoadResourceLv2() {
 		candle->SetPosition(195 + i * 257, 316);
 		objects.push_back(candle);
 	}
+	Candle *candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(1219, 326);
+	objects.push_back(candle);
+
+	Candle *candle1 = new Candle();
+	candle1->AddAnimation(800);
+	candle1->SetPosition(1339, 193);
+	objects.push_back(candle1);	
+
+	Candle *candle2 = new Candle();
+	candle2->AddAnimation(800);
+	candle2->SetPosition(1445, 380);
+	objects.push_back(candle2);
+
+	Candle *candle3 = new Candle();
+	candle3->AddAnimation(800);
+	candle3->SetPosition(1800, 380);
+	objects.push_back(candle3);
+
+	Candle *candle4 = new Candle();
+	candle4->AddAnimation(800);
+	candle4->SetPosition(1713, 190);
+	objects.push_back(candle4);
+
+	Candle *candle5 = new Candle();
+	candle5->AddAnimation(800);
+	candle5->SetPosition(1986, 198);
+	objects.push_back(candle5);
+
+	Candle *candle6 = new Candle();
+	candle6->AddAnimation(800);
+	candle6->SetPosition(2610, 387);
+	objects.push_back(candle6);
+
+	Candle *candle7 = new Candle();
+	candle7->AddAnimation(800);
+	candle7->SetPosition(2742, 322);
+	objects.push_back(candle7);
+
+	Candle *candle8 = new Candle();
+	candle8->AddAnimation(800);
+	candle8->SetPosition(2868, 190);
+	objects.push_back(candle8);
+
+	for (int i = 0; i < 4; i++)
+	{
+		Candle *candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(2050 +i*125 ,380);
+		objects.push_back(candle);
+	}
 	Panther *panther = new Panther();
 	panther->AddAnimation(605);
 	panther->AddAnimation(606);	
-	panther->SetPosition(1403, 331);
+	panther->AddAnimation(607);
+	panther->SetPosition(1403, 285);
 	panther->SetState(PANTHER_STATE_WAIT);
 	objects.push_back(panther);
 
 	Panther *panther1 = new Panther();
 	panther1->AddAnimation(605);
-	panther1->AddAnimation(606);	
-	panther1->SetPosition(1600, 331);
+	panther1->AddAnimation(606);
+	panther->AddAnimation(607);
+	panther1->SetPosition(1700, 221);
 	panther1->SetState(PANTHER_STATE_WAIT);
 	objects.push_back(panther1);
 
 	Panther *panther2 = new Panther();
 	panther2->AddAnimation(605);
-	panther2->AddAnimation(606);	
-	panther2->SetPosition(1800, 331);
+	panther2->AddAnimation(606);
+	panther->AddAnimation(607);
+	panther2->SetPosition(1950, 285);
 	panther2->SetState(PANTHER_STATE_WAIT);
 	objects.push_back(panther2);
 
