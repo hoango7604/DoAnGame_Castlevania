@@ -2,7 +2,10 @@
 
 void BigFire::Render()
 {
-	animations[0]->Render(x, y);
+	if (isHited == false)
+		animations[0]->Render(x, y,255);
+	else
+		animations[1]->Render(x, y,255);
 	//RenderBoundingBox();
 }
 void BigFire::Update()

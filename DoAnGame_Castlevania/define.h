@@ -63,6 +63,22 @@
 #define ZOMBIE_ANI_WALKING_RIGHT		1
 #define ZOMBIE_ANI_DIE					2
 
+#define PANTHER_WALKING_SPEED			0.07f
+
+#define PANTHER_BBOX_WIDTH				50
+#define PANTHER_BBOX_HEIGHT				32
+#define PANTHER_BBOX_HEIGHT_DIE			9
+
+#define PANTHER_STATE_WAIT				100
+#define PANTHER_STATE_ATTACK			150
+#define PANTHER_STATE_DIE				200
+
+
+#define PANTHER_ANI_WAIT				0
+#define PANTHER_ANI_RUN_LEFT			1
+#define PANTHER_ANI_RUN_RIGHT			2
+#define PANTHER_ANI_DIE					3
+
 // Check stair
 #define CHECKSTAIR_UP_LEFT				0
 #define CHECKSTAIR_UP_RIGHT				1
@@ -118,3 +134,4 @@
 #define ID_TEX_MERMAN_RIGHT				90
 #define ID_TEX_MERMAN_LEFT				95
 #define ID_TEX_BAT                      100 
+#define ID_TEX_HEART					105

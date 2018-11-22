@@ -179,6 +179,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (e->nx == 0 && e->ny < 0)
 					isJump = false;
 			}
+			
 		}
 	}
 	// clean up collision events

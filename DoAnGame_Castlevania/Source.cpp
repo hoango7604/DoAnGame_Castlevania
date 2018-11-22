@@ -159,7 +159,7 @@ void LoadResources()
 	textures->Add(ID_TEX_STAIR_TOP, L"Castlevania\\stair_top.png", D3DCOLOR_XRGB(0, 0, 255));
 	textures->Add(ID_TEX_MERMAN_LEFT, L"Castlevania\\MERMAN.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_MERMAN_RIGHT, L"Castlevania\\MERMAN_right.png", D3DCOLOR_XRGB(255, 255, 255));
-	textures->Add(ID_TEX_BAT, L"Castlevania\\BAT.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_TEX_HEART, L"Castlevania\\SMALL_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
 
 
 
@@ -286,6 +286,9 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMisc6 = textures->Get(ID_TEX_STAIR_TOP);
 	sprites->Add(40018, 0, 0, 32, 32, texMisc6);
+
+	LPDIRECT3DTEXTURE9 texMisc7 = textures->Get(ID_TEX_HEART);
+	sprites->Add(40019, 0, 0, 16, 16, texMisc7);
 
 	#pragma endregion
 
@@ -446,6 +449,16 @@ void LoadResources()
 	ani->Add(20002);
 	animations->Add(603, ani);
 
+	ani = new CAnimation(100); //panther nằm chờ
+	ani->Add(30011);
+	animations->Add(605, ani);
+
+	ani = new CAnimation(100); //panther chạy
+	ani->Add(30012);
+	ani->Add(30013);
+	ani->Add(30014);
+	animations->Add(606, ani);
+
 	ani = new CAnimation(100); //fire
 	ani->Add(40011);
 	ani->Add(40012);
@@ -471,6 +484,10 @@ void LoadResources()
 	ani = new CAnimation(0); //STAIR TOP
 	ani->Add(40018);
 	animations->Add(804, ani);
+
+	ani = new CAnimation(0); //heart
+	ani->Add(40019);
+	animations->Add(805, ani);
 
 	#pragma endregion
 
@@ -521,26 +538,37 @@ void LoadResources()
 #pragma region BigFire
 	BigFire *bigfire = new BigFire();
 	bigfire->AddAnimation(700);
+	bigfire->AddAnimation(805);
 	bigfire->SetPosition(335, 350);
 	objects.push_back(bigfire);
+
 	BigFire *bigfire1 = new BigFire();
 	bigfire1->AddAnimation(700);
+	bigfire1->AddAnimation(805);
 	bigfire1->SetPosition(464, 350);
 	objects.push_back(bigfire1);
+
 	BigFire *bigfire2 = new BigFire();
 	bigfire2->AddAnimation(700);
+	bigfire2->AddAnimation(805);
 	bigfire2->SetPosition(657, 350);
 	objects.push_back(bigfire2);
+
 	BigFire *bigfire3 = new BigFire();
 	bigfire3->AddAnimation(700);
+	bigfire3->AddAnimation(805);
 	bigfire3->SetPosition(851, 350);
 	objects.push_back(bigfire3);
+
 	BigFire *bigfire4 = new BigFire();
 	bigfire4->AddAnimation(700);
+	bigfire4->AddAnimation(805);
 	bigfire4->SetPosition(1090, 350);
 	objects.push_back(bigfire4);
+
 	BigFire *bigfire5 = new BigFire();
 	bigfire5->AddAnimation(700);
+	bigfire5->AddAnimation(805);
 	bigfire5->SetPosition(1267, 350);
 	objects.push_back(bigfire5);
 #pragma endregion
@@ -597,6 +625,27 @@ void LoadResourceLv2() {
 		candle->SetPosition(195 + i * 257, 316);
 		objects.push_back(candle);
 	}
+	Panther *panther = new Panther();
+	panther->AddAnimation(605);
+	panther->AddAnimation(606);	
+	panther->SetPosition(1403, 331);
+	panther->SetState(PANTHER_STATE_WAIT);
+	objects.push_back(panther);
+
+	Panther *panther1 = new Panther();
+	panther1->AddAnimation(605);
+	panther1->AddAnimation(606);	
+	panther1->SetPosition(1600, 331);
+	panther1->SetState(PANTHER_STATE_WAIT);
+	objects.push_back(panther1);
+
+	Panther *panther2 = new Panther();
+	panther2->AddAnimation(605);
+	panther2->AddAnimation(606);	
+	panther2->SetPosition(1800, 331);
+	panther2->SetState(PANTHER_STATE_WAIT);
+	objects.push_back(panther2);
+
 	for (int i = 0; i < 4; i++)
 	{
 		Stair *stair = new Stair();
@@ -624,7 +673,7 @@ void LoadResourceLv2() {
 	{
 		Stair *stair = new Stair();
 		stair->AddAnimation(801);
-		stair->SetPosition(2590 + i * 32.0, 305 - i * 32);
+		stair->SetPosition(2590 + i * 32.0, 410 - i * 32);
 		objects.push_back(stair);
 	}
 	
@@ -753,6 +802,7 @@ void Update(DWORD dt)
 				delete zombie;
 			}
 		}
+		
 	}
 #pragma endregion	
 

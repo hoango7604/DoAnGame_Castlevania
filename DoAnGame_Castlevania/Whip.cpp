@@ -28,9 +28,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			bigfire->GetBoundingBox(zl, zt, zr, zb);
 			if (x < zl && x + WHIP_BBOX_WIDTH > zr && y > zt && y + WHIP_BBOX_HEIGHT < zb)
 			{
-				if (bigfire->GetState() != ZOMBIE_STATE_DIE) {
-					bigfire->SetState(ZOMBIE_STATE_DIE);
-				}
+				bigfire->isHited = true;
 			}
 		}
 	}
