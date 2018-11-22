@@ -92,7 +92,7 @@
 #define SCREEN_WIDTH					640
 #define SCREEN_HEIGHT					580
 #define MAX_WIDTH_LV1					1536
-#define MAX_WIDTH_LV2					5000
+#define MAX_WIDTH_LV2					5634
 #define MAX_FRAME_RATE					120
 
 //texture

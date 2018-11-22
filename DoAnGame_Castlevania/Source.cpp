@@ -547,76 +547,68 @@ void LoadResources()
 }
 
 void LoadResourceLv2() {
-	for (int i = 0; i < 96; i++)
+	for (int i = 0; i < 200; i++)
 	{
 		Ground *ground = new Ground();
 
-		ground->SetPosition(0 + i * 32.0f, 414);
+		ground->SetPosition(0 + i * 32.0f, 440);
 		objects.push_back(ground);
 	}
 	for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
 
-		ground->SetPosition(1377 + i * 32.0f, 284);
+		ground->SetPosition(1377 + i * 32.0f, 310);
 		objects.push_back(ground);
 	}
 	for (int i = 0; i < 10; i++)
 	{
 		Ground *ground = new Ground();
 
-		ground->SetPosition(1503 + i * 32.0f, 218);
+		ground->SetPosition(1503 + i * 32.0f, 244);
 		objects.push_back(ground);
 	}
 	for (int i = 0; i < 6; i++)
 	{
 		Ground *ground = new Ground();
 
-		ground->SetPosition(1854 + i * 32.0f, 284);
+		ground->SetPosition(1854 + i * 32.0f, 310);
 		objects.push_back(ground);
 	}
 	for (int i = 0; i < 10; i++)
 	{
 		Ground *ground = new Ground();
 
-		ground->SetPosition(2782 + i * 32.0f, 220);
+		ground->SetPosition(2782 + i * 32.0f, 246);
 		objects.push_back(ground);
 	}
-	for (int i = 0; i < 2; i++)
-	{
-		Zombie *zombie = new Zombie();
-		zombie->AddAnimation(602);
-		zombie->AddAnimation(604);
-		zombie->SetPosition(0 + i * 64, 350);
-		zombie->SetState(ZOMBIE_STATE_WALKING);
-		objects.push_back(zombie);
-	}
+	
 	for (int i = 0; i < 5; i++)
 	{
 		Candle *candle = new Candle();
 		candle->AddAnimation(800);
-		candle->SetPosition(65 + i * 255, 350);
+		candle->SetPosition(65 + i * 255, 376);
 		objects.push_back(candle);
 	}
 	for (int i = 0; i < 4; i++)
 	{
 		Candle *candle = new Candle();
 		candle->AddAnimation(800);
-		candle->SetPosition(195 + i * 257, 290);
+		candle->SetPosition(195 + i * 257, 316);
 		objects.push_back(candle);
 	}
 	for (int i = 0; i < 4; i++)
 	{
 		Stair *stair = new Stair();
 		stair->AddAnimation(801);
-		stair->SetPosition(1247 + i * 32, 379 - i * 32);
+		stair->SetPosition(1247 + i * 32, 405 - i * 32);
 		objects.push_back(stair);
 	}
 	for (int i = 0; i < 2; i++)
 	{
 		Stair *stair = new Stair();
 		stair->AddAnimation(801);
-		stair->SetPosition(1439 + i * 32.0, 252 - i * 32);
+		stair->SetPosition(1439 + i * 32.0, 278 - i * 32);
 		objects.push_back(stair);
 	}
 	
@@ -624,7 +616,7 @@ void LoadResourceLv2() {
 	{
 		Stair *stair = new Stair();
 		stair->AddAnimation(802);
-		stair->SetPosition(1824 + i * 32.0, 220 + i * 32);
+		stair->SetPosition(1824 + i * 32.0, 246 + i * 32);
 		objects.push_back(stair);
 
 	}
@@ -632,31 +624,40 @@ void LoadResourceLv2() {
 	{
 		Stair *stair = new Stair();
 		stair->AddAnimation(801);
-		stair->SetPosition(2590 + i * 32.0, 379 - i * 32);
+		stair->SetPosition(2590 + i * 32.0, 305 - i * 32);
 		objects.push_back(stair);
 	}
 	
 	// Bottom right
 	CheckStair *checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1250, 379);
+	checkstair->SetPosition(1250, 405);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	objects.push_back(checkstair);
 
 	// Top left
 	CheckStair *checkstair1 = new CheckStair();
 	checkstair1->AddAnimation(804);
-	checkstair1->SetPosition(1370, 252);
+	checkstair1->SetPosition(1370, 276);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	objects.push_back(checkstair1);
 
 	// Top right
 	CheckStair *checkstair2 = new CheckStair();
 	checkstair2->AddAnimation(804);
-	checkstair2->SetPosition(1430, 252);
+	checkstair2->SetPosition(1430, 276);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	objects.push_back(checkstair2);
 	//1250 335 1265 320 1280 305*/ 3 10 6 8
+	for (int i = 0; i < 2; i++)
+	{
+		Zombie *zombie = new Zombie();
+		zombie->AddAnimation(602);
+		zombie->AddAnimation(604);
+		zombie->SetPosition(0 + i * 64, 376);
+		zombie->SetState(ZOMBIE_STATE_WALKING);
+		objects.push_back(zombie);
+	}
 }
 void LoadResourceLv2_1()
 {
@@ -699,7 +700,7 @@ void Update(DWORD dt)
 				Zombie *zombie = new Zombie();
 				zombie->AddAnimation(602);
 				zombie->AddAnimation(604);
-				zombie->SetPosition(1300, 350);
+				zombie->SetPosition(1300, 376);
 				zombie->SetState(ZOMBIE_STATE_WALKING);
 				objects.push_back(zombie);
 				timer = timer + 5000;
@@ -843,10 +844,10 @@ void Render()
 		{
 			
 		}
-		for (int i = objects.size() - 1; i > -1; i--)
+		for (int i = 1; i < objects.size(); i++)
 			objects[i]->Render();
 
-
+		objects[0]->Render();
 
 		spriteHandler->End();
 		d3ddv->EndScene();
