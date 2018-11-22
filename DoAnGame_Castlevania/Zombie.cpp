@@ -57,7 +57,7 @@ void Zombie::Render()
 
 		animations[ani]->Render(x, y);
 	}
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void Zombie::SetState(int state)

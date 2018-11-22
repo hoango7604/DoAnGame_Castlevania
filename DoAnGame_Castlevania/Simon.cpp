@@ -8,6 +8,7 @@
 #include "Zombie.h"
 #include "Ground.h"
 #include "Stair.h"
+#include "CheckStair.h"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -24,13 +25,46 @@ void Simon::CalcPotentialCollisions(
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (!dynamic_cast<Candle *>(coObjects->at(i)) && !dynamic_cast<BigFire *>(coObjects->at(i)) && !dynamic_cast<Stair *>(coObjects->at(i))) {
+		// Simon se khong va cham voi nhung vat sau:
+		if (!dynamic_cast<Candle *>(coObjects->at(i)) && 
+			!dynamic_cast<BigFire *>(coObjects->at(i)) && 
+			!dynamic_cast<Stair *>(coObjects->at(i)) && 
+			!dynamic_cast<CheckStair *>(coObjects->at(i))) 
+		{
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
 			if (e->t > 0 && e->t <= 1.0f)
 				coEvents.push_back(e);
 			else
 				delete e;
+		}
+		// Xet simon co dang dung ngay tai check stair hay khong
+		else if (dynamic_cast<CheckStair *>(coObjects->at(i)))
+		{
+			CheckStair *checkstair = dynamic_cast<CheckStair *>(coObjects->at(i));
+			float cbl, cbr, cbt, cbb;
+			checkstair->GetBoundingBox(cbl, cbt, cbr, cbb);
+
+			int type = checkstair->GetType();
+			switch (type)
+			{
+			case CHECKSTAIR_UP_LEFT:
+				break;
+			case CHECKSTAIR_UP_RIGHT:
+				if (x < cbr && x + SIMON_STAND_BBOX_WIDTH > cbl && y + SIMON_STAND_BBOX_HEIGHT == cbb)
+				{
+					isOnCheckStair = true;
+				}
+				else
+				{
+					isOnCheckStair = false;
+				}
+				break;
+			case CHECKSTAIR_DOWN_LEFT:
+				break;
+			case CHECKSTAIR_DOWN_RIGHT:
+				break;
+			}
 		}
 	}
 
@@ -86,7 +120,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 		{
 			// Whip position equal to simon position + simon width - whip width
-			whip->SetPosition(x + SIMON_STAND_BBOX_WIDTH - BB_WHIP_WIDTH, y);
+			whip->SetPosition(x + SIMON_STAND_BBOX_WIDTH - WHIP_BBOX_WIDTH, y);
 		}
 	}
 
@@ -142,7 +176,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				// Da cham dat
 				// Khong va cham theo phuong ngang
-				if (e->nx == 0)
+				if (e->nx == 0 && e->ny < 0)
 					isJump = false;
 			}
 		}
@@ -167,6 +201,13 @@ void Simon::Render()
 				{
 					ani = SIMON_ANI_SIT_ATTACK_RIGHT;
 				}
+				else if (isOnStair)
+				{
+					if (ny < 0)
+						ani = SIMON_ANI_HITUP_RLADDER;
+					else if (ny > 0)
+						ani = SIMON_ANI_HITDOWN_RLADDER;
+				}
 				else
 				{
 					ani = SIMON_ANI_ATTACK_RIGHT;
@@ -178,6 +219,13 @@ void Simon::Render()
 				if (isSit)
 				{
 					ani = SIMON_ANI_SIT_ATTACK_LEFT;
+				}
+				else if (isOnStair)
+				{
+					if (ny < 0)
+						ani = SIMON_ANI_HITUP_LLADDER;
+					else if (ny > 0)
+						ani = SIMON_ANI_HITDOWN_LLADDER;
 				}
 				else
 				{

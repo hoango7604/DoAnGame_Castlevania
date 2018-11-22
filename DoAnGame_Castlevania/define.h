@@ -30,10 +30,10 @@
 #define SIMON_ANI_JUMP_LEFT				9
 #define SIMON_ANI_SIT_ATTACK_RIGHT		10
 #define SIMON_ANI_SIT_ATTACK_LEFT		11
-#define SIMON_ANI_HITR_RLADDER			12 // hit right on stair which has up-direction from left to right
-#define SIMON_ANI_HITL_RLADDER			13  
-#define SIMON_ANI_HITR_LLADDER			14 //hit right on stair which has up-direction from right to left 
-#define SIMON_ANI_HITL_LLADDER			15 //use dik_ and nx to select ani
+#define SIMON_ANI_HITUP_RLADDER			12 // hit right on stair which has up-direction from left to right
+#define SIMON_ANI_HITDOWN_LLADDER		13  
+#define SIMON_ANI_HITDOWN_RLADDER		14 //hit right on stair which has up-direction from right to left 
+#define SIMON_ANI_HITUP_LLADDER			15 //use dik_ and nx to select ani
 #define SIMON_ANI_WALKUP_RLADDER		16 // walk up on stair which has up-direction from left to right
 #define SIMON_ANI_WALKDOWN_RLADDER		17 //
 #define SIMON_ANI_WALKUP_LLADDER		18
@@ -42,13 +42,35 @@
 #define SIMON_ANI_HURT_RIGHT			21
 #define SIMON_ANI_DIE					22
 
+// Whip
 #define WHIP_RIGHT 						0
 #define WHIP_LEFT						1
 
-#define WHIP_LAST_FRAME					2
+#define WHIP_BBOX_WIDTH					125
+#define WHIP_BBOX_HEIGHT				15
 
-#define BB_WHIP_WIDTH					110
-#define BB_WHIP_HEIGHT					15
+// Zombie
+#define ZOMBIE_WALKING_SPEED			0.07f
+
+#define ZOMBIE_BBOX_WIDTH				32
+#define ZOMBIE_BBOX_HEIGHT				32
+#define ZOMBIE_BBOX_HEIGHT_DIE			9
+
+#define ZOMBIE_STATE_WALKING			100
+#define ZOMBIE_STATE_DIE				200
+
+#define ZOMBIE_ANI_WALKING_LEFT			0
+#define ZOMBIE_ANI_WALKING_RIGHT		1
+#define ZOMBIE_ANI_DIE					2
+
+// Check stair
+#define CHECKSTAIR_UP_LEFT				0
+#define CHECKSTAIR_UP_RIGHT				1
+#define CHECKSTAIR_DOWN_LEFT			2
+#define CHECKSTAIR_DOWN_RIGHT			3
+
+#define CHECKSTAIR_BBOX_WIDTH			32
+#define CHECKSTAIR_BBOX_HEIGHT			32
 
 // Timer
 #define SIMON_TIMER_ATTACK				450

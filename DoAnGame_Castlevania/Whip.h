@@ -4,8 +4,7 @@
 #include <vector>
 #include "GameObject.h"
 #include "Sprites.h"
-#define BB_WHIP_WIDTH 100
-#define BB_WHIP_HEIGHT 15
+
 class Whip :public CGameObject
 {
 	int step = 0;

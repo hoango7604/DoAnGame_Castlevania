@@ -1,5 +1,5 @@
 #include "CheckStair.h"
-
+#include "define.h"
 
 void CheckStair::Render()
 {

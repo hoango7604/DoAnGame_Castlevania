@@ -101,13 +101,15 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	{
 		if (!simon->isSit && !simon->isOnStair && !simon->isAttack)
 			simon->SetState(SIMON_STATE_WALK);
-		simon->nx = 1.0f;
+		if (!simon->isJump && !simon->isOnStair && !simon->isAttack)
+			simon->nx = 1.0f;
 	}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
 		if (!simon->isSit && !simon->isOnStair && !simon->isAttack)
 			simon->SetState(SIMON_STATE_WALK);
-		simon->nx = -1.0f;
+		if (!simon->isJump && !simon->isOnStair && !simon->isAttack)
+			simon->nx = -1.0f;
 	}
 
 	// Neu khong co gi xay ra se dung im
@@ -165,7 +167,7 @@ void LoadResources()
 
 
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
-#pragma region Addsprite
+	#pragma region Addsprite
 	sprites->Add(10001, 434, 0, 469, 64, texSimon);		// đứng im phải
 
 	sprites->Add(10002, 375, 0, 401, 64, texSimon);		// đi phải
@@ -288,11 +290,11 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texMisc6 = textures->Get(ID_TEX_STAIR_TOP);
 	sprites->Add(40018, 0, 0, 32, 32, texMisc6);
 
-#pragma endregion
+	#pragma endregion
 
 	LPANIMATION ani;
 
-#pragma region SimonAnimation
+	#pragma region SimonAnimation
 
 	ani = new CAnimation(100);	//đứng phải
 	ani->Add(10001);
@@ -425,9 +427,9 @@ void LoadResources()
 	ani->Add(10099);
 	animations->Add(599, ani);
 
-#pragma endregion
+	#pragma endregion
 
-#pragma region ObjectAnimation
+	#pragma region ObjectAnimation
 
 	ani = new CAnimation(100);	//đất1
 	ani->Add(20001);
@@ -473,9 +475,9 @@ void LoadResources()
 	ani->Add(40018);
 	animations->Add(804, ani);
 
-#pragma endregion
+	#pragma endregion
 
-#pragma region simon
+	#pragma region simon
 
 	simon = new Simon();
 	simon->AddAnimation(400);	// đứng phải	
@@ -507,9 +509,9 @@ void LoadResources()
 	simon->SetPosition(1500, 327);
 	objects.push_back(simon);
 
-#pragma endregion
+	#pragma endregion
 
-#pragma region Ground
+	#pragma region Ground
 	for (int i = 0; i < 50; i++)
 	{
 		Ground *ground = new Ground();
@@ -637,15 +639,26 @@ void LoadResourceLv2() {
 		objects.push_back(stair);
 	}
 	
+	// Bottom right
 	CheckStair *checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1247, 379);
+	checkstair->SetPosition(1250, 379);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	objects.push_back(checkstair);
 
+	// Top left
 	CheckStair *checkstair1 = new CheckStair();
 	checkstair1->AddAnimation(804);
-	checkstair1->SetPosition(1343,283);
+	checkstair1->SetPosition(1370, 252);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	objects.push_back(checkstair1);
+
+	// Top right
+	CheckStair *checkstair2 = new CheckStair();
+	checkstair2->AddAnimation(804);
+	checkstair2->SetPosition(1430, 252);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	objects.push_back(checkstair2);
 	//1250 335 1265 320 1280 305*/ 3 10 6 8
 }
 void LoadResourceLv2_1()
@@ -679,10 +692,10 @@ void Update(DWORD dt)
 		{
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(3000, 155);
+			simon->SetPosition(1400, 155);
 			timer = GetTickCount();
 		}
-		else if(countLoadResourceLv2 == true && x < 3032  )
+		else if(countLoadResourceLv2 == true && x < 3032)
 		{
 			if (GetTickCount() - timer > 5000)
 			{
