@@ -19,13 +19,12 @@ private:
 	int cols, rows; // cols and rows of our map
 	int tileWidth, tileHeight;
 
-	CSprite * tileSet; //
+	LPDIRECT3DTEXTURE9 tileSet; //
 
 public:
 	Map();
-	Map(int _cols, int _rows, CSprite *sprite, int _tileWidth, int _tileHeight);
+	Map(int _cols, int _rows, LPDIRECT3DTEXTURE9 sprite, int _tileWidth, int _tileHeight);
 	~Map();
-	void InitTileSet(CSprite * _tileSet);
 	void LoadMatrixMap(LPCSTR fileSource);
 	void Draw(float x,float y);
 

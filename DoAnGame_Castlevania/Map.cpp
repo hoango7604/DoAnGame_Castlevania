@@ -8,11 +8,11 @@ Map::Map()
 	tileHeight = TILE_HEIGHT;
 }
 
-Map::Map(int _cols, int _rows, CSprite *sprite,int _tileWidth, int _tileHeight)
+Map::Map(int _cols, int _rows, LPDIRECT3DTEXTURE9 sprite,int _tileWidth, int _tileHeight)
 {
 	cols = _cols;
 	rows = _rows;
-	this->tileSet = sprite;
+	tileSet = sprite;
 	tileWidth = _tileWidth;
 	tileHeight = _tileHeight;
 
@@ -36,10 +36,7 @@ Map::~Map()
 	}
 }
 
-void Map::InitTileSet(CSprite * _tileSet)
-{
-	tileSet = _tileSet;
-}
+
 
 void Map::LoadMatrixMap(LPCSTR fileSource)
 {
@@ -119,7 +116,7 @@ void Map::Draw(float x,float y)
 
 			//tile pos la vi tri de ve tile len camera
 			//tilePos = viewPort->ConvertPosInViewPort(D3DXVECTOR3(j * tileWidth, i * tileHeight + 40, 0));
- 			CGame::GetInstance()->Draw(tileWidth*j, tileHeight*i +120 ,tileSet->GetTexture() ,tileRect.left, tileRect.top, tileRect.right, tileRect.bottom);
+ 			CGame::GetInstance()->Draw(tileWidth*j, tileHeight*i +120 ,tileSet ,tileRect.left, tileRect.top, tileRect.right, tileRect.bottom);
 			
 			//tileSet->Draw(x, y, 255); //cast pos to int-type to avoid tearing tilemap
 		}

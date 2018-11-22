@@ -150,6 +150,7 @@ void LoadResources()
 	textures->Add(ID_TEX_WHIP, L"Castlevania\\WHIP.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_WHIP_2, L"Castlevania\\WHIP_left.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_TILESET, L"Castlevania\\tileset.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_TILESET_2, L"Castlevania\\tileset2.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_CANDLE, L"Castlevania\\1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_LADDER, L"Castlevania\\3.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_LADDER_LEFT, L"Castlevania\\3_.png", D3DCOLOR_XRGB(255, 0, 255));
@@ -160,10 +161,6 @@ void LoadResources()
 	textures->Add(ID_TEX_MERMAN_RIGHT, L"Castlevania\\MERMAN_right.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_BAT, L"Castlevania\\BAT.png", D3DCOLOR_XRGB(255, 255, 255));
 
-	LPDIRECT3DTEXTURE9 tileset1 = textures->Get(ID_TEX_TILESET);
-	sprite = new CSprite(500000, 0, 0, 256, 64, tileset1);
-	map = new	Map(48, 10, sprite, 32, 32); // 48 12 16 16
-	map->LoadMatrixMap("Castlevania\\Mapstate.txt");
 
 
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
@@ -695,7 +692,7 @@ void Update(DWORD dt)
 			simon->SetPosition(1400, 155);
 			timer = GetTickCount();
 		}
-		else if(countLoadResourceLv2 == true && x < 3032)
+		else if(countLoadResourceLv2 == true && x < MAX_WIDTH_LV2)
 		{
 			if (GetTickCount() - timer > 5000)
 			{
@@ -798,21 +795,8 @@ void Update(DWORD dt)
 	}
 	else if (lv2_1 == true)
 	{
-		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2)
-		{
-			game->x_cam = x - SCREEN_WIDTH / 2;
-			game->y_cam = 0;
-		}
-		else if (x > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2) {
-			game->x_cam = MAX_WIDTH_LV2 - SCREEN_WIDTH;
-			game->y_cam = 0;
-		}
-		else
-		{
-			game->x_cam = 0;
-			game->y_cam = 0;
-		}
-		game->GetDirectInput()->Unacquire();
+				
+		
 	}
 #pragma endregion
 
@@ -839,50 +823,25 @@ void Render()
 		float x, y;
 		simon->GetPosition(x, y);
 
+		LPDIRECT3DTEXTURE9 tileset = textures->Get(ID_TEX_TILESET);
+		LPDIRECT3DTEXTURE9 tileset1 = textures->Get(ID_TEX_TILESET_2);
+		
 		if (lv1 == true)
-			map->Draw(game->x_cam, game->y_cam);
-		else if (lv2 == true){
+		{
 			
-			if (x < SCREEN_WIDTH / 2) {
-				D3DXVECTOR3 p(0, 92, 0);
-				RECT r;
-				r.left = 0;
-				r.top = 18;
-				r.right = 640;
-				r.bottom = 480;
-				spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
-			}
-			else if (x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2 && x > SCREEN_WIDTH / 2) {
-
-				D3DXVECTOR3 p(0, 92, 0);
-				RECT r;
-				r.left = (x - SCREEN_WIDTH / 2);
-				r.top = 18;
-				r.right = 640 + x;
-				r.bottom = 480;
-				spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
-			}
-			else {
-				D3DXVECTOR3 p(0, 92, 0);
-				RECT r;
-				r.left = MAX_WIDTH_LV2 - SCREEN_WIDTH;
-				r.top = 18;
-				r.right = (640 + x);
-				r.bottom = 480;
-				spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
-			}
-
+			map = new	Map (48, 10, tileset, 32, 32); 
+			map->LoadMatrixMap("Castlevania\\Mapstate.txt");
+			map->Draw(game->x_cam, game->y_cam);
+		}
+		else if (lv2 == true){									
+			map = new	Map (176, 11, tileset1, 32, 32); 
+			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");
+			map->Draw(game->x_cam, game->y_cam);
 
 		}
 		else if (lv2_1 == true)
 		{
-			D3DXVECTOR3 p(0, 92, 0);
-			RECT r;
-			r.left = x - SCREEN_WIDTH/2;
-			r.top = 18;
-			r.right = (640 + x);
-			r.bottom = 480;
-			spriteHandler->Draw(tex2, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
+			
 		}
 		for (int i = objects.size() - 1; i > -1; i--)
 			objects[i]->Render();

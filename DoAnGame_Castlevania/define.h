@@ -92,7 +92,7 @@
 #define SCREEN_WIDTH					640
 #define SCREEN_HEIGHT					580
 #define MAX_WIDTH_LV1					1536
-#define MAX_WIDTH_LV2					3100
+#define MAX_WIDTH_LV2					5000
 #define MAX_FRAME_RATE					120
 
 //texture
@@ -109,6 +109,7 @@
 #define ID_TEX_WHIP						50
 #define ID_TEX_WHIP_2					55
 #define ID_TEX_TILESET					60
+#define ID_TEX_TILESET_2				61
 #define ID_TEX_BRICK2					65
 #define ID_TEX_LADDER					70
 #define ID_TEX_LADDER_LEFT				75
