@@ -1,3 +1,6 @@
+//file path
+#define GAME_FONT L"Castlevania\\prstart.ttf"
+
 #define SIMON_WALKING_SPEED				0.1f 
 #define SIMON_JUMP_SPEED_Y				0.55f
 #define SIMON_JUMP_DEFLECT_SPEED		0.2f
@@ -108,7 +111,7 @@
 #define SCREEN_WIDTH					640
 #define SCREEN_HEIGHT					580
 #define MAX_WIDTH_LV1					1536
-#define MAX_WIDTH_LV2					5634
+#define MAX_WIDTH_LV2					3090
 #define MAX_FRAME_RATE					120
 
 //texture

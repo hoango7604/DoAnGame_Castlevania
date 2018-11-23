@@ -5,6 +5,7 @@
 #include "Sprites.h"
 #include <vector>
 #include "Simon.h"
+#include "define.h"
 
 class UI
 {
@@ -46,7 +47,7 @@ private:
 public:
 	UI();
 	~UI();
-	bool Initialize();
+	bool Initialize(LPDIRECT3DDEVICE9 d3ddv);
 	void Update(int bossHP, int time, int life, int stage);
 	void Render();
 };

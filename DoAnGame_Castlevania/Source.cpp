@@ -21,11 +21,13 @@
 #include "Panther.h"
 #include "MerMan.h"
 #include "CheckStair.h"
+#include "UI.h"
+
+
 CGame *game;
-
 Simon * simon;
-
 Map *map;
+UI * ui;
 CSprite *sprite;
 vector<LPGAMEOBJECT> objects;
 vector<int> willDeleteObjects;
@@ -33,6 +35,11 @@ bool lv1 = true;
 bool lv2 = false;
 bool lv2_1 = false;
 bool boss = false;
+// check scene lv2->lv2_1
+bool checkScene = false;
+bool check1 = false;
+bool check = false;
+//
 bool countLoadResourceLv2 = false;
 bool countLoadResourceLv2_1 = false;
 bool countLoadResourceboss = false;
@@ -43,6 +50,7 @@ CTextures * textures = CTextures::GetInstance();
 
 class CSampleKeyHander : public CKeyEventHandler
 {
+public:
 	virtual void KeyState(BYTE *states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
@@ -607,6 +615,11 @@ void LoadResources()
 	bigfire5->SetPosition(1267, 350);
 	objects.push_back(bigfire5);
 #pragma endregion
+
+	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
+	
+	ui = new UI();
+	ui->Initialize(d3ddv);
 }
 
 void LoadResourceLv2() {
@@ -800,10 +813,18 @@ void LoadResourceLv2() {
 }
 void LoadResourceLv2_1()
 {
-	for (int i = 0; i < 96; i++)
+	for (int i = 0; i < 200; i++)
 	{
 		Ground *ground = new Ground();
-		ground->SetPosition(0 + i * 32.0f, 414);
+
+		ground->SetPosition(0 + i * 32.0f, 440);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 7; i++)
+	{
+		Ground *ground = new Ground();
+
+		ground->SetPosition(3102 + i * 32.0f, 246);
 		objects.push_back(ground);
 	}
 }
@@ -829,10 +850,10 @@ void Update(DWORD dt)
 		{
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(1400, 155);
+			simon->SetPosition(3000, 155);
 			timer = GetTickCount();
 		}
-		else if(countLoadResourceLv2 == true && x < MAX_WIDTH_LV2)
+		else if(countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2*SIMON_STAND_BBOX_WIDTH)
 		{
 			if (GetTickCount() - timer > 5000)
 			{
@@ -856,9 +877,9 @@ void Update(DWORD dt)
 		
 		if (countLoadResourceLv2_1 == false)
 		{
-			for (int i = objects.size()-1; i > 0; i--)
-				objects.pop_back();
-			//simon->SetPosition(50, 150);
+			/*for (int i = objects.size()-1; i > 0; i--)
+				objects.pop_back();*/
+			//simon->SetPosition(3200, 150);
 			LoadResourceLv2_1();
 			countLoadResourceLv2_1 = true;
 		}
@@ -897,7 +918,7 @@ void Update(DWORD dt)
 #pragma endregion	
 
 #pragma region Camera
-	if (lv2 == false)
+	if (lv1 == true)
 	{
 		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
 		{
@@ -927,7 +948,7 @@ void Update(DWORD dt)
 			game->x_cam = MAX_WIDTH_LV2 - SCREEN_WIDTH;
 			game->y_cam = 0;
 		}
-		else
+		else if(x < SCREEN_WIDTH / 2)
 		{
 			game->x_cam = 0;
 			game->y_cam = 0;
@@ -936,8 +957,58 @@ void Update(DWORD dt)
 	}
 	else if (lv2_1 == true)
 	{
-				
 		
+		// chuyen scene
+		if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH/2 )
+		{
+			game->x_cam += SIMON_WALKING_SPEED * dt;
+			game->y_cam = 0;
+			
+		}
+		
+		else {
+			
+			if (x < 3200)
+			{
+				if(check1 == false)
+				simon->SetState(SIMON_STATE_WALK);
+				
+			}
+			if (x >3200 && x<3202 ) {
+				check1 = true;
+				check = true;
+				simon->SetState(SIMON_STATE_IDLE);
+							
+			}
+			
+		}
+		if ( game->x_cam < MAX_WIDTH_LV2 && check == true)
+		{
+			game->x_cam += SIMON_WALKING_SPEED * dt;
+			game->y_cam = 0;
+			
+		}
+		else if (game->x_cam > MAX_WIDTH_LV2)
+		{
+			checkScene = true;
+		}
+		
+		
+		
+		//
+		//trả camera về simon
+		if (checkScene == true)
+		{
+			if (x < MAX_WIDTH_LV2 + SCREEN_WIDTH / 2)
+			{
+				game->x_cam = MAX_WIDTH_LV2;
+				game->y_cam = 0;
+			}
+			else
+			{
+				game->x_cam = x - SCREEN_WIDTH / 2;
+			}
+		}
 	}
 #pragma endregion
 
@@ -958,9 +1029,7 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		CTextures * textures = CTextures::GetInstance();
 		LPDIRECT3DTEXTURE9 tex = textures->Get(ID_TEX_LV1);
-		LPDIRECT3DTEXTURE9 tex2 = textures->Get(ID_TEX_LV1_2);
-		float z, t;
-		simon->GetSpeed(z, t);
+		LPDIRECT3DTEXTURE9 tex2 = textures->Get(ID_TEX_LV1_2);		
 		float x, y;
 		simon->GetPosition(x, y);
 
@@ -974,21 +1043,18 @@ void Render()
 			map->LoadMatrixMap("Castlevania\\Mapstate.txt");
 			map->Draw(game->x_cam, game->y_cam);
 		}
-		else if (lv2 == true){									
+		else {									
 			map = new	Map (176, 11, tileset1, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");
-			map->Draw(game->x_cam, game->y_cam);
+			map->Draw(game->x_cam , game->y_cam);
 
 		}
-		else if (lv2_1 == true)
-		{
-			
-		}
+		
 		for (int i = 1; i < objects.size(); i++)
 			objects[i]->Render();
 
 		objects[0]->Render();
-
+		ui->Render();
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}
@@ -1092,7 +1158,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	keyHandler = new CSampleKeyHander();
 	game->InitKeyboard(keyHandler);
-
+	
+	
 
 	LoadResources();
 
