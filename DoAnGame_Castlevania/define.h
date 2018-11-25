@@ -107,7 +107,7 @@
 #define WINDOW_CLASS_NAME L"Castlevania"
 #define MAIN_WINDOW_TITLE L"Castlevania"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
 #define SCREEN_WIDTH					640
 #define SCREEN_HEIGHT					580
 #define MAX_WIDTH_LV1					1536
@@ -140,3 +140,17 @@
 #define ID_TEX_BAT                      100 
 #define ID_TEX_HEART					105
 #define ID_TEX_BOSS						110
+
+#define ID_TEX_AXE						115
+#define ID_TEX_BLACK					120
+#define ID_TEX_CROSS					125
+#define ID_TEX_DOUBLE_SHOT_UI			130
+#define ID_TEX_DOUBLE_SHOT				135
+#define ID_TEX_TRIPLE_SHOT_UI			140
+#define ID_TEX_TRIPLE_SHOT				145
+#define ID_TEX_ENEMYHP					150
+#define ID_TEX_HOLY_WATER				155
+#define ID_TEX_HP						160
+#define ID_TEX_KNIFE					165
+#define ID_TEX_NOHP						170
+#define ID_TEX_STOP_WATCH				175

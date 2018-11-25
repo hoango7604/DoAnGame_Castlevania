@@ -35,14 +35,20 @@ public:
 
 	DWORD attackTime;
 
+	int life;
+	int preHP;
 public:
 	Whip *whip;
-
+	static int score;
+	int currentWeapon;
 	Simon() : CGameObject()
 	{
 		level = SIMON_LEVEL_BIG;
 		untouchable = 0;
 		whip = new Whip();
+		life = 10;
+		preHP = 16;
+		
 	}
 
 	virtual void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
@@ -64,4 +70,7 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	int GetScore() { return score; }
+	int GetLife() { return life; }
+	int GetHP() { return preHP; }
 };

@@ -13,6 +13,7 @@
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
+int Simon::score = 0;
 /*
 	Calculate potential collisions with the list of colliable objects
 

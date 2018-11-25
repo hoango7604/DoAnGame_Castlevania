@@ -6,7 +6,8 @@
 #include <vector>
 #include "Simon.h"
 #include "define.h"
-
+#include "Textures.h"
+#include "Sprites.h"
 class UI
 {
 private:
@@ -16,14 +17,14 @@ private:
 
 	std::string information;
 
-	std::vector<CSprite*> *simonHPList;
-	std::vector<CSprite*> *enemyHPList;
-	std::vector<CSprite*> *noHPList;
+	std::vector<LPSPRITE> simonHPList;
+	std::vector<LPSPRITE> enemyHPList;
+	std::vector<LPSPRITE> noHPList;
 
 	CSprite* heart;
 	CSprite* weapon;
 	CSprite* black;
-	CSprite* axe;
+	
 	CSprite* holyWater;
 	CSprite* cross;
 	CSprite* knife;
@@ -47,8 +48,10 @@ private:
 public:
 	UI();
 	~UI();
-	bool Initialize(LPDIRECT3DDEVICE9 d3ddv);
-	void Update(int bossHP, int time, int life, int stage);
-	void Render();
+	bool Initialize(LPDIRECT3DDEVICE9 d3ddv,Simon *simon);
+	//void Update(int bossHP, int time, int life, int stage);
+	void Update( int time, int stage,Simon *simon);
+	void Render(float x,float y);
+	CSprite* axe;
 };
 

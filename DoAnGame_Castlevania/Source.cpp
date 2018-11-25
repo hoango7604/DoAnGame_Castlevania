@@ -44,6 +44,7 @@ bool countLoadResourceLv2 = false;
 bool countLoadResourceLv2_1 = false;
 bool countLoadResourceboss = false;
 DWORD timer; // load enemy
+DWORD gameTime = 999000;
 CSprites * sprites = CSprites::GetInstance();
 CAnimations * animations = CAnimations::GetInstance();
 CTextures * textures = CTextures::GetInstance();
@@ -167,10 +168,24 @@ void LoadResources()
 	textures->Add(ID_TEX_STAIR_BOT, L"Castlevania\\stair_bottom.png", D3DCOLOR_XRGB(0, 0, 255));//
 	textures->Add(ID_TEX_STAIR_TOP, L"Castlevania\\stair_top.png", D3DCOLOR_XRGB(0, 0, 255));
 	textures->Add(ID_TEX_MERMAN_LEFT, L"Castlevania\\MERMAN.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_MERMAN_RIGHT, L"Castlevania\\MERMAN_right.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_HEART, L"Castlevania\\SMALL_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_MERMAN_RIGHT, L"Castlevania\\MERMAN_right.png", D3DCOLOR_XRGB(255, 0, 255));	
 	textures->Add(ID_TEX_BAT, L"Castlevania\\BAT.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_BOSS, L"Castlevania\\VAMPIRE_BAT.png", D3DCOLOR_XRGB(255, 0, 255));
+
+	textures->Add(ID_TEX_AXE, L"Castlevania\\UI\\AXE.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_BLACK, L"Castlevania\\UI\\black.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_CROSS, L"Castlevania\\UI\\CROSS.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_DOUBLE_SHOT_UI, L"Castlevania\\UI\\DOUBLE_SHOT_UI.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_DOUBLE_SHOT, L"Castlevania\\UI\\DOUBLE_SHOT.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_TRIPLE_SHOT_UI, L"Castlevania\\UI\\TRIPLE_SHOT_UI.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_TRIPLE_SHOT, L"Castlevania\\UI\\TRIPLE_SHOT.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_TEX_ENEMYHP, L"Castlevania\\UI\\EnemyHP.png", D3DCOLOR_XRGB(0, 0, 255));//
+	textures->Add(ID_TEX_HEART, L"Castlevania\\SMALL_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_HOLY_WATER, L"Castlevania\\UI\\HOLY_WATER.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_HP, L"Castlevania\\UI\\HP.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_KNIFE, L"Castlevania\\UI\\KNIFE.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_NOHP, L"Castlevania\\UI\\NoHP.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_STOP_WATCH, L"Castlevania\\UI\\STOP_WATCH.png", D3DCOLOR_XRGB(255, 0, 255));
 
 
 
@@ -578,7 +593,7 @@ void LoadResources()
 	}
 #pragma endregion
 
-#pragma region BigFire
+	#pragma region BigFire
 	BigFire *bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->AddAnimation(805);
@@ -619,7 +634,7 @@ void LoadResources()
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
 	
 	ui = new UI();
-	ui->Initialize(d3ddv);
+	ui->Initialize(d3ddv,simon);
 }
 
 void LoadResourceLv2() {
@@ -832,7 +847,7 @@ void Update(DWORD dt)
 {
 	float x, y;
 	simon->GetPosition(x, y);
-
+	gameTime -= dt;
 #pragma region Resource
 	if (lv1 == true)
 	{
@@ -974,7 +989,7 @@ void Update(DWORD dt)
 				simon->SetState(SIMON_STATE_WALK);
 				
 			}
-			if (x >3200 && x<3202 ) {
+			if (x >3200 && x<3210 ) {
 				check1 = true;
 				check = true;
 				simon->SetState(SIMON_STATE_IDLE);
@@ -1010,6 +1025,13 @@ void Update(DWORD dt)
 			}
 		}
 	}
+#pragma endregion
+
+#pragma region UI
+	if (lv1 == true)
+		ui->Update(gameTime/1000, 1,simon);
+	else
+		ui->Update(gameTime/1000, 2,simon);
 #pragma endregion
 
 }
@@ -1054,7 +1076,12 @@ void Render()
 			objects[i]->Render();
 
 		objects[0]->Render();
-		ui->Render();
+		ui->Render(game->x_cam,game->y_cam);
+		/*RECT newRect;
+		SetRect(&newRect, 0, 0, 30, 30);
+		D3DXVECTOR3 p(0, 0, 0);
+		spriteHandler->Draw(textures->Get(ID_TEX_AXE), &newRect, NULL, &p, D3DCOLOR_ARGB(255, 255, 255, 255));*/
+		
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}
