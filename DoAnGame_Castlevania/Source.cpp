@@ -41,6 +41,9 @@ bool checkScene = false;
 bool check1 = false;
 bool check = false;
 //
+//check scene lv2_1 ->lv2_2
+bool checkScene1 = false;
+bool check3 = false;
 bool countLoadResourceLv2 = false;
 bool countLoadResourceLv2_1 = false;
 bool countLoadResourceLv2_2 = false;
@@ -886,8 +889,59 @@ void LoadResourceLv2_1()
 		ground->SetPosition(2782 + 32 * 35 +3 + i * 32.0f, 246);
 		objects.push_back(ground);
 	}
+	Candle *candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(3245, 193);
+	objects.push_back(candle);
+
+	Candle *candle1 = new Candle();
+	candle1->AddAnimation(800);
+	candle1->SetPosition(3389, 159);
+	objects.push_back(candle1);
 	
+	Candle *candle2 = new Candle();
+	candle2->AddAnimation(800);
+	candle2->SetPosition(3137, 386);
+	objects.push_back(candle2);
+
+	Candle *candle3 = new Candle();
+	candle3->AddAnimation(800);
+	candle3->SetPosition(3519, 319);
+	objects.push_back(candle3);
+
+	Candle *candle4 = new Candle();
+	candle4->AddAnimation(800);
+	candle4->SetPosition(3684, 155);
+	objects.push_back(candle4);
+
+	Candle *candle5 = new Candle();
+	candle5->AddAnimation(800);
+	candle5->SetPosition(3776, 385);
+	objects.push_back(candle5);
+
+	Candle *candle6 = new Candle();
+	candle6->AddAnimation(800);
+	candle6->SetPosition(3905, 150);
+	objects.push_back(candle6);
+
+	Candle *candle7 = new Candle();
+	candle7->AddAnimation(800);
+	candle7->SetPosition(4035, 192);
+	objects.push_back(candle7);
+
 }
+void LoadResourceLv2_2()
+{}
+void LoadResourceboss()
+{
+	for (int i = 0; i < 6; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 40  + i * 32.0f, 246);
+		objects.push_back(ground);
+	}
+}
+
 void Update(DWORD dt)
 {
 	float x, y;
@@ -942,12 +996,12 @@ void Update(DWORD dt)
 			LoadResourceLv2_1();
 			countLoadResourceLv2_1 = true;
 		}
-		/* if (x > MAX_WIDTH_LV2 + SCREEN_WIDTH)
+		 if (x > MAX_WIDTH_LV2_1 - 2*SIMON_STAND_BBOX_WIDTH)
 		{
 			lv2_1 = false;			
-			lv2_2 = true;
+			boss = true;
 
-		}*/
+		}
 		
 	}
 	if (lv2_2 == true)
@@ -958,6 +1012,17 @@ void Update(DWORD dt)
 				objects.pop_back();
 			countLoadResourceLv2_2 = true;
 			simon->SetPosition(50, 150);
+		}
+	}
+	if (boss == true)
+	{
+		if (countLoadResourceboss == false)
+		{
+			for (int i = objects.size() - 1; i > 0; i--)
+				objects.pop_back();
+			LoadResourceboss();
+			countLoadResourceboss = true;
+			
 		}
 	}
 
@@ -1074,14 +1139,19 @@ void Update(DWORD dt)
 		//trả camera về simon
 		if (checkScene == true)
 		{
-			if (x < MAX_WIDTH_LV2 + SCREEN_WIDTH / 2)
+			if ( x > MAX_WIDTH_LV2 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
+			{
+				game->x_cam = x - SCREEN_WIDTH / 2;
+				game->y_cam = 0;
+			}
+			else if (x > MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2) {
+				game->x_cam = MAX_WIDTH_LV2_1 - SCREEN_WIDTH;
+				game->y_cam = 0;
+			}
+			else if (x < MAX_WIDTH_LV2 + SCREEN_WIDTH / 2)
 			{
 				game->x_cam = MAX_WIDTH_LV2;
 				game->y_cam = 0;
-			}
-			else
-			{
-				game->x_cam = x - SCREEN_WIDTH / 2;
 			}
 		}
 		
@@ -1090,6 +1160,54 @@ void Update(DWORD dt)
 	{
 		game->x_cam = 0;
 		game->y_cam = 0;
+	}
+	else if (boss == true)
+	{
+		if (game->x_cam < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
+		{
+			
+				game->x_cam += SIMON_WALKING_SPEED * dt;
+				game->y_cam = 0;
+			
+
+		}
+		else {
+
+			if (x < MAX_WIDTH_LV2_1 + 100)
+			{
+				if(check3 == false)
+				simon->SetState(SIMON_STATE_WALK);
+			}
+			else if (x > MAX_WIDTH_LV2_1 + 100 && x < MAX_WIDTH_LV2_1 + 105)
+			{
+				simon->SetState(SIMON_STATE_IDLE);
+				checkScene1 = true;
+				check3 = true;
+			}
+		}
+		
+		if (checkScene1 == true)
+		{
+			if(game->x_cam < MAX_WIDTH_LV2_1)
+				game->x_cam += SIMON_WALKING_SPEED * dt;
+			else 
+			{
+				if (x > MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2)
+				{
+					game->x_cam = x - SCREEN_WIDTH / 2;
+					game->y_cam = 0;
+				}
+				else if (x > MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2) {
+					game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;
+					game->y_cam = 0;
+				}
+				else if (x < MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2)
+				{
+					game->x_cam = MAX_WIDTH_LV2_1;
+					game->y_cam = 0;
+				}
+			}
+		}
 	}
 #pragma endregion
 
