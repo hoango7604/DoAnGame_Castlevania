@@ -34,6 +34,7 @@ vector<int> willDeleteObjects;
 bool lv1 = true;
 bool lv2 = false;
 bool lv2_1 = false;
+bool lv2_2 = false;
 bool boss = false;
 // check scene lv2->lv2_1
 bool checkScene = false;
@@ -42,6 +43,7 @@ bool check = false;
 //
 bool countLoadResourceLv2 = false;
 bool countLoadResourceLv2_1 = false;
+bool countLoadResourceLv2_2 = false;
 bool countLoadResourceboss = false;
 DWORD timer; // load enemy
 DWORD gameTime = 999000;
@@ -161,6 +163,7 @@ void LoadResources()
 	textures->Add(ID_TEX_WHIP_2, L"Castlevania\\WHIP_left.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_TILESET, L"Castlevania\\tileset.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_TILESET_2, L"Castlevania\\tileset2.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_TILESET_3, L"Castlevania\\tileset3.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_CANDLE, L"Castlevania\\1.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_LADDER, L"Castlevania\\3.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_LADDER_LEFT, L"Castlevania\\3_.png", D3DCOLOR_XRGB(255, 0, 255));
@@ -638,7 +641,7 @@ void LoadResources()
 }
 
 void LoadResourceLv2() {
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 95; i++)
 	{
 		Ground *ground = new Ground();
 
@@ -828,20 +831,62 @@ void LoadResourceLv2() {
 }
 void LoadResourceLv2_1()
 {
-	for (int i = 0; i < 200; i++)
+	
+	for (int i = 0; i < 9; i++)
 	{
 		Ground *ground = new Ground();
-
-		ground->SetPosition(0 + i * 32.0f, 440);
+		ground->SetPosition(2782 + i*32 +32*8 , 246);
 		objects.push_back(ground);
 	}
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
-
-		ground->SetPosition(3102 + i * 32.0f, 246);
+		ground->SetPosition(2782 +32*9 + i * 32.0f, 440);
 		objects.push_back(ground);
 	}
+	for (int i = 0; i < 12; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 13 + i * 32.0f + 3, 440);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 440);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 33+3 + i * 32.0f, 440);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 3; i++)//
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 17 + i * 32.0f, 246+64);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 246+32);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 31 + i * 32.0f, 246+64);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 35 +3 + i * 32.0f, 246);
+		objects.push_back(ground);
+	}
+	
 }
 void Update(DWORD dt)
 {
@@ -865,7 +910,7 @@ void Update(DWORD dt)
 		{
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(3000, 155);
+			simon->SetPosition(2800, 155);
 			timer = GetTickCount();
 		}
 		else if(countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2*SIMON_STAND_BBOX_WIDTH)
@@ -875,7 +920,7 @@ void Update(DWORD dt)
 				Zombie *zombie = new Zombie();
 				zombie->AddAnimation(602);
 				zombie->AddAnimation(604);
-				zombie->SetPosition(1300, 376);
+				zombie->SetPosition(1200, 376);
 				zombie->SetState(ZOMBIE_STATE_WALKING);
 				objects.push_back(zombie);
 				timer = timer + 5000;
@@ -892,13 +937,28 @@ void Update(DWORD dt)
 		
 		if (countLoadResourceLv2_1 == false)
 		{
-			/*for (int i = objects.size()-1; i > 0; i--)
-				objects.pop_back();*/
-			//simon->SetPosition(3200, 150);
+			for (int i = objects.size()-1; i > 0; i--)
+				objects.pop_back();			
 			LoadResourceLv2_1();
 			countLoadResourceLv2_1 = true;
 		}
+		/* if (x > MAX_WIDTH_LV2 + SCREEN_WIDTH)
+		{
+			lv2_1 = false;			
+			lv2_2 = true;
+
+		}*/
 		
+	}
+	if (lv2_2 == true)
+	{
+		if (countLoadResourceLv2_2 == false)
+		{
+			for (int i = objects.size() - 1; i > 200; i--)
+				objects.pop_back();
+			countLoadResourceLv2_2 = true;
+			simon->SetPosition(50, 150);
+		}
 	}
 
 #pragma endregion
@@ -974,7 +1034,7 @@ void Update(DWORD dt)
 	{
 		
 		// chuyen scene
-		if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH/2 )
+		if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH/2)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
 			game->y_cam = 0;
@@ -997,7 +1057,7 @@ void Update(DWORD dt)
 			}
 			
 		}
-		if ( game->x_cam < MAX_WIDTH_LV2 && check == true)
+		if ( game->x_cam < MAX_WIDTH_LV2   && check == true)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
 			game->y_cam = 0;
@@ -1024,6 +1084,12 @@ void Update(DWORD dt)
 				game->x_cam = x - SCREEN_WIDTH / 2;
 			}
 		}
+		
+	}
+	else if (lv2_2 == true)
+	{
+		game->x_cam = 0;
+		game->y_cam = 0;
 	}
 #pragma endregion
 
@@ -1057,21 +1123,28 @@ void Render()
 
 		LPDIRECT3DTEXTURE9 tileset = textures->Get(ID_TEX_TILESET);
 		LPDIRECT3DTEXTURE9 tileset1 = textures->Get(ID_TEX_TILESET_2);
+		LPDIRECT3DTEXTURE9 tileset2 = textures->Get(ID_TEX_TILESET_3);
 		
 		if (lv1 == true)
 		{
 			
 			map = new	Map (48, 10, tileset, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate.txt");
-			map->Draw(game->x_cam, game->y_cam);
+			//map->Draw(game->x_cam, game->y_cam);
 		}
-		else {									
+		else if( lv2 == true || lv2_1 == true) {									
 			map = new	Map (176, 11, tileset1, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");
-			map->Draw(game->x_cam , game->y_cam);
+			//map->Draw(game->x_cam , game->y_cam);
 
 		}
-		
+		else if (lv2_2 == true)
+		{
+			map = new	Map(32, 11, tileset2, 32, 32);
+			map->LoadMatrixMap("Castlevania\\Mapstate2_1.txt");
+			
+		}
+		map->Draw(game->x_cam, game->y_cam);
 		for (int i = 1; i < objects.size(); i++)
 			objects[i]->Render();
 
