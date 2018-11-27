@@ -29,6 +29,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (x < zl && x + WHIP_BBOX_WIDTH > zr && y > zt && y + WHIP_BBOX_HEIGHT < zb)
 			{
 				bigfire->isHited = true;
+				bigfire->heart->SetSpeed(0, 0.1f);
 			}
 		}
 	}

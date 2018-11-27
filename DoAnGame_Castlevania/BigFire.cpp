@@ -2,15 +2,19 @@
 
 void BigFire::Render()
 {
-	if (isHited == false)
-		animations[0]->Render(x, y,255);
+	if (isHited == false)	 
+		animations[0]->Render(x, y, 255);
 	else
-		animations[1]->Render(x, y,255);
+	{
+		float hx, hy;
+		heart->GetPosition(hx, hy);
+		heart->animations[0]->Render(hx, hy, 255);
+	}
 	//RenderBoundingBox();
 }
-void BigFire::Update()
+void BigFire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
+	heart->Update(dt, coObjects);
 }
 
 void BigFire::GetBoundingBox(float &l, float &t, float &r, float &b)

@@ -1,3 +1,4 @@
+#pragma once
 #include "GameObject.h"
 
 #define BRICK_BBOX_WIDTH  32

@@ -48,7 +48,8 @@ bool countLoadResourceLv2 = false;
 bool countLoadResourceLv2_1 = false;
 bool countLoadResourceLv2_2 = false;
 bool countLoadResourceboss = false;
-DWORD timer; // load enemy
+DWORD timer; // load enemy lv2
+DWORD timer2;//load enemy boss
 DWORD gameTime = 999000;
 CSprites * sprites = CSprites::GetInstance();
 CAnimations * animations = CAnimations::GetInstance();
@@ -602,37 +603,37 @@ void LoadResources()
 	#pragma region BigFire
 	BigFire *bigfire = new BigFire();
 	bigfire->AddAnimation(700);
-	bigfire->AddAnimation(805);
+	bigfire->heart->AddAnimation(805);
 	bigfire->SetPosition(335, 350);
 	objects.push_back(bigfire);
 
 	BigFire *bigfire1 = new BigFire();
 	bigfire1->AddAnimation(700);
-	bigfire1->AddAnimation(805);
+	bigfire1->heart->AddAnimation(805);
 	bigfire1->SetPosition(464, 350);
 	objects.push_back(bigfire1);
 
 	BigFire *bigfire2 = new BigFire();
 	bigfire2->AddAnimation(700);
-	bigfire2->AddAnimation(805);
+	bigfire2->heart->AddAnimation(805);
 	bigfire2->SetPosition(657, 350);
 	objects.push_back(bigfire2);
 
 	BigFire *bigfire3 = new BigFire();
 	bigfire3->AddAnimation(700);
-	bigfire3->AddAnimation(805);
+	bigfire3->heart->AddAnimation(805);
 	bigfire3->SetPosition(851, 350);
 	objects.push_back(bigfire3);
 
 	BigFire *bigfire4 = new BigFire();
 	bigfire4->AddAnimation(700);
-	bigfire4->AddAnimation(805);
+	bigfire4->heart->AddAnimation(805);
 	bigfire4->SetPosition(1090, 350);
 	objects.push_back(bigfire4);
 
 	BigFire *bigfire5 = new BigFire();
 	bigfire5->AddAnimation(700);
-	bigfire5->AddAnimation(805);
+	bigfire5->heart->AddAnimation(805);
 	bigfire5->SetPosition(1267, 350);
 	objects.push_back(bigfire5);
 #pragma endregion
@@ -934,11 +935,66 @@ void LoadResourceLv2_2()
 {}
 void LoadResourceboss()
 {
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 40  + i * 32.0f, 246);
 		objects.push_back(ground);
+	}
+	for (int i = 0; i < 48; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 41 + i * 32.0f, 438  );
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 11; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 49 + i * 32.0f, 310);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 86 + i * 32.0f, 310);
+		objects.push_back(ground);
+	}
+	for (int i =0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 83 + i * 32.0f, 374);
+		objects.push_back(ground);
+	}
+	
+	Candle *candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(4285, 194);
+	objects.push_back(candle);
+
+	Candle *candle1 = new Candle();
+	candle1->AddAnimation(800);
+	candle1->SetPosition(4418, 255);
+	objects.push_back(candle1);
+
+	Candle *candle2 = new Candle();
+	candle2->AddAnimation(800);
+	candle2->SetPosition(4362, 380);
+	objects.push_back(candle2);
+
+	for (int i = 0; i < 4; i++)
+	{
+		Candle *candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(4866 + i * 127, 380);
+		objects.push_back(candle);
+	}
+	
+	for (int i = 0; i < 2; i++)
+	{
+		Candle *candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(5438 + i * 127, 310);
+		objects.push_back(candle);
 	}
 }
 
@@ -1022,8 +1078,22 @@ void Update(DWORD dt)
 				objects.pop_back();
 			LoadResourceboss();
 			countLoadResourceboss = true;
-			
+			timer2 = GetTickCount();
 		}
+		else
+		{
+			if (GetTickCount() - timer > 5000)
+			{
+				Zombie *zombie = new Zombie();
+				zombie->AddAnimation(602);
+				zombie->AddAnimation(604);
+				zombie->SetPosition(4900, 376);
+				zombie->SetState(ZOMBIE_STATE_WALKING);
+				objects.push_back(zombie);
+				timer = timer + 5000;
+			}
+		}
+		
 	}
 
 #pragma endregion
