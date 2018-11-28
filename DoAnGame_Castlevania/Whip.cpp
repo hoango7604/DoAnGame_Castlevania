@@ -1,5 +1,5 @@
 #include "define.h"
-
+#include"Simon.h"
 #include "Whip.h"
 #include "Zombie.h"
 #include "Candle.h"
@@ -19,6 +19,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (zombie->GetState() != ZOMBIE_STATE_DIE) {
 					zombie->SetState(ZOMBIE_STATE_DIE);
 				}
+				Simon::score += 100;
 			}
 		}
 		else if (dynamic_cast<BigFire *>(coObjects->at(i)))
@@ -29,7 +30,8 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (x < zl && x + WHIP_BBOX_WIDTH > zr && y > zt && y + WHIP_BBOX_HEIGHT < zb)
 			{
 				bigfire->isHited = true;
-				bigfire->heart->SetSpeed(0, 0.1f);
+				bigfire->heart->SetSpeed(0, 0.1);
+				Simon::score += 100;
 			}
 		}
 	}

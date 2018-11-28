@@ -585,7 +585,7 @@ void LoadResources()
 
 	simon->whip->AddAnimation(408);//roi phải
 	simon->whip->AddAnimation(409);//roi trái
-	simon->SetPosition(1500, 327);
+	simon->SetPosition(50, 327);
 	objects.push_back(simon);
 
 	#pragma endregion
@@ -606,36 +606,42 @@ void LoadResources()
 	bigfire->heart->AddAnimation(805);
 	bigfire->SetPosition(335, 350);
 	objects.push_back(bigfire);
+	objects.push_back(bigfire->heart);
 
 	BigFire *bigfire1 = new BigFire();
 	bigfire1->AddAnimation(700);
 	bigfire1->heart->AddAnimation(805);
 	bigfire1->SetPosition(464, 350);
 	objects.push_back(bigfire1);
+	objects.push_back(bigfire1->heart);
 
 	BigFire *bigfire2 = new BigFire();
 	bigfire2->AddAnimation(700);
 	bigfire2->heart->AddAnimation(805);
 	bigfire2->SetPosition(657, 350);
 	objects.push_back(bigfire2);
+	objects.push_back(bigfire2->heart);
 
 	BigFire *bigfire3 = new BigFire();
 	bigfire3->AddAnimation(700);
 	bigfire3->heart->AddAnimation(805);
 	bigfire3->SetPosition(851, 350);
 	objects.push_back(bigfire3);
+	objects.push_back(bigfire3->heart);
 
 	BigFire *bigfire4 = new BigFire();
 	bigfire4->AddAnimation(700);
 	bigfire4->heart->AddAnimation(805);
 	bigfire4->SetPosition(1090, 350);
 	objects.push_back(bigfire4);
+	objects.push_back(bigfire4->heart);
 
 	BigFire *bigfire5 = new BigFire();
 	bigfire5->AddAnimation(700);
 	bigfire5->heart->AddAnimation(805);
 	bigfire5->SetPosition(1267, 350);
 	objects.push_back(bigfire5);
+	objects.push_back(bigfire5->heart);
 #pragma endregion
 
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();

@@ -11,7 +11,7 @@ void Heart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			ground->GetBoundingBox(zl, zt, zr, zb);
 			if (x < zl && x + HEART_BBOX_WIDTH > zr && y > zt && y + HEART_BBOX_HEIGHT < zb)
 			{
-				vy = 0;
+				this->SetSpeed(0, 0);
 			}
 		}
 	}

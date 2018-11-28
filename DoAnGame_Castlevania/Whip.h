@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Sprites.h"
 
+
 class Whip :public CGameObject
 {
 	int step = 0;

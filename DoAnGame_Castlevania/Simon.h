@@ -38,7 +38,7 @@ public:
 	int life;
 	int preHP;
 public:
-	Whip *whip;
+	Whip * whip;
 	static int score;
 	int currentWeapon;
 	Simon() : CGameObject()
