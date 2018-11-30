@@ -555,13 +555,33 @@ void LoadResources()
 	ani->Add(10053);
 	animations->Add(419, ani);
 
+	ani = new CAnimation(100);//đứng im bên phải thang phải
+	ani->Add(10046);
+	//ani->Add(10047);
+	animations->Add(420, ani);
+
+	ani = new CAnimation(150);//đứng im bên phải thang trái
+	ani->Add(10048);
+	//ani->Add(10049);
+	animations->Add(421, ani);
+
+	ani = new CAnimation(100);//đứng im bên trái thang phải
+	ani->Add(10050);
+	//ani->Add(10051);
+	animations->Add(422, ani);
+
+	ani = new CAnimation(100);//đứng im bên trái thang phải
+	ani->Add(10052);
+	//ani->Add(10053);
+	animations->Add(423, ani);
+
 	ani = new CAnimation(100);//bị đánh từ bên trái
 	ani->Add(10054);	
-	animations->Add(420, ani);
+	animations->Add(424, ani);
 
 	ani = new CAnimation(100);//bị đánh từ bên phải
 	ani->Add(10055);	
-	animations->Add(421, ani);
+	animations->Add(42, ani);
 
 	ani = new CAnimation(100);	//chết	
 	ani->Add(10099);
@@ -660,8 +680,12 @@ void LoadResources()
 	simon->AddAnimation(417);	//xuống thang phải
 	simon->AddAnimation(418);	//lên thang trái
 	simon->AddAnimation(419);	//xuống thang trái
-	simon->AddAnimation(420);	//bị đánh từ bên trái
-	simon->AddAnimation(421);	//bị đánh từ bên phải
+	simon->AddAnimation(420);	//đứng im bên phải thang phải
+	simon->AddAnimation(421);	//đứng im bên phải thang trái
+	simon->AddAnimation(422);	//đứng im bên trái thang phải
+	simon->AddAnimation(423);	//đứng im bên trái thang trái
+	simon->AddAnimation(424);	//bị đánh từ bên trái
+	simon->AddAnimation(425);	//bị đánh từ bên phải
 	simon->AddAnimation(599);	//chết
 
 	simon->whip->AddAnimation(408);//roi phải
@@ -834,7 +858,7 @@ void LoadResourceLv2() {
 		candle->SetPosition(2050 +i*125 ,380);
 		objects.push_back(candle);
 	}
-	Panther *panther = new Panther();
+	/*Panther *panther = new Panther();
 	panther->AddAnimation(605);
 	panther->AddAnimation(606);	
 	panther->AddAnimation(607);
@@ -856,7 +880,7 @@ void LoadResourceLv2() {
 	panther->AddAnimation(607);
 	panther2->SetPosition(1950, 285);
 	panther2->SetState(PANTHER_STATE_WAIT);
-	objects.push_back(panther2);
+	objects.push_back(panther2);*/
 
 	for (int i = 0; i < 4; i++)
 	{
