@@ -24,13 +24,15 @@ void Simon::CalcPotentialCollisions(
 	vector<LPGAMEOBJECT> *coObjects,
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
+	bool isCollideWithCheckBox = false;
+
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		// Simon se khong va cham voi nhung vat sau:
-		if (!dynamic_cast<Candle *>(coObjects->at(i)) && 
-			!dynamic_cast<BigFire *>(coObjects->at(i)) && 
-			!dynamic_cast<Stair *>(coObjects->at(i)) && 
-			!dynamic_cast<CheckStair *>(coObjects->at(i))) 
+		if (!dynamic_cast<Candle *>(coObjects->at(i)) &&
+			!dynamic_cast<BigFire *>(coObjects->at(i)) &&
+			!dynamic_cast<Stair *>(coObjects->at(i)) &&
+			!dynamic_cast<CheckStair *>(coObjects->at(i)))
 		{
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
@@ -46,27 +48,183 @@ void Simon::CalcPotentialCollisions(
 			float cbl, cbr, cbt, cbb;
 			checkstair->GetBoundingBox(cbl, cbt, cbr, cbb);
 
-			int type = checkstair->GetType();
-			switch (type)
+			// Xu ly truong hop simon cham vao CheckStairUp va chua nhan phim len
+			if (x < cbr && x + SIMON_STAND_BBOX_WIDTH > cbl &&
+				y + SIMON_STAND_BBOX_HEIGHT < cbb + SIMON_ONSTAIR_ERR_RANGE &&
+				y + SIMON_STAND_BBOX_HEIGHT > cbb - SIMON_ONSTAIR_ERR_RANGE)
 			{
-			case CHECKSTAIR_UP_LEFT:
-				break;
-			case CHECKSTAIR_UP_RIGHT:
-				if (x < cbr && x + SIMON_STAND_BBOX_WIDTH > cbl && y + SIMON_STAND_BBOX_HEIGHT == cbb)
+				isCollideWithCheckBox = true;
+				ny = -1.0f;
+
+				if (isOnStair)
 				{
-					isOnCheckStair = true;
+					SetState(SIMON_STATE_IDLE);
+					isOnStair = false;
 				}
 				else
 				{
-					isOnCheckStair = false;
+					int type = checkstair->GetType();
+
+					// Bat dau xet truong hop nhan phim len
+					switch (type)
+					{
+					case CHECKSTAIR_UP_LEFT:
+						isOnCheckStairUp = true;
+
+						if (state == SIMON_STATE_ONCHECKSTAIR)
+						{
+							nx = 1.0f;
+
+							isMoving = true;
+
+							// Truong hop simon onstair
+							if (x > cbr - 2 * SIMON_ONSTAIR_ERR_RANGE &&
+								x < cbr + 2 * SIMON_ONSTAIR_ERR_RANGE)
+							{
+								vx = 0;
+								vy = 0;
+								SetPosition(
+									cbr - 5 * SIMON_ONSTAIR_ERR_RANGE,
+									cbb - 5 * SIMON_ONSTAIR_ERR_RANGE - SIMON_STAND_BBOX_HEIGHT);
+								SetState(SIMON_STATE_ONSTAIR_IDLE);
+
+								isLeftToRight = false;
+								isOnStair = true;
+								isOnCheckStairUp = false;
+							}
+						}
+						else
+						{
+							isOnCheckStairUp = false;
+						}
+						break;
+					case CHECKSTAIR_UP_RIGHT:
+						isOnCheckStairUp = true;
+
+						if (state == SIMON_STATE_ONCHECKSTAIR)
+						{
+							nx = -1.0f;
+
+							isMoving = true;
+
+							// Truong hop simon onstair
+							if (x + SIMON_STAND_BBOX_WIDTH > cbl - 2 * SIMON_ONSTAIR_ERR_RANGE &&
+								x + SIMON_STAND_BBOX_WIDTH < cbl + 2 * SIMON_ONSTAIR_ERR_RANGE)
+							{
+								vx = 0;
+								vy = 0;
+								SetPosition(
+									cbl + 5 * SIMON_ONSTAIR_ERR_RANGE - SIMON_STAND_BBOX_WIDTH,
+									cbb - 5 * SIMON_ONSTAIR_ERR_RANGE - SIMON_STAND_BBOX_HEIGHT);
+								SetState(SIMON_STATE_ONSTAIR_IDLE);
+
+								isLeftToRight = true;
+								isOnStair = true;
+								isOnCheckStairUp = false;
+							}
+						}
+						else
+						{
+							isOnCheckStairUp = false;
+						}
+						break;
+					}
 				}
-				break;
-			case CHECKSTAIR_DOWN_LEFT:
-				break;
-			case CHECKSTAIR_DOWN_RIGHT:
-				break;
+			}
+
+			// Xu ly truong hop simon cham vao CheckStairDown va chua nhan phim xuong
+			if (x < cbr - 2 * SIMON_ONSTAIR_ERR_RANGE && x + SIMON_STAND_BBOX_WIDTH > cbl &&
+				y < cbb + SIMON_ONSTAIR_ERR_RANGE &&
+				y > cbb - 5 * SIMON_ONSTAIR_ERR_RANGE)
+			{
+				isCollideWithCheckBox = true;
+				ny = 1.0f;
+
+				if (isOnStair)
+				{
+					SetState(SIMON_STATE_IDLE);
+					isOnStair = false;
+				}
+				else
+				{
+					int type = checkstair->GetType();
+
+					// Bat dau xet truong hop nhan phim xuong
+					switch (type)
+					{
+					case CHECKSTAIR_DOWN_LEFT:
+						isOnCheckStairDown = true;
+
+						if (state == SIMON_STATE_ONCHECKSTAIR)
+						{
+							isOnCheckStairDown = true;
+							nx = -1.0f;
+
+							isMoving = true;
+
+							// Truong hop simon onstair
+							if (x + SIMON_STAND_BBOX_WIDTH > cbl - 2 * SIMON_ONSTAIR_ERR_RANGE &&
+								x + SIMON_STAND_BBOX_WIDTH < cbl + 2 * SIMON_ONSTAIR_ERR_RANGE)
+							{
+								vx = 0;
+								vy = 0;
+								SetPosition(
+									cbl - 5 * SIMON_ONSTAIR_ERR_RANGE - SIMON_STAND_BBOX_WIDTH,
+									cbb + 5 * SIMON_ONSTAIR_ERR_RANGE);
+								SetState(SIMON_STATE_ONSTAIR_IDLE);
+
+								isLeftToRight = true;
+								isOnStair = true;
+								isOnCheckStairDown = false;
+							}
+						}
+						else
+						{
+							isOnCheckStairDown = false;
+						}
+						break;
+					case CHECKSTAIR_DOWN_RIGHT:
+						isOnCheckStairDown = true;
+
+						if (state == SIMON_STATE_ONCHECKSTAIR)
+						{
+							isOnCheckStairDown = true;
+							nx = 1.0f;
+
+							isMoving = true;
+
+							// Truong hop simon onstair
+							if (x > cbr - 4 * SIMON_ONSTAIR_ERR_RANGE &&
+								x < cbr + 2 * SIMON_ONSTAIR_ERR_RANGE)
+							{
+								vx = 0;
+								vy = 0;
+								SetPosition(
+									cbr + 2 * SIMON_ONSTAIR_ERR_RANGE,
+									cbb + 5 * SIMON_ONSTAIR_ERR_RANGE);
+								SetState(SIMON_STATE_ONSTAIR_IDLE);
+
+								isLeftToRight = false;
+								isOnStair = true;
+								isOnCheckStairDown = false;
+							}
+						}
+						else
+						{
+							isOnCheckStairDown = false;
+						}
+						break;
+					}
+				}
 			}
 		}
+	}
+
+	if (!isCollideWithCheckBox && !isOnStair)
+	{
+		isOnCheckStairDown = false;
+		isOnCheckStairUp = false;
+		ny = 0;
 	}
 
 	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
@@ -81,12 +239,19 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (isAttack == true && GetTickCount() - attackTime >= SIMON_TIMER_ATTACK)
 	{
 		isAttack = false;
+		if (isExitSit)
+		{
+			isSit = false;
+			y -= SIMON_SIT_TO_STAND;
+			isExitSit = false;
+		}
 		// Check collision between whip and game objects here
 		whip->Update(dt, coObjects);
 	}
 
 	// Simple fall down
-	vy += SIMON_GRAVITY * dt;
+	if (!isOnStair)
+		vy += SIMON_GRAVITY * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -97,6 +262,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
 
+	// turn off isOnCheckStair
+
+
 	// Set idle state
 	if (!isOnStair && !isSit && !isMoving && !isJump && !isAttack)
 	{
@@ -104,7 +272,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	// reset untouchable timer if untouchable time has passed
-	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
+	if (untouchable != 0 && GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -140,7 +308,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
+	if (coEvents.size() == 0 || isOnStair)
 	{
 		x += dx;
 		y += dy;
@@ -177,10 +345,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				// Da cham dat
 				// Khong va cham theo phuong ngang
-				if (e->nx == 0 && e->ny < 0)
+				if (isJump && e->nx == 0 && e->ny < 0)
 					isJump = false;
 			}
-			
 		}
 	}
 	// clean up collision events
@@ -189,7 +356,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void Simon::Render()
 {
-	int ani, aniWhip = -1;
+	int ani = -1, aniWhip = -1;
 
 	if (state == SIMON_STATE_DIE)
 		ani = SIMON_ANI_DIE;
@@ -248,7 +415,28 @@ void Simon::Render()
 		{
 			switch (state)
 			{
-			case SIMON_STATE_STAIR_MOVING:
+			case SIMON_STATE_ONCHECKSTAIR:
+				ani = SIMON_ANI_WALKING_RIGHT;
+				break;
+			case SIMON_STATE_ONSTAIR:
+				if (ny < 0)
+				{
+					ani = SIMON_ANI_WALKUP_RLADDER;
+				}
+				else if (ny > 0)
+				{
+					ani = SIMON_ANI_WALKDOWN_RLADDER;
+				}
+				break;
+			case SIMON_STATE_ONSTAIR_IDLE:
+				if (ny < 0)
+				{
+					ani = SIMON_ANI_IDLE_WALKUP_RLADDER;
+				}
+				else if (ny > 0)
+				{
+					ani = SIMON_ANI_IDLE_WALKDOWN_RLADDER;
+				}
 				break;
 			case SIMON_STATE_SIT:
 				if (isAttack)
@@ -269,7 +457,28 @@ void Simon::Render()
 		{
 			switch (state)
 			{
-			case SIMON_STATE_STAIR_MOVING:
+			case SIMON_STATE_ONCHECKSTAIR:
+				ani = SIMON_ANI_WALKING_LEFT;
+				break;
+			case SIMON_STATE_ONSTAIR:
+				if (ny < 0)
+				{
+					ani = SIMON_ANI_WALKUP_LLADDER;
+				}
+				else if (ny > 0)
+				{
+					ani = SIMON_ANI_WALKDOWN_LLADDER;
+				}
+				break;
+			case SIMON_STATE_ONSTAIR_IDLE:
+				if (ny < 0)
+				{
+					ani = SIMON_ANI_IDLE_WALKUP_LLADDER;
+				}
+				else if (ny > 0)
+				{
+					ani = SIMON_ANI_IDLE_WALKDOWN_LLADDER;
+				}
 				break;
 			case SIMON_STATE_SIT:
 				if (isAttack)
@@ -290,7 +499,10 @@ void Simon::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	animations[ani]->Render(x, y, alpha);
+	if (ani != -1)
+	{
+		animations[ani]->Render(x, y, alpha);
+	}
 
 	if (aniWhip != -1)
 	{
@@ -310,14 +522,61 @@ void Simon::SetState(int state)
 		isDead = true;
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
-	case SIMON_STATE_STAIR_MOVING:
-		isOnStair = true;
+	case SIMON_STATE_ONCHECKSTAIR:
+		if (nx < 0)
+		{
+			vx = -SIMON_WALKING_SPEED;
+		}
+		else
+		{
+			vx = SIMON_WALKING_SPEED;
+		}
+		vy = 0;
+		break;
+	case SIMON_STATE_ONSTAIR:
+		if (!isAttack)
+		{
+			isMoving = true;
+			if (nx < 0)
+			{
+				if (ny < 0)
+				{
+					vx = -SIMON_CLIMBING_SPEED_X;
+					vy = -SIMON_CLIMBING_SPEED_Y;
+				}
+				else
+				{
+					vx = -SIMON_CLIMBING_SPEED_X;
+					vy = SIMON_CLIMBING_SPEED_Y;
+				}
+			}
+			else
+			{
+				if (ny < 0)
+				{
+					vx = SIMON_CLIMBING_SPEED_X;
+					vy = -SIMON_CLIMBING_SPEED_Y;
+				}
+				else
+				{
+					vx = SIMON_CLIMBING_SPEED_X;
+					vy = SIMON_CLIMBING_SPEED_Y;
+				}
+			}
+		}
+		break;
+	case SIMON_STATE_ONSTAIR_IDLE:
+		isMoving = false;
+		vx = 0;
+		vy = 0;
 		break;
 	case SIMON_STATE_SIT:
+		//isOnCheckStair = false;
 		isSit = true;
 		vx = 0;
 		break;
 	case SIMON_STATE_WALK:
+		//isOnCheckStair = false;
 		isMoving = true;
 		if (nx == 1.0f)
 		{
@@ -329,7 +588,9 @@ void Simon::SetState(int state)
 		}
 		break;
 	case SIMON_STATE_IDLE:
+		//isOnCheckStair = false;
 		vx = 0;
+		isMoving = false;
 		break;
 	}
 }

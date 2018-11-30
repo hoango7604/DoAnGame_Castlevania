@@ -1,20 +1,27 @@
 //file path
 #define GAME_FONT L"Castlevania\\prstart.ttf"
 
-#define SIMON_WALKING_SPEED				0.13f 
-#define SIMON_JUMP_SPEED_Y				0.55f
+#define SIMON_WALKING_SPEED				0.1f 
+#define SIMON_CLIMBING_SPEED_X			0.05f
+#define SIMON_CLIMBING_SPEED_Y			0.05f
+#define SIMON_JUMP_SPEED_Y				0.52f
 #define SIMON_JUMP_DEFLECT_SPEED		0.2f
 #define SIMON_GRAVITY					0.002f
 #define SIMON_DIE_DEFLECT_SPEED			0.5f
 #define SIMON_SIT_TO_STAND				15
+#define SIMON_ON_LEFT_CHECKSTAIR		1
+#define SIMON_ON_RIGHT_CHECKSTAIR		2
+#define SIMON_ONSTAIR_ERR_RANGE			3
 
 //state
 #define SIMON_STATE_IDLE				0
 #define SIMON_STATE_UNTOUCHABLE			100
 #define SIMON_STATE_DIE					200
-#define SIMON_STATE_STAIR_MOVING		300
+#define SIMON_STATE_ONCHECKSTAIR		300
 #define SIMON_STATE_SIT					500
-#define SIMON_STATE_WALK				700
+#define SIMON_STATE_WALK				600
+#define SIMON_STATE_ONSTAIR				700
+#define SIMON_STATE_ONSTAIR_IDLE		800
 
 //action
 #define SIMON_ACTION_JUMP				300
@@ -38,12 +45,16 @@
 #define SIMON_ANI_HITDOWN_RLADDER		14 //hit right on stair which has up-direction from right to left 
 #define SIMON_ANI_HITUP_LLADDER			15 //use dik_ and nx to select ani
 #define SIMON_ANI_WALKUP_RLADDER		16 // walk up on stair which has up-direction from left to right
-#define SIMON_ANI_WALKDOWN_RLADDER		17 //
+#define SIMON_ANI_WALKDOWN_LLADDER		17 
 #define SIMON_ANI_WALKUP_LLADDER		18
-#define SIMON_ANI_WALKDOWN_LLADDER		19
-#define SIMON_ANI_HURT_LEFT				20
-#define SIMON_ANI_HURT_RIGHT			21
-#define SIMON_ANI_DIE					22
+#define SIMON_ANI_WALKDOWN_RLADDER		19
+#define SIMON_ANI_IDLE_WALKUP_RLADDER	20
+#define SIMON_ANI_IDLE_WALKDOWN_LLADDER	21
+#define SIMON_ANI_IDLE_WALKUP_LLADDER	22
+#define SIMON_ANI_IDLE_WALKDOWN_RLADDER	23
+#define SIMON_ANI_HURT_LEFT				24
+#define SIMON_ANI_HURT_RIGHT			25
+#define SIMON_ANI_DIE					26
 
 // Whip
 #define WHIP_RIGHT 						0

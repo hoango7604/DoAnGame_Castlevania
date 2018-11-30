@@ -5,7 +5,6 @@
 
 class Simon : public CGameObject
 {
-	int ny;
 	int action;
 	int level;
 	int untouchable;
@@ -23,17 +22,23 @@ public:
 	 */
 
 	bool isDead;
+
 	bool isAttack;
-	bool isAboutToBeOnStair;
-	bool isOnCheckStair;
+
+	bool isOnCheckStairUp;
+	bool isOnCheckStairDown;
 	bool isOnStair;
-	bool isMovingOnStair;
+	bool isLeftToRight;
+
 	bool isSit;
 	bool isExitSit;
+
 	bool isJump;
+
 	bool isMoving;
 
 	DWORD attackTime;
+	int ny;
 
 	int life;
 	int preHP;

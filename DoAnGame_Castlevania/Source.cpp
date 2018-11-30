@@ -67,10 +67,13 @@ CSampleKeyHander * keyHandler;
 
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
+	// Chet
+	if (simon->GetState() == SIMON_STATE_DIE) return;
+
 	// Nhay
 	if (KeyCode == DIK_SPACE)
 	{
-		if (/*simon->isJump == false &&*/ simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
+		if (simon->isJump == false && simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
 			simon->SetAction(SIMON_ACTION_JUMP);
 	}
 	// Danh
@@ -83,12 +86,47 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
+	// Chet
+	if (simon->GetState() == SIMON_STATE_DIE) return;
+
+	// Len xuong cau thang
+	if (KeyCode == DIK_UP)
+	{
+		if (simon->isOnCheckStairUp)
+		{
+			simon->SetState(SIMON_STATE_IDLE);
+		}
+		else if (simon->isOnStair)
+		{
+			simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
+		}
+	}
+
 	// Ngoi
 	if (KeyCode == DIK_DOWN)
 	{
-		simon->isSit = false;
-		simon->y -= SIMON_SIT_TO_STAND;
+		if (simon->isOnCheckStairDown)
+		{
+			simon->SetState(SIMON_STATE_IDLE);
+		}
+		else if (simon->isOnStair)
+		{
+			simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
+		}
+		else if (simon->isSit)
+		{
+			if (!simon->isAttack)
+			{
+				simon->isSit = false;
+				simon->y -= SIMON_SIT_TO_STAND;
+			}
+			else
+			{
+				simon->isExitSit = true;
+			}
+		}
 	}
+
 	// Di bo
 	else if (KeyCode == DIK_RIGHT || KeyCode == DIK_LEFT)
 	{
@@ -102,12 +140,55 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	// Chet
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 
-	// Them xu ly len xuong cau thang nua, chua co
+	// Len xuong cau thang
+	if (game->IsKeyDown(DIK_UP))
+	{
+		if (simon->ny == -1 && !simon->isOnStair)
+		{
+			if (!simon->isAttack && !simon->isSit && !simon->isJump)
+			{
+				simon->SetState(SIMON_STATE_ONCHECKSTAIR);
+			}
+		}
+		else if (simon->isOnStair && !simon->isAttack)
+		{
+			simon->ny = -1;
+			simon->SetState(SIMON_STATE_ONSTAIR);
+			if (simon->isLeftToRight)
+				simon->nx = 1;
+			else
+				simon->nx = -1;
+		}
+		else if (simon->isOnStair && simon->isAttack)
+		{
+			simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
+		}
+	}
 
 	// Ngoi
 	if (game->IsKeyDown(DIK_DOWN))
 	{
-		if (!simon->isOnStair && !simon->isAttack && !simon->isJump)
+		if (simon->ny == 1 && !simon->isOnStair)
+		{
+			if (!simon->isAttack && !simon->isSit && !simon->isJump)
+			{
+				simon->SetState(SIMON_STATE_ONCHECKSTAIR);
+			}
+		}
+		else if (simon->isOnStair && !simon->isAttack)
+		{
+			simon->ny = 1;
+			simon->SetState(SIMON_STATE_ONSTAIR);
+			if (simon->isLeftToRight)
+				simon->nx = -1;
+			else
+				simon->nx = 1;
+		}
+		else if (simon->isOnStair && simon->isAttack)
+		{
+			simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
+		}
+		else if (!simon->isOnCheckStairDown && !simon->isOnStair && !simon->isAttack && !simon->isJump)
 			simon->SetState(SIMON_STATE_SIT);
 	}
 
@@ -585,7 +666,7 @@ void LoadResources()
 
 	simon->whip->AddAnimation(408);//roi phải
 	simon->whip->AddAnimation(409);//roi trái
-	simon->SetPosition(50, 327);
+	simon->SetPosition(1800, 327);
 	objects.push_back(simon);
 
 	#pragma endregion
@@ -808,26 +889,62 @@ void LoadResourceLv2() {
 		objects.push_back(stair);
 	}
 	
+	CheckStair *checkstair;
 	// Bottom right
-	CheckStair *checkstair = new CheckStair();
+	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1250, 405);
+	checkstair->SetPosition(1255, 410); // 379
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	objects.push_back(checkstair);
 
 	// Top left
-	CheckStair *checkstair1 = new CheckStair();
-	checkstair1->AddAnimation(804);
-	checkstair1->SetPosition(1370, 276);
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1385, 221);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
-	objects.push_back(checkstair1);
+	objects.push_back(checkstair);
+
+	// Bottom right
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(1455, 283);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	objects.push_back(checkstair);
+
+	// Top left
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1512, 154);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
+	objects.push_back(checkstair);
 
 	// Top right
-	CheckStair *checkstair2 = new CheckStair();
-	checkstair2->AddAnimation(804);
-	checkstair2->SetPosition(1430, 276);
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1795, 154);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
-	objects.push_back(checkstair2);
+	objects.push_back(checkstair);
+
+	// Bottom left
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(1855, 283);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	objects.push_back(checkstair);
+
+	// Bottom right
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(2598, 410);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	objects.push_back(checkstair);
+
+	// Top left
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(2793, 156);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
+	objects.push_back(checkstair);
 	//1250 335 1265 320 1280 305*/ 3 10 6 8
 	for (int i = 0; i < 2; i++)
 	{
@@ -1026,7 +1143,7 @@ void Update(DWORD dt)
 		{
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(2800, 155);
+			simon->SetPosition(1500, 155);
 			timer = GetTickCount();
 		}
 		else if(countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2*SIMON_STAND_BBOX_WIDTH)
