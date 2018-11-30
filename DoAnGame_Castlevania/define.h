@@ -77,9 +77,9 @@
 #define ZOMBIE_ANI_WALKING_RIGHT		1
 #define ZOMBIE_ANI_DIE					2
 
-#define PANTHER_WALKING_SPEED			0.07f
-
-#define PANTHER_BBOX_WIDTH				50
+#define PANTHER_WALKING_SPEED			0.16f
+//Panther
+#define PANTHER_BBOX_WIDTH				32
 #define PANTHER_BBOX_HEIGHT				32
 #define PANTHER_BBOX_HEIGHT_DIE			9
 
@@ -91,7 +91,19 @@
 #define PANTHER_ANI_WAIT				0
 #define PANTHER_ANI_RUN_LEFT			1
 #define PANTHER_ANI_RUN_RIGHT			2
-#define PANTHER_ANI_DIE					3
+#define PANTHER_ANI_GRAB				3
+#define PANTHER_ANI_DIE					4
+
+//BossBat
+#define BOSSBAT_BBOX_WIDTH				100	
+#define BOSSBAT_BBOX_HEIGHT				45
+
+#define BOSSBAT_STATE_WAIT				500
+#define BOSSBAT_STATE_ATTACK			600
+#define BOSSBAT_STATE_DIE				700
+
+#define BOSSBAT_ANI_WAIT				0
+#define BOSSBAT_ANI_ATTACK				1
 
 // Check stair
 #define CHECKSTAIR_UP_LEFT				0
@@ -168,3 +180,6 @@
 #define ID_TEX_KNIFE					165
 #define ID_TEX_NOHP						170
 #define ID_TEX_STOP_WATCH				175
+
+#define BRICK_BBOX_WIDTH  32
+#define BRICK_BBOX_HEIGHT 32

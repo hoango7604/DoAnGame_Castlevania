@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BigFire.h" />
+    <ClInclude Include="BossBat.h" />
     <ClInclude Include="Candle.h" />
     <ClInclude Include="CheckStair.h" />
     <ClInclude Include="debug.h" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BigFire.cpp" />
+    <ClCompile Include="BossBat.cpp" />
     <ClCompile Include="Candle.cpp" />
     <ClCompile Include="CheckStair.cpp" />
     <ClCompile Include="debug.cpp" />

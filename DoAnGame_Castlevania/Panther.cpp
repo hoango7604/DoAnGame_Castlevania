@@ -17,7 +17,7 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
-
+	
 	if (state == PANTHER_STATE_DIE)
 	{
 		SetSpeed(0.0f, 0.0f);
@@ -31,10 +31,13 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x = 0; vx = -vx;
 	}
 
-	if (vx > 0 && x >3156) {
-		x = 3156; vx = -vx;
+	if (vx > 0 && x >MAX_WIDTH_LV2) {
+		x = MAX_WIDTH_LV2; vx = -vx;
 	}
-
+	float check = this->x - (CGame::GetInstance()->x_cam + SCREEN_WIDTH / 2);
+	if (check < 150)
+		this->SetState(PANTHER_STATE_ATTACK);
+	 
 
 }
 
@@ -49,12 +52,11 @@ void Panther::Render()
 		ani = PANTHER_ANI_WAIT;
 		
 	}
-	else {
+	else if(state == PANTHER_STATE_ATTACK) {		
 		if (vx < 0)
 			ani = PANTHER_ANI_RUN_LEFT;
 		else if (vx > 0)
-			ani = PANTHER_ANI_RUN_RIGHT;
-		
+			ani = PANTHER_ANI_RUN_RIGHT;			
 	}
 	animations[ani]->Render(x, y);
 	RenderBoundingBox();
@@ -70,8 +72,7 @@ void Panther::SetState(int state)
 		vx = 0;
 		vy = 0;
 		break;
-	case PANTHER_STATE_ATTACK:
-		vx = -PANTHER_WALKING_SPEED;
-		vy = 0.6;
+	case PANTHER_STATE_ATTACK:		
+		vx = -PANTHER_WALKING_SPEED;				
 	}
 }

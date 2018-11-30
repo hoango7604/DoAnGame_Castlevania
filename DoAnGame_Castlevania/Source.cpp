@@ -22,6 +22,7 @@
 #include "MerMan.h"
 #include "CheckStair.h"
 #include "UI.h"
+#include "BossBat.h"
 
 
 CGame *game;
@@ -73,7 +74,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	// Nhay
 	if (KeyCode == DIK_SPACE)
 	{
-		if (simon->isJump == false && simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
+		if (/*simon->isJump == false && */simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
 			simon->SetAction(SIMON_ACTION_JUMP);
 	}
 	// Danh
@@ -329,7 +330,7 @@ void LoadResources()
 
 	sprites->Add(10037, 131, 134, 177, 197, texSimon2);		// trên thang phải đánh trái			
 	sprites->Add(10038, 193, 134, 225, 197, texSimon2);
-	sprites->Add(10039, 240, 151, 284, 197, texSimon2);
+	sprites->Add(10039, 240, 134, 284, 197, texSimon2);
 
 	sprites->Add(10043, 312, 134, 361, 197, texSimon2);		// trên thang trái đánh trái			
 	sprites->Add(10044, 371, 134, 405, 197, texSimon2);
@@ -540,7 +541,7 @@ void LoadResources()
 	ani->Add(10047);
 	animations->Add(416, ani);
 
-	ani = new CAnimation(150);//xuống thang phải
+	ani = new CAnimation(100);//xuống thang phải
 	ani->Add(10048);
 	ani->Add(10049);
 	animations->Add(417, ani);
@@ -560,7 +561,7 @@ void LoadResources()
 	//ani->Add(10047);
 	animations->Add(420, ani);
 
-	ani = new CAnimation(150);//đứng im bên phải thang trái
+	ani = new CAnimation(100);//đứng im bên phải thang trái
 	ani->Add(10048);
 	//ani->Add(10049);
 	animations->Add(421, ani);
@@ -624,6 +625,19 @@ void LoadResources()
 	ani->Add(30016);
 	ani->Add(30017);
 	animations->Add(607, ani);
+
+	ani = new CAnimation(100); //panther phóng
+	ani->Add(30014);
+	animations->Add(608, ani);
+
+	ani = new CAnimation(100); //boss dơi nằm chờ
+	ani->Add(30022);
+	animations->Add(609, ani);
+
+	ani = new CAnimation(100); //boosss dơi bay
+	ani->Add(30023);
+	ani->Add(30024);
+	animations->Add(610, ani);
 
 	ani = new CAnimation(100); //fire
 	ani->Add(40011);
@@ -690,7 +704,7 @@ void LoadResources()
 
 	simon->whip->AddAnimation(408);//roi phải
 	simon->whip->AddAnimation(409);//roi trái
-	simon->SetPosition(1800, 327);
+	simon->SetPosition(1500, 327);
 	objects.push_back(simon);
 
 	#pragma endregion
@@ -858,10 +872,11 @@ void LoadResourceLv2() {
 		candle->SetPosition(2050 +i*125 ,380);
 		objects.push_back(candle);
 	}
-	/*Panther *panther = new Panther();
+	Panther *panther = new Panther();
 	panther->AddAnimation(605);
 	panther->AddAnimation(606);	
 	panther->AddAnimation(607);
+	panther->AddAnimation(608);
 	panther->SetPosition(1403, 285);
 	panther->SetState(PANTHER_STATE_WAIT);
 	objects.push_back(panther);
@@ -869,7 +884,8 @@ void LoadResourceLv2() {
 	Panther *panther1 = new Panther();
 	panther1->AddAnimation(605);
 	panther1->AddAnimation(606);
-	panther->AddAnimation(607);
+	panther1->AddAnimation(607);
+	panther1->AddAnimation(608);
 	panther1->SetPosition(1700, 221);
 	panther1->SetState(PANTHER_STATE_WAIT);
 	objects.push_back(panther1);
@@ -877,10 +893,11 @@ void LoadResourceLv2() {
 	Panther *panther2 = new Panther();
 	panther2->AddAnimation(605);
 	panther2->AddAnimation(606);
-	panther->AddAnimation(607);
+	panther2->AddAnimation(607);
+	panther2->AddAnimation(608);
 	panther2->SetPosition(1950, 285);
 	panther2->SetState(PANTHER_STATE_WAIT);
-	objects.push_back(panther2);*/
+	objects.push_back(panther2);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -1143,6 +1160,14 @@ void LoadResourceboss()
 		candle->SetPosition(5438 + i * 127, 310);
 		objects.push_back(candle);
 	}
+	
+	BossBat *bossbat = new BossBat();
+	bossbat->AddAnimation(609);
+	bossbat->AddAnimation(610);
+	bossbat->SetPosition(5325, 125);
+	bossbat->SetState(BOSSBAT_STATE_WAIT);
+	objects.push_back(bossbat);
+
 }
 
 void Update(DWORD dt)
@@ -1167,7 +1192,7 @@ void Update(DWORD dt)
 		{
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(1500, 155);
+			simon->SetPosition(1300, 155);
 			timer = GetTickCount();
 		}
 		else if(countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2*SIMON_STAND_BBOX_WIDTH)
