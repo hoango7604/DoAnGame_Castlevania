@@ -280,26 +280,29 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 	#pragma region Addsprite
-	sprites->Add(10001, 434, 0, 469, 64, texSimon);		// đứng im phải
 
-	sprites->Add(10002, 375, 0, 401, 64, texSimon);		// đi phải
-	sprites->Add(10003, 314, 0, 344, 64, texSimon);
+	sprites->Add(10001, 436, 0, 484, 64, texSimon);		// đứng im phải
 
-	sprites->Add(10004, 120, 0, 171, 64, texSimon);		// đánh phải			
-	sprites->Add(10005, 74, 0, 111, 64, texSimon);
-	sprites->Add(10006, 14, 0, 59, 64, texSimon);
+	sprites->Add(10002, 260, 0, 308, 64, texSimon);		// đi phải
+	sprites->Add(10003, 314, 0, 362, 64, texSimon);
+	sprites->Add(11002, 378, 0, 426, 64, texSimon);
+	sprites->Add(11003, 436, 0, 484, 64, texSimon);
 
-	sprites->Add(10028, 0, 83, 49, 131, texSimon);		// ngồi đánh phải			
-	sprites->Add(10029, 435, 150, 469, 197, texSimon);
-	sprites->Add(10030, 376, 151, 421, 197, texSimon);
+	sprites->Add(10004, 120, 0, 168, 64, texSimon);		// đánh phải			
+	sprites->Add(10005, 60, 0, 108, 64, texSimon);
+	sprites->Add(10006, 0, 0, 64, 64, texSimon);
 
-	sprites->Add(10034, 120, 135, 168, 197, texSimon);		// trên thang phải đánh phải			
-	sprites->Add(10035, 76, 134, 109, 197, texSimon);
-	sprites->Add(10036, 17, 136, 59, 197, texSimon);
+	sprites->Add(10028, 0, 83, 49, 130, texSimon);		// ngồi đánh phải			
+	sprites->Add(10029, 420, 149, 469, 196, texSimon);
+	sprites->Add(10030, 360, 149, 421, 196, texSimon);
 
-	sprites->Add(10040, 302, 134, 351, 197, texSimon);		// trên thang trái đánh phải			
-	sprites->Add(10041, 257, 133, 290, 197, texSimon);
-	sprites->Add(10042, 197, 134, 240, 197, texSimon);
+	sprites->Add(10034, 120, 134, 168, 197, texSimon);		// trên thang phải đánh phải			
+	sprites->Add(10035, 60, 134, 109, 197, texSimon);
+	sprites->Add(10036, 0, 134, 59, 197, texSimon);
+
+	sprites->Add(10040, 302, 134, 350, 197, texSimon);		// trên thang trái đánh phải			
+	sprites->Add(10041, 242, 134, 290, 197, texSimon);
+	sprites->Add(10042, 182, 134, 239, 197, texSimon);
 
 	sprites->Add(10046, 133, 67, 165, 130, texSimon); // lên thang phải
 	sprites->Add(10047, 196, 67, 228, 130, texSimon);
@@ -315,26 +318,28 @@ void LoadResources()
 	sprites->Add(10054, 436, 67, 471, 130, texSimon);//bị đánh từ bên trái
 
 	LPDIRECT3DTEXTURE9 texSimon2 = textures->Get(ID_TEX_SIMON_2);
-	sprites->Add(10011, 11, 0, 47, 64, texSimon2);		// đứng im trái
+	sprites->Add(10011, 12, 0, 44, 64, texSimon2);		// đứng im trái
 
-	sprites->Add(10012, 74, 0, 107, 64, texSimon2);		// đi trái
-	sprites->Add(10013, 132, 0, 171, 64, texSimon2);
+	sprites->Add(10012, 196, 0, 244, 64, texSimon2);		// đi trái
+	sprites->Add(10013, 136, 0, 184, 64, texSimon2);
+	sprites->Add(11012, 78, 0, 126, 64, texSimon2);
+	sprites->Add(11013, 12, 0, 60, 64, texSimon2);
 
-	sprites->Add(10014, 313, 0, 358, 64, texSimon2);		// đánh trái				
-	sprites->Add(10015, 372, 0, 404, 64, texSimon2);
+	sprites->Add(10014, 301, 0, 360, 64, texSimon2);		// đánh trái				
+	sprites->Add(10015, 361, 0, 404, 64, texSimon2);
 	sprites->Add(10016, 421, 0, 464, 64, texSimon2);
 
-	sprites->Add(10031, 432, 83, 477, 130, texSimon2);		// ngồi đánh trái				
-	sprites->Add(10032, 13, 149, 44, 197, texSimon2);
-	sprites->Add(10033, 60, 151, 105, 197, texSimon2);
+	sprites->Add(10031, 420, 83, 477, 130, texSimon2);		// ngồi đánh trái				
+	sprites->Add(10032, 0, 149, 44, 196, texSimon2);
+	sprites->Add(10033, 60, 149, 104, 196, texSimon2);
 
-	sprites->Add(10037, 131, 134, 177, 197, texSimon2);		// trên thang phải đánh trái			
-	sprites->Add(10038, 193, 134, 225, 197, texSimon2);
-	sprites->Add(10039, 240, 134, 284, 197, texSimon2);
+	sprites->Add(10037, 120, 134, 177, 197, texSimon2);		// trên thang phải đánh trái			
+	sprites->Add(10038, 180, 134, 225, 197, texSimon2);
+	sprites->Add(10039, 240, 134, 282, 197, texSimon2);
 
-	sprites->Add(10043, 312, 134, 361, 197, texSimon2);		// trên thang trái đánh trái			
-	sprites->Add(10044, 371, 134, 405, 197, texSimon2);
-	sprites->Add(10045, 420, 151, 466, 197, texSimon2);
+	sprites->Add(10043, 300, 134, 361, 197, texSimon2);		// trên thang trái đánh trái			
+	sprites->Add(10044, 360, 134, 405, 197, texSimon2);
+	sprites->Add(10045, 420, 134, 464, 197, texSimon2);
 
 
 	sprites->Add(10048, 190, 67, 224, 130, texSimon2); // xuống thang trái
@@ -343,7 +348,7 @@ void LoadResources()
 	sprites->Add(10050, 190, 67, 224, 130, texSimon2); //lên thang trái
 	sprites->Add(10051, 252, 67, 286, 130, texSimon2);
 
-	sprites->Add(10019, 256, 17, 286, 64, texSimon2); // ngồi trái
+	sprites->Add(10019, 252, 17, 284, 64, texSimon2); // ngồi trái
 
 	sprites->Add(10021, 256, 17, 286, 64, texSimon2);//nhảy trái
 
@@ -445,16 +450,18 @@ void LoadResources()
 	ani->Add(10011);
 	animations->Add(401, ani);
 
-	ani = new CAnimation(100);	//đi phải
-	ani->Add(10001);
+	ani = new CAnimation(180);	//đi phải
 	ani->Add(10002);
 	ani->Add(10003);
+	ani->Add(11002);
+	ani->Add(11003);
 	animations->Add(500, ani);
 
-	ani = new CAnimation(100);	//đi trái
-	ani->Add(10011);
+	ani = new CAnimation(180);	//đi trái
 	ani->Add(10012);
 	ani->Add(10013);
+	ani->Add(11012);
+	ani->Add(11013);
 	animations->Add(501, ani);
 
 	ani = new CAnimation(150); //đánh phải

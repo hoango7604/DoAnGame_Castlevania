@@ -501,7 +501,28 @@ void Simon::Render()
 
 	if (ani != -1)
 	{
-		animations[ani]->Render(x, y, alpha);
+		switch (ani)
+		{
+		case SIMON_ANI_ATTACK_RIGHT:
+		case SIMON_ANI_HITDOWN_RLADDER:
+		case SIMON_ANI_SIT_ATTACK_RIGHT:
+			animations[ani]->Render(x - 16, y, alpha);
+			break;
+		case SIMON_ANI_HITUP_RLADDER:
+			animations[ani]->Render(x - 18, y, alpha);
+			break;
+		case SIMON_ANI_ATTACK_LEFT:
+		case SIMON_ANI_SIT_ATTACK_LEFT:
+		case SIMON_ANI_HITUP_LLADDER:
+			animations[ani]->Render(x - 12, y, alpha);
+			break;
+		case SIMON_ANI_HITDOWN_LLADDER:
+			animations[ani]->Render(x - 10, y, alpha);
+			break;
+		default:
+			animations[ani]->Render(x, y, alpha);
+			break;
+		}
 	}
 
 	if (aniWhip != -1)
