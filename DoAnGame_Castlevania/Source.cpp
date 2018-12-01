@@ -1195,7 +1195,7 @@ void Update(DWORD dt)
 		{
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(1300, 155);
+			simon->SetPosition(3000, 155);
 			timer = GetTickCount();
 		}
 		else if(countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2*SIMON_STAND_BBOX_WIDTH)
@@ -1255,9 +1255,9 @@ void Update(DWORD dt)
 			countLoadResourceboss = true;
 			timer2 = GetTickCount();
 		}
-		else
+		else if(countLoadResourceboss == true)
 		{
-			if (GetTickCount() - timer > 5000)
+			if (GetTickCount() - timer2 > 5000)
 			{
 				Zombie *zombie = new Zombie();
 				zombie->AddAnimation(602);
@@ -1265,7 +1265,7 @@ void Update(DWORD dt)
 				zombie->SetPosition(4900, 376);
 				zombie->SetState(ZOMBIE_STATE_WALKING);
 				objects.push_back(zombie);
-				timer = timer + 5000;
+				timer2 = timer2 + 5000;
 			}
 		}
 		
@@ -1279,11 +1279,28 @@ void Update(DWORD dt)
 	{
 		coObjects.push_back(objects[i]);
 	}
-
-	for (int i = 0; i < objects.size(); i++)
+	if(boss == false)
+		for (int i = 0; i < objects.size(); i++)
+		{
+			objects[i]->Update( dt, &coObjects);
+		}
+	else if(boss == true)
 	{
-		objects[i]->Update(dt, &coObjects);
+		for (int i = 0; i < objects.size(); i++)
+		{
+			if (dynamic_cast<BossBat *>(objects.at(i)))
+			{
+				BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
+				bossbat->Update(x, y, dt, &coObjects);
+			}
+			else
+				objects[i]->Update( dt, &coObjects);
+		}
+		
+
 	}
+
+	
 #pragma endregion	
 
 #pragma region Remove Object
@@ -1491,19 +1508,19 @@ void Render()
 		if (lv1 == true)
 		{
 			
-			map = new	Map (48, 10, tileset, 32, 32); 
+			map = new	Map (/*48, 10,*/ tileset, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate.txt");
 			//map->Draw(game->x_cam, game->y_cam);
 		}
 		else if( lv2 == true || lv2_1 == true) {									
-			map = new	Map (176, 11, tileset1, 32, 32); 
+			map = new	Map (/*176, 11,*/ tileset1, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");
 			//map->Draw(game->x_cam , game->y_cam);
 
 		}
 		else if (lv2_2 == true)
 		{
-			map = new	Map(32, 11, tileset2, 32, 32);
+			map = new	Map(/*32, 11,*/ tileset2, 32, 32);
 			map->LoadMatrixMap("Castlevania\\Mapstate2_1.txt");
 			
 		}

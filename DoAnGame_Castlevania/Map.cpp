@@ -8,10 +8,10 @@ Map::Map()
 	tileHeight = TILE_HEIGHT;
 }
 
-Map::Map(int _cols, int _rows, LPDIRECT3DTEXTURE9 sprite,int _tileWidth, int _tileHeight)
+Map::Map(/*int _cols, int _rows,*/ LPDIRECT3DTEXTURE9 sprite,int _tileWidth, int _tileHeight)
 {
-	cols = _cols;
-	rows = _rows;
+	/*cols = _cols;
+	rows = _rows;*/
 	tileSet = sprite;
 	tileWidth = _tileWidth;
 	tileHeight = _tileHeight;
@@ -97,7 +97,7 @@ void Map::Draw(float x,float y)
 	RECT tileRect;
 	D3DXVECTOR3 tilePos;
 	int cameraWidth = 640;//viewPort->GetCameraWidth();
-	int cameraHeight = 480;//viewPort->GetCameraHeight();
+	int cameraHeight = 320;//viewPort->GetCameraHeight();
 
 	int colStart = (int)x / tileWidth;
 	int colEnd = ((int)x + cameraWidth) / tileWidth < cols - 1 ? (x + cameraWidth) / tileWidth : cols - 1;

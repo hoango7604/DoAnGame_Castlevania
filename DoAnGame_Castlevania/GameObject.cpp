@@ -14,7 +14,14 @@ CGameObject::CGameObject()
 	nx = 1;
 }
 
-void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CGameObject::Update(float xs,float ys,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+{
+	this->dt = dt;
+	dx = vx * dt;
+	dy = vy * dt;
+}
+
+void CGameObject::Update( DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	this->dt = dt;
 	dx = vx * dt;

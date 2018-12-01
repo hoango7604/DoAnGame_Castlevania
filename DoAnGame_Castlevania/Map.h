@@ -23,7 +23,7 @@ private:
 
 public:
 	Map();
-	Map(int _cols, int _rows, LPDIRECT3DTEXTURE9 sprite, int _tileWidth, int _tileHeight);
+	Map(/*int _cols, int _rows,*/ LPDIRECT3DTEXTURE9 sprite, int _tileWidth, int _tileHeight);
 	~Map();
 	void LoadMatrixMap(LPCSTR fileSource);
 	void Draw(float x,float y);
