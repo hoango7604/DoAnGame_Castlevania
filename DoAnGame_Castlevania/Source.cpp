@@ -934,56 +934,56 @@ void LoadResourceLv2() {
 	// Bottom right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1255, 410); // 379
+	checkstair->SetPosition(1255, 407); // 379
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	objects.push_back(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1385, 221);
+	checkstair->SetPosition(1385, 218);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	objects.push_back(checkstair);
 
 	// Bottom right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1455, 283);
+	checkstair->SetPosition(1455, 280);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	objects.push_back(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1512, 154);
+	checkstair->SetPosition(1512, 151);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	objects.push_back(checkstair);
 
 	// Top right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1795, 154);
+	checkstair->SetPosition(1795, 151);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	objects.push_back(checkstair);
 
 	// Bottom left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1855, 283);
+	checkstair->SetPosition(1855, 280);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	objects.push_back(checkstair);
 
 	// Bottom right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(2598, 410);
+	checkstair->SetPosition(2598, 407);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	objects.push_back(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(2793, 156);
+	checkstair->SetPosition(2793, 153);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	objects.push_back(checkstair);
 	//1250 335 1265 320 1280 305*/ 3 10 6 8
