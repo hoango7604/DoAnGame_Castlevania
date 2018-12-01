@@ -301,11 +301,11 @@ void LoadResources()
 	sprites->Add(10041, 257, 133, 290, 197, texSimon);
 	sprites->Add(10042, 197, 134, 240, 197, texSimon);
 
-	sprites->Add(10046, 141, 67, 164, 130, texSimon); // lên thang phải
-	sprites->Add(10047, 199, 67, 229, 130, texSimon);
+	sprites->Add(10046, 133, 67, 165, 130, texSimon); // lên thang phải
+	sprites->Add(10047, 196, 67, 228, 130, texSimon);
 
-	sprites->Add(10052, 141, 67, 164, 130, texSimon); //xuống thang trái
-	sprites->Add(10053, 318, 67, 351, 130, texSimon);
+	sprites->Add(10052, 133, 67, 165, 130, texSimon); //xuống thang phải
+	sprites->Add(10053, 318, 67, 350, 130, texSimon);
 
 
 	sprites->Add(10018, 196, 17, 230, 64, texSimon); // ngồi phải
@@ -337,11 +337,11 @@ void LoadResources()
 	sprites->Add(10045, 420, 151, 466, 197, texSimon2);
 
 
-	sprites->Add(10048, 187, 67, 215, 130, texSimon2); // xuống thang phải
+	sprites->Add(10048, 190, 67, 224, 130, texSimon2); // xuống thang trái
 	sprites->Add(10049, 129, 67, 163, 130, texSimon2);
 
-	sprites->Add(10050, 187, 67, 215, 130, texSimon2); //lên thang trái
-	sprites->Add(10051, 250, 67, 283, 130, texSimon2);
+	sprites->Add(10050, 190, 67, 224, 130, texSimon2); //lên thang trái
+	sprites->Add(10051, 252, 67, 286, 130, texSimon2);
 
 	sprites->Add(10019, 256, 17, 286, 64, texSimon2); // ngồi trái
 
@@ -557,23 +557,19 @@ void LoadResources()
 	animations->Add(419, ani);
 
 	ani = new CAnimation(100);//đứng im bên phải thang phải
-	ani->Add(10046);
-	//ani->Add(10047);
+	ani->Add(10047);
 	animations->Add(420, ani);
 
 	ani = new CAnimation(100);//đứng im bên phải thang trái
-	ani->Add(10048);
-	//ani->Add(10049);
+	ani->Add(10049);
 	animations->Add(421, ani);
 
 	ani = new CAnimation(100);//đứng im bên trái thang phải
-	ani->Add(10050);
-	//ani->Add(10051);
+	ani->Add(10051);
 	animations->Add(422, ani);
 
 	ani = new CAnimation(100);//đứng im bên trái thang phải
-	ani->Add(10052);
-	//ani->Add(10053);
+	ani->Add(10053);
 	animations->Add(423, ani);
 
 	ani = new CAnimation(100);//bị đánh từ bên trái
@@ -941,14 +937,14 @@ void LoadResourceLv2() {
 	// Top left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1385, 218);
+	checkstair->SetPosition(1382, 215);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	objects.push_back(checkstair);
 
 	// Bottom right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1455, 280);
+	checkstair->SetPosition(1448, 280);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	objects.push_back(checkstair);
 
@@ -962,32 +958,32 @@ void LoadResourceLv2() {
 	// Top right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1795, 151);
+	checkstair->SetPosition(1790, 151);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	objects.push_back(checkstair);
 
 	// Bottom left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1855, 280);
+	checkstair->SetPosition(1850, 280);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	objects.push_back(checkstair);
 
 	// Bottom right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(2598, 407);
+	checkstair->SetPosition(2595, 407);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	objects.push_back(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(2793, 153);
+	checkstair->SetPosition(2788, 153);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	objects.push_back(checkstair);
 	//1250 335 1265 320 1280 305*/ 3 10 6 8
-	for (int i = 0; i < 2; i++)
+	/*for (int i = 0; i < 2; i++)
 	{
 		Zombie *zombie = new Zombie();
 		zombie->AddAnimation(602);
@@ -995,7 +991,7 @@ void LoadResourceLv2() {
 		zombie->SetPosition(0 + i * 64, 376);
 		zombie->SetState(ZOMBIE_STATE_WALKING);
 		objects.push_back(zombie);
-	}
+	}*/
 }
 void LoadResourceLv2_1()
 {

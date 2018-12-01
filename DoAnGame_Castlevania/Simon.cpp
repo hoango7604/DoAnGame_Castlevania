@@ -49,7 +49,7 @@ void Simon::CalcPotentialCollisions(
 			checkstair->GetBoundingBox(cbl, cbt, cbr, cbb);
 
 			// Xu ly truong hop simon cham vao CheckStairUp va chua nhan phim len
-			if (x < cbr && x + SIMON_STAND_BBOX_WIDTH > cbl &&
+			if (x < cbr + 2 * SIMON_ONSTAIR_ERR_RANGE && x + SIMON_STAND_BBOX_WIDTH > cbl - 2 * SIMON_ONSTAIR_ERR_RANGE &&
 				y + SIMON_STAND_BBOX_HEIGHT < cbb + SIMON_ONSTAIR_ERR_RANGE &&
 				y + SIMON_STAND_BBOX_HEIGHT > cbb - SIMON_ONSTAIR_ERR_RANGE)
 			{
@@ -169,7 +169,7 @@ void Simon::CalcPotentialCollisions(
 								vx = 0;
 								vy = 0;
 								SetPosition(
-									cbl - 5 * SIMON_ONSTAIR_ERR_RANGE - SIMON_STAND_BBOX_WIDTH,
+									cbl - 4 * SIMON_ONSTAIR_ERR_RANGE - SIMON_STAND_BBOX_WIDTH,
 									cbb + 5 * SIMON_ONSTAIR_ERR_RANGE);
 								SetState(SIMON_STATE_ONSTAIR_IDLE);
 
