@@ -276,6 +276,8 @@ void LoadResources()
 	textures->Add(ID_TEX_NOHP, L"Castlevania\\UI\\NoHP.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_STOP_WATCH, L"Castlevania\\UI\\STOP_WATCH.png", D3DCOLOR_XRGB(255, 0, 255));
 
+	textures->Add(ID_TEX_EFFECT1, L"Castlevania\\0.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_EFFECT2, L"Castlevania\\DEAD.png", D3DCOLOR_XRGB(255, 0, 255));
 
 
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
@@ -435,6 +437,12 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMisc7 = textures->Get(ID_TEX_HEART);
 	sprites->Add(40019, 0, 0, 16, 16, texMisc7);
+
+	LPDIRECT3DTEXTURE9 texMisc8 = textures->Get(ID_TEX_EFFECT1);
+	sprites->Add(40020, 0, 0, 16, 20, texMisc8);
+
+	LPDIRECT3DTEXTURE9 texMisc9 = textures->Get(ID_TEX_EFFECT2);
+	sprites->Add(40021, 51, 10, 71, 37, texMisc9);
 
 	#pragma endregion
 
@@ -672,6 +680,15 @@ void LoadResources()
 	ani->Add(40019);
 	animations->Add(805, ani);
 
+	ani = new CAnimation(0); //hieu ung' dau' sao
+	ani->Add(40020);
+	animations->Add(806, ani);
+
+	ani = new CAnimation(0); //hieu ung toe' lua
+	ani->Add(40021);
+	animations->Add(807, ani);
+
+
 	#pragma endregion
 
 	#pragma region simon
@@ -726,6 +743,8 @@ void LoadResources()
 	BigFire *bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->heart->AddAnimation(805);
+	bigfire->effect->AddAnimation(806);
+	bigfire->effect->AddAnimation(807);
 	bigfire->SetPosition(335, 350);
 	objects.push_back(bigfire);
 	objects.push_back(bigfire->heart);
@@ -733,6 +752,8 @@ void LoadResources()
 	BigFire *bigfire1 = new BigFire();
 	bigfire1->AddAnimation(700);
 	bigfire1->heart->AddAnimation(805);
+	bigfire1->effect->AddAnimation(806);
+	bigfire1->effect->AddAnimation(807);
 	bigfire1->SetPosition(464, 350);
 	objects.push_back(bigfire1);
 	objects.push_back(bigfire1->heart);
@@ -740,6 +761,8 @@ void LoadResources()
 	BigFire *bigfire2 = new BigFire();
 	bigfire2->AddAnimation(700);
 	bigfire2->heart->AddAnimation(805);
+	bigfire->effect->AddAnimation(806);
+	bigfire->effect->AddAnimation(807);
 	bigfire2->SetPosition(657, 350);
 	objects.push_back(bigfire2);
 	objects.push_back(bigfire2->heart);
@@ -747,6 +770,8 @@ void LoadResources()
 	BigFire *bigfire3 = new BigFire();
 	bigfire3->AddAnimation(700);
 	bigfire3->heart->AddAnimation(805);
+	bigfire3->effect->AddAnimation(806);
+	bigfire3->effect->AddAnimation(807);
 	bigfire3->SetPosition(851, 350);
 	objects.push_back(bigfire3);
 	objects.push_back(bigfire3->heart);
@@ -754,6 +779,8 @@ void LoadResources()
 	BigFire *bigfire4 = new BigFire();
 	bigfire4->AddAnimation(700);
 	bigfire4->heart->AddAnimation(805);
+	bigfire4->effect->AddAnimation(806);
+	bigfire4->effect->AddAnimation(807);
 	bigfire4->SetPosition(1090, 350);
 	objects.push_back(bigfire4);
 	objects.push_back(bigfire4->heart);
@@ -761,6 +788,8 @@ void LoadResources()
 	BigFire *bigfire5 = new BigFire();
 	bigfire5->AddAnimation(700);
 	bigfire5->heart->AddAnimation(805);
+	bigfire5->effect->AddAnimation(806);
+	bigfire5->effect->AddAnimation(807);
 	bigfire5->SetPosition(1267, 350);
 	objects.push_back(bigfire5);
 	objects.push_back(bigfire5->heart);

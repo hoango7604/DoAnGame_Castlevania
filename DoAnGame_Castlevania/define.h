@@ -181,5 +181,8 @@
 #define ID_TEX_NOHP						170
 #define ID_TEX_STOP_WATCH				175
 
+#define ID_TEX_EFFECT1					180
+#define ID_TEX_EFFECT2					185
+
 #define BRICK_BBOX_WIDTH  32
 #define BRICK_BBOX_HEIGHT 32

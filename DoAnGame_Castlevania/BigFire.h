@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "Heart.h"
+#include "Effect.h"
 #define BIGFIRE_BBOX_WIDTH  32
 #define BIGFIRE_BBOX_HEIGHT 32
 
@@ -9,6 +10,7 @@ class BigFire : public CGameObject
 public:
 	bool isHitted;
 	Heart *heart;
+	Effect *effect;
 	BigFire() :CGameObject() {
 		isHitted = false;
 	}
