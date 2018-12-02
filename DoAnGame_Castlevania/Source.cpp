@@ -707,7 +707,7 @@ void LoadResources()
 
 	simon->whip->AddAnimation(408);//roi phải
 	simon->whip->AddAnimation(409);//roi trái
-	simon->SetPosition(1500, 327);
+	simon->SetPosition(100, 327);
 	objects.push_back(simon);
 
 	#pragma endregion

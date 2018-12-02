@@ -7,12 +7,12 @@ class BigFire : public CGameObject
 {
 	
 public:
-	bool isHited;
+	bool isHitted;
 	Heart *heart;
 	BigFire() :CGameObject() {
-		isHited = false;
-		heart = new Heart();
+		isHitted = false;
 	}
+	void SetHit();
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

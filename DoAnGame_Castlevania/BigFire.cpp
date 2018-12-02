@@ -2,7 +2,7 @@
 
 void BigFire::Render()
 {
-	if (isHited == false)	 
+	if (isHitted == false)	 
 		animations[0]->Render(x, y, 255);
 	else
 	{
@@ -15,6 +15,11 @@ void BigFire::Render()
 void BigFire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	heart->Update(dt, coObjects);
+}
+
+void BigFire::SetHit()
+{
+	isHitted = true;
 }
 
 void BigFire::GetBoundingBox(float &l, float &t, float &r, float &b)
