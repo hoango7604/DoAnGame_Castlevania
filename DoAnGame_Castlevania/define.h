@@ -59,6 +59,8 @@
 // Whip
 #define WHIP_RIGHT 						0
 #define WHIP_LEFT						1
+#define WHIP_RIGHT_1					2
+#define WHIP_LEFT_1						3
 
 #define WHIP_BBOX_WIDTH					125
 #define WHIP_BBOX_HEIGHT				15
@@ -191,6 +193,7 @@
 
 #define ID_TEX_EFFECT1					180
 #define ID_TEX_EFFECT2					185
+#define ID_TEX_WHIP_VIP					190
 
 #define BRICK_BBOX_WIDTH  32
 #define BRICK_BBOX_HEIGHT 32

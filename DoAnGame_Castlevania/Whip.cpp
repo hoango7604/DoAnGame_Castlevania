@@ -32,8 +32,17 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				float bigfire_x, bigfire_y;
 				bigfire->GetPosition(bigfire_x, bigfire_y);
 				bigfire->isHitted = true;
-				bigfire->heart->SetPosition(bigfire_x, bigfire_y);
-				bigfire->heart->SetSpeed(0, -0.1);
+				if (bigfire_x == 464 || bigfire_x == 657)
+				{
+					bigfire->whipitem->SetPosition(bigfire_x, bigfire_y);
+					bigfire->whipitem->SetSpeed(0, -0.1);
+				}
+				else
+				{
+					bigfire->heart->SetPosition(bigfire_x, bigfire_y);
+					bigfire->heart->SetSpeed(0, -0.1);
+				}
+				
 				Simon::score += 100;
 			}
 		}

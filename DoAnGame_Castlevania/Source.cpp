@@ -278,6 +278,7 @@ void LoadResources()
 
 	textures->Add(ID_TEX_EFFECT1, L"Castlevania\\0.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_EFFECT2, L"Castlevania\\DEAD.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_WHIP_VIP, L"Castlevania\\WHIP_VIP.png", D3DCOLOR_XRGB(255, 0, 255));
 
 
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
@@ -359,14 +360,23 @@ void LoadResources()
 	sprites->Add(10099, 180, 237, 240, 264, texSimon);		// chết 
 
 	LPDIRECT3DTEXTURE9 whipR = textures->Get(ID_TEX_WHIP);
-	sprites->Add(10022, 570, 200, 554, 267, whipR);//roi phải
+	sprites->Add(10022, 570, 200, 554, 267, whipR);//roi nâng cấp phải
 	sprites->Add(10023, 342, 260, 312, 316, whipR);
 	sprites->Add(10024, 342, 328, 458, 364, whipR);
+	
+	sprites->Add(10056, 570, 0, 553, 67, whipR);//roi thường phải	
+	sprites->Add(10057, 346, 0, 312, 49, whipR);
+	sprites->Add(10058, 114, 0, 188, 30, whipR);
+	
 
 	LPDIRECT3DTEXTURE9 whipL = textures->Get(ID_TEX_WHIP_2);
-	sprites->Add(10025, 105, 70, 165, 133, whipL);//roi trái
+	sprites->Add(10025, 105, 70, 165, 133, whipL);//roi  nâng cấp trái
 	sprites->Add(10026, 340, 65, 406, 117, whipL);
 	sprites->Add(10027, 575, 330, 458, 364, whipL);
+
+	sprites->Add(10059, 110, 0, 166, 66, whipL);//roi  thường trái
+	sprites->Add(10060, 349, 0, 408, 52, whipL);
+	sprites->Add(10061, 585, 0, 529, 30, whipL);
 
 
 	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_BRICK);
@@ -443,6 +453,9 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMisc9 = textures->Get(ID_TEX_EFFECT2);
 	sprites->Add(40021, 51, 10, 71, 37, texMisc9);
+
+	LPDIRECT3DTEXTURE9 texMisc10 = textures->Get(ID_TEX_WHIP_VIP);
+	sprites->Add(40022, 0, 0, 32, 32, texMisc10);
 
 	#pragma endregion
 
@@ -593,7 +606,19 @@ void LoadResources()
 
 	ani = new CAnimation(100);//bị đánh từ bên phải
 	ani->Add(10055);	
-	animations->Add(42, ani);
+	animations->Add(425, ani);
+
+	ani = new CAnimation(150);//roi thường phải
+	ani->Add(10056);
+	ani->Add(10057);
+	ani->Add(10058);
+	animations->Add(426, ani);
+
+	ani = new CAnimation(150);//roi thường trái
+	ani->Add(10059);
+	ani->Add(10060);
+	ani->Add(10061);
+	animations->Add(427, ani);
 
 	ani = new CAnimation(100);	//chết	
 	ani->Add(10099);
@@ -688,6 +713,10 @@ void LoadResources()
 	ani->Add(40021);
 	animations->Add(807, ani);
 
+	ani = new CAnimation(0); //whip item nang cap
+	ani->Add(40022);
+	animations->Add(808, ani);
+
 
 	#pragma endregion
 
@@ -722,6 +751,9 @@ void LoadResources()
 	simon->AddAnimation(425);	//bị đánh từ bên phải
 	simon->AddAnimation(599);	//chết
 
+	
+	simon->whip->AddAnimation(426);//roi thường phải
+	simon->whip->AddAnimation(427);//roi thường trái
 	simon->whip->AddAnimation(408);//roi phải
 	simon->whip->AddAnimation(409);//roi trái
 	simon->SetPosition(100, 327);
@@ -749,12 +781,14 @@ void LoadResources()
 	BigFire *bigfire1 = new BigFire();
 	bigfire1->AddAnimation(700);
 	bigfire1->heart->AddAnimation(805);
+	bigfire1->whipitem->AddAnimation(808);
 	bigfire1->SetPosition(464, 340);
 	objects.push_back(bigfire1);
 
 	BigFire *bigfire2 = new BigFire();
 	bigfire2->AddAnimation(700);
 	bigfire2->heart->AddAnimation(805);
+	bigfire1->whipitem->AddAnimation(808);
 	bigfire2->SetPosition(657, 340);
 	objects.push_back(bigfire2);
 

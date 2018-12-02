@@ -79,4 +79,5 @@ public:
 	int GetScore() { return score; }
 	int GetLife() { return life; }
 	int GetHP() { return preHP; }
+	int GetHeart() { return heartsAmount; }
 };

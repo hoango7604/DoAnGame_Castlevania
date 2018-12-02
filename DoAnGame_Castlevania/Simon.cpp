@@ -14,7 +14,7 @@
 #define SCREEN_HEIGHT 480
 
 int Simon::score = 0;
-int Simon::heartsAmount = 0;
+int Simon::heartsAmount = 5;
 /*
 	Calculate potential collisions with the list of colliable objects
 
@@ -388,7 +388,10 @@ void Simon::Render()
 				{
 					ani = SIMON_ANI_ATTACK_RIGHT;
 				}
+				if(whip->level == 0)
 				aniWhip = WHIP_RIGHT;
+				else if (whip->level == 1)
+				aniWhip = WHIP_RIGHT_1;
 			}
 			else
 			{
@@ -407,7 +410,10 @@ void Simon::Render()
 				{
 					ani = SIMON_ANI_ATTACK_LEFT;
 				}
+				if (whip->level == 0)
 				aniWhip = WHIP_LEFT;
+				else if(whip->level == 1)
+				aniWhip = WHIP_LEFT_1;
 			}
 		}
 		else if (isJump)

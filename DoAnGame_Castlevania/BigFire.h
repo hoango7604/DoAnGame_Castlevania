@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Heart.h"
 #include "Effect.h"
+#include "WhipItem.h"
 #define BIGFIRE_BBOX_WIDTH  32
 #define BIGFIRE_BBOX_HEIGHT 32
 
@@ -11,8 +12,10 @@ public:
 	bool isHitted;
 	Heart *heart;
 	Effect *effect;
+	WhipItem *whipitem;
 	BigFire() :CGameObject() {
 		heart = new Heart();
+		whipitem = new WhipItem();
 		isHitted = false;
 	}
 	void SetHit();

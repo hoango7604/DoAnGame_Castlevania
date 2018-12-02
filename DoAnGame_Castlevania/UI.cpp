@@ -75,7 +75,7 @@ void UI::Update( int time, int stage,Simon *simon)
 		stageString = "0" + stageString;
 
 	information = "SCORE_" + scoreString +  " TIME " + timeString + " STAGE " + stageString + "\n";
-	information += "PLAYER                =" + std::to_string(simon->GetHP()) + "\n";
+	information += "PLAYER                =" + std::to_string(simon->GetHeart()) + "\n";
 	information += "ENEMY                P=" + std::to_string(simon->GetLife()) + "\n";
 }
 

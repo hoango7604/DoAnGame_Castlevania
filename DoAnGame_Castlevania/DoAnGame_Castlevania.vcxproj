@@ -150,6 +150,7 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Whip.h" />
+    <ClInclude Include="WhipItem.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +177,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Whip.cpp" />
+    <ClCompile Include="WhipItem.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
