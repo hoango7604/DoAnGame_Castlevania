@@ -63,6 +63,14 @@
 #define WHIP_BBOX_WIDTH					125
 #define WHIP_BBOX_HEIGHT				15
 
+// Big fire
+#define BIGFIRE_BBOX_WIDTH				32
+#define BIGFIRE_BBOX_HEIGHT				64
+
+// Heart
+#define HEART_BBOX_WIDTH				16
+#define HEART_BBOX_HEIGHT				16
+
 // Zombie
 #define ZOMBIE_WALKING_SPEED			0.07f
 

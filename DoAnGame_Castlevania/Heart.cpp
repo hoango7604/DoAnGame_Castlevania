@@ -2,26 +2,41 @@
 
 void Heart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	for (UINT i = 0; i < coObjects->size(); i++)
+	// Calculate dx, dy 
+	CGameObject::Update(dt);
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	CalcPotentialCollisions(coObjects, coEvents);
+
+	vy += SIMON_GRAVITY * dt;
+
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
 	{
-		if (dynamic_cast<Ground *>(coObjects->at(i)))
-		{
-			Ground *ground = dynamic_cast<Ground *>(coObjects->at(i));
-			float zl, zr, zt, zb;
-			ground->GetBoundingBox(zl, zt, zr, zb);
-			if (x < zl && x + HEART_BBOX_WIDTH > zr && y > zt && y + HEART_BBOX_HEIGHT < zb)
-			{
-				this->SetSpeed(0, 0);
-			}
-		}
+		x += dx;
+		y += dy;
 	}
-	y += vy * dt;
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		// block 
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+	}
 }
 
 void Heart::Render()
 {
-	//animations[0]->Render(x, y);
-	RenderBoundingBox();
+	animations[0]->Render(x, y);
+	// RenderBoundingBox();
 }
 
 void Heart::GetBoundingBox(float &l, float &t, float &r, float &b)

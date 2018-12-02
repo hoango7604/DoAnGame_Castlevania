@@ -743,56 +743,38 @@ void LoadResources()
 	BigFire *bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->heart->AddAnimation(805);
-	bigfire->effect->AddAnimation(806);
-	bigfire->effect->AddAnimation(807);
-	bigfire->SetPosition(335, 350);
+	bigfire->SetPosition(335, 340);
 	objects.push_back(bigfire);
-	objects.push_back(bigfire->heart);
 
 	BigFire *bigfire1 = new BigFire();
 	bigfire1->AddAnimation(700);
 	bigfire1->heart->AddAnimation(805);
-	bigfire1->effect->AddAnimation(806);
-	bigfire1->effect->AddAnimation(807);
-	bigfire1->SetPosition(464, 350);
+	bigfire1->SetPosition(464, 340);
 	objects.push_back(bigfire1);
-	objects.push_back(bigfire1->heart);
 
 	BigFire *bigfire2 = new BigFire();
 	bigfire2->AddAnimation(700);
 	bigfire2->heart->AddAnimation(805);
-	bigfire->effect->AddAnimation(806);
-	bigfire->effect->AddAnimation(807);
-	bigfire2->SetPosition(657, 350);
+	bigfire2->SetPosition(657, 340);
 	objects.push_back(bigfire2);
-	objects.push_back(bigfire2->heart);
 
 	BigFire *bigfire3 = new BigFire();
 	bigfire3->AddAnimation(700);
 	bigfire3->heart->AddAnimation(805);
-	bigfire3->effect->AddAnimation(806);
-	bigfire3->effect->AddAnimation(807);
-	bigfire3->SetPosition(851, 350);
+	bigfire3->SetPosition(851, 340);
 	objects.push_back(bigfire3);
-	objects.push_back(bigfire3->heart);
 
 	BigFire *bigfire4 = new BigFire();
 	bigfire4->AddAnimation(700);
 	bigfire4->heart->AddAnimation(805);
-	bigfire4->effect->AddAnimation(806);
-	bigfire4->effect->AddAnimation(807);
-	bigfire4->SetPosition(1090, 350);
+	bigfire4->SetPosition(1090, 340);
 	objects.push_back(bigfire4);
-	objects.push_back(bigfire4->heart);
 
 	BigFire *bigfire5 = new BigFire();
 	bigfire5->AddAnimation(700);
 	bigfire5->heart->AddAnimation(805);
-	bigfire5->effect->AddAnimation(806);
-	bigfire5->effect->AddAnimation(807);
-	bigfire5->SetPosition(1267, 350);
+	bigfire5->SetPosition(1267, 340);
 	objects.push_back(bigfire5);
-	objects.push_back(bigfire5->heart);
 #pragma endregion
 
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
@@ -1339,12 +1321,33 @@ void Update(DWORD dt)
 		{
 			Zombie *zombie = dynamic_cast<Zombie *>(objects.at(i));
 
-			if (zombie->GetState() == ZOMBIE_STATE_DIE) {
+			if (zombie->GetState() == ZOMBIE_STATE_DIE)
+			{
 				objects.erase(objects.begin() + i);
 				delete zombie;
 			}
 		}
-		
+		else if (dynamic_cast<BigFire *>(objects.at(i)))
+		{
+			BigFire *bigFire = dynamic_cast<BigFire *>(objects.at(i));
+
+			if (bigFire->isHitted)
+			{
+				objects.push_back(bigFire->heart);
+				objects.erase(objects.begin() + i);
+				delete bigFire;
+			}
+		}
+		else if (dynamic_cast<Heart *>(objects.at(i)))
+		{
+			Heart *heart = dynamic_cast<Heart *>(objects.at(i));
+
+			if (heart->GetEaten())
+			{
+				objects.erase(objects.begin() + i);
+				delete heart;
+			}
+		}
 	}
 #pragma endregion	
 

@@ -12,6 +12,7 @@ public:
 	Heart *heart;
 	Effect *effect;
 	BigFire() :CGameObject() {
+		heart = new Heart();
 		isHitted = false;
 	}
 	void SetHit();
@@ -22,7 +23,5 @@ public:
 	{
 		this->x = x;
 		this->y = y;
-		heart->x = x;
-		heart->y = y;
 	}
 };

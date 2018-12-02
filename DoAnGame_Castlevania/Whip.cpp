@@ -29,8 +29,11 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			bigfire->GetBoundingBox(zl, zt, zr, zb);
 			if (x < zl && x + WHIP_BBOX_WIDTH > zr && y > zt && y + WHIP_BBOX_HEIGHT < zb)
 			{
+				float bigfire_x, bigfire_y;
+				bigfire->GetPosition(bigfire_x, bigfire_y);
 				bigfire->isHitted = true;
-				bigfire->heart->SetSpeed(0, 0.1);
+				bigfire->heart->SetPosition(bigfire_x, bigfire_y);
+				bigfire->heart->SetSpeed(0, -0.1);
 				Simon::score += 100;
 			}
 		}

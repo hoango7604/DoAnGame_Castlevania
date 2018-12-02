@@ -14,6 +14,7 @@
 #define SCREEN_HEIGHT 480
 
 int Simon::score = 0;
+int Simon::heartsAmount = 0;
 /*
 	Calculate potential collisions with the list of colliable objects
 
@@ -347,6 +348,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				// Khong va cham theo phuong ngang
 				if (isJump && e->nx == 0 && e->ny < 0)
 					isJump = false;
+			}
+			else if (dynamic_cast<Heart *>(e->obj))
+			{
+				Heart *heart = dynamic_cast<Heart *>(e->obj);
+				heart->SetEaten();
+				IncHeart(1);
 			}
 		}
 	}

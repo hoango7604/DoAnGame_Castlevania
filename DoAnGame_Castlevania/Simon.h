@@ -45,6 +45,7 @@ public:
 public:
 	Whip * whip;
 	static int score;
+	static int heartsAmount;
 	int currentWeapon;
 	Simon() : CGameObject()
 	{
@@ -65,7 +66,7 @@ public:
 		this->y = y;
 		whip->SetPosition(x, y);
 	}
-
+	void IncHeart(int num) { heartsAmount += num; }
 	void SetState(int state);
 
 	void SetAction(int action);
