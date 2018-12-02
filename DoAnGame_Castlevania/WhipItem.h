@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
 #include "Ground.h"
-#define WHIPITEM_BBOX_WIDTH  16
-#define WHIPITEM_BBOX_HEIGHT 16
+#define WHIPITEM_BBOX_WIDTH  32
+#define WHIPITEM_BBOX_HEIGHT 32
 
 class WhipItem : public CGameObject
 {

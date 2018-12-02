@@ -775,6 +775,7 @@ void LoadResources()
 	BigFire *bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->heart->AddAnimation(805);
+	bigfire->whipitem->AddAnimation(808);
 	bigfire->SetPosition(335, 340);
 	objects.push_back(bigfire);
 
@@ -1364,10 +1365,24 @@ void Update(DWORD dt)
 		else if (dynamic_cast<BigFire *>(objects.at(i)))
 		{
 			BigFire *bigFire = dynamic_cast<BigFire *>(objects.at(i));
-
 			if (bigFire->isHitted)
 			{
-				objects.push_back(bigFire->heart);
+				float bigfire_x, bigfire_y;
+				bigFire->GetPosition(bigfire_x, bigfire_y);
+
+				if (simon->whip->level < 2)
+				{
+					bigFire->whipitem->SetPosition(bigfire_x, bigfire_y);
+					bigFire->whipitem->SetSpeed(0, -0.1);
+					objects.push_back(bigFire->whipitem);
+				}
+				else
+				{
+					bigFire->heart->SetPosition(bigfire_x, bigfire_y);
+					bigFire->heart->SetSpeed(0, -0.1);
+					objects.push_back(bigFire->heart);
+				}
+
 				objects.erase(objects.begin() + i);
 				delete bigFire;
 			}

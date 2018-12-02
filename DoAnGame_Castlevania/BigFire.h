@@ -2,8 +2,6 @@
 #include "Heart.h"
 #include "Effect.h"
 #include "WhipItem.h"
-#define BIGFIRE_BBOX_WIDTH  32
-#define BIGFIRE_BBOX_HEIGHT 32
 
 class BigFire : public CGameObject
 {
