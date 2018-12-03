@@ -1,4 +1,4 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include "debug.h"
 
 #include "Simon.h"
@@ -290,7 +290,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		else
 		{
 			// Whip position equal to simon position + simon width - whip width
-			whip->SetPosition(x + SIMON_STAND_BBOX_WIDTH - WHIP_BBOX_WIDTH, y);
+			float wl, wr, wt, wb;
+			whip->GetBoundingBox(wl, wt, wr, wb);
+			whip->SetPosition(x + SIMON_STAND_BBOX_WIDTH - (wr - wl), y);
 		}
 	}
 
@@ -324,9 +326,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
 		/*
 		 * Handle collision here
 		 */
@@ -348,12 +347,22 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				// Khong va cham theo phuong ngang
 				if (isJump && e->nx == 0 && e->ny < 0)
 					isJump = false;
+
+				// Xét va chạm cứng
+				if (nx != 0) vx = 0;
+				if (ny != 0) vy = 0;
 			}
 			else if (dynamic_cast<Heart *>(e->obj))
 			{
 				Heart *heart = dynamic_cast<Heart *>(e->obj);
 				heart->SetEaten();
 				IncHeart(1);
+			}
+			else if (dynamic_cast<WhipItem *>(e->obj))
+			{
+				WhipItem *whipItem = dynamic_cast<WhipItem *>(e->obj);
+				whipItem->SetEaten();
+				whip->UpLevel();
 			}
 		}
 	}
@@ -540,7 +549,11 @@ void Simon::Render()
 
 	if (aniWhip != -1)
 	{
-		whip->animations[aniWhip]->Render(x, y, alpha);
+
+		if (!isSit)
+			whip->animations[aniWhip]->Render(x, y, alpha);
+		else
+			whip->animations[aniWhip]->Render(x, y + (SIMON_STAND_BBOX_HEIGHT - SIMON_SIT_BBOX_HEIGHT), alpha);
 	}
 
 	RenderBoundingBox();
@@ -656,17 +669,8 @@ void Simon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
 	top = y;
-
-	if (state != SIMON_STATE_SIT)
-	{
-		right = x + SIMON_STAND_BBOX_WIDTH;
-		bottom = y + SIMON_STAND_BBOX_HEIGHT;
-	}
-	else
-	{
-		right = x + SIMON_SIT_BBOX_WIDTH;
-		bottom = y + SIMON_SIT_BBOX_HEIGHT;
-	}
+	right = x + SIMON_STAND_BBOX_WIDTH;
+	bottom = y + SIMON_STAND_BBOX_HEIGHT;
 
 }
 

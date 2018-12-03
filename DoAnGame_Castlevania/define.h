@@ -6,7 +6,7 @@
 #define SIMON_CLIMBING_SPEED_Y			0.05f
 #define SIMON_JUMP_SPEED_Y				0.52f
 #define SIMON_JUMP_DEFLECT_SPEED		0.2f
-#define SIMON_GRAVITY					0.002f
+#define SIMON_GRAVITY					0.0015f
 #define SIMON_DIE_DEFLECT_SPEED			0.5f
 #define SIMON_SIT_TO_STAND				15
 #define SIMON_ON_LEFT_CHECKSTAIR		1
@@ -62,8 +62,12 @@
 #define WHIP_RIGHT_1					2
 #define WHIP_LEFT_1						3
 
-#define WHIP_BBOX_WIDTH					125
-#define WHIP_BBOX_HEIGHT				15
+#define WHIP_LV0_BBOX_WIDTH				100
+#define WHIP_LV0_BBOX_HEIGHT			15
+#define WHIP_LV1_BBOX_WIDTH				125
+#define WHIP_LV1_BBOX_HEIGHT			15
+#define WHIP_LV2_BBOX_WIDTH				125
+#define WHIP_LV2_BBOX_HEIGHT			15
 
 // Big fire
 #define BIGFIRE_BBOX_WIDTH				32

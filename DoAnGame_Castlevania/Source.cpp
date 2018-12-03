@@ -119,7 +119,6 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 			if (!simon->isAttack)
 			{
 				simon->isSit = false;
-				simon->y -= SIMON_SIT_TO_STAND;
 			}
 			else
 			{
@@ -295,9 +294,9 @@ void LoadResources()
 	sprites->Add(10005, 60, 0, 108, 64, texSimon);
 	sprites->Add(10006, 0, 0, 64, 64, texSimon);
 
-	sprites->Add(10028, 0, 83, 49, 130, texSimon);		// ngồi đánh phải			
-	sprites->Add(10029, 420, 149, 469, 196, texSimon);
-	sprites->Add(10030, 360, 149, 421, 196, texSimon);
+	sprites->Add(10028, 0, 67, 49, 130, texSimon);		// ngồi đánh phải			
+	sprites->Add(10029, 420, 134, 469, 197, texSimon);
+	sprites->Add(10030, 360, 134, 421, 197, texSimon);
 
 	sprites->Add(10034, 120, 134, 168, 197, texSimon);		// trên thang phải đánh phải			
 	sprites->Add(10035, 60, 134, 109, 197, texSimon);
@@ -314,9 +313,9 @@ void LoadResources()
 	sprites->Add(10053, 318, 67, 350, 130, texSimon);
 
 
-	sprites->Add(10018, 196, 17, 230, 64, texSimon); // ngồi phải
+	sprites->Add(10018, 196, 0, 230, 64, texSimon); // ngồi phải
 
-	sprites->Add(10020, 196, 17, 230, 64, texSimon); // nhảy phải
+	sprites->Add(10020, 196, 0, 230, 64, texSimon); // nhảy phải
 	
 	sprites->Add(10054, 436, 67, 471, 130, texSimon);//bị đánh từ bên trái
 
@@ -332,9 +331,9 @@ void LoadResources()
 	sprites->Add(10015, 361, 0, 404, 64, texSimon2);
 	sprites->Add(10016, 421, 0, 464, 64, texSimon2);
 
-	sprites->Add(10031, 420, 83, 477, 130, texSimon2);		// ngồi đánh trái				
-	sprites->Add(10032, 0, 149, 44, 196, texSimon2);
-	sprites->Add(10033, 60, 149, 104, 196, texSimon2);
+	sprites->Add(10031, 420, 67, 477, 130, texSimon2);		// ngồi đánh trái				
+	sprites->Add(10032, 0, 134, 44, 197, texSimon2);
+	sprites->Add(10033, 60, 134, 104, 197, texSimon2);
 
 	sprites->Add(10037, 120, 134, 177, 197, texSimon2);		// trên thang phải đánh trái			
 	sprites->Add(10038, 180, 134, 225, 197, texSimon2);
@@ -351,30 +350,30 @@ void LoadResources()
 	sprites->Add(10050, 190, 67, 224, 130, texSimon2); //lên thang trái
 	sprites->Add(10051, 252, 67, 286, 130, texSimon2);
 
-	sprites->Add(10019, 252, 17, 284, 64, texSimon2); // ngồi trái
+	sprites->Add(10019, 252, 0, 284, 64, texSimon2); // ngồi trái
 
-	sprites->Add(10021, 256, 17, 286, 64, texSimon2);//nhảy trái
+	sprites->Add(10021, 256, 0, 286, 64, texSimon2);//nhảy trái
 
 	sprites->Add(10055, 12, 70, 41, 130, texSimon2);//bị đánh từ bên phải
 
 	sprites->Add(10099, 180, 237, 240, 264, texSimon);		// chết 
 
 	LPDIRECT3DTEXTURE9 whipR = textures->Get(ID_TEX_WHIP);
-	sprites->Add(10022, 570, 200, 554, 267, whipR);//roi nâng cấp phải
+	sprites->Add(10022, 570, 200, 554, 267, whipR);			//roi lv2 phải
 	sprites->Add(10023, 342, 260, 312, 316, whipR);
-	sprites->Add(10024, 342, 328, 458, 364, whipR);
+	sprites->Add(10024, 342, 328, 458, 364, whipR); // 116
 	
-	sprites->Add(10056, 570, 0, 553, 67, whipR);//roi thường phải	
+	sprites->Add(10056, 570, 0, 553, 67, whipR);			//roi lv0 phải	
 	sprites->Add(10057, 346, 0, 312, 49, whipR);
-	sprites->Add(10058, 114, 0, 188, 30, whipR);
+	sprites->Add(10058, 114, 0, 188, 30, whipR); // 74
 	
 
 	LPDIRECT3DTEXTURE9 whipL = textures->Get(ID_TEX_WHIP_2);
-	sprites->Add(10025, 105, 70, 165, 133, whipL);//roi  nâng cấp trái
+	sprites->Add(10025, 105, 70, 165, 133, whipL);			//roi lv2 trái
 	sprites->Add(10026, 340, 65, 406, 117, whipL);
 	sprites->Add(10027, 575, 330, 458, 364, whipL);
 
-	sprites->Add(10059, 110, 0, 166, 66, whipL);//roi  thường trái
+	sprites->Add(10059, 110, 0, 166, 66, whipL);			//roi lv0 trái
 	sprites->Add(10060, 349, 0, 408, 52, whipL);
 	sprites->Add(10061, 585, 0, 529, 30, whipL);
 
@@ -1241,7 +1240,7 @@ void Update(DWORD dt)
 		{
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(3000, 155);
+			simon->SetPosition(50, 155);
 			timer = GetTickCount();
 		}
 		else if(countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2*SIMON_STAND_BBOX_WIDTH)
@@ -1395,6 +1394,16 @@ void Update(DWORD dt)
 			{
 				objects.erase(objects.begin() + i);
 				delete heart;
+			}
+		}
+		else if (dynamic_cast<WhipItem *>(objects.at(i)))
+		{
+			WhipItem *whipItem = dynamic_cast<WhipItem *>(objects.at(i));
+
+			if (whipItem->GetEaten())
+			{
+				objects.erase(objects.begin() + i);
+				delete whipItem;
 			}
 		}
 	}
