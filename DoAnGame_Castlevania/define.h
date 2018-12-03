@@ -80,6 +80,14 @@
 #define HEART_BBOX_WIDTH				16
 #define HEART_BBOX_HEIGHT				16
 
+//Knife
+#define KNIFE_BBOX_WIDTH  32
+#define KNIFE_BBOX_HEIGHT 18
+
+//Money
+#define MONEY_BBOX_WIDTH  30
+#define MONEY_BBOX_HEIGHT 30
+
 // Zombie
 #define ZOMBIE_WALKING_SPEED			0.07f
 
@@ -201,6 +209,7 @@
 #define ID_TEX_EFFECT1					180
 #define ID_TEX_EFFECT2					185
 #define ID_TEX_WHIP_VIP					190
+#define ID_TEX_MONEY					195
 
 #define BRICK_BBOX_WIDTH				32
 #define BRICK_BBOX_HEIGHT				32

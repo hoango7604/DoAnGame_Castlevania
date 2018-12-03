@@ -87,6 +87,12 @@
     <ClInclude Include="WhipItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Money.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Knife.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Ground.cpp">
@@ -162,6 +168,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WhipItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Money.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Knife.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

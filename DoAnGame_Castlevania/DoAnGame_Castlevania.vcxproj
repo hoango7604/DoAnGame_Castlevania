@@ -140,8 +140,10 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Heart.h" />
+    <ClInclude Include="Knife.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MerMan.h" />
+    <ClInclude Include="Money.h" />
     <ClInclude Include="Panther.h" />
     <ClInclude Include="RedBat.h" />
     <ClInclude Include="Simon.h" />
@@ -166,8 +168,10 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Heart.cpp" />
+    <ClCompile Include="Knife.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MerMan.cpp" />
+    <ClCompile Include="Money.cpp" />
     <ClCompile Include="Panther.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="Simon.cpp" />

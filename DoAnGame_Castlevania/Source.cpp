@@ -281,7 +281,8 @@ void LoadResources()
 	textures->Add(ID_TEX_EFFECT1, L"Castlevania\\0.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_EFFECT2, L"Castlevania\\DEAD.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_WHIP_VIP, L"Castlevania\\WHIP_VIP.png", D3DCOLOR_XRGB(255, 0, 255));
-
+	textures->Add(ID_TEX_MONEY, L"Castlevania\\money_bag_red.png", D3DCOLOR_XRGB(255, 0, 255));
+	
 
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 	#pragma region Addsprite
@@ -473,6 +474,11 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texMisc10 = textures->Get(ID_TEX_WHIP_VIP);
 	sprites->Add(40022, 0, 0, 32, 32, texMisc10);
 
+	LPDIRECT3DTEXTURE9 texMisc11 = textures->Get(ID_TEX_KNIFE);
+	sprites->Add(40023, 0, 0, 32, 18, texMisc11);
+
+	LPDIRECT3DTEXTURE9 texMisc12 = textures->Get(ID_TEX_MONEY);
+	sprites->Add(40024, 0, 0, 30, 30, texMisc12);
 	#pragma endregion
 
 	LPANIMATION ani;
@@ -747,6 +753,14 @@ void LoadResources()
 	ani->Add(40022);
 	animations->Add(808, ani);
 
+	ani = new CAnimation(0); //knife
+	ani->Add(40023);
+	animations->Add(809, ani);
+
+	ani = new CAnimation(0); //money
+	ani->Add(40024);
+	animations->Add(810, ani);
+
 
 	#pragma endregion
 
@@ -842,6 +856,7 @@ void LoadResources()
 	bigfire5->heart->AddAnimation(805);
 	bigfire5->SetPosition(1267, 340);
 	objects.push_back(bigfire5);
+
 #pragma endregion
 
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
