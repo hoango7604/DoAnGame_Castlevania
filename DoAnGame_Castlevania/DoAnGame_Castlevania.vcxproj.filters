@@ -69,9 +69,6 @@
     <ClInclude Include="CheckStair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Heart.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,13 +81,16 @@
     <ClInclude Include="Effect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WhipItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Money.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Knife.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -152,9 +152,6 @@
     <ClCompile Include="CheckStair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Heart.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -167,13 +164,16 @@
     <ClCompile Include="Effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WhipItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Money.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Knife.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

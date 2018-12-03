@@ -1,8 +1,8 @@
-﻿
-
-#include <windows.h>
+﻿#include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <cstdlib>
+#include <ctime>
 #include <math.h>
 #include "debug.h"
 #include "Game.h"
@@ -15,20 +15,20 @@
 #include "Zombie.h"
 #include "BigFire.h"
 #include "Candle.h"
+#include "Item.h"
 #include "Map.h"
 #include "Stair.h"
 #include "RedBat.h"
 #include "Panther.h"
 #include "MerMan.h"
 #include "CheckStair.h"
+#include "CheckPoint.h"
 #include "UI.h"
 #include "BossBat.h"
 
-
 CGame *game;
 Simon * simon;
-Heart *heart;
-WhipItem *whipItem;
+Item *item;
 Effect *whipEffect;
 Map *map;
 UI * ui;
@@ -77,7 +77,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	// Nhay
 	if (KeyCode == DIK_SPACE)
 	{
-		if (/*simon->isJump == false && */simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
+		if (simon->isJump == false && simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
 			simon->SetAction(SIMON_ACTION_JUMP);
 	}
 	// Danh
@@ -820,43 +820,46 @@ void LoadResources()
 	#pragma region BigFire
 	BigFire *bigfire = new BigFire();
 	bigfire->AddAnimation(700);
-	bigfire->heart->AddAnimation(805);
-	bigfire->whipitem->AddAnimation(808);
 	bigfire->SetPosition(335, 340);
 	objects.push_back(bigfire);
 
 	BigFire *bigfire1 = new BigFire();
 	bigfire1->AddAnimation(700);
-	bigfire1->heart->AddAnimation(805);
-	bigfire1->whipitem->AddAnimation(808);
 	bigfire1->SetPosition(464, 340);
 	objects.push_back(bigfire1);
 
 	BigFire *bigfire2 = new BigFire();
 	bigfire2->AddAnimation(700);
-	bigfire2->heart->AddAnimation(805);
-	bigfire1->whipitem->AddAnimation(808);
 	bigfire2->SetPosition(657, 340);
 	objects.push_back(bigfire2);
 
 	BigFire *bigfire3 = new BigFire();
 	bigfire3->AddAnimation(700);
-	bigfire3->heart->AddAnimation(805);
 	bigfire3->SetPosition(851, 340);
 	objects.push_back(bigfire3);
 
 	BigFire *bigfire4 = new BigFire();
 	bigfire4->AddAnimation(700);
-	bigfire4->heart->AddAnimation(805);
 	bigfire4->SetPosition(1090, 340);
 	objects.push_back(bigfire4);
 
 	BigFire *bigfire5 = new BigFire();
 	bigfire5->AddAnimation(700);
-	bigfire5->heart->AddAnimation(805);
 	bigfire5->SetPosition(1267, 340);
 	objects.push_back(bigfire5);
+#pragma endregion
 
+#pragma region BigFire
+	CheckPoint *checkPoint;
+	checkPoint = new CheckPoint();
+	checkPoint->SetType(CHECKPOINT_LEVELUP);
+	checkPoint->SetPosition(1377, 374);
+	objects.push_back(checkPoint);
+
+	checkPoint = new CheckPoint();
+	checkPoint->SetType(CHECKPOINT_BONUS);
+	checkPoint->SetPosition(1410, 374);
+	objects.push_back(checkPoint);
 #pragma endregion
 
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
@@ -1263,23 +1266,56 @@ void LoadResourceboss()
 	bossbat->SetPosition(5325, 125);
 	bossbat->SetState(BOSSBAT_STATE_WAIT);
 	objects.push_back(bossbat);
-
 }
 
 void Update(DWORD dt)
 {
 	float x, y;
 	simon->GetPosition(x, y);
-	gameTime -= dt;
+	if (!simon->isLevelUp)
+		gameTime -= dt;
 #pragma region Resource
 	if (lv1 == true)
 	{
-		if (x > 1536 ) {
-			for (int i = objects.size() -1; i > 0; i--)
-				objects.pop_back();
+		Item *bonus = NULL;
+		// Thưởng bonus vòng 1
+		if (simon->isBonus)
+		{
+			bonus = new Item();
+			bonus->SetPosition(1367, 407);
+			bonus->AddAnimation(ITEM_MONEY);
+			bonus->SetType(ITEM_MONEY);
+			simon->isBonus = false;
+		}
 
-			lv2 = true;
-			lv1 = false;
+		if (bonus != NULL)
+		{
+			if (bonus->y > 370)
+			{
+				bonus->y -= SIMON_CLIMBING_SPEED_Y * dt;
+				bonus->Render();
+			}
+			else
+			{
+				objects.push_back(bonus);
+			}
+		}
+
+		// Lên cấp
+		if (simon->isLevelUp) {
+			simon->SetState(SIMON_STATE_WALK);
+			simon->SetSpeed(SIMON_LEVELUP_SPEED, 0);
+			DWORD timer = GetTickCount();
+			if (timer - simon->onCheckPointTime > LEVELUP_TIME)
+			{
+				for (int i = objects.size() - 1; i > 0; i--)
+					objects.pop_back();
+
+				lv2 = true;
+				lv1 = false;
+				simon->isLevelUp = false;
+				simon->SetState(SIMON_STATE_IDLE);
+			}
 		}
 	}
 	if (lv2 == true)
@@ -1416,26 +1452,51 @@ void Update(DWORD dt)
 			{
 				float bigfire_x, bigfire_y, bigfire_right, bigfire_bottom;
 				bigFire->GetBoundingBox(bigfire_x, bigfire_y, bigfire_right, bigfire_bottom);
+				
+				item = new Item();
+				item->SetPosition(bigfire_x, bigfire_y);
+				item->SetSpeed(0, -0.1);
+				objects.push_back(item);
 
+				// Whip item
 				if (simon->whip->level < 2)
 				{
-					whipItem = new WhipItem();
-					whipItem->AddAnimation(808);
-
-					whipItem->SetPosition(bigfire_x, bigfire_y);
-					whipItem->SetSpeed(0, -0.1);
-					objects.push_back(whipItem);
+					item->AddAnimation(ITEM_WHIPITEM);
+					item->SetType(ITEM_WHIPITEM);
 				}
 				else
 				{
-					heart = new Heart();
-					heart->AddAnimation(805);
+					/**
+					 * Random ra item: (do hiện tại chỉ có 3 món này)
+					 * 95% heart
+					 * 4% money
+					 * 1% knife
+					 */
 
-					heart->SetPosition(bigfire_x, bigfire_y);
-					heart->SetSpeed(0, -0.1);
-					objects.push_back(heart);
+					srand(time(NULL));
+					int random_portion = rand() % 100;
+
+					// Heart
+					if (random_portion < 95)
+					{
+						item->AddAnimation(ITEM_HEART);
+						item->SetType(ITEM_HEART);
+					}
+					// Money
+					else if (random_portion >= 95 && random_portion < 99)
+					{
+						item->AddAnimation(ITEM_MONEY);
+						item->SetType(ITEM_MONEY);
+					}
+					// Knife
+					else
+					{
+						item->AddAnimation(ITEM_KNIFE);
+						item->SetType(ITEM_KNIFE);
+					}
 				}
 
+				// Thêm hiệu ứng tóe lửa
 				whipEffect = new Effect(GetTickCount());
 				whipEffect->AddAnimation(806);
 				whipEffect->SetPosition(bigfire_x, bigfire_y + (bigfire_bottom - bigfire_y) / 4);
@@ -1450,24 +1511,14 @@ void Update(DWORD dt)
 				delete bigFire;
 			}
 		}
-		else if (dynamic_cast<Heart *>(objects.at(i)))
+		else if (dynamic_cast<Item *>(objects.at(i)))
 		{
-			Heart *heart = dynamic_cast<Heart *>(objects.at(i));
+			Item *item = dynamic_cast<Item *>(objects.at(i));
 
-			if (heart->GetEaten())
+			if (item->GetEaten())
 			{
 				objects.erase(objects.begin() + i);
-				delete heart;
-			}
-		}
-		else if (dynamic_cast<WhipItem *>(objects.at(i)))
-		{
-			WhipItem *whipItem = dynamic_cast<WhipItem *>(objects.at(i));
-
-			if (whipItem->GetEaten())
-			{
-				objects.erase(objects.begin() + i);
-				delete whipItem;
+				delete item;
 			}
 		}
 		else if (dynamic_cast<Effect *>(objects.at(i)))

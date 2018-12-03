@@ -1,11 +1,12 @@
 //file path
 #define GAME_FONT L"Castlevania\\prstart.ttf"
 
-#define SIMON_WALKING_SPEED				0.1f 
+#define SIMON_WALKING_SPEED				0.15f 
 #define SIMON_CLIMBING_SPEED_X			0.05f
 #define SIMON_CLIMBING_SPEED_Y			0.05f
 #define SIMON_JUMP_SPEED_Y				0.52f
 #define SIMON_JUMP_DEFLECT_SPEED		0.2f
+#define SIMON_LEVELUP_SPEED				0.01f
 #define SIMON_GRAVITY					0.0015f
 #define SIMON_DIE_DEFLECT_SPEED			0.5f
 #define SIMON_SIT_TO_STAND				15
@@ -80,13 +81,17 @@
 #define HEART_BBOX_WIDTH				16
 #define HEART_BBOX_HEIGHT				16
 
+// Whip item
+#define WHIPITEM_BBOX_WIDTH				32
+#define WHIPITEM_BBOX_HEIGHT			32
+
 //Knife
-#define KNIFE_BBOX_WIDTH  32
-#define KNIFE_BBOX_HEIGHT 18
+#define KNIFE_BBOX_WIDTH				32
+#define KNIFE_BBOX_HEIGHT				18
 
 //Money
-#define MONEY_BBOX_WIDTH  30
-#define MONEY_BBOX_HEIGHT 30
+#define MONEY_BBOX_WIDTH				30
+#define MONEY_BBOX_HEIGHT				30
 
 // Zombie
 #define ZOMBIE_WALKING_SPEED			0.07f
@@ -215,3 +220,14 @@
 #define BRICK_BBOX_HEIGHT				32
 
 #define EFFECT_TIME						200
+#define LEVELUP_TIME					3000
+
+// Item
+#define ITEM_WHIPITEM					808
+#define ITEM_HEART						805
+#define ITEM_KNIFE						809
+#define ITEM_MONEY						810
+
+// Checkpoint type
+#define CHECKPOINT_LEVELUP				0
+#define CHECKPOINT_BONUS				1

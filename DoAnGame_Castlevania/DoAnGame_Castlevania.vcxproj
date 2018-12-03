@@ -131,6 +131,7 @@
     <ClInclude Include="BigFire.h" />
     <ClInclude Include="BossBat.h" />
     <ClInclude Include="Candle.h" />
+    <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="CheckStair.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
@@ -139,7 +140,6 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Ground.h" />
-    <ClInclude Include="Heart.h" />
     <ClInclude Include="Knife.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MerMan.h" />
@@ -152,13 +152,14 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Whip.h" />
-    <ClInclude Include="WhipItem.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BigFire.cpp" />
     <ClCompile Include="BossBat.cpp" />
     <ClCompile Include="Candle.cpp" />
+    <ClCompile Include="CheckPoint.cpp" />
     <ClCompile Include="CheckStair.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="define.cpp" />
@@ -167,7 +168,6 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Ground.cpp" />
-    <ClCompile Include="Heart.cpp" />
     <ClCompile Include="Knife.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MerMan.cpp" />
@@ -181,7 +181,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Whip.cpp" />
-    <ClCompile Include="WhipItem.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

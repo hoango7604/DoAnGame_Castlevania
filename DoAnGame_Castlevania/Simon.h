@@ -38,10 +38,14 @@ public:
 	bool isMoving;
 
 	DWORD attackTime;
+	DWORD onCheckPointTime;
 	int ny;
 
 	int life;
 	int preHP;
+	bool isLevelUp;
+	bool isBonus;
+
 public:
 	Whip * whip;
 	static int score;
@@ -61,12 +65,16 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
 
+	void SetCurrentWeapon(int weapon) { currentWeapon = weapon; }
+	int GetCurrentWeapon() { return currentWeapon; }
+
 	void SetPosition(float x, float y) {
 		this->x = x;
 		this->y = y;
 		whip->SetPosition(x, y);
 	}
 	void IncHeart(int num) { heartsAmount += num; }
+	void IncScore(int num) { score += num; }
 	void SetState(int state);
 
 	void SetAction(int action);

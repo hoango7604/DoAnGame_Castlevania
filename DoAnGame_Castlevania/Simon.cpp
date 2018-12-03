@@ -5,10 +5,12 @@
 #include "Game.h"
 #include "BigFire.h"
 #include "Candle.h"
+#include "Item.h"
 #include "Zombie.h"
 #include "Ground.h"
 #include "Stair.h"
 #include "CheckStair.h"
+#include "CheckPoint.h"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -352,17 +354,48 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (nx != 0) vx = 0;
 				if (ny != 0) vy = 0;
 			}
-			else if (dynamic_cast<Heart *>(e->obj))
+			else if (dynamic_cast<CheckPoint *>(e->obj))
 			{
-				Heart *heart = dynamic_cast<Heart *>(e->obj);
-				heart->SetEaten();
-				IncHeart(1);
+				CheckPoint *checkpoint = dynamic_cast<CheckPoint *>(e->obj);
+				int type = checkpoint->GetType();
+
+				switch (type)
+				{
+				case CHECKPOINT_BONUS:
+					isBonus = true;
+					checkpoint->SetType(CHECKPOINT_BONUS);
+					break;
+				case CHECKPOINT_LEVELUP:
+					if (!isLevelUp)
+					{
+						x -= nx * 1.0f;
+						isLevelUp = true;
+						onCheckPointTime = GetTickCount();
+					}
+					break;
+				}
 			}
-			else if (dynamic_cast<WhipItem *>(e->obj))
+			else if (dynamic_cast<Item *>(e->obj))
 			{
-				WhipItem *whipItem = dynamic_cast<WhipItem *>(e->obj);
-				whipItem->SetEaten();
-				whip->UpLevel();
+				Item *item = dynamic_cast<Item *>(e->obj);
+				item->SetEaten();
+
+				int type = item->GetType();
+				switch (type)
+				{
+				case ITEM_HEART:
+					IncHeart(5);
+					break;
+				case ITEM_WHIPITEM:
+					whip->UpLevel();
+					break;
+				case ITEM_KNIFE:
+					SetCurrentWeapon(ITEM_KNIFE);
+					break;
+				case ITEM_MONEY:
+					IncScore(1000);
+					break;
+				}
 			}
 		}
 	}

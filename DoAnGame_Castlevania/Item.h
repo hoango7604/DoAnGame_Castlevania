@@ -1,13 +1,14 @@
 #pragma once
 #include "GameObject.h"
 #include "Ground.h"
-#define HEART_BBOX_WIDTH  16
-#define HEART_BBOX_HEIGHT 16
 
-class Heart : public CGameObject
+class Item : public CGameObject
 {
+	int type;
 	bool isEaten;
 public:
+	void SetType(int _type) { type = _type; }
+	int GetType() { return type; }
 	void SetEaten() { isEaten = true; }
 	bool GetEaten() { return isEaten; }
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);

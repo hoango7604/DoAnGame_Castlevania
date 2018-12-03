@@ -1,6 +1,5 @@
 #include "Effect.h"
 
-
 void Effect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (GetTickCount() - firstRenderTime > EFFECT_TIME)

@@ -1,6 +1,7 @@
-#include "Heart.h"
+#include "Item.h"
 
-void Heart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+
+void Item::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
@@ -33,16 +34,35 @@ void Heart::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 }
 
-void Heart::Render()
+void Item::Render()
 {
 	animations[0]->Render(x, y);
 	// RenderBoundingBox();
 }
 
-void Heart::GetBoundingBox(float &l, float &t, float &r, float &b)
+void Item::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 	l = x;
 	t = y;
-	r = x + HEART_BBOX_WIDTH;
-	b = y + HEART_BBOX_HEIGHT;
+
+	switch (type)
+	{
+	case ITEM_HEART:
+		r = x + HEART_BBOX_WIDTH;
+		b = y + HEART_BBOX_HEIGHT;
+		break;
+	case ITEM_WHIPITEM:
+		r = x + WHIPITEM_BBOX_WIDTH;
+		b = y + WHIPITEM_BBOX_HEIGHT;
+		break;
+	case ITEM_MONEY:
+		r = x + MONEY_BBOX_WIDTH;
+		b = y + MONEY_BBOX_HEIGHT;
+		break;
+	case ITEM_KNIFE:
+		r = x + KNIFE_BBOX_WIDTH;
+		b = y + KNIFE_BBOX_HEIGHT;
+		break;
+	}
 }
+

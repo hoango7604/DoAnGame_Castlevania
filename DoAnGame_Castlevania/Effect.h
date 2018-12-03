@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "define.h"
 
-
 class Effect : public CGameObject
 {
 	bool isExposed;
