@@ -34,8 +34,6 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (wl < zl && wr > zr && wt > zt && wb < zb)
 			{
 				bigfire->isHitted = true;
-				
-				Simon::score += 100;
 			}
 		}
 	}

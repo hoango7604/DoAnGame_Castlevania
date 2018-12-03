@@ -67,7 +67,7 @@
 
 #define WHIP_LV0_BBOX_WIDTH				100
 #define WHIP_LV0_BBOX_HEIGHT			15
-#define WHIP_LV1_BBOX_WIDTH				125
+#define WHIP_LV1_BBOX_WIDTH				105
 #define WHIP_LV1_BBOX_HEIGHT			15
 #define WHIP_LV2_BBOX_WIDTH				125
 #define WHIP_LV2_BBOX_HEIGHT			15
@@ -202,5 +202,7 @@
 #define ID_TEX_EFFECT2					185
 #define ID_TEX_WHIP_VIP					190
 
-#define BRICK_BBOX_WIDTH  32
-#define BRICK_BBOX_HEIGHT 32
+#define BRICK_BBOX_WIDTH				32
+#define BRICK_BBOX_HEIGHT				32
+
+#define EFFECT_TIME						200

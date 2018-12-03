@@ -27,6 +27,9 @@
 
 CGame *game;
 Simon * simon;
+Heart *heart;
+WhipItem *whipItem;
+Effect *whipEffect;
 Map *map;
 UI * ui;
 CSprite *sprite;
@@ -463,7 +466,9 @@ void LoadResources()
 	sprites->Add(40020, 0, 0, 16, 20, texMisc8);
 
 	LPDIRECT3DTEXTURE9 texMisc9 = textures->Get(ID_TEX_EFFECT2);
-	sprites->Add(40021, 51, 10, 71, 37, texMisc9);
+	sprites->Add(40021, 0, 10, 42, 37, texMisc9);
+	sprites->Add(41021, 42, 10, 84, 37, texMisc9);
+	sprites->Add(42021, 84, 10, 126, 37, texMisc9);
 
 	LPDIRECT3DTEXTURE9 texMisc10 = textures->Get(ID_TEX_WHIP_VIP);
 	sprites->Add(40022, 0, 0, 32, 32, texMisc10);
@@ -728,12 +733,14 @@ void LoadResources()
 	ani->Add(40019);
 	animations->Add(805, ani);
 
-	ani = new CAnimation(0); //hieu ung' dau' sao
+	ani = new CAnimation(150); //hieu ung' dau' sao
 	ani->Add(40020);
 	animations->Add(806, ani);
 
-	ani = new CAnimation(0); //hieu ung toe' lua
+	ani = new CAnimation(50); //hieu ung toe' lua
 	ani->Add(40021);
+	ani->Add(41021);
+	ani->Add(42021);
 	animations->Add(807, ani);
 
 	ani = new CAnimation(0); //whip item nang cap
@@ -1392,21 +1399,37 @@ void Update(DWORD dt)
 			BigFire *bigFire = dynamic_cast<BigFire *>(objects.at(i));
 			if (bigFire->isHitted)
 			{
-				float bigfire_x, bigfire_y;
-				bigFire->GetPosition(bigfire_x, bigfire_y);
+				float bigfire_x, bigfire_y, bigfire_right, bigfire_bottom;
+				bigFire->GetBoundingBox(bigfire_x, bigfire_y, bigfire_right, bigfire_bottom);
 
 				if (simon->whip->level < 2)
 				{
-					bigFire->whipitem->SetPosition(bigfire_x, bigfire_y);
-					bigFire->whipitem->SetSpeed(0, -0.1);
-					objects.push_back(bigFire->whipitem);
+					whipItem = new WhipItem();
+					whipItem->AddAnimation(808);
+
+					whipItem->SetPosition(bigfire_x, bigfire_y);
+					whipItem->SetSpeed(0, -0.1);
+					objects.push_back(whipItem);
 				}
 				else
 				{
-					bigFire->heart->SetPosition(bigfire_x, bigfire_y);
-					bigFire->heart->SetSpeed(0, -0.1);
-					objects.push_back(bigFire->heart);
+					heart = new Heart();
+					heart->AddAnimation(805);
+
+					heart->SetPosition(bigfire_x, bigfire_y);
+					heart->SetSpeed(0, -0.1);
+					objects.push_back(heart);
 				}
+
+				whipEffect = new Effect(GetTickCount());
+				whipEffect->AddAnimation(806);
+				whipEffect->SetPosition(bigfire_x, bigfire_y + (bigfire_bottom - bigfire_y) / 4);
+				objects.push_back(whipEffect);
+
+				whipEffect = new Effect(GetTickCount());
+				whipEffect->AddAnimation(807);
+				whipEffect->SetPosition(bigfire_x, bigfire_y + (bigfire_bottom - bigfire_y) / 4);
+				objects.push_back(whipEffect);
 
 				objects.erase(objects.begin() + i);
 				delete bigFire;
@@ -1430,6 +1453,16 @@ void Update(DWORD dt)
 			{
 				objects.erase(objects.begin() + i);
 				delete whipItem;
+			}
+		}
+		else if (dynamic_cast<Effect *>(objects.at(i)))
+		{
+			Effect *effect = dynamic_cast<Effect *>(objects.at(i));
+
+			if (effect->GetExposed())
+			{
+				objects.erase(objects.begin() + i);
+				delete effect;
 			}
 		}
 	}
