@@ -61,6 +61,9 @@
 #define WHIP_LEFT						1
 #define WHIP_RIGHT_1					2
 #define WHIP_LEFT_1						3
+#define WHIP_RIGHT_2					4
+#define WHIP_LEFT_2						5
+
 
 #define WHIP_LV0_BBOX_WIDTH				100
 #define WHIP_LV0_BBOX_HEIGHT			15

@@ -362,10 +362,16 @@ void LoadResources()
 	sprites->Add(10022, 570, 200, 554, 267, whipR);			//roi lv2 phải
 	sprites->Add(10023, 342, 260, 312, 316, whipR);
 	sprites->Add(10024, 342, 328, 458, 364, whipR); // 116
+
+	sprites->Add(10062, 570, 200, 554, 267, whipR);			//roi lv1 phải	
+	sprites->Add(10063, 342, 260, 312, 316, whipR);
+	sprites->Add(10064, 112, 65, 189, 100, whipR); 
 	
 	sprites->Add(10056, 570, 0, 553, 67, whipR);			//roi lv0 phải	
 	sprites->Add(10057, 346, 0, 312, 49, whipR);
 	sprites->Add(10058, 114, 0, 188, 30, whipR); // 74
+
+	
 	
 
 	LPDIRECT3DTEXTURE9 whipL = textures->Get(ID_TEX_WHIP_2);
@@ -373,9 +379,15 @@ void LoadResources()
 	sprites->Add(10026, 340, 65, 406, 117, whipL);
 	sprites->Add(10027, 575, 330, 458, 364, whipL);
 
+	sprites->Add(10065, 105, 70, 165, 133, whipL);			//roi lv1 trái	
+	sprites->Add(10066, 340, 65, 406, 117, whipL);
+	sprites->Add(10067, 572, 65, 530, 100, whipL); 
+
 	sprites->Add(10059, 110, 0, 166, 66, whipL);			//roi lv0 trái
 	sprites->Add(10060, 349, 0, 408, 52, whipL);
 	sprites->Add(10061, 585, 0, 529, 30, whipL);
+
+	
 
 
 	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_BRICK);
@@ -607,17 +619,29 @@ void LoadResources()
 	ani->Add(10055);	
 	animations->Add(425, ani);
 
-	ani = new CAnimation(150);//roi thường phải
+	ani = new CAnimation(150);//roi lv0 phải
 	ani->Add(10056);
 	ani->Add(10057);
 	ani->Add(10058);
 	animations->Add(426, ani);
 
-	ani = new CAnimation(150);//roi thường trái
+	ani = new CAnimation(150);//roi lv0 trái
 	ani->Add(10059);
 	ani->Add(10060);
 	ani->Add(10061);
 	animations->Add(427, ani);
+
+	ani = new CAnimation(150);//roi lv1 phải
+	ani->Add(10062);
+	ani->Add(10063);
+	ani->Add(10064);
+	animations->Add(428, ani);
+
+	ani = new CAnimation(150);//roi lv1 trái
+	ani->Add(10065);
+	ani->Add(10066);
+	ani->Add(10067);
+	animations->Add(429, ani);
 
 	ani = new CAnimation(100);	//chết	
 	ani->Add(10099);
@@ -751,10 +775,12 @@ void LoadResources()
 	simon->AddAnimation(599);	//chết
 
 	
-	simon->whip->AddAnimation(426);//roi thường phải
-	simon->whip->AddAnimation(427);//roi thường trái
-	simon->whip->AddAnimation(408);//roi phải
-	simon->whip->AddAnimation(409);//roi trái
+	simon->whip->AddAnimation(426);//roi lv0 phải
+	simon->whip->AddAnimation(427);//roi lv0 trái
+	simon->whip->AddAnimation(428);//roi lv1 phải
+	simon->whip->AddAnimation(429);//roi lv1 trái
+	simon->whip->AddAnimation(408);//roi lv2 phải
+	simon->whip->AddAnimation(409);//roi lv2 trái
 	simon->SetPosition(100, 327);
 	objects.push_back(simon);
 

@@ -401,6 +401,8 @@ void Simon::Render()
 				aniWhip = WHIP_RIGHT;
 				else if (whip->level == 1)
 				aniWhip = WHIP_RIGHT_1;
+				else if (whip->level == 2)
+				aniWhip = WHIP_RIGHT_2;
 			}
 			else
 			{
@@ -423,6 +425,8 @@ void Simon::Render()
 				aniWhip = WHIP_LEFT;
 				else if(whip->level == 1)
 				aniWhip = WHIP_LEFT_1;
+				else if (whip->level == 2)
+				aniWhip = WHIP_LEFT_2;
 			}
 		}
 		else if (isJump)
