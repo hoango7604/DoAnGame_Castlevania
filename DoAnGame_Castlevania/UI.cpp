@@ -91,7 +91,7 @@ void UI::Render(float x,float y)
 	{
 		enemyHPList[i]->Draw(x + 130 + 11 * i, 62, 255);
 	}
-	axe->Draw(x + SCREEN_WIDTH/2 + 20 , 60, 255);
+	//axe->Draw(x + SCREEN_WIDTH/2 + 20 , 60, 255);
 	heart->Draw(x + SCREEN_WIDTH / 2 + 105 ,40, 255);
 }
 

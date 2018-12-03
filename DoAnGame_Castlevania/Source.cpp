@@ -971,21 +971,21 @@ void LoadResourceLv2() {
 		candle->SetPosition(2050 +i*125 ,380);
 		objects.push_back(candle);
 	}
-	Panther *panther = new Panther();
+	/*Panther *panther = new Panther();
 	panther->AddAnimation(605);
 	panther->AddAnimation(606);	
 	panther->AddAnimation(607);
 	panther->AddAnimation(608);
-	panther->SetPosition(1403, 285);
+	panther->SetPosition(1403, 260);
 	panther->SetState(PANTHER_STATE_WAIT);
-	objects.push_back(panther);
+	objects.push_back(panther);*/
 
 	Panther *panther1 = new Panther();
 	panther1->AddAnimation(605);
 	panther1->AddAnimation(606);
 	panther1->AddAnimation(607);
 	panther1->AddAnimation(608);
-	panther1->SetPosition(1700, 221);
+	panther1->SetPosition(1700, 200);
 	panther1->SetState(PANTHER_STATE_WAIT);
 	objects.push_back(panther1);
 
@@ -994,7 +994,7 @@ void LoadResourceLv2() {
 	panther2->AddAnimation(606);
 	panther2->AddAnimation(607);
 	panther2->AddAnimation(608);
-	panther2->SetPosition(1950, 285);
+	panther2->SetPosition(1950, 260);
 	panther2->SetState(PANTHER_STATE_WAIT);
 	objects.push_back(panther2);
 
@@ -1086,15 +1086,15 @@ void LoadResourceLv2() {
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	objects.push_back(checkstair);
 	//1250 335 1265 320 1280 305*/ 3 10 6 8
-	/*for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		Zombie *zombie = new Zombie();
 		zombie->AddAnimation(602);
 		zombie->AddAnimation(604);
-		zombie->SetPosition(0 + i * 64, 376);
+		zombie->SetPosition(500 + i * 64, 376);
 		zombie->SetState(ZOMBIE_STATE_WALKING);
 		objects.push_back(zombie);
-	}*/
+	}
 }
 void LoadResourceLv2_1()
 {
@@ -1322,6 +1322,7 @@ void Update(DWORD dt)
 	{
 		if (countLoadResourceLv2 == false)
 		{
+			game->x_cam = 0;
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
 			simon->SetPosition(50, 155);
