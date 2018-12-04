@@ -210,6 +210,7 @@
 #define ID_TEX_KNIFE					165
 #define ID_TEX_NOHP						170
 #define ID_TEX_STOP_WATCH				175
+#define ID_TEX_RECT						176
 
 #define ID_TEX_EFFECT1					180
 #define ID_TEX_EFFECT2					185

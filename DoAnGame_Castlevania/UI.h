@@ -23,7 +23,7 @@ private:
 
 	CSprite* heart;
 	CSprite* weapon;
-	CSprite* black;
+	CSprite* pinkrect;
 	
 	CSprite* holyWater;
 	CSprite* cross;
@@ -51,7 +51,7 @@ public:
 	bool Initialize(LPDIRECT3DDEVICE9 d3ddv,Simon *simon);
 	//void Update(int bossHP, int time, int life, int stage);
 	void Update( int time, int stage,Simon *simon);
-	void Render(float x,float y);
+	void Render(float x,float y,Simon *simon);
 	CSprite* axe;
 };
 

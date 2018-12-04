@@ -56,9 +56,9 @@ public:
 		level = SIMON_LEVEL_BIG;
 		untouchable = 0;
 		whip = new Whip();
-		life = 10;
+		life = 3;
 		preHP = 16;
-		
+		currentWeapon = 0;
 	}
 
 	virtual void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);

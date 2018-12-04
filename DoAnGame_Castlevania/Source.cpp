@@ -277,6 +277,8 @@ void LoadResources()
 	textures->Add(ID_TEX_KNIFE, L"Castlevania\\UI\\KNIFE.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_NOHP, L"Castlevania\\UI\\NoHP.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_STOP_WATCH, L"Castlevania\\UI\\STOP_WATCH.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_RECT, L"Castlevania\\rect.png", D3DCOLOR_XRGB(255, 0, 255));
+
 
 	textures->Add(ID_TEX_EFFECT1, L"Castlevania\\0.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_EFFECT2, L"Castlevania\\DEAD.png", D3DCOLOR_XRGB(255, 0, 255));
@@ -409,15 +411,15 @@ void LoadResources()
 	sprites->Add(30004, 36, 0, 68, 64, texEnemy0);
 
 	LPDIRECT3DTEXTURE9 texEnemy1 = textures->Get(ID_TEX_PANTHER);
-	sprites->Add(30011, 0, 0, 50, 32, texEnemy1); // báo
-	sprites->Add(30012, 64, 0, 120, 32, texEnemy1); // báo chạy trái
-	sprites->Add(30013, 126, 0, 188, 32, texEnemy1);
-	sprites->Add(30014, 188, 0, 256, 32, texEnemy1);
+	sprites->Add(30011, 0, 0, 50, 30, texEnemy1); // báo
+	sprites->Add(30012, 64, 0, 120, 30, texEnemy1); // báo chạy trái
+	sprites->Add(30013, 126, 0, 188, 30, texEnemy1);
+	sprites->Add(30014, 188, 0, 256, 30, texEnemy1);
 
 	LPDIRECT3DTEXTURE9 texEnemy10 = textures->Get(ID_TEX_PANTHER_RIGHT);	
-	sprites->Add(30015, 136, 0, 190, 32, texEnemy10); //báo  chạy phải
-	sprites->Add(30016, 67, 0, 130, 32, texEnemy10);
-	sprites->Add(30017, 0, 0, 64, 32, texEnemy10);
+	sprites->Add(30015, 136, 0, 190, 30, texEnemy10); //báo  chạy phải
+	sprites->Add(30016, 67, 0, 130, 30, texEnemy10);
+	sprites->Add(30017, 0, 0, 64, 30, texEnemy10);
 
 	LPDIRECT3DTEXTURE9 texEnemy11 = textures->Get(ID_TEX_BAT);
 	sprites->Add(30018, 0, 0, 32, 32, texEnemy11); // dơi // nằm chờ
@@ -1745,7 +1747,7 @@ void Render()
 			objects[i]->Render();
 
 		objects[0]->Render();
-		ui->Render(game->x_cam,game->y_cam);
+		ui->Render(game->x_cam,game->y_cam,simon);
 		/*RECT newRect;
 		SetRect(&newRect, 0, 0, 30, 30);
 		D3DXVECTOR3 p(0, 0, 0);

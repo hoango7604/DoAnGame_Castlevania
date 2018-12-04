@@ -16,7 +16,7 @@ bool UI::Initialize(LPDIRECT3DDEVICE9 d3ddv, Simon * simon)
 {
 	CTextures * textures = CTextures::GetInstance();	
 	heart = new CSprite(1, 0, 0, 16, 16, textures->Get(ID_TEX_HEART));
-	black = new CSprite(2, 0, 0, SCREEN_WIDTH, 120, textures->Get(ID_TEX_BLACK));
+	pinkrect = new CSprite(2, 65, 37 ,131 ,82, textures->Get(ID_TEX_RECT));
 	axe = new CSprite(3, 0, 0, 30, 30, textures->Get(ID_TEX_AXE));
 	holyWater = new CSprite(4, 0, 0, 30, 30, textures->Get(ID_TEX_HOLY_WATER));
 	cross = new CSprite(5, 0, 0, 30, 30, textures->Get(ID_TEX_CROSS));
@@ -79,7 +79,7 @@ void UI::Update( int time, int stage,Simon *simon)
 	information += "ENEMY                P=" + std::to_string(simon->GetLife()) + "\n";
 }
 
-void UI::Render(float x,float y)
+void UI::Render(float x,float y,Simon *simon)
 {	
 	if (font)
 		font->DrawTextA(NULL, information.c_str(), -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
@@ -93,6 +93,19 @@ void UI::Render(float x,float y)
 	}
 	//axe->Draw(x + SCREEN_WIDTH/2 + 20 , 60, 255);
 	heart->Draw(x + SCREEN_WIDTH / 2 + 105 ,40, 255);
+	pinkrect->Draw(x + SCREEN_WIDTH / 2 , 40, 255);
+	if (simon->currentWeapon != NULL)
+	{
+		int weapon = simon->currentWeapon;
+		{
+			switch (weapon)
+			{
+			case ITEM_KNIFE:
+				knife->Draw(x + SCREEN_WIDTH / 2 + 10, 50, 255);
+				break;
+			}
+		}
+	}
 }
 
 
