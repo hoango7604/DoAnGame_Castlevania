@@ -1,7 +1,13 @@
 
 *.db
 *.opendb
-<<<<<<< HEAD
-=======
 *.ipch
->>>>>>> parent of 45fafbb... update
+.vs/DoAnGame_Castlevania/v15/.suo
+*.exe
+*.ilk
+*.pdb
+*.obj
+*.tlog
+*.log
+*.idb
+*.enc
