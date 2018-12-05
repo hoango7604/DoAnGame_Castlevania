@@ -1,3 +1,7 @@
 
 *.db
 *.opendb
+<<<<<<< HEAD
+=======
+*.ipch
+>>>>>>> parent of 45fafbb... update
