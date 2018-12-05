@@ -1,0 +1,117 @@
+﻿#include "GridObjects.h"
+
+void GridObjects::GetPoint(float &left, float &right)
+{
+	left = this->left;
+	right = this->right;
+}
+
+vector<LPGAMEOBJECT> GridObjects::GetListObject()
+{
+	return listObject;
+}
+
+void GridObjects::AddObject(LPGAMEOBJECT object)
+{
+	listObject.push_back(object);
+}
+
+void GridObjects::RemoveObject(int i)
+{
+	listObject.erase(listObject.begin() + i);
+}
+
+ListGrids *ListGrids::instance = NULL;
+
+void ListGrids::InitList(float mapWidth)
+{
+	GridObjects *grid;
+	int gridCount = ceil(mapWidth / SCREEN_WIDTH);
+	for (int i = 0; i < gridCount; i++)
+	{
+		float left, right;
+		left = i * SCREEN_WIDTH;
+		right = (i + 1) * SCREEN_WIDTH;
+		grid = new GridObjects(left, right);
+		listGrids.push_back(grid);
+	}
+}
+
+void ListGrids::ReleaseList()
+{
+	int listGridSize = listGrids.size();
+	// Duyệt qua từng grid trong listGrids và giải phóng bộ nhớ trong grid trước
+	for (int i = 0; i < listGridSize; i++)
+	{
+		int listObjectSize = listGrids[i]->listObject.size();
+		GridObjects *grid = listGrids[i];
+		for (int j = 0; j < listObjectSize; j++)
+		{
+			// Xóa từng phần tử
+			LPGAMEOBJECT gameObject = grid->listObject[j];
+			grid->RemoveObject(j);
+			delete gameObject;
+		}
+
+		// Xóa grid
+		RemoveGrid(i);
+		delete grid;
+	}
+}
+
+void ListGrids::RemoveGrid(int i)
+{
+	listGrids.erase(listGrids.begin() + i);
+}
+
+void ListGrids::AddObject(LPGAMEOBJECT object)
+{
+	// Dựa vào vị trí x của object để đặt vật vào grid tương ứng
+	int gridNumber = floor(object->x / SCREEN_WIDTH);
+	object->gridNumber = gridNumber;
+	listGrids[gridNumber]->AddObject(object);
+}
+
+void ListGrids::RemoveObject(LPGAMEOBJECT object)
+{
+	GridObjects *gridObjects = listGrids[object->gridNumber];
+	int listObjectSize = gridObjects->listObject.size();
+	int objectNumber = -1;
+
+	// Duyệt qua từng phần tử trong gridObjects để lấy chỉ số của object
+	for (int i = 0; i < listObjectSize; i++)
+	{
+		if (gridObjects->listObject[i] == object)
+		{
+			objectNumber = i;
+			break;
+		}
+	}
+
+	// Nếu tồn tại object trong gridObjects thì chỉ số sẽ khác -1
+	if (objectNumber != -1)
+	{
+		gridObjects->RemoveObject(objectNumber);
+	}
+}
+
+ListGrids * ListGrids::GetInstance()
+{
+	if (instance == NULL) instance = new ListGrids();
+	return instance;
+}
+
+vector<GridObjects*> ListGrids::GetCurrentGrids(float cam_x)
+{
+	vector<GridObjects*> result;
+	int gridNumber = floor(cam_x / SCREEN_WIDTH);
+	
+	// Trường hợp màn hình game nằm giữa 2 grid
+	result.push_back(listGrids[gridNumber]);
+	if (gridNumber > 0)
+		result.push_back(listGrids[gridNumber - 1]);
+	if (gridNumber + 1 < listGrids.size())
+		result.push_back(listGrids[gridNumber + 1]);
+
+	return result;
+}

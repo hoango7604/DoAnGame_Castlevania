@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Textures.h"
+#include "GridObjects.h"
 
 #include "Simon.h"
 #include "Ground.h"
@@ -34,7 +35,9 @@ Map *map;
 UI * ui;
 CSprite *sprite;
 vector<LPGAMEOBJECT> objects;
-vector<int> willDeleteObjects;
+ListGrids *listGrids;
+vector<GridObjects*> currentGrids;
+
 bool lv1 = true;
 bool lv2 = false;
 bool lv2_1 = false;
@@ -227,6 +230,486 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+void LoadResourceLv1()
+{
+	// Đặt vị trí xuất phát cho simon
+	simon->SetPosition(100, 327);
+
+	// Khởi tạo listGrids
+	listGrids->InitList(MAX_WIDTH_LV1);
+
+#pragma region Ground
+	for (int i = 0; i < 50; i++)
+	{
+		Ground *ground = new Ground();
+		ground->AddAnimation(601);
+		ground->SetPosition(0 + i * 32.0f, 407);
+		listGrids->AddObject(ground);
+		//objects.push_back(ground);
+	}
+#pragma endregion
+
+#pragma region BigFire
+	BigFire *bigfire;
+
+	bigfire = new BigFire();
+	bigfire->AddAnimation(700);
+	bigfire->SetPosition(335, 340);
+	listGrids->AddObject(bigfire);
+	//objects.push_back(bigfire);
+
+	bigfire = new BigFire();
+	bigfire->AddAnimation(700);
+	bigfire->SetPosition(464, 340);
+	listGrids->AddObject(bigfire);
+	//objects.push_back(bigfire);
+
+	bigfire = new BigFire();
+	bigfire->AddAnimation(700);
+	bigfire->SetPosition(657, 340);
+	listGrids->AddObject(bigfire);
+	//objects.push_back(bigfire);
+
+	bigfire = new BigFire();
+	bigfire->AddAnimation(700);
+	bigfire->SetPosition(851, 340);
+	listGrids->AddObject(bigfire);
+	//objects.push_back(bigfire);
+
+	bigfire = new BigFire();
+	bigfire->AddAnimation(700);
+	bigfire->SetPosition(1090, 340);
+	listGrids->AddObject(bigfire);
+	//objects.push_back(bigfire);
+
+	bigfire = new BigFire();
+	bigfire->AddAnimation(700);
+	bigfire->SetPosition(1267, 340);
+	listGrids->AddObject(bigfire);
+	//objects.push_back(bigfire);
+#pragma endregion
+
+#pragma region BigFire
+	CheckPoint *checkPoint;
+
+	checkPoint = new CheckPoint();
+	checkPoint->SetType(CHECKPOINT_LEVELUP);
+	checkPoint->SetPosition(1377, 374);
+	listGrids->AddObject(checkPoint);
+	//objects.push_back(checkPoint);
+
+	checkPoint = new CheckPoint();
+	checkPoint->SetType(CHECKPOINT_BONUS);
+	checkPoint->SetPosition(1410, 374);
+	listGrids->AddObject(checkPoint);
+	//objects.push_back(checkPoint);
+#pragma endregion
+}
+
+void LoadResourceLv2() {
+	for (int i = 0; i < 95; i++)
+	{
+		Ground *ground = new Ground();
+
+		ground->SetPosition(0 + i * 32.0f, 440);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+
+		ground->SetPosition(1377 + i * 32.0f, 310);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		Ground *ground = new Ground();
+
+		ground->SetPosition(1503 + i * 32.0f, 244);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		Ground *ground = new Ground();
+
+		ground->SetPosition(1854 + i * 32.0f, 310);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		Ground *ground = new Ground();
+
+		ground->SetPosition(2782 + i * 32.0f, 246);
+		objects.push_back(ground);
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		Candle *candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(65 + i * 255, 376);
+		objects.push_back(candle);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Candle *candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(195 + i * 257, 316);
+		objects.push_back(candle);
+	}
+	Candle *candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(1219, 326);
+	objects.push_back(candle);
+
+	Candle *candle1 = new Candle();
+	candle1->AddAnimation(800);
+	candle1->SetPosition(1339, 193);
+	objects.push_back(candle1);
+
+	Candle *candle2 = new Candle();
+	candle2->AddAnimation(800);
+	candle2->SetPosition(1445, 380);
+	objects.push_back(candle2);
+
+	Candle *candle3 = new Candle();
+	candle3->AddAnimation(800);
+	candle3->SetPosition(1800, 380);
+	objects.push_back(candle3);
+
+	Candle *candle4 = new Candle();
+	candle4->AddAnimation(800);
+	candle4->SetPosition(1713, 190);
+	objects.push_back(candle4);
+
+	Candle *candle5 = new Candle();
+	candle5->AddAnimation(800);
+	candle5->SetPosition(1986, 198);
+	objects.push_back(candle5);
+
+	Candle *candle6 = new Candle();
+	candle6->AddAnimation(800);
+	candle6->SetPosition(2610, 387);
+	objects.push_back(candle6);
+
+	Candle *candle7 = new Candle();
+	candle7->AddAnimation(800);
+	candle7->SetPosition(2742, 322);
+	objects.push_back(candle7);
+
+	Candle *candle8 = new Candle();
+	candle8->AddAnimation(800);
+	candle8->SetPosition(2868, 190);
+	objects.push_back(candle8);
+
+	for (int i = 0; i < 4; i++)
+	{
+		Candle *candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(2050 + i * 125, 380);
+		objects.push_back(candle);
+	}
+	/*Panther *panther = new Panther();
+	panther->AddAnimation(605);
+	panther->AddAnimation(606);
+	panther->AddAnimation(607);
+	panther->AddAnimation(608);
+	panther->SetPosition(1403, 260);
+	panther->SetState(PANTHER_STATE_WAIT);
+	objects.push_back(panther);*/
+
+	Panther *panther1 = new Panther();
+	panther1->AddAnimation(605);
+	panther1->AddAnimation(606);
+	panther1->AddAnimation(607);
+	panther1->AddAnimation(608);
+	panther1->SetPosition(1700, 200);
+	panther1->SetState(PANTHER_STATE_WAIT);
+	objects.push_back(panther1);
+
+	Panther *panther2 = new Panther();
+	panther2->AddAnimation(605);
+	panther2->AddAnimation(606);
+	panther2->AddAnimation(607);
+	panther2->AddAnimation(608);
+	panther2->SetPosition(1950, 260);
+	panther2->SetState(PANTHER_STATE_WAIT);
+	objects.push_back(panther2);
+
+	for (int i = 0; i < 4; i++)
+	{
+		Stair *stair = new Stair();
+		stair->AddAnimation(801);
+		stair->SetPosition(1247 + i * 32, 405 - i * 32);
+		objects.push_back(stair);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Stair *stair = new Stair();
+		stair->AddAnimation(801);
+		stair->SetPosition(1439 + i * 32.0, 278 - i * 32);
+		objects.push_back(stair);
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		Stair *stair = new Stair();
+		stair->AddAnimation(802);
+		stair->SetPosition(1824 + i * 32.0, 246 + i * 32);
+		objects.push_back(stair);
+
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		Stair *stair = new Stair();
+		stair->AddAnimation(801);
+		stair->SetPosition(2590 + i * 32.0, 410 - i * 32);
+		objects.push_back(stair);
+	}
+
+	CheckStair *checkstair;
+	// Bottom right
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(1255, 407); // 379
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	objects.push_back(checkstair);
+
+	// Top left
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1382, 215);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
+	objects.push_back(checkstair);
+
+	// Bottom right
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(1448, 280);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	objects.push_back(checkstair);
+
+	// Top left
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1512, 151);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
+	objects.push_back(checkstair);
+
+	// Top right
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1790, 151);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	objects.push_back(checkstair);
+
+	// Bottom left
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(1850, 280);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	objects.push_back(checkstair);
+
+	// Bottom right
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(2595, 407);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	objects.push_back(checkstair);
+
+	// Top left
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(2788, 153);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
+	objects.push_back(checkstair);
+	//1250 335 1265 320 1280 305*/ 3 10 6 8
+	for (int i = 0; i < 2; i++)
+	{
+		Zombie *zombie = new Zombie();
+		zombie->AddAnimation(602);
+		zombie->AddAnimation(604);
+		zombie->SetPosition(500 + i * 64, 376);
+		zombie->SetState(ZOMBIE_STATE_WALKING);
+		objects.push_back(zombie);
+	}
+}
+
+void LoadResourceLv2_1()
+{
+	for (int i = 0; i < 9; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + i * 32 + 32 * 8, 246);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 9 + i * 32.0f, 440);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 12; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 13 + i * 32.0f + 3, 440);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 440);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 33 + 3 + i * 32.0f, 440);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 3; i++)//
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 17 + i * 32.0f, 246 + 64);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 246 + 32);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 31 + i * 32.0f, 246 + 64);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 35 + 3 + i * 32.0f, 246);
+		objects.push_back(ground);
+	}
+	Candle *candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(3245, 193);
+	objects.push_back(candle);
+
+	Candle *candle1 = new Candle();
+	candle1->AddAnimation(800);
+	candle1->SetPosition(3389, 159);
+	objects.push_back(candle1);
+
+	Candle *candle2 = new Candle();
+	candle2->AddAnimation(800);
+	candle2->SetPosition(3137, 386);
+	objects.push_back(candle2);
+
+	Candle *candle3 = new Candle();
+	candle3->AddAnimation(800);
+	candle3->SetPosition(3519, 319);
+	objects.push_back(candle3);
+
+	Candle *candle4 = new Candle();
+	candle4->AddAnimation(800);
+	candle4->SetPosition(3684, 155);
+	objects.push_back(candle4);
+
+	Candle *candle5 = new Candle();
+	candle5->AddAnimation(800);
+	candle5->SetPosition(3776, 385);
+	objects.push_back(candle5);
+
+	Candle *candle6 = new Candle();
+	candle6->AddAnimation(800);
+	candle6->SetPosition(3905, 150);
+	objects.push_back(candle6);
+
+	Candle *candle7 = new Candle();
+	candle7->AddAnimation(800);
+	candle7->SetPosition(4035, 192);
+	objects.push_back(candle7);
+
+}
+
+void LoadResourceLv2_2()
+{
+
+}
+
+void LoadResourceboss()
+{
+	for (int i = 0; i < 8; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 40 + i * 32.0f, 246);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 48; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 41 + i * 32.0f, 438);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 11; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 49 + i * 32.0f, 310);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 86 + i * 32.0f, 310);
+		objects.push_back(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 83 + i * 32.0f, 374);
+		objects.push_back(ground);
+	}
+
+	Candle *candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(4285, 194);
+	objects.push_back(candle);
+
+	Candle *candle1 = new Candle();
+	candle1->AddAnimation(800);
+	candle1->SetPosition(4418, 255);
+	objects.push_back(candle1);
+
+	Candle *candle2 = new Candle();
+	candle2->AddAnimation(800);
+	candle2->SetPosition(4362, 380);
+	objects.push_back(candle2);
+
+	for (int i = 0; i < 4; i++)
+	{
+		Candle *candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(4866 + i * 127, 380);
+		objects.push_back(candle);
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		Candle *candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(5438 + i * 127, 310);
+		objects.push_back(candle);
+	}
+
+	BossBat *bossbat = new BossBat();
+	bossbat->AddAnimation(609);
+	bossbat->AddAnimation(610);
+	bossbat->SetPosition(5325, 125);
+	bossbat->SetState(BOSSBAT_STATE_WAIT);
+	objects.push_back(bossbat);
+}
+
 /*
 	Load all game resources
 	In this example: load textures, sprites, animations and mario object
@@ -279,15 +762,13 @@ void LoadResources()
 	textures->Add(ID_TEX_STOP_WATCH, L"Castlevania\\UI\\STOP_WATCH.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_RECT, L"Castlevania\\rect.png", D3DCOLOR_XRGB(255, 0, 255));
 
-
 	textures->Add(ID_TEX_EFFECT1, L"Castlevania\\0.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_EFFECT2, L"Castlevania\\DEAD.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_WHIP_VIP, L"Castlevania\\WHIP_VIP.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_MONEY, L"Castlevania\\money_bag_red.png", D3DCOLOR_XRGB(255, 0, 255));
 	
-
+#pragma region Addsprite
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
-	#pragma region Addsprite
 
 	sprites->Add(10001, 436, 0, 484, 64, texSimon);		// đứng im phải
 
@@ -318,7 +799,6 @@ void LoadResources()
 	sprites->Add(10052, 133, 67, 165, 130, texSimon); //xuống thang phải
 	sprites->Add(10053, 318, 67, 350, 130, texSimon);
 
-
 	sprites->Add(10018, 196, 0, 230, 64, texSimon); // ngồi phải
 
 	sprites->Add(10020, 196, 0, 230, 64, texSimon); // nhảy phải
@@ -326,6 +806,7 @@ void LoadResources()
 	sprites->Add(10054, 436, 67, 471, 130, texSimon);//bị đánh từ bên trái
 
 	LPDIRECT3DTEXTURE9 texSimon2 = textures->Get(ID_TEX_SIMON_2);
+
 	sprites->Add(10011, 12, 0, 44, 64, texSimon2);		// đứng im trái
 
 	sprites->Add(10012, 196, 0, 244, 64, texSimon2);		// đi trái
@@ -349,7 +830,6 @@ void LoadResources()
 	sprites->Add(10044, 360, 134, 405, 197, texSimon2);
 	sprites->Add(10045, 420, 134, 464, 197, texSimon2);
 
-
 	sprites->Add(10048, 190, 67, 224, 130, texSimon2); // xuống thang trái
 	sprites->Add(10049, 129, 67, 163, 130, texSimon2);
 
@@ -365,6 +845,7 @@ void LoadResources()
 	sprites->Add(10099, 180, 237, 240, 264, texSimon);		// chết 
 
 	LPDIRECT3DTEXTURE9 whipR = textures->Get(ID_TEX_WHIP);
+
 	sprites->Add(10022, 570, 200, 554, 267, whipR);			//roi lv2 phải
 	sprites->Add(10023, 342, 260, 312, 316, whipR);
 	sprites->Add(10024, 342, 328, 458, 364, whipR); // 116
@@ -375,12 +856,10 @@ void LoadResources()
 	
 	sprites->Add(10056, 570, 0, 553, 67, whipR);			//roi lv0 phải	
 	sprites->Add(10057, 346, 0, 312, 49, whipR);
-	sprites->Add(10058, 114, 0, 188, 30, whipR); // 74
-
-	
-	
+	sprites->Add(10058, 114, 0, 188, 30, whipR);			// 74
 
 	LPDIRECT3DTEXTURE9 whipL = textures->Get(ID_TEX_WHIP_2);
+
 	sprites->Add(10025, 105, 70, 165, 133, whipL);			//roi lv2 trái
 	sprites->Add(10026, 340, 65, 406, 117, whipL);
 	sprites->Add(10027, 575, 330, 458, 364, whipL);
@@ -392,9 +871,6 @@ void LoadResources()
 	sprites->Add(10059, 110, 0, 166, 66, whipL);			//roi lv0 trái
 	sprites->Add(10060, 349, 0, 408, 52, whipL);
 	sprites->Add(10061, 585, 0, 529, 30, whipL);
-
-	
-
 
 	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_BRICK);
 	sprites->Add(20001, 0, 0, 32, 32, texMisc);
@@ -587,7 +1063,6 @@ void LoadResources()
 	ani->Add(10045);
 	animations->Add(415, ani);
 
-
 	ani = new CAnimation(100);//lên thang phải
 	ani->Add(10046);
 	ani->Add(10047);
@@ -660,9 +1135,9 @@ void LoadResources()
 	ani->Add(10099);
 	animations->Add(599, ani);
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region ObjectAnimation
+#pragma region ObjectAnimation
 
 	ani = new CAnimation(100);	//đất1
 	ani->Add(20001);
@@ -763,7 +1238,6 @@ void LoadResources()
 	ani->Add(40024);
 	animations->Add(810, ani);
 
-
 	#pragma endregion
 
 	#pragma region simon
@@ -797,477 +1271,22 @@ void LoadResources()
 	simon->AddAnimation(425);	//bị đánh từ bên phải
 	simon->AddAnimation(599);	//chết
 
-	
 	simon->whip->AddAnimation(426);//roi lv0 phải
 	simon->whip->AddAnimation(427);//roi lv0 trái
 	simon->whip->AddAnimation(428);//roi lv1 phải
 	simon->whip->AddAnimation(429);//roi lv1 trái
 	simon->whip->AddAnimation(408);//roi lv2 phải
 	simon->whip->AddAnimation(409);//roi lv2 trái
-	simon->SetPosition(100, 327);
-	objects.push_back(simon);
 
-	#pragma endregion
-
-	#pragma region Ground
-	for (int i = 0; i < 50; i++)
-	{
-		Ground *ground = new Ground();
-		ground->AddAnimation(601);
-		ground->SetPosition(0 + i * 32.0f, 407);
-		objects.push_back(ground);
-	}
-#pragma endregion
-
-	#pragma region BigFire
-	BigFire *bigfire = new BigFire();
-	bigfire->AddAnimation(700);
-	bigfire->SetPosition(335, 340);
-	objects.push_back(bigfire);
-
-	BigFire *bigfire1 = new BigFire();
-	bigfire1->AddAnimation(700);
-	bigfire1->SetPosition(464, 340);
-	objects.push_back(bigfire1);
-
-	BigFire *bigfire2 = new BigFire();
-	bigfire2->AddAnimation(700);
-	bigfire2->SetPosition(657, 340);
-	objects.push_back(bigfire2);
-
-	BigFire *bigfire3 = new BigFire();
-	bigfire3->AddAnimation(700);
-	bigfire3->SetPosition(851, 340);
-	objects.push_back(bigfire3);
-
-	BigFire *bigfire4 = new BigFire();
-	bigfire4->AddAnimation(700);
-	bigfire4->SetPosition(1090, 340);
-	objects.push_back(bigfire4);
-
-	BigFire *bigfire5 = new BigFire();
-	bigfire5->AddAnimation(700);
-	bigfire5->SetPosition(1267, 340);
-	objects.push_back(bigfire5);
-#pragma endregion
-
-#pragma region BigFire
-	CheckPoint *checkPoint;
-	checkPoint = new CheckPoint();
-	checkPoint->SetType(CHECKPOINT_LEVELUP);
-	checkPoint->SetPosition(1377, 374);
-	objects.push_back(checkPoint);
-
-	checkPoint = new CheckPoint();
-	checkPoint->SetType(CHECKPOINT_BONUS);
-	checkPoint->SetPosition(1410, 374);
-	objects.push_back(checkPoint);
 #pragma endregion
 
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
 	
 	ui = new UI();
-	ui->Initialize(d3ddv,simon);
-}
+	ui->Initialize(d3ddv, simon);
 
-void LoadResourceLv2() {
-	for (int i = 0; i < 95; i++)
-	{
-		Ground *ground = new Ground();
-
-		ground->SetPosition(0 + i * 32.0f, 440);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		Ground *ground = new Ground();
-
-		ground->SetPosition(1377 + i * 32.0f, 310);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 10; i++)
-	{
-		Ground *ground = new Ground();
-
-		ground->SetPosition(1503 + i * 32.0f, 244);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 6; i++)
-	{
-		Ground *ground = new Ground();
-
-		ground->SetPosition(1854 + i * 32.0f, 310);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 10; i++)
-	{
-		Ground *ground = new Ground();
-
-		ground->SetPosition(2782 + i * 32.0f, 246);
-		objects.push_back(ground);
-	}
-	
-	for (int i = 0; i < 5; i++)
-	{
-		Candle *candle = new Candle();
-		candle->AddAnimation(800);
-		candle->SetPosition(65 + i * 255, 376);
-		objects.push_back(candle);
-	}
-	for (int i = 0; i < 4; i++)
-	{
-		Candle *candle = new Candle();
-		candle->AddAnimation(800);
-		candle->SetPosition(195 + i * 257, 316);
-		objects.push_back(candle);
-	}
-	Candle *candle = new Candle();
-	candle->AddAnimation(800);
-	candle->SetPosition(1219, 326);
-	objects.push_back(candle);
-
-	Candle *candle1 = new Candle();
-	candle1->AddAnimation(800);
-	candle1->SetPosition(1339, 193);
-	objects.push_back(candle1);	
-
-	Candle *candle2 = new Candle();
-	candle2->AddAnimation(800);
-	candle2->SetPosition(1445, 380);
-	objects.push_back(candle2);
-
-	Candle *candle3 = new Candle();
-	candle3->AddAnimation(800);
-	candle3->SetPosition(1800, 380);
-	objects.push_back(candle3);
-
-	Candle *candle4 = new Candle();
-	candle4->AddAnimation(800);
-	candle4->SetPosition(1713, 190);
-	objects.push_back(candle4);
-
-	Candle *candle5 = new Candle();
-	candle5->AddAnimation(800);
-	candle5->SetPosition(1986, 198);
-	objects.push_back(candle5);
-
-	Candle *candle6 = new Candle();
-	candle6->AddAnimation(800);
-	candle6->SetPosition(2610, 387);
-	objects.push_back(candle6);
-
-	Candle *candle7 = new Candle();
-	candle7->AddAnimation(800);
-	candle7->SetPosition(2742, 322);
-	objects.push_back(candle7);
-
-	Candle *candle8 = new Candle();
-	candle8->AddAnimation(800);
-	candle8->SetPosition(2868, 190);
-	objects.push_back(candle8);
-
-	for (int i = 0; i < 4; i++)
-	{
-		Candle *candle = new Candle();
-		candle->AddAnimation(800);
-		candle->SetPosition(2050 +i*125 ,380);
-		objects.push_back(candle);
-	}
-	/*Panther *panther = new Panther();
-	panther->AddAnimation(605);
-	panther->AddAnimation(606);	
-	panther->AddAnimation(607);
-	panther->AddAnimation(608);
-	panther->SetPosition(1403, 260);
-	panther->SetState(PANTHER_STATE_WAIT);
-	objects.push_back(panther);*/
-
-	Panther *panther1 = new Panther();
-	panther1->AddAnimation(605);
-	panther1->AddAnimation(606);
-	panther1->AddAnimation(607);
-	panther1->AddAnimation(608);
-	panther1->SetPosition(1700, 200);
-	panther1->SetState(PANTHER_STATE_WAIT);
-	objects.push_back(panther1);
-
-	Panther *panther2 = new Panther();
-	panther2->AddAnimation(605);
-	panther2->AddAnimation(606);
-	panther2->AddAnimation(607);
-	panther2->AddAnimation(608);
-	panther2->SetPosition(1950, 260);
-	panther2->SetState(PANTHER_STATE_WAIT);
-	objects.push_back(panther2);
-
-	for (int i = 0; i < 4; i++)
-	{
-		Stair *stair = new Stair();
-		stair->AddAnimation(801);
-		stair->SetPosition(1247 + i * 32, 405 - i * 32);
-		objects.push_back(stair);
-	}
-	for (int i = 0; i < 2; i++)
-	{
-		Stair *stair = new Stair();
-		stair->AddAnimation(801);
-		stair->SetPosition(1439 + i * 32.0, 278 - i * 32);
-		objects.push_back(stair);
-	}
-	
-	for (int i = 0; i < 2; i++)
-	{
-		Stair *stair = new Stair();
-		stair->AddAnimation(802);
-		stair->SetPosition(1824 + i * 32.0, 246 + i * 32);
-		objects.push_back(stair);
-
-	}
-	for (int i = 0; i < 6; i++)
-	{
-		Stair *stair = new Stair();
-		stair->AddAnimation(801);
-		stair->SetPosition(2590 + i * 32.0, 410 - i * 32);
-		objects.push_back(stair);
-	}
-	
-	CheckStair *checkstair;
-	// Bottom right
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1255, 407); // 379
-	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
-	objects.push_back(checkstair);
-
-	// Top left
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1382, 215);
-	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
-	objects.push_back(checkstair);
-
-	// Bottom right
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1448, 280);
-	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
-	objects.push_back(checkstair);
-
-	// Top left
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1512, 151);
-	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
-	objects.push_back(checkstair);
-
-	// Top right
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1790, 151);
-	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
-	objects.push_back(checkstair);
-
-	// Bottom left
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1850, 280);
-	checkstair->SetType(CHECKSTAIR_UP_LEFT);
-	objects.push_back(checkstair);
-
-	// Bottom right
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
-	checkstair->SetPosition(2595, 407);
-	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
-	objects.push_back(checkstair);
-
-	// Top left
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
-	checkstair->SetPosition(2788, 153);
-	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
-	objects.push_back(checkstair);
-	//1250 335 1265 320 1280 305*/ 3 10 6 8
-	for (int i = 0; i < 2; i++)
-	{
-		Zombie *zombie = new Zombie();
-		zombie->AddAnimation(602);
-		zombie->AddAnimation(604);
-		zombie->SetPosition(500 + i * 64, 376);
-		zombie->SetState(ZOMBIE_STATE_WALKING);
-		objects.push_back(zombie);
-	}
-}
-void LoadResourceLv2_1()
-{
-	
-	for (int i = 0; i < 9; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + i*32 +32*8 , 246);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 +32*9 + i * 32.0f, 440);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 12; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 13 + i * 32.0f + 3, 440);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 440);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 8; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 33+3 + i * 32.0f, 440);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 3; i++)//
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 17 + i * 32.0f, 246+64);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 2; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 246+32);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 31 + i * 32.0f, 246+64);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 6; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 35 +3 + i * 32.0f, 246);
-		objects.push_back(ground);
-	}
-	Candle *candle = new Candle();
-	candle->AddAnimation(800);
-	candle->SetPosition(3245, 193);
-	objects.push_back(candle);
-
-	Candle *candle1 = new Candle();
-	candle1->AddAnimation(800);
-	candle1->SetPosition(3389, 159);
-	objects.push_back(candle1);
-	
-	Candle *candle2 = new Candle();
-	candle2->AddAnimation(800);
-	candle2->SetPosition(3137, 386);
-	objects.push_back(candle2);
-
-	Candle *candle3 = new Candle();
-	candle3->AddAnimation(800);
-	candle3->SetPosition(3519, 319);
-	objects.push_back(candle3);
-
-	Candle *candle4 = new Candle();
-	candle4->AddAnimation(800);
-	candle4->SetPosition(3684, 155);
-	objects.push_back(candle4);
-
-	Candle *candle5 = new Candle();
-	candle5->AddAnimation(800);
-	candle5->SetPosition(3776, 385);
-	objects.push_back(candle5);
-
-	Candle *candle6 = new Candle();
-	candle6->AddAnimation(800);
-	candle6->SetPosition(3905, 150);
-	objects.push_back(candle6);
-
-	Candle *candle7 = new Candle();
-	candle7->AddAnimation(800);
-	candle7->SetPosition(4035, 192);
-	objects.push_back(candle7);
-
-}
-void LoadResourceLv2_2()
-{}
-void LoadResourceboss()
-{
-	for (int i = 0; i < 8; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 40  + i * 32.0f, 246);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 48; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 41 + i * 32.0f, 438  );
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 11; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 49 + i * 32.0f, 310);
-		objects.push_back(ground);
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 86 + i * 32.0f, 310);
-		objects.push_back(ground);
-	}
-	for (int i =0; i < 2; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 83 + i * 32.0f, 374);
-		objects.push_back(ground);
-	}
-	
-	Candle *candle = new Candle();
-	candle->AddAnimation(800);
-	candle->SetPosition(4285, 194);
-	objects.push_back(candle);
-
-	Candle *candle1 = new Candle();
-	candle1->AddAnimation(800);
-	candle1->SetPosition(4418, 255);
-	objects.push_back(candle1);
-
-	Candle *candle2 = new Candle();
-	candle2->AddAnimation(800);
-	candle2->SetPosition(4362, 380);
-	objects.push_back(candle2);
-
-	for (int i = 0; i < 4; i++)
-	{
-		Candle *candle = new Candle();
-		candle->AddAnimation(800);
-		candle->SetPosition(4866 + i * 127, 380);
-		objects.push_back(candle);
-	}
-	
-	for (int i = 0; i < 2; i++)
-	{
-		Candle *candle = new Candle();
-		candle->AddAnimation(800);
-		candle->SetPosition(5438 + i * 127, 310);
-		objects.push_back(candle);
-	}
-	
-	BossBat *bossbat = new BossBat();
-	bossbat->AddAnimation(609);
-	bossbat->AddAnimation(610);
-	bossbat->SetPosition(5325, 125);
-	bossbat->SetState(BOSSBAT_STATE_WAIT);
-	objects.push_back(bossbat);
+	// Load map lv1 ra trước
+	LoadResourceLv1();
 }
 
 void Update(DWORD dt)
@@ -1276,6 +1295,7 @@ void Update(DWORD dt)
 	simon->GetPosition(x, y);
 	if (!simon->isLevelUp)
 		gameTime -= dt;
+
 #pragma region Resource
 	if (lv1 == true)
 	{
@@ -1310,8 +1330,13 @@ void Update(DWORD dt)
 			DWORD timer = GetTickCount();
 			if (timer - simon->onCheckPointTime > LEVELUP_TIME)
 			{
-				for (int i = objects.size() - 1; i > 0; i--)
+				CGameObject *object;
+				for (int i = objects.size() - 1; i >= 0; i--)
+				{
+					object = objects[i];
 					objects.pop_back();
+					delete object;
+				}
 
 				lv2 = true;
 				lv1 = false;
@@ -1320,6 +1345,7 @@ void Update(DWORD dt)
 			}
 		}
 	}
+	
 	if (lv2 == true)
 	{
 		if (countLoadResourceLv2 == false)
@@ -1330,7 +1356,7 @@ void Update(DWORD dt)
 			simon->SetPosition(50, 155);
 			timer = GetTickCount();
 		}
-		else if(countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2*SIMON_STAND_BBOX_WIDTH)
+		else if (countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2 * SIMON_STAND_BBOX_WIDTH)
 		{
 			if (GetTickCount() - timer > 5000)
 			{
@@ -1351,7 +1377,7 @@ void Update(DWORD dt)
 	}
 	if (lv2_1 == true)
 	{
-		
+		// Lần đầu load resource lv2
 		if (countLoadResourceLv2_1 == false)
 		{
 			for (int i = objects.size()-1; i > 0; i--)
@@ -1359,13 +1385,12 @@ void Update(DWORD dt)
 			LoadResourceLv2_1();
 			countLoadResourceLv2_1 = true;
 		}
-		 if (x > MAX_WIDTH_LV2_1 - 2*SIMON_STAND_BBOX_WIDTH)
+		
+		if (x > MAX_WIDTH_LV2_1 - 2 * SIMON_STAND_BBOX_WIDTH)
 		{
 			lv2_1 = false;			
 			boss = true;
-
 		}
-		
 	}
 	if (lv2_2 == true)
 	{
@@ -1400,38 +1425,46 @@ void Update(DWORD dt)
 				timer2 = timer2 + 5000;
 			}
 		}
-		
 	}
-
 #pragma endregion
 
 #pragma region Collision
-	vector<LPGAMEOBJECT> coObjects;
-	for (int i = 1; i < objects.size(); i++)
+	vector<LPGAMEOBJECT> objects;
+
+	currentGrids = listGrids->GetCurrentGrids(simon->x);
+
+	for (int i = 0; i < currentGrids.size(); i++)
 	{
-		coObjects.push_back(objects[i]);
+		vector<LPGAMEOBJECT> listObjects = currentGrids[i]->GetListObject();
+		int listObjectSize = listObjects.size();
+		for (int j = 0; j < listObjectSize; j++)
+		{
+			objects.push_back(listObjects[j]);
+		}
 	}
-	if(boss == false)
+
+	simon->Update(dt, &objects);
+
+	if (boss == false)
+	{
 		for (int i = 0; i < objects.size(); i++)
 		{
-			objects[i]->Update( dt, &coObjects);
+			objects[i]->Update(dt, &objects);
 		}
-	else if(boss == true)
+	}
+	else if (boss == true)
 	{
 		for (int i = 0; i < objects.size(); i++)
 		{
 			if (dynamic_cast<BossBat *>(objects.at(i)))
 			{
 				BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
-				bossbat->Update(x, y, dt, &coObjects);
+				bossbat->Update(x, y, dt, &objects);
 			}
 			else
-				objects[i]->Update( dt, &coObjects);
+				objects[i]->Update(dt, &objects);
 		}
-		
-
 	}
-
 	
 #pragma endregion	
 
@@ -1459,7 +1492,8 @@ void Update(DWORD dt)
 				item = new Item();
 				item->SetPosition(bigfire_x, bigfire_y);
 				item->SetSpeed(0, -0.1);
-				objects.push_back(item);
+				//objects.push_back(item);
+				listGrids->AddObject(item);
 
 				// Whip item
 				if (simon->whip->level < 2)
@@ -1503,14 +1537,17 @@ void Update(DWORD dt)
 				whipEffect = new Effect(GetTickCount());
 				whipEffect->AddAnimation(806);
 				whipEffect->SetPosition(bigfire_x, bigfire_y + (bigfire_bottom - bigfire_y) / 4);
-				objects.push_back(whipEffect);
+				//objects.push_back(whipEffect);
+				listGrids->AddObject(whipEffect);
 
 				whipEffect = new Effect(GetTickCount());
 				whipEffect->AddAnimation(807);
 				whipEffect->SetPosition(bigfire_x, bigfire_y + (bigfire_bottom - bigfire_y) / 4);
-				objects.push_back(whipEffect);
+				//objects.push_back(whipEffect);
+				listGrids->AddObject(whipEffect);
 
-				objects.erase(objects.begin() + i);
+				// objects.erase(objects.begin() + i);
+				listGrids->RemoveObject(bigFire);
 				delete bigFire;
 			}
 		}
@@ -1700,7 +1737,6 @@ void Update(DWORD dt)
 
 }
 
-
 void Render()
 {
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
@@ -1725,7 +1761,6 @@ void Render()
 		
 		if (lv1 == true)
 		{
-			
 			map = new	Map (/*48, 10,*/ tileset, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate.txt");
 			//map->Draw(game->x_cam, game->y_cam);
@@ -1734,20 +1769,28 @@ void Render()
 			map = new	Map (/*176, 11,*/ tileset1, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");
 			//map->Draw(game->x_cam , game->y_cam);
-
 		}
 		else if (lv2_2 == true)
 		{
 			map = new	Map(/*32, 11,*/ tileset2, 32, 32);
 			map->LoadMatrixMap("Castlevania\\Mapstate2_1.txt");
-			
 		}
 		map->Draw(game->x_cam, game->y_cam);
-		for (int i = 1; i < objects.size(); i++)
-			objects[i]->Render();
 
-		objects[0]->Render();
-		ui->Render(game->x_cam,game->y_cam,simon);
+		for (int i = 0; i < currentGrids.size(); i++)
+		{
+			vector<LPGAMEOBJECT> listObject = currentGrids[i]->GetListObject();
+			int listObjectSize = listObject.size();
+
+			for (int j = 0; j < listObjectSize; j++)
+			{
+				if (listObject[j] != NULL)
+					listObject[j]->Render();
+			}
+		}
+
+		simon->Render();
+		ui->Render(game->x_cam, game->y_cam,simon);
 		/*RECT newRect;
 		SetRect(&newRect, 0, 0, 30, 30);
 		D3DXVECTOR3 p(0, 0, 0);
@@ -1857,7 +1900,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	keyHandler = new CSampleKeyHander();
 	game->InitKeyboard(keyHandler);
 	
-	
+	listGrids = ListGrids::GetInstance();
 
 	LoadResources();
 
