@@ -34,7 +34,6 @@ Effect *whipEffect;
 Map *map;
 UI * ui;
 CSprite *sprite;
-vector<LPGAMEOBJECT> objects;
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
 
@@ -55,6 +54,7 @@ bool countLoadResourceLv2 = false;
 bool countLoadResourceLv2_1 = false;
 bool countLoadResourceLv2_2 = false;
 bool countLoadResourceboss = false;
+bool isEnableKeyBoard = true;
 DWORD timer; // load enemy lv2
 DWORD timer2;//load enemy boss
 DWORD gameTime = 999000;
@@ -77,17 +77,20 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	// Chet
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 
-	// Nhay
-	if (KeyCode == DIK_SPACE)
+	if (isEnableKeyBoard)
 	{
-		if (simon->isJump == false && simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
-			simon->SetAction(SIMON_ACTION_JUMP);
-	}
-	// Danh
-	else if (KeyCode == DIK_A)
-	{
-		if (simon->isAttack == false)
-			simon->SetAction(SIMON_ACTION_ATTACK);
+		// Nhay
+		if (KeyCode == DIK_SPACE)
+		{
+			if (simon->isJump == false && simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
+				simon->SetAction(SIMON_ACTION_JUMP);
+		}
+		// Danh
+		else if (KeyCode == DIK_A)
+		{
+			if (simon->isAttack == false)
+				simon->SetAction(SIMON_ACTION_ATTACK);
+		}
 	}
 }
 
@@ -96,48 +99,51 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 	// Chet
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 
-	// Len xuong cau thang
-	if (KeyCode == DIK_UP)
+	if (isEnableKeyBoard)
 	{
-		if (simon->isOnCheckStairUp)
+		// Len xuong cau thang
+		if (KeyCode == DIK_UP)
 		{
-			simon->SetState(SIMON_STATE_IDLE);
-		}
-		else if (simon->isOnStair)
-		{
-			simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
-		}
-	}
-
-	// Ngoi
-	if (KeyCode == DIK_DOWN)
-	{
-		if (simon->isOnCheckStairDown)
-		{
-			simon->SetState(SIMON_STATE_IDLE);
-		}
-		else if (simon->isOnStair)
-		{
-			simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
-		}
-		else if (simon->isSit)
-		{
-			if (!simon->isAttack)
+			if (simon->isOnCheckStairUp)
 			{
-				simon->isSit = false;
+				simon->SetState(SIMON_STATE_IDLE);
 			}
-			else
+			else if (simon->isOnStair)
 			{
-				simon->isExitSit = true;
+				simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
 			}
 		}
-	}
 
-	// Di bo
-	else if (KeyCode == DIK_RIGHT || KeyCode == DIK_LEFT)
-	{
-		simon->isMoving = false;
-		simon->vx = 0;
+		// Ngoi
+		if (KeyCode == DIK_DOWN)
+		{
+			if (simon->isOnCheckStairDown)
+			{
+				simon->SetState(SIMON_STATE_IDLE);
+			}
+			else if (simon->isOnStair)
+			{
+				simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
+			}
+			else if (simon->isSit)
+			{
+				if (!simon->isAttack)
+				{
+					simon->isSit = false;
+				}
+				else
+				{
+					simon->isExitSit = true;
+				}
+			}
+		}
+
+		// Di bo
+		else if (KeyCode == DIK_RIGHT || KeyCode == DIK_LEFT)
+		{
+			simon->isMoving = false;
+			simon->vx = 0;
+		}
 	}
 }
 
@@ -146,75 +152,78 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	// Chet
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 
-	// Len xuong cau thang
-	if (game->IsKeyDown(DIK_UP))
+	if (isEnableKeyBoard)
 	{
-		if (simon->ny == -1 && !simon->isOnStair)
+		// Len xuong cau thang
+		if (game->IsKeyDown(DIK_UP))
 		{
-			if (!simon->isAttack && !simon->isSit && !simon->isJump)
+			if (simon->ny == -1 && !simon->isOnStair)
 			{
-				simon->SetState(SIMON_STATE_ONCHECKSTAIR);
+				if (!simon->isAttack && !simon->isSit && !simon->isJump)
+				{
+					simon->SetState(SIMON_STATE_ONCHECKSTAIR);
+				}
+			}
+			else if (simon->isOnStair && !simon->isAttack)
+			{
+				simon->ny = -1;
+				simon->SetState(SIMON_STATE_ONSTAIR);
+				if (simon->isLeftToRight)
+					simon->nx = 1;
+				else
+					simon->nx = -1;
+			}
+			else if (simon->isOnStair && simon->isAttack)
+			{
+				simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
 			}
 		}
-		else if (simon->isOnStair && !simon->isAttack)
-		{
-			simon->ny = -1;
-			simon->SetState(SIMON_STATE_ONSTAIR);
-			if (simon->isLeftToRight)
-				simon->nx = 1;
-			else
-				simon->nx = -1;
-		}
-		else if (simon->isOnStair && simon->isAttack)
-		{
-			simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
-		}
-	}
 
-	// Ngoi
-	if (game->IsKeyDown(DIK_DOWN))
-	{
-		if (simon->ny == 1 && !simon->isOnStair)
+		// Ngoi
+		if (game->IsKeyDown(DIK_DOWN))
 		{
-			if (!simon->isAttack && !simon->isSit && !simon->isJump)
+			if (simon->ny == 1 && !simon->isOnStair)
 			{
-				simon->SetState(SIMON_STATE_ONCHECKSTAIR);
+				if (!simon->isAttack && !simon->isSit && !simon->isJump)
+				{
+					simon->SetState(SIMON_STATE_ONCHECKSTAIR);
+				}
 			}
+			else if (simon->isOnStair && !simon->isAttack)
+			{
+				simon->ny = 1;
+				simon->SetState(SIMON_STATE_ONSTAIR);
+				if (simon->isLeftToRight)
+					simon->nx = -1;
+				else
+					simon->nx = 1;
+			}
+			else if (simon->isOnStair && simon->isAttack)
+			{
+				simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
+			}
+			else if (!simon->isOnCheckStairDown && !simon->isOnStair && !simon->isAttack && !simon->isJump)
+				simon->SetState(SIMON_STATE_SIT);
 		}
-		else if (simon->isOnStair && !simon->isAttack)
-		{
-			simon->ny = 1;
-			simon->SetState(SIMON_STATE_ONSTAIR);
-			if (simon->isLeftToRight)
-				simon->nx = -1;
-			else
-				simon->nx = 1;
-		}
-		else if (simon->isOnStair && simon->isAttack)
-		{
-			simon->SetState(SIMON_STATE_ONSTAIR_IDLE);
-		}
-		else if (!simon->isOnCheckStairDown && !simon->isOnStair && !simon->isAttack && !simon->isJump)
-			simon->SetState(SIMON_STATE_SIT);
-	}
 
-	// Di bo
-	if (game->IsKeyDown(DIK_RIGHT))
-	{
-		if (!simon->isSit && !simon->isOnStair && !simon->isAttack)
-			simon->SetState(SIMON_STATE_WALK);
-		if (!simon->isJump && !simon->isOnStair && !simon->isAttack)
-			simon->nx = 1.0f;
-	}
-	else if (game->IsKeyDown(DIK_LEFT))
-	{
-		if (!simon->isSit && !simon->isOnStair && !simon->isAttack)
-			simon->SetState(SIMON_STATE_WALK);
-		if (!simon->isJump && !simon->isOnStair && !simon->isAttack)
-			simon->nx = -1.0f;
-	}
+		// Di bo
+		if (game->IsKeyDown(DIK_RIGHT))
+		{
+			if (!simon->isSit && !simon->isOnStair && !simon->isAttack)
+				simon->SetState(SIMON_STATE_WALK);
+			if (!simon->isJump && !simon->isOnStair && !simon->isAttack)
+				simon->nx = 1.0f;
+		}
+		else if (game->IsKeyDown(DIK_LEFT))
+		{
+			if (!simon->isSit && !simon->isOnStair && !simon->isAttack)
+				simon->SetState(SIMON_STATE_WALK);
+			if (!simon->isJump && !simon->isOnStair && !simon->isAttack)
+				simon->nx = -1.0f;
+		}
 
-	// Neu khong co gi xay ra se dung im
+		// Neu khong co gi xay ra se dung im
+	}
 }
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -245,7 +254,6 @@ void LoadResourceLv1()
 		ground->AddAnimation(601);
 		ground->SetPosition(0 + i * 32.0f, 407);
 		listGrids->AddObject(ground);
-		//objects.push_back(ground);
 	}
 #pragma endregion
 
@@ -256,37 +264,31 @@ void LoadResourceLv1()
 	bigfire->AddAnimation(700);
 	bigfire->SetPosition(335, 340);
 	listGrids->AddObject(bigfire);
-	//objects.push_back(bigfire);
 
 	bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->SetPosition(464, 340);
 	listGrids->AddObject(bigfire);
-	//objects.push_back(bigfire);
 
 	bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->SetPosition(657, 340);
 	listGrids->AddObject(bigfire);
-	//objects.push_back(bigfire);
 
 	bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->SetPosition(851, 340);
 	listGrids->AddObject(bigfire);
-	//objects.push_back(bigfire);
 
 	bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->SetPosition(1090, 340);
 	listGrids->AddObject(bigfire);
-	//objects.push_back(bigfire);
 
 	bigfire = new BigFire();
 	bigfire->AddAnimation(700);
 	bigfire->SetPosition(1267, 340);
 	listGrids->AddObject(bigfire);
-	//objects.push_back(bigfire);
 #pragma endregion
 
 #pragma region BigFire
@@ -296,13 +298,11 @@ void LoadResourceLv1()
 	checkPoint->SetType(CHECKPOINT_LEVELUP);
 	checkPoint->SetPosition(1377, 374);
 	listGrids->AddObject(checkPoint);
-	//objects.push_back(checkPoint);
 
 	checkPoint = new CheckPoint();
 	checkPoint->SetType(CHECKPOINT_BONUS);
 	checkPoint->SetPosition(1410, 374);
 	listGrids->AddObject(checkPoint);
-	//objects.push_back(checkPoint);
 #pragma endregion
 }
 
@@ -312,35 +312,35 @@ void LoadResourceLv2() {
 		Ground *ground = new Ground();
 
 		ground->SetPosition(0 + i * 32.0f, 440);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
 
 		ground->SetPosition(1377 + i * 32.0f, 310);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 10; i++)
 	{
 		Ground *ground = new Ground();
 
 		ground->SetPosition(1503 + i * 32.0f, 244);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 6; i++)
 	{
 		Ground *ground = new Ground();
 
 		ground->SetPosition(1854 + i * 32.0f, 310);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 10; i++)
 	{
 		Ground *ground = new Ground();
 
 		ground->SetPosition(2782 + i * 32.0f, 246);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 
 	for (int i = 0; i < 5; i++)
@@ -348,66 +348,68 @@ void LoadResourceLv2() {
 		Candle *candle = new Candle();
 		candle->AddAnimation(800);
 		candle->SetPosition(65 + i * 255, 376);
-		objects.push_back(candle);
+		listGrids->AddObject(candle);
 	}
 	for (int i = 0; i < 4; i++)
 	{
 		Candle *candle = new Candle();
 		candle->AddAnimation(800);
 		candle->SetPosition(195 + i * 257, 316);
-		objects.push_back(candle);
+		listGrids->AddObject(candle);
 	}
-	Candle *candle = new Candle();
+
+	Candle *candle;
+	candle = new Candle();
 	candle->AddAnimation(800);
 	candle->SetPosition(1219, 326);
-	objects.push_back(candle);
+	listGrids->AddObject(candle);
 
-	Candle *candle1 = new Candle();
-	candle1->AddAnimation(800);
-	candle1->SetPosition(1339, 193);
-	objects.push_back(candle1);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(1339, 193);
+	listGrids->AddObject(candle);
 
-	Candle *candle2 = new Candle();
-	candle2->AddAnimation(800);
-	candle2->SetPosition(1445, 380);
-	objects.push_back(candle2);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(1445, 380);
+	listGrids->AddObject(candle);
 
-	Candle *candle3 = new Candle();
-	candle3->AddAnimation(800);
-	candle3->SetPosition(1800, 380);
-	objects.push_back(candle3);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(1800, 380);
+	listGrids->AddObject(candle);
 
-	Candle *candle4 = new Candle();
-	candle4->AddAnimation(800);
-	candle4->SetPosition(1713, 190);
-	objects.push_back(candle4);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(1713, 190);
+	listGrids->AddObject(candle);
 
-	Candle *candle5 = new Candle();
-	candle5->AddAnimation(800);
-	candle5->SetPosition(1986, 198);
-	objects.push_back(candle5);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(1986, 198);
+	listGrids->AddObject(candle);
 
-	Candle *candle6 = new Candle();
-	candle6->AddAnimation(800);
-	candle6->SetPosition(2610, 387);
-	objects.push_back(candle6);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(2601, 387);
+	listGrids->AddObject(candle);
 
-	Candle *candle7 = new Candle();
-	candle7->AddAnimation(800);
-	candle7->SetPosition(2742, 322);
-	objects.push_back(candle7);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(2742, 322);
+	listGrids->AddObject(candle);
 
-	Candle *candle8 = new Candle();
-	candle8->AddAnimation(800);
-	candle8->SetPosition(2868, 190);
-	objects.push_back(candle8);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(2868, 190);
+	listGrids->AddObject(candle);
 
 	for (int i = 0; i < 4; i++)
 	{
 		Candle *candle = new Candle();
 		candle->AddAnimation(800);
 		candle->SetPosition(2050 + i * 125, 380);
-		objects.push_back(candle);
+		listGrids->AddObject(candle);
 	}
 	/*Panther *panther = new Panther();
 	panther->AddAnimation(605);
@@ -418,37 +420,38 @@ void LoadResourceLv2() {
 	panther->SetState(PANTHER_STATE_WAIT);
 	objects.push_back(panther);*/
 
-	Panther *panther1 = new Panther();
-	panther1->AddAnimation(605);
-	panther1->AddAnimation(606);
-	panther1->AddAnimation(607);
-	panther1->AddAnimation(608);
-	panther1->SetPosition(1700, 200);
-	panther1->SetState(PANTHER_STATE_WAIT);
-	objects.push_back(panther1);
+	Panther *panther;
+	panther = new Panther();
+	panther->AddAnimation(605);
+	panther->AddAnimation(606);
+	panther->AddAnimation(607);
+	panther->AddAnimation(608);
+	panther->SetPosition(1700, 200);
+	panther->SetState(PANTHER_STATE_WAIT);
+	listGrids->AddObject(panther);
 
-	Panther *panther2 = new Panther();
-	panther2->AddAnimation(605);
-	panther2->AddAnimation(606);
-	panther2->AddAnimation(607);
-	panther2->AddAnimation(608);
-	panther2->SetPosition(1950, 260);
-	panther2->SetState(PANTHER_STATE_WAIT);
-	objects.push_back(panther2);
+	panther = new Panther();
+	panther->AddAnimation(605);
+	panther->AddAnimation(606);
+	panther->AddAnimation(607);
+	panther->AddAnimation(608);
+	panther->SetPosition(1950, 260);
+	panther->SetState(PANTHER_STATE_WAIT);
+	listGrids->AddObject(panther);
 
 	for (int i = 0; i < 4; i++)
 	{
 		Stair *stair = new Stair();
 		stair->AddAnimation(801);
 		stair->SetPosition(1247 + i * 32, 405 - i * 32);
-		objects.push_back(stair);
+		listGrids->AddObject(stair);
 	}
 	for (int i = 0; i < 2; i++)
 	{
 		Stair *stair = new Stair();
 		stair->AddAnimation(801);
 		stair->SetPosition(1439 + i * 32.0, 278 - i * 32);
-		objects.push_back(stair);
+		listGrids->AddObject(stair);
 	}
 
 	for (int i = 0; i < 2; i++)
@@ -456,7 +459,7 @@ void LoadResourceLv2() {
 		Stair *stair = new Stair();
 		stair->AddAnimation(802);
 		stair->SetPosition(1824 + i * 32.0, 246 + i * 32);
-		objects.push_back(stair);
+		listGrids->AddObject(stair);
 
 	}
 	for (int i = 0; i < 6; i++)
@@ -464,7 +467,7 @@ void LoadResourceLv2() {
 		Stair *stair = new Stair();
 		stair->AddAnimation(801);
 		stair->SetPosition(2590 + i * 32.0, 410 - i * 32);
-		objects.push_back(stair);
+		listGrids->AddObject(stair);
 	}
 
 	CheckStair *checkstair;
@@ -473,57 +476,57 @@ void LoadResourceLv2() {
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(1255, 407); // 379
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
-	objects.push_back(checkstair);
+	listGrids->AddObject(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1382, 215);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
-	objects.push_back(checkstair);
+	listGrids->AddObject(checkstair);
 
 	// Bottom right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(1448, 280);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
-	objects.push_back(checkstair);
+	listGrids->AddObject(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1512, 151);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
-	objects.push_back(checkstair);
+	listGrids->AddObject(checkstair);
 
 	// Top right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1790, 151);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
-	objects.push_back(checkstair);
+	listGrids->AddObject(checkstair);
 
 	// Bottom left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(1850, 280);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
-	objects.push_back(checkstair);
+	listGrids->AddObject(checkstair);
 
 	// Bottom right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(2595, 407);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
-	objects.push_back(checkstair);
+	listGrids->AddObject(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(2788, 153);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
-	objects.push_back(checkstair);
-	//1250 335 1265 320 1280 305*/ 3 10 6 8
+	listGrids->AddObject(checkstair);
+
 	for (int i = 0; i < 2; i++)
 	{
 		Zombie *zombie = new Zombie();
@@ -531,7 +534,7 @@ void LoadResourceLv2() {
 		zombie->AddAnimation(604);
 		zombie->SetPosition(500 + i * 64, 376);
 		zombie->SetState(ZOMBIE_STATE_WALKING);
-		objects.push_back(zombie);
+		listGrids->AddObject(zombie);
 	}
 }
 
@@ -541,95 +544,97 @@ void LoadResourceLv2_1()
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + i * 32 + 32 * 8, 246);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 9 + i * 32.0f, 440);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 12; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 13 + i * 32.0f + 3, 440);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 440);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 8; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 33 + 3 + i * 32.0f, 440);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 3; i++)//
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 17 + i * 32.0f, 246 + 64);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 2; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 246 + 32);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 31 + i * 32.0f, 246 + 64);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 6; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 35 + 3 + i * 32.0f, 246);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
-	Candle *candle = new Candle();
+
+	Candle *candle;
+	candle = new Candle();
 	candle->AddAnimation(800);
 	candle->SetPosition(3245, 193);
-	objects.push_back(candle);
+	listGrids->AddObject(candle);
 
-	Candle *candle1 = new Candle();
-	candle1->AddAnimation(800);
-	candle1->SetPosition(3389, 159);
-	objects.push_back(candle1);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(3389, 159);
+	listGrids->AddObject(candle);
 
-	Candle *candle2 = new Candle();
-	candle2->AddAnimation(800);
-	candle2->SetPosition(3137, 386);
-	objects.push_back(candle2);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(3137, 386);
+	listGrids->AddObject(candle);
 
-	Candle *candle3 = new Candle();
-	candle3->AddAnimation(800);
-	candle3->SetPosition(3519, 319);
-	objects.push_back(candle3);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(3519, 319);
+	listGrids->AddObject(candle);
 
-	Candle *candle4 = new Candle();
-	candle4->AddAnimation(800);
-	candle4->SetPosition(3684, 155);
-	objects.push_back(candle4);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(3684, 155);
+	listGrids->AddObject(candle);
 
-	Candle *candle5 = new Candle();
-	candle5->AddAnimation(800);
-	candle5->SetPosition(3776, 385);
-	objects.push_back(candle5);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(3776, 385);
+	listGrids->AddObject(candle);
 
-	Candle *candle6 = new Candle();
-	candle6->AddAnimation(800);
-	candle6->SetPosition(3905, 150);
-	objects.push_back(candle6);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(3905, 150);
+	listGrids->AddObject(candle);
 
-	Candle *candle7 = new Candle();
-	candle7->AddAnimation(800);
-	candle7->SetPosition(4035, 192);
-	objects.push_back(candle7);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(4035, 192);
+	listGrids->AddObject(candle);
 
 }
 
@@ -644,54 +649,55 @@ void LoadResourceboss()
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 40 + i * 32.0f, 246);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 48; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 41 + i * 32.0f, 438);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 11; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 49 + i * 32.0f, 310);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 86 + i * 32.0f, 310);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 2; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 83 + i * 32.0f, 374);
-		objects.push_back(ground);
+		listGrids->AddObject(ground);
 	}
 
-	Candle *candle = new Candle();
+	Candle *candle;
+	candle = new Candle();
 	candle->AddAnimation(800);
 	candle->SetPosition(4285, 194);
-	objects.push_back(candle);
+	listGrids->AddObject(candle);
 
-	Candle *candle1 = new Candle();
-	candle1->AddAnimation(800);
-	candle1->SetPosition(4418, 255);
-	objects.push_back(candle1);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(4418, 255);
+	listGrids->AddObject(candle);
 
-	Candle *candle2 = new Candle();
-	candle2->AddAnimation(800);
-	candle2->SetPosition(4362, 380);
-	objects.push_back(candle2);
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(4362, 380);
+	listGrids->AddObject(candle);
 
 	for (int i = 0; i < 4; i++)
 	{
 		Candle *candle = new Candle();
 		candle->AddAnimation(800);
 		candle->SetPosition(4866 + i * 127, 380);
-		objects.push_back(candle);
+		listGrids->AddObject(candle);
 	}
 
 	for (int i = 0; i < 2; i++)
@@ -699,7 +705,7 @@ void LoadResourceboss()
 		Candle *candle = new Candle();
 		candle->AddAnimation(800);
 		candle->SetPosition(5438 + i * 127, 310);
-		objects.push_back(candle);
+		listGrids->AddObject(candle);
 	}
 
 	BossBat *bossbat = new BossBat();
@@ -707,7 +713,7 @@ void LoadResourceboss()
 	bossbat->AddAnimation(610);
 	bossbat->SetPosition(5325, 125);
 	bossbat->SetState(BOSSBAT_STATE_WAIT);
-	objects.push_back(bossbat);
+	listGrids->AddObject(bossbat);
 }
 
 /*
@@ -1291,17 +1297,23 @@ void LoadResources()
 
 void Update(DWORD dt)
 {
+
+#pragma region Resource
+
+	/**
+	 * Kiểm tra để load resource tương ứng
+	 */
 	float x, y;
 	simon->GetPosition(x, y);
 	if (!simon->isLevelUp)
 		gameTime -= dt;
 
-#pragma region Resource
 	if (lv1 == true)
 	{
 		Item *bonus = NULL;
+		// Chưa chỉnh lại theo grid
 		// Thưởng bonus vòng 1
-		if (simon->isBonus)
+		/*if (simon->isBonus)
 		{
 			bonus = new Item();
 			bonus->SetPosition(1367, 407);
@@ -1321,36 +1333,35 @@ void Update(DWORD dt)
 			{
 				objects.push_back(bonus);
 			}
-		}
+		}*/
 
 		// Lên cấp
 		if (simon->isLevelUp) {
+			isEnableKeyBoard = false;
 			simon->SetState(SIMON_STATE_WALK);
-			simon->SetSpeed(SIMON_LEVELUP_SPEED, 0);
+			if (!simon->isJump)
+				simon->vx = SIMON_LEVELUP_SPEED;
 			DWORD timer = GetTickCount();
 			if (timer - simon->onCheckPointTime > LEVELUP_TIME)
 			{
-				CGameObject *object;
-				for (int i = objects.size() - 1; i >= 0; i--)
-				{
-					object = objects[i];
-					objects.pop_back();
-					delete object;
-				}
+				listGrids->ReleaseList();
 
 				lv2 = true;
 				lv1 = false;
 				simon->isLevelUp = false;
 				simon->SetState(SIMON_STATE_IDLE);
+				isEnableKeyBoard = true;
 			}
 		}
 	}
 	
 	if (lv2 == true)
 	{
+		// Lần đầu load resource lv2
 		if (countLoadResourceLv2 == false)
 		{
 			game->x_cam = 0;
+			listGrids->InitList(MAX_WIDTH_LV2);
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
 			simon->SetPosition(50, 155);
@@ -1358,6 +1369,7 @@ void Update(DWORD dt)
 		}
 		else if (countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2 * SIMON_STAND_BBOX_WIDTH)
 		{
+			// Zombie xuất hiện chưa đúng, cần chỉnh lại (1 lượt 3 con)
 			if (GetTickCount() - timer > 5000)
 			{
 				Zombie *zombie = new Zombie();
@@ -1365,29 +1377,32 @@ void Update(DWORD dt)
 				zombie->AddAnimation(604);
 				zombie->SetPosition(1200, 376);
 				zombie->SetState(ZOMBIE_STATE_WALKING);
-				objects.push_back(zombie);
+				listGrids->AddObject(zombie);
 				timer = timer + 5000;
 			}
 		}
 		else  //check point
 		{
+			listGrids->ReleaseList();
+
 			lv2_1 = true;
 			lv2 = false;
 		}
 	}
 	if (lv2_1 == true)
 	{
-		// Lần đầu load resource lv2
+		// Lần đầu load resource lv2_1
 		if (countLoadResourceLv2_1 == false)
 		{
-			for (int i = objects.size()-1; i > 0; i--)
-				objects.pop_back();			
+			listGrids->InitList(MAX_WIDTH_LV2_1);
 			LoadResourceLv2_1();
 			countLoadResourceLv2_1 = true;
 		}
 		
 		if (x > MAX_WIDTH_LV2_1 - 2 * SIMON_STAND_BBOX_WIDTH)
 		{
+			listGrids->ReleaseList();
+
 			lv2_1 = false;			
 			boss = true;
 		}
@@ -1396,8 +1411,8 @@ void Update(DWORD dt)
 	{
 		if (countLoadResourceLv2_2 == false)
 		{
-			for (int i = objects.size() - 1; i > 200; i--)
-				objects.pop_back();
+			listGrids->InitList(MAX_WIDTH_LV2_2);
+			LoadResourceLv2_2();
 			countLoadResourceLv2_2 = true;
 			simon->SetPosition(50, 150);
 		}
@@ -1406,13 +1421,12 @@ void Update(DWORD dt)
 	{
 		if (countLoadResourceboss == false)
 		{
-			for (int i = objects.size() - 1; i > 0; i--)
-				objects.pop_back();
+			listGrids->InitList(MAX_WIDTH_LV1);
 			LoadResourceboss();
 			countLoadResourceboss = true;
 			timer2 = GetTickCount();
 		}
-		else if(countLoadResourceboss == true)
+		else if (countLoadResourceboss == true)
 		{
 			if (GetTickCount() - timer2 > 5000)
 			{
@@ -1421,7 +1435,7 @@ void Update(DWORD dt)
 				zombie->AddAnimation(604);
 				zombie->SetPosition(4900, 376);
 				zombie->SetState(ZOMBIE_STATE_WALKING);
-				objects.push_back(zombie);
+				listGrids->AddObject(zombie);
 				timer2 = timer2 + 5000;
 			}
 		}
@@ -1429,6 +1443,7 @@ void Update(DWORD dt)
 #pragma endregion
 
 #pragma region Collision
+
 	vector<LPGAMEOBJECT> objects;
 
 	currentGrids = listGrids->GetCurrentGrids(simon->x);
@@ -1469,6 +1484,12 @@ void Update(DWORD dt)
 #pragma endregion	
 
 #pragma region Remove Object
+	/**
+	 * Không remove trực tiếp trong mảng khi đang duyệt, thêm vào danh sách các object sẽ bị remove và sau đó mới bắt đầu remove
+	 */
+	vector<LPGAMEOBJECT> listRemoveObjects;
+
+	// Thêm các object sẽ bị remove vào listRemoveObjects và cập nhật thêm các object mới vào objects và listGrids
 	for (int i = 0; i < objects.size(); i++)
 	{
 		if (dynamic_cast<Zombie *>(objects.at(i)))
@@ -1477,8 +1498,7 @@ void Update(DWORD dt)
 
 			if (zombie->GetState() == ZOMBIE_STATE_DIE)
 			{
-				objects.erase(objects.begin() + i);
-				delete zombie;
+				listRemoveObjects.push_back(zombie);
 			}
 		}
 		else if (dynamic_cast<BigFire *>(objects.at(i)))
@@ -1492,7 +1512,7 @@ void Update(DWORD dt)
 				item = new Item();
 				item->SetPosition(bigfire_x, bigfire_y);
 				item->SetSpeed(0, -0.1);
-				//objects.push_back(item);
+				objects.push_back(item);
 				listGrids->AddObject(item);
 
 				// Whip item
@@ -1537,18 +1557,16 @@ void Update(DWORD dt)
 				whipEffect = new Effect(GetTickCount());
 				whipEffect->AddAnimation(806);
 				whipEffect->SetPosition(bigfire_x, bigfire_y + (bigfire_bottom - bigfire_y) / 4);
-				//objects.push_back(whipEffect);
+				objects.push_back(whipEffect);
 				listGrids->AddObject(whipEffect);
 
 				whipEffect = new Effect(GetTickCount());
 				whipEffect->AddAnimation(807);
 				whipEffect->SetPosition(bigfire_x, bigfire_y + (bigfire_bottom - bigfire_y) / 4);
-				//objects.push_back(whipEffect);
+				objects.push_back(whipEffect);
 				listGrids->AddObject(whipEffect);
 
-				// objects.erase(objects.begin() + i);
-				listGrids->RemoveObject(bigFire);
-				delete bigFire;
+				listRemoveObjects.push_back(bigFire);
 			}
 		}
 		else if (dynamic_cast<Item *>(objects.at(i)))
@@ -1557,8 +1575,7 @@ void Update(DWORD dt)
 
 			if (item->GetEaten())
 			{
-				objects.erase(objects.begin() + i);
-				delete item;
+				listRemoveObjects.push_back(item);
 			}
 		}
 		else if (dynamic_cast<Effect *>(objects.at(i)))
@@ -1567,10 +1584,16 @@ void Update(DWORD dt)
 
 			if (effect->GetExposed())
 			{
-				objects.erase(objects.begin() + i);
-				delete effect;
+				listRemoveObjects.push_back(effect);
 			}
 		}
+	}
+
+	// Remove lần lượt từng object từ listRemoveObjects trong listGrids
+	for (int i = 0; i < listRemoveObjects.size(); i++)
+	{
+		listGrids->RemoveObject(listRemoveObjects[i]);
+		delete listRemoveObjects[i];
 	}
 #pragma endregion	
 
@@ -1579,7 +1602,6 @@ void Update(DWORD dt)
 	{
 		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
 		{
-
 			game->x_cam = x - SCREEN_WIDTH / 2;
 			game->y_cam = 0;
 		}
@@ -1594,7 +1616,7 @@ void Update(DWORD dt)
 			game->y_cam = 0;
 		}
 	}
-	else if( lv2 == true)
+	else if (lv2 == true)
 	{
 		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2)
 		{
@@ -1605,63 +1627,55 @@ void Update(DWORD dt)
 			game->x_cam = MAX_WIDTH_LV2 - SCREEN_WIDTH;
 			game->y_cam = 0;
 		}
-		else if(x < SCREEN_WIDTH / 2)
+		else if (x < SCREEN_WIDTH / 2)
 		{
 			game->x_cam = 0;
 			game->y_cam = 0;
 		}
-
 	}
 	else if (lv2_1 == true)
 	{
-		
 		// chuyen scene
 		if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH/2)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
 			game->y_cam = 0;
-			
 		}
-		
-		else {
-			
+		else 
+		{
 			if (x < 3200)
 			{
 				if(check1 == false)
-				simon->SetState(SIMON_STATE_WALK);
-				
+				simon->SetState(SIMON_STATE_WALK);	
 			}
-			if (x >3200 && x<3210 ) {
+			if (x > 3200 && x < 3210 ) 
+			{
 				check1 = true;
 				check = true;
 				simon->SetState(SIMON_STATE_IDLE);
-							
 			}
-			
 		}
-		if ( game->x_cam < MAX_WIDTH_LV2   && check == true)
+		if (game->x_cam < MAX_WIDTH_LV2 && check == true)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
 			game->y_cam = 0;
-			
 		}
 		else if (game->x_cam > MAX_WIDTH_LV2)
 		{
 			checkScene = true;
 		}
-		
-		
-		
+
 		//
 		//trả camera về simon
 		if (checkScene == true)
 		{
-			if ( x > MAX_WIDTH_LV2 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
+			if (x > MAX_WIDTH_LV2 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
 			{
 				game->x_cam = x - SCREEN_WIDTH / 2;
 				game->y_cam = 0;
 			}
-			else if (x > MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2) {
+			else if (x > MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2) 
+			{
 				game->x_cam = MAX_WIDTH_LV2_1 - SCREEN_WIDTH;
 				game->y_cam = 0;
 			}
@@ -1671,7 +1685,6 @@ void Update(DWORD dt)
 				game->y_cam = 0;
 			}
 		}
-		
 	}
 	else if (lv2_2 == true)
 	{
@@ -1682,17 +1695,14 @@ void Update(DWORD dt)
 	{
 		if (game->x_cam < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
 		{
-			
-				game->x_cam += SIMON_WALKING_SPEED * dt;
-				game->y_cam = 0;
-			
-
+			game->x_cam += SIMON_WALKING_SPEED * dt;
+			game->y_cam = 0;
 		}
-		else {
-
+		else 
+		{
 			if (x < MAX_WIDTH_LV2_1 + 100)
 			{
-				if(check3 == false)
+				if (check3 == false)
 				simon->SetState(SIMON_STATE_WALK);
 			}
 			else if (x > MAX_WIDTH_LV2_1 + 100 && x < MAX_WIDTH_LV2_1 + 105)
@@ -1705,7 +1715,7 @@ void Update(DWORD dt)
 		
 		if (checkScene1 == true)
 		{
-			if(game->x_cam < MAX_WIDTH_LV2_1)
+			if (game->x_cam < MAX_WIDTH_LV2_1)
 				game->x_cam += SIMON_WALKING_SPEED * dt;
 			else 
 			{
@@ -1729,12 +1739,13 @@ void Update(DWORD dt)
 #pragma endregion
 
 #pragma region UI
+
 	if (lv1 == true)
 		ui->Update(gameTime/1000, 1,simon);
 	else
 		ui->Update(gameTime/1000, 2,simon);
-#pragma endregion
 
+#pragma endregion
 }
 
 void Render()
@@ -1784,8 +1795,7 @@ void Render()
 
 			for (int j = 0; j < listObjectSize; j++)
 			{
-				if (listObject[j] != NULL)
-					listObject[j]->Render();
+				listObject[j]->Render();
 			}
 		}
 

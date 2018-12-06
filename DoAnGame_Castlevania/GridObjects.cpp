@@ -39,22 +39,29 @@ void ListGrids::InitList(float mapWidth)
 
 void ListGrids::ReleaseList()
 {
+	vector<LPGAMEOBJECT> listRemoveObjects;
+
 	int listGridSize = listGrids.size();
-	// Duyệt qua từng grid trong listGrids và giải phóng bộ nhớ trong grid trước
 	for (int i = 0; i < listGridSize; i++)
 	{
 		int listObjectSize = listGrids[i]->listObject.size();
 		GridObjects *grid = listGrids[i];
 		for (int j = 0; j < listObjectSize; j++)
 		{
-			// Xóa từng phần tử
-			LPGAMEOBJECT gameObject = grid->listObject[j];
-			grid->RemoveObject(j);
-			delete gameObject;
+			listRemoveObjects.push_back(grid->listObject[j]);
 		}
+	}
 
-		// Xóa grid
-		RemoveGrid(i);
+	for (int i = 0; i < listRemoveObjects.size(); i++)
+	{
+		RemoveObject(listRemoveObjects[i]);
+		delete listRemoveObjects[i];
+	}
+
+	for (int i = 0; i < listGrids.size(); )
+	{
+		GridObjects *grid = listGrids[i];
+		RemoveGrid(0);
 		delete grid;
 	}
 }
