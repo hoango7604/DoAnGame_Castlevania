@@ -242,7 +242,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void LoadResourceLv1()
 {
 	// Đặt vị trí xuất phát cho simon
-	simon->SetPosition(100, 327);
+	simon->SetPosition(1400, 327); // 100 327
 
 	// Khởi tạo listGrids
 	listGrids->InitList(MAX_WIDTH_LV1);
@@ -474,7 +474,7 @@ void LoadResourceLv2() {
 	// Bottom right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1255, 407); // 379
+	checkstair->SetPosition(1255, 407);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
@@ -488,14 +488,14 @@ void LoadResourceLv2() {
 	// Bottom right
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1448, 280);
+	checkstair->SetPosition(1448, 278);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1512, 151);
+	checkstair->SetPosition(1510, 151);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 
@@ -509,7 +509,7 @@ void LoadResourceLv2() {
 	// Bottom left
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1850, 280);
+	checkstair->SetPosition(1850, 278);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
@@ -526,16 +526,6 @@ void LoadResourceLv2() {
 	checkstair->SetPosition(2788, 153);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
-
-	for (int i = 0; i < 2; i++)
-	{
-		Zombie *zombie = new Zombie();
-		zombie->AddAnimation(602);
-		zombie->AddAnimation(604);
-		zombie->SetPosition(500 + i * 64, 376);
-		zombie->SetState(ZOMBIE_STATE_WALKING);
-		listGrids->AddObject(zombie);
-	}
 }
 
 void LoadResourceLv2_1()
@@ -635,7 +625,6 @@ void LoadResourceLv2_1()
 	candle->AddAnimation(800);
 	candle->SetPosition(4035, 192);
 	listGrids->AddObject(candle);
-
 }
 
 void LoadResourceLv2_2()
