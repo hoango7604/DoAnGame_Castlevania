@@ -1431,11 +1431,14 @@ void Update(DWORD dt)
 	}
 #pragma endregion
 
-#pragma region Collision
+#pragma region Update Object
 
 	vector<LPGAMEOBJECT> objects;
 
-	currentGrids = listGrids->GetCurrentGrids(simon->x);
+	if (simon->x < 0)
+		currentGrids = listGrids->GetCurrentGrids(0);
+	else
+		currentGrids = listGrids->GetCurrentGrids(simon->x);
 
 	for (int i = 0; i < currentGrids.size(); i++)
 	{
@@ -1449,28 +1452,20 @@ void Update(DWORD dt)
 
 	simon->Update(dt, &objects);
 
-	if (boss == false)
+	for (int i = 0; i < objects.size(); i++)
 	{
-		for (int i = 0; i < objects.size(); i++)
+		if (dynamic_cast<BossBat *>(objects.at(i)))
 		{
+			BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
+			bossbat->Update(x, y, dt, &objects);
+		}
+		else
 			objects[i]->Update(dt, &objects);
-		}
-	}
-	else if (boss == true)
-	{
-		for (int i = 0; i < objects.size(); i++)
-		{
-			if (dynamic_cast<BossBat *>(objects.at(i)))
-			{
-				BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
-				bossbat->Update(x, y, dt, &objects);
-			}
-			else
-				objects[i]->Update(dt, &objects);
-		}
+
+		listGrids->UpdateObjectInGrid(objects[i]);
 	}
 	
-#pragma endregion	
+#pragma endregion
 
 #pragma region Remove Object
 	/**
@@ -1584,7 +1579,7 @@ void Update(DWORD dt)
 		listGrids->RemoveObject(listRemoveObjects[i]);
 		delete listRemoveObjects[i];
 	}
-#pragma endregion	
+#pragma endregion
 
 #pragma region Camera
 	if (lv1 == true)

@@ -39,4 +39,5 @@ public:
 
 	static ListGrids *GetInstance();
 	vector<GridObjects*> GetCurrentGrids(float cam_x);
+	void UpdateObjectInGrid(LPGAMEOBJECT object);
 };

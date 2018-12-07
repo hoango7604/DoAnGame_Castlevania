@@ -65,7 +65,6 @@
 #define WHIP_RIGHT_2					4
 #define WHIP_LEFT_2						5
 
-
 #define WHIP_LV0_BBOX_WIDTH				100
 #define WHIP_LV0_BBOX_HEIGHT			15
 #define WHIP_LV1_BBOX_WIDTH				105
@@ -88,6 +87,8 @@
 //Knife
 #define KNIFE_BBOX_WIDTH				32
 #define KNIFE_BBOX_HEIGHT				18
+
+#define KNIFE_SPEED						0.2f
 
 //Money
 #define MONEY_BBOX_WIDTH				30

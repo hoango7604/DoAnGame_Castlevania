@@ -23,15 +23,17 @@ void GridObjects::RemoveObject(int i)
 
 ListGrids *ListGrids::instance = NULL;
 
+#define GRID_WIDTH	(SCREEN_WIDTH / 2)
+
 void ListGrids::InitList(float mapWidth)
 {
 	GridObjects *grid;
-	int gridCount = ceil(mapWidth / SCREEN_WIDTH);
+	int gridCount = ceil(mapWidth / GRID_WIDTH);
 	for (int i = 0; i < gridCount; i++)
 	{
 		float left, right;
-		left = i * SCREEN_WIDTH;
-		right = (i + 1) * SCREEN_WIDTH;
+		left = i * GRID_WIDTH;
+		right = (i + 1) * GRID_WIDTH;
 		grid = new GridObjects(left, right);
 		listGrids.push_back(grid);
 	}
@@ -74,7 +76,7 @@ void ListGrids::RemoveGrid(int i)
 void ListGrids::AddObject(LPGAMEOBJECT object)
 {
 	// Dựa vào vị trí x của object để đặt vật vào grid tương ứng
-	int gridNumber = floor(object->x / SCREEN_WIDTH);
+	int gridNumber = floor(object->x / GRID_WIDTH);
 	object->gridNumber = gridNumber;
 	listGrids[gridNumber]->AddObject(object);
 }
@@ -111,7 +113,7 @@ ListGrids * ListGrids::GetInstance()
 vector<GridObjects*> ListGrids::GetCurrentGrids(float cam_x)
 {
 	vector<GridObjects*> result;
-	int gridNumber = floor(cam_x / SCREEN_WIDTH);
+	int gridNumber = floor(cam_x / GRID_WIDTH);
 	
 	// Trường hợp màn hình game nằm giữa 2 grid
 	result.push_back(listGrids[gridNumber]);
@@ -121,4 +123,20 @@ vector<GridObjects*> ListGrids::GetCurrentGrids(float cam_x)
 		result.push_back(listGrids[gridNumber + 1]);
 
 	return result;
+}
+
+void ListGrids::UpdateObjectInGrid(LPGAMEOBJECT object)
+{
+	// Dựa vào vị trí x của object để đặt vật vào grid tương ứng
+	int gridNumber = floor(object->x / GRID_WIDTH);
+
+	if (gridNumber != object->gridNumber)
+	{
+		// Xóa object khỏi grid cũ
+		RemoveObject(object);
+
+		// Đổi gridNumber hiện tại của object và thêm object vào grid mới
+		object->gridNumber = gridNumber;
+		listGrids[gridNumber]->AddObject(object);
+	}
 }
