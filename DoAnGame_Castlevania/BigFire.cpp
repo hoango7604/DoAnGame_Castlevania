@@ -5,10 +5,6 @@ void BigFire::Render()
 	if (!isHitted)
 		animations[0]->Render(x, y, 255);
 }
-void BigFire::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-
-}
 
 void BigFire::SetHit()
 {

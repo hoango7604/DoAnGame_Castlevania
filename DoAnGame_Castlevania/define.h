@@ -23,6 +23,7 @@
 #define SIMON_STATE_WALK				600
 #define SIMON_STATE_ONSTAIR				700
 #define SIMON_STATE_ONSTAIR_IDLE		800
+#define SIMON_STATE_HURT				900
 
 //action
 #define SIMON_ACTION_JUMP				300
@@ -76,6 +77,10 @@
 #define BIGFIRE_BBOX_WIDTH				32
 #define BIGFIRE_BBOX_HEIGHT				64
 
+// Candle
+#define CANDLE_BBOX_WIDTH				16
+#define CANDLE_BBOX_HEIGHT				50
+
 // Heart
 #define HEART_BBOX_WIDTH				16
 #define HEART_BBOX_HEIGHT				16
@@ -84,13 +89,13 @@
 #define WHIPITEM_BBOX_WIDTH				32
 #define WHIPITEM_BBOX_HEIGHT			32
 
-//Knife
+// Knife
 #define KNIFE_BBOX_WIDTH				32
 #define KNIFE_BBOX_HEIGHT				18
 
 #define KNIFE_SPEED						0.2f
 
-//Money
+// Money
 #define MONEY_BBOX_WIDTH				30
 #define MONEY_BBOX_HEIGHT				30
 
@@ -108,22 +113,27 @@
 #define ZOMBIE_ANI_WALKING_RIGHT		1
 #define ZOMBIE_ANI_DIE					2
 
-#define PANTHER_WALKING_SPEED			0.16f
 //Panther
-#define PANTHER_BBOX_WIDTH				32
+#define PANTHER_WALKING_SPEED			0.3f
+#define PANTHER_JUMPING_SPEED			0.2f
+#define PANTHER_JUMP_POINT_1_X			1380
+#define PANTHER_JUMP_POINT_2_X			1510
+#define PANTHER_JUMP_POINT_3_X			1865
+
+#define PANTHER_DISTANCE_SIMON_X		140
+#define PANTHER_DISTANCE_SIMON_Y		110
+
+#define PANTHER_BBOX_WIDTH				64
 #define PANTHER_BBOX_HEIGHT				32
-#define PANTHER_BBOX_HEIGHT_DIE			9
 
 #define PANTHER_STATE_WAIT				100
-#define PANTHER_STATE_ATTACK			150
-#define PANTHER_STATE_DIE				200
-
+#define PANTHER_STATE_JUMP				150
+#define PANTHER_STATE_RUN				200
 
 #define PANTHER_ANI_WAIT				0
 #define PANTHER_ANI_RUN_LEFT			1
 #define PANTHER_ANI_RUN_RIGHT			2
-#define PANTHER_ANI_GRAB				3
-#define PANTHER_ANI_DIE					4
+#define PANTHER_ANI_JUMP				3
 
 //BossBat
 #define BOSSBAT_BBOX_WIDTH				100	

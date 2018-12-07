@@ -3,7 +3,7 @@
 
 void CheckStair::Render()
 {
-	animations[0]->Render(x, y);
+	//animations[0]->Render(x, y);
 	//RenderBoundingBox();
 }
 

@@ -1,16 +1,4 @@
-﻿#include <algorithm>
-#include "debug.h"
-
-#include "Simon.h"
-#include "Game.h"
-#include "BigFire.h"
-#include "Candle.h"
-#include "Item.h"
-#include "Zombie.h"
-#include "Ground.h"
-#include "Stair.h"
-#include "CheckStair.h"
-#include "CheckPoint.h"
+﻿#include "Simon.h"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -245,11 +233,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (isExitSit)
 		{
 			isSit = false;
-			y -= SIMON_SIT_TO_STAND;
 			isExitSit = false;
 		}
 		// Check collision between whip and game objects here
-		whip->Update(dt, coObjects);
+		if (isUseWhip)
+			whip->Update(dt, coObjects);
 	}
 
 	// Simple fall down
@@ -281,8 +269,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 
-	// when simon attack
-	if (isAttack == true)
+	// when simon attack with whip
+	if (isAttack && isUseWhip)
 	{
 		if (nx > 0)
 		{
@@ -335,13 +323,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<Zombie *>(e->obj))
+			if (!dynamic_cast<Ground *>(e->obj) && e->ny != 0)
+				y -= ny * 0.4f;
+
+			if (dynamic_cast<Zombie *>(e->obj) || dynamic_cast<Panther *>(e->obj))
 			{
-				Zombie *zombie = dynamic_cast<Zombie *>(e->obj);
-				if (zombie->GetState() != ZOMBIE_STATE_DIE) {
-					StartUntouchable();
-					//SetState(SIMON_STATE_DIE);
-				}
+				SetState(SIMON_STATE_HURT);
 			}
 			else if (dynamic_cast<Ground *>(e->obj))
 			{
@@ -411,7 +398,14 @@ void Simon::Render()
 		ani = SIMON_ANI_DIE;
 	else
 	{
-		if (isAttack)
+		if (isHurt)
+		{
+			if (nx > 0)
+				ani = SIMON_ANI_HURT_RIGHT;
+			else if (nx < 0)
+				ani = SIMON_ANI_HURT_LEFT;
+		}
+		else if (isAttack)
 		{
 			if (nx > 0)
 			{
@@ -430,12 +424,16 @@ void Simon::Render()
 				{
 					ani = SIMON_ANI_ATTACK_RIGHT;
 				}
-				if(whip->level == 0)
-				aniWhip = WHIP_RIGHT;
-				else if (whip->level == 1)
-				aniWhip = WHIP_RIGHT_1;
-				else if (whip->level == 2)
-				aniWhip = WHIP_RIGHT_2;
+
+				if (isUseWhip)
+				{
+					if (whip->level == 0)
+						aniWhip = WHIP_RIGHT;
+					else if (whip->level == 1)
+						aniWhip = WHIP_RIGHT_1;
+					else
+						aniWhip = WHIP_RIGHT_2;
+				}
 			}
 			else
 			{
@@ -454,12 +452,16 @@ void Simon::Render()
 				{
 					ani = SIMON_ANI_ATTACK_LEFT;
 				}
-				if (whip->level == 0)
-				aniWhip = WHIP_LEFT;
-				else if(whip->level == 1)
-				aniWhip = WHIP_LEFT_1;
-				else if (whip->level == 2)
-				aniWhip = WHIP_LEFT_2;
+
+				if (isUseWhip)
+				{
+					if (whip->level == 0)
+						aniWhip = WHIP_LEFT;
+					else if (whip->level == 1)
+						aniWhip = WHIP_LEFT_1;
+					else
+						aniWhip = WHIP_LEFT_2;
+				}
 			}
 		}
 		else if (isJump)
@@ -586,7 +588,6 @@ void Simon::Render()
 
 	if (aniWhip != -1)
 	{
-
 		if (!isSit)
 			whip->animations[aniWhip]->Render(x, y, alpha);
 		else
@@ -605,6 +606,16 @@ void Simon::SetState(int state)
 	case SIMON_STATE_DIE:
 		isDead = true;
 		vy = -SIMON_DIE_DEFLECT_SPEED;
+		break;
+	case SIMON_STATE_HURT:
+		isHurt = true;
+		isAttack = false;
+		isJump = false;
+		isMoving = false;
+		isOnStair = false;
+		isOnCheckStairDown = false;
+		isOnCheckStairUp = false;
+		isSit = false;
 		break;
 	case SIMON_STATE_ONCHECKSTAIR:
 		if (nx < 0)
@@ -655,12 +666,10 @@ void Simon::SetState(int state)
 		vy = 0;
 		break;
 	case SIMON_STATE_SIT:
-		//isOnCheckStair = false;
 		isSit = true;
 		vx = 0;
 		break;
 	case SIMON_STATE_WALK:
-		//isOnCheckStair = false;
 		isMoving = true;
 		if (nx == 1.0f)
 		{
@@ -672,7 +681,6 @@ void Simon::SetState(int state)
 		}
 		break;
 	case SIMON_STATE_IDLE:
-		//isOnCheckStair = false;
 		vx = 0;
 		isMoving = false;
 		break;

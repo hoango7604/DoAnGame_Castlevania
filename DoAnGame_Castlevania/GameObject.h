@@ -5,9 +5,6 @@
 #include <vector>
 
 #include "Sprites.h"
-
-
-
 using namespace std;
 
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box

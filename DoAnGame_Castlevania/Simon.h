@@ -1,7 +1,20 @@
 #pragma once
+#include <algorithm>
+#include "debug.h"
+
 #include "GameObject.h"
 #include "Whip.h"
 #include "define.h"
+#include "Game.h"
+#include "BigFire.h"
+#include "Candle.h"
+#include "Item.h"
+#include "Zombie.h"
+#include "Ground.h"
+#include "Stair.h"
+#include "CheckStair.h"
+#include "CheckPoint.h"
+#include "Panther.h"
 
 class Simon : public CGameObject
 {
@@ -24,6 +37,7 @@ public:
 	bool isDead;
 
 	bool isAttack;
+	bool isUseWhip;
 
 	bool isOnCheckStairUp;
 	bool isOnCheckStairDown;
@@ -36,6 +50,8 @@ public:
 	bool isJump;
 
 	bool isMoving;
+
+	bool isHurt;
 
 	DWORD attackTime;
 	DWORD onCheckPointTime;

@@ -1,5 +1,5 @@
 #include "define.h"
-#include"Simon.h"
+#include "Simon.h"
 #include "Whip.h"
 #include "Zombie.h"
 #include "Candle.h"
@@ -31,9 +31,19 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			BigFire *bigfire = dynamic_cast<BigFire *>(coObjects->at(i));
 			float zl, zr, zt, zb;
 			bigfire->GetBoundingBox(zl, zt, zr, zb);
-			if (wl < zl && wr > zr && wt > zt && wb < zb)
+			if (wl < zl && wr > (zl + zr) / 2 && wt > zt && wb < zb)
 			{
 				bigfire->isHitted = true;
+			}
+		}
+		else if (dynamic_cast<Candle *>(coObjects->at(i)))
+		{
+			Candle *candle = dynamic_cast<Candle *>(coObjects->at(i));
+			float zl, zr, zt, zb;
+			candle->GetBoundingBox(zl, zt, zr, zb);
+			if (wl < zl && wr > (zl + zr) / 2 && wt > zt - 4 * SIMON_ONSTAIR_ERR_RANGE && wb < zb)
+			{
+				candle->isHitted = true;
 			}
 		}
 	}

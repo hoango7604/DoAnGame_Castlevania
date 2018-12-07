@@ -76,7 +76,16 @@ void ListGrids::RemoveGrid(int i)
 void ListGrids::AddObject(LPGAMEOBJECT object)
 {
 	// Dựa vào vị trí x của object để đặt vật vào grid tương ứng
-	int gridNumber = floor(object->x / GRID_WIDTH);
+	float objectX = object->x;
+	// Tránh trường hợp vật ra khỏi map
+	if (objectX < 0)
+		objectX = 0;
+
+	int gridNumber = floor(objectX / GRID_WIDTH);
+	// Tránh trường hợp vật ra khỏi map
+	if (gridNumber == this->listGrids.size())
+		gridNumber = this->listGrids.size() - 1;
+
 	object->gridNumber = gridNumber;
 	listGrids[gridNumber]->AddObject(object);
 }

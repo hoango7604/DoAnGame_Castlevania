@@ -17,6 +17,7 @@
 #include "BigFire.h"
 #include "Candle.h"
 #include "Item.h"
+#include "Effect.h"
 #include "Map.h"
 #include "Stair.h"
 #include "RedBat.h"
@@ -89,7 +90,19 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		else if (KeyCode == DIK_A)
 		{
 			if (simon->isAttack == false)
+			{
 				simon->SetAction(SIMON_ACTION_ATTACK);
+				simon->isUseWhip = true;
+			}
+		}
+		// Dùng vũ khí
+		else if (KeyCode == DIK_S)
+		{
+			if (simon->isAttack == false)
+			{
+				simon->SetAction(SIMON_ACTION_ATTACK);
+				simon->isUseWhip = false;
+			}
 		}
 	}
 }
@@ -411,33 +424,6 @@ void LoadResourceLv2() {
 		candle->SetPosition(2050 + i * 125, 380);
 		listGrids->AddObject(candle);
 	}
-	/*Panther *panther = new Panther();
-	panther->AddAnimation(605);
-	panther->AddAnimation(606);
-	panther->AddAnimation(607);
-	panther->AddAnimation(608);
-	panther->SetPosition(1403, 260);
-	panther->SetState(PANTHER_STATE_WAIT);
-	objects.push_back(panther);*/
-
-	Panther *panther;
-	panther = new Panther();
-	panther->AddAnimation(605);
-	panther->AddAnimation(606);
-	panther->AddAnimation(607);
-	panther->AddAnimation(608);
-	panther->SetPosition(1700, 200);
-	panther->SetState(PANTHER_STATE_WAIT);
-	listGrids->AddObject(panther);
-
-	panther = new Panther();
-	panther->AddAnimation(605);
-	panther->AddAnimation(606);
-	panther->AddAnimation(607);
-	panther->AddAnimation(608);
-	panther->SetPosition(1950, 260);
-	panther->SetState(PANTHER_STATE_WAIT);
-	listGrids->AddObject(panther);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -473,59 +459,87 @@ void LoadResourceLv2() {
 	CheckStair *checkstair;
 	// Bottom right
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
+	//checkstair->AddAnimation(803);
 	checkstair->SetPosition(1255, 407);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
+	//checkstair->AddAnimation(804);
 	checkstair->SetPosition(1382, 215);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 
 	// Bottom right
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
+	//checkstair->AddAnimation(803);
 	checkstair->SetPosition(1448, 278);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
+	//checkstair->AddAnimation(804);
 	checkstair->SetPosition(1510, 151);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 
 	// Top right
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
+	//checkstair->AddAnimation(804);
 	checkstair->SetPosition(1790, 151);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	// Bottom left
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
+	//checkstair->AddAnimation(803);
 	checkstair->SetPosition(1850, 278);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
 	// Bottom right
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
+	//checkstair->AddAnimation(803);
 	checkstair->SetPosition(2595, 407);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
+	//checkstair->AddAnimation(804);
 	checkstair->SetPosition(2788, 153);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
+
+	Panther *panther;
+	panther = new Panther();
+	panther->AddAnimation(605);
+	panther->AddAnimation(606);
+	panther->AddAnimation(607);
+	panther->AddAnimation(608);
+	panther->SetPosition(1403, 260);
+	panther->SetState(PANTHER_STATE_WAIT);
+	listGrids->AddObject(panther);
+
+	panther = new Panther();
+	panther->AddAnimation(605);
+	panther->AddAnimation(606);
+	panther->AddAnimation(607);
+	panther->AddAnimation(608);
+	panther->SetPosition(1700, 200);
+	panther->SetState(PANTHER_STATE_WAIT);
+	listGrids->AddObject(panther);
+
+	panther = new Panther();
+	panther->AddAnimation(605);
+	panther->AddAnimation(606);
+	panther->AddAnimation(607);
+	panther->AddAnimation(608);
+	panther->SetPosition(1950, 260);
+	panther->SetState(PANTHER_STATE_WAIT);
+	listGrids->AddObject(panther);
 }
 
 void LoadResourceLv2_1()
@@ -882,15 +896,15 @@ void LoadResources()
 	sprites->Add(30004, 36, 0, 68, 64, texEnemy0);
 
 	LPDIRECT3DTEXTURE9 texEnemy1 = textures->Get(ID_TEX_PANTHER);
-	sprites->Add(30011, 0, 0, 50, 30, texEnemy1); // báo
-	sprites->Add(30012, 64, 0, 120, 30, texEnemy1); // báo chạy trái
-	sprites->Add(30013, 126, 0, 188, 30, texEnemy1);
-	sprites->Add(30014, 188, 0, 256, 30, texEnemy1);
+	sprites->Add(30011, 0, 0, 64, 32, texEnemy1); // báo
+	sprites->Add(30012, 64, 0, 128, 32, texEnemy1); // báo chạy trái
+	sprites->Add(30013, 128, 0, 192, 32, texEnemy1);
+	sprites->Add(30014, 192, 0, 256, 32, texEnemy1);
 
 	LPDIRECT3DTEXTURE9 texEnemy10 = textures->Get(ID_TEX_PANTHER_RIGHT);	
-	sprites->Add(30015, 136, 0, 190, 30, texEnemy10); //báo  chạy phải
-	sprites->Add(30016, 67, 0, 130, 30, texEnemy10);
-	sprites->Add(30017, 0, 0, 64, 30, texEnemy10);
+	sprites->Add(30015, 128, 0, 192, 32, texEnemy10); //báo  chạy phải
+	sprites->Add(30016, 64, 0, 128, 32, texEnemy10);
+	sprites->Add(30017, 0, 0, 64, 32, texEnemy10);
 
 	LPDIRECT3DTEXTURE9 texEnemy11 = textures->Get(ID_TEX_BAT);
 	sprites->Add(30018, 0, 0, 32, 32, texEnemy11); // dơi // nằm chờ
@@ -1459,6 +1473,33 @@ void Update(DWORD dt)
 			BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
 			bossbat->Update(x, y, dt, &objects);
 		}
+		else if (dynamic_cast<Panther *>(objects.at(i)))
+		{
+			Panther *panther = dynamic_cast<Panther *>(objects.at(i));
+			if (panther->isActivate && ((panther->x < (simon->x - 2 * SCREEN_WIDTH / 3)) || (panther->x > (simon->x + 2 * SCREEN_WIDTH / 3))))
+			{
+				panther->isDie = true;
+			}
+			else if (!panther->isUse)
+			{
+				if ((simon->y - panther->y < PANTHER_DISTANCE_SIMON_Y && panther->x - simon->x < PANTHER_DISTANCE_SIMON_X))
+				{
+					panther->SetState(PANTHER_STATE_RUN);
+					panther->isActivate = true;
+				}
+
+				if (panther->isActivate &&
+				   (panther->x >= PANTHER_JUMP_POINT_1_X - 3 && panther->x <= PANTHER_JUMP_POINT_1_X + 10) ||
+				   (panther->x >= PANTHER_JUMP_POINT_2_X - 3 && panther->x <= PANTHER_JUMP_POINT_2_X + 10) ||
+				   (panther->x >= PANTHER_JUMP_POINT_3_X - 3 && panther->x <= PANTHER_JUMP_POINT_3_X + 10))
+				{
+					panther->SetState(PANTHER_STATE_JUMP);
+				}
+
+			}
+
+			panther->Update(dt, &objects);
+		}
 		else
 			objects[i]->Update(dt, &objects);
 
@@ -1483,6 +1524,15 @@ void Update(DWORD dt)
 			if (zombie->GetState() == ZOMBIE_STATE_DIE)
 			{
 				listRemoveObjects.push_back(zombie);
+			}
+		}
+		else if (dynamic_cast<Panther *>(objects.at(i)))
+		{
+			Panther *panther = dynamic_cast<Panther *>(objects.at(i));
+
+			if (panther->isDie)
+			{
+				listRemoveObjects.push_back(panther);
 			}
 		}
 		else if (dynamic_cast<BigFire *>(objects.at(i)))
@@ -1551,6 +1601,74 @@ void Update(DWORD dt)
 				listGrids->AddObject(whipEffect);
 
 				listRemoveObjects.push_back(bigFire);
+			}
+		}
+		else if (dynamic_cast<Candle *>(objects.at(i)))
+		{
+			Candle *candle = dynamic_cast<Candle *>(objects.at(i));
+			if (candle->isHitted)
+			{
+				float candle_x, candle_y, candle_right, candle_bottom;
+				candle->GetBoundingBox(candle_x, candle_y, candle_right, candle_bottom);
+
+				item = new Item();
+				item->SetPosition(candle_x, candle_y);
+				item->SetSpeed(0, -0.1);
+				objects.push_back(item);
+				listGrids->AddObject(item);
+
+				// Whip item
+				if (simon->whip->level < 2)
+				{
+					item->AddAnimation(ITEM_WHIPITEM);
+					item->SetType(ITEM_WHIPITEM);
+				}
+				else
+				{
+					/**
+					 * Random ra item: (do hiện tại chỉ có 3 món này)
+					 * 95% heart
+					 * 4% money
+					 * 1% knife
+					 */
+
+					srand(time(NULL));
+					int random_portion = rand() % 100;
+
+					// Heart
+					if (random_portion < 95)
+					{
+						item->AddAnimation(ITEM_HEART);
+						item->SetType(ITEM_HEART);
+					}
+					// Money
+					else if (random_portion >= 95 && random_portion < 99)
+					{
+						item->AddAnimation(ITEM_MONEY);
+						item->SetType(ITEM_MONEY);
+					}
+					// Knife
+					else
+					{
+						item->AddAnimation(ITEM_KNIFE);
+						item->SetType(ITEM_KNIFE);
+					}
+				}
+
+				// Thêm hiệu ứng tóe lửa
+				whipEffect = new Effect(GetTickCount());
+				whipEffect->AddAnimation(806);
+				whipEffect->SetPosition(candle_x, candle_y + (candle_bottom - candle_y) / 4);
+				objects.push_back(whipEffect);
+				listGrids->AddObject(whipEffect);
+
+				whipEffect = new Effect(GetTickCount());
+				whipEffect->AddAnimation(807);
+				whipEffect->SetPosition(candle_x, candle_y + (candle_bottom - candle_y) / 4);
+				objects.push_back(whipEffect);
+				listGrids->AddObject(whipEffect);
+
+				listRemoveObjects.push_back(candle);
 			}
 		}
 		else if (dynamic_cast<Item *>(objects.at(i)))
