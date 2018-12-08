@@ -47,8 +47,9 @@ bool boss = false;
 bool checkScene = false;
 bool check1 = false;
 bool check = false;
-//
-//check scene lv2_1 ->lv2_2
+//check lv2->lv2_2
+bool temp = false;
+//check scene lv2_1 ->boss
 bool checkScene1 = false;
 bool check3 = false;
 bool countLoadResourceLv2 = false;
@@ -459,56 +460,56 @@ void LoadResourceLv2() {
 	CheckStair *checkstair;
 	// Bottom right
 	checkstair = new CheckStair();
-	//checkstair->AddAnimation(803);
+	checkstair->AddAnimation(803);
 	checkstair->SetPosition(1255, 407);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
-	//checkstair->AddAnimation(804);
+	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1382, 215);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 
 	// Bottom right
 	checkstair = new CheckStair();
-	//checkstair->AddAnimation(803);
+	checkstair->AddAnimation(803);
 	checkstair->SetPosition(1448, 278);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
-	//checkstair->AddAnimation(804);
+	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1510, 151);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 
 	// Top right
 	checkstair = new CheckStair();
-	//checkstair->AddAnimation(804);
+	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1790, 151);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	// Bottom left
 	checkstair = new CheckStair();
-	//checkstair->AddAnimation(803);
+	checkstair->AddAnimation(803);
 	checkstair->SetPosition(1850, 278);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
 	// Bottom right
 	checkstair = new CheckStair();
-	//checkstair->AddAnimation(803);
+	checkstair->AddAnimation(803);
 	checkstair->SetPosition(2595, 407);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	// Top left
 	checkstair = new CheckStair();
-	//checkstair->AddAnimation(804);
+	checkstair->AddAnimation(804);
 	checkstair->SetPosition(2788, 153);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
@@ -557,18 +558,13 @@ void LoadResourceLv2_1()
 		listGrids->AddObject(ground);
 	}
 	
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 12; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 440);
 		listGrids->AddObject(ground);
 	}
-	for (int i = 0; i < 8; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 33 + 3 + i * 32.0f, 440);
-		listGrids->AddObject(ground);
-	}
+	
 	for (int i = 0; i < 3; i++)//
 	{
 		Ground *ground = new Ground();
@@ -603,12 +599,18 @@ void LoadResourceLv2_1()
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(3392, 216);
+	checkstair->SetPosition(3392, 218);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
+	checkstair->SetPosition(3780, 360);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
 	checkstair->SetPosition(3520, 406);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
@@ -1475,7 +1477,7 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV2);
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(1000, 155);
+			simon->SetPosition(3000, 155);
 			simon->GetPosition(x, y);
 			timer = GetTickCount();
 		}
@@ -1518,29 +1520,65 @@ void Update(DWORD dt)
 			lv2_1 = false;			
 			boss = true;
 		}
-		if (y > 400)
+		if (y > 430)
 		{
 			lv2_1 = false;
 			lv2_2 = true;
+			temp = true;
 		}
 	}
 	if (lv2_2 == true)
 	{
 		if (countLoadResourceLv2_2 == false)
 		{
+			//game->x_cam = 0;
 			listGrids->InitList(MAX_WIDTH_LV2_2);
 			LoadResourceLv2_2();
-			countLoadResourceLv2_2 = true;
-			simon->SetPosition(500, 120);
+			countLoadResourceLv2_2 = true;			
+			simon->SetPosition(150, 120);
 			simon->GetPosition(x, y);
+				
 		}
-		/*if (y > 120)
+		if (countLoadResourceLv2_2 == true && temp == true)
 		{
+			
+			if (x < 3600)
+			{
+				game->x_cam = 0;
+				simon->SetPosition(150, 120);
+				simon->GetPosition(x, y);
+
+			}
+			else 
+			{
+				game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;
+				simon->SetPosition(778, 120);
+				simon->GetPosition(x, y);
+			}
+			/*game->x_cam = 0;
+			simon->SetPosition(150, 120);
+			simon->GetPosition(x, y);*/
+			temp = false;
+		}
+		if (y < 120)
+		{
+			
 			lv2_1 = true;
 			lv2_2 = false;
-			simon->SetPosition(127, 399);
-			simon->GetPosition(x, y);
-		}*/
+			if (x < 400)
+			{
+				simon->SetPosition(3198, 429);
+				simon->GetPosition(x, y);
+				game->x_cam = MAX_WIDTH_LV2;
+			}
+			else
+			{
+				simon->SetPosition(3840, 429);
+				simon->GetPosition(x, y);
+				game->x_cam = MAX_WIDTH_LV2_1 - SCREEN_WIDTH;
+			}
+		}
+		
 	}
 	if (boss == true)
 	{
@@ -1929,7 +1967,7 @@ void Update(DWORD dt)
 		if (game->x_cam < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
-			game->y_cam = 0;
+			
 		}
 		else 
 		{
@@ -1954,17 +1992,14 @@ void Update(DWORD dt)
 			{
 				if (x > MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2)
 				{
-					game->x_cam = x - SCREEN_WIDTH / 2;
-					game->y_cam = 0;
+					game->x_cam = x - SCREEN_WIDTH / 2;					
 				}
 				else if (x > MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2) {
-					game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;
-					game->y_cam = 0;
+					game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;				
 				}
 				else if (x < MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2)
 				{
-					game->x_cam = MAX_WIDTH_LV2_1;
-					game->y_cam = 0;
+					game->x_cam = MAX_WIDTH_LV2_1;					
 				}
 			}
 		}
