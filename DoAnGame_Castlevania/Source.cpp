@@ -550,18 +550,13 @@ void LoadResourceLv2_1()
 		ground->SetPosition(2782 + i * 32 + 32 * 8, 246);
 		listGrids->AddObject(ground);
 	}
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 16; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 9 + i * 32.0f, 440);
 		listGrids->AddObject(ground);
 	}
-	for (int i = 0; i < 12; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 13 + i * 32.0f + 3, 440);
-		listGrids->AddObject(ground);
-	}
+	
 	for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
@@ -598,6 +593,25 @@ void LoadResourceLv2_1()
 		ground->SetPosition(2782 + 32 * 35 + 3 + i * 32.0f, 246);
 		listGrids->AddObject(ground);
 	}
+
+	CheckStair *checkstair = new CheckStair();
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(3139, 360);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(3392, 216);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(3520, 406);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
 
 	Candle *candle;
 	candle = new Candle();
@@ -643,7 +657,60 @@ void LoadResourceLv2_1()
 
 void LoadResourceLv2_2()
 {
+	CheckStair * checkstair;
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(158, 182);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
 
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(864, 248);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(192 + i * 32.0f, 216);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 14; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(0 + i * 32.0f, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(512 + i * 32.0f, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(640 + i * 32.0f, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(960 + i * 32.0f, 344);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(896 + i * 32.0f, 408);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 16; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2782 + 32 * 9 + i * 32.0f, 440);
+		listGrids->AddObject(ground);
+	}
 }
 
 void LoadResourceboss()
@@ -754,27 +821,21 @@ void LoadResources()
 	textures->Add(ID_TEX_MERMAN_RIGHT, L"Castlevania\\MERMAN_right.png", D3DCOLOR_XRGB(255, 0, 255));	
 	textures->Add(ID_TEX_BAT, L"Castlevania\\BAT.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_BOSS, L"Castlevania\\VAMPIRE_BAT.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_AXE_ACTION, L"Castlevania\\AXE_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_HOLY_WATER_ACTION, L"Castlevania\\HOLY_WATER_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_CROSS_ACTION, L"Castlevania\\CROSS_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_KNIFE_ACTION, L"Castlevania\\KNIFE.png", D3DCOLOR_XRGB(255, 0, 255));
+	//ui
+	textures->Add(ID_TEX_UI, L"Castlevania\\UI.png", D3DCOLOR_XRGB(255, 0, 255));
 
-	textures->Add(ID_TEX_AXE, L"Castlevania\\UI\\AXE.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_BLACK, L"Castlevania\\UI\\black.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_CROSS, L"Castlevania\\UI\\CROSS.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_DOUBLE_SHOT_UI, L"Castlevania\\UI\\DOUBLE_SHOT_UI.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_DOUBLE_SHOT, L"Castlevania\\UI\\DOUBLE_SHOT.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_TRIPLE_SHOT_UI, L"Castlevania\\UI\\TRIPLE_SHOT_UI.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_TRIPLE_SHOT, L"Castlevania\\UI\\TRIPLE_SHOT.png", D3DCOLOR_XRGB(255, 255, 255));
-	textures->Add(ID_TEX_ENEMYHP, L"Castlevania\\UI\\EnemyHP.png", D3DCOLOR_XRGB(0, 0, 255));//
-	textures->Add(ID_TEX_HEART, L"Castlevania\\SMALL_HEART.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_HOLY_WATER, L"Castlevania\\UI\\HOLY_WATER.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_HP, L"Castlevania\\UI\\HP.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_KNIFE, L"Castlevania\\UI\\KNIFE.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_NOHP, L"Castlevania\\UI\\NoHP.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_STOP_WATCH, L"Castlevania\\UI\\STOP_WATCH.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_RECT, L"Castlevania\\rect.png", D3DCOLOR_XRGB(255, 0, 255));
-
+	//effect and item
 	textures->Add(ID_TEX_EFFECT1, L"Castlevania\\0.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_EFFECT2, L"Castlevania\\DEAD.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_WHIP_VIP, L"Castlevania\\WHIP_VIP.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_MONEY, L"Castlevania\\money_bag_red.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ROSARY, L"Castlevania\\ROSARY.png", D3DCOLOR_XRGB(255, 0, 255));
+
+	
 	
 #pragma region Addsprite
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
@@ -881,6 +942,29 @@ void LoadResources()
 	sprites->Add(10060, 349, 0, 408, 52, whipL);
 	sprites->Add(10061, 585, 0, 529, 30, whipL);
 
+	LPDIRECT3DTEXTURE9 axe = textures->Get(ID_TEX_AXE_ACTION);
+	sprites->Add(10068, 0, 0, 30, 28, axe);
+	sprites->Add(10069, 30, 0, 60, 28, axe);
+	sprites->Add(10070, 60, 0, 90, 28, axe);
+	sprites->Add(10071, 90, 0, 120, 28, axe);
+
+	LPDIRECT3DTEXTURE9 holywater = textures->Get(ID_TEX_HOLY_WATER_ACTION);
+	sprites->Add(10072, 7, 3, 24, 20, holywater);
+	sprites->Add(10073, 42, 2, 54, 25, holywater);
+	sprites->Add(10074, 63, 0, 96, 26, holywater);
+
+	LPDIRECT3DTEXTURE9 cross = textures->Get(ID_TEX_CROSS_ACTION);
+	sprites->Add(10075, 0, 0, 26, 28, cross);
+	sprites->Add(10076, 29, 0, 56, 28, cross);
+	sprites->Add(10077, 55, 1, 84, 28, cross);
+
+	LPDIRECT3DTEXTURE9 knife = textures->Get(ID_TEX_KNIFE_ACTION);
+	sprites->Add(10078, 0, 0, 32, 18, knife);
+
+
+	LPDIRECT3DTEXTURE9 knife1 = textures->Get(ID_TEX_KNIFE_ACTION);
+	sprites->Add(10079, 0, 0, 32, 18, knife1);
+
 	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_BRICK);
 	sprites->Add(20001, 0, 0, 32, 32, texMisc);
 
@@ -947,8 +1031,8 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texMisc6 = textures->Get(ID_TEX_STAIR_TOP);
 	sprites->Add(40018, 0, 0, 32, 32, texMisc6);
 
-	LPDIRECT3DTEXTURE9 texMisc7 = textures->Get(ID_TEX_HEART);
-	sprites->Add(40019, 0, 0, 16, 16, texMisc7);
+	LPDIRECT3DTEXTURE9 texMisc7 = textures->Get(ID_TEX_UI);
+	sprites->Add(40019, 0, 33, 16, 50, texMisc7);
 
 	LPDIRECT3DTEXTURE9 texMisc8 = textures->Get(ID_TEX_EFFECT1);
 	sprites->Add(40020, 0, 0, 16, 20, texMisc8);
@@ -961,7 +1045,7 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texMisc10 = textures->Get(ID_TEX_WHIP_VIP);
 	sprites->Add(40022, 0, 0, 32, 32, texMisc10);
 
-	LPDIRECT3DTEXTURE9 texMisc11 = textures->Get(ID_TEX_KNIFE);
+	LPDIRECT3DTEXTURE9 texMisc11 = textures->Get(ID_TEX_KNIFE_ACTION);
 	sprites->Add(40023, 0, 0, 32, 18, texMisc11);
 
 	LPDIRECT3DTEXTURE9 texMisc12 = textures->Get(ID_TEX_MONEY);
@@ -1139,6 +1223,30 @@ void LoadResources()
 	ani->Add(10066);
 	ani->Add(10067);
 	animations->Add(429, ani);
+
+	ani = new CAnimation(150);//axe
+	ani->Add(10068);
+	ani->Add(10069);
+	ani->Add(10070);
+	ani->Add(10071);
+	animations->Add(430, ani);
+
+	ani = new CAnimation(150);//holywater
+	ani->Add(10072);
+	ani->Add(10073);
+	ani->Add(10074);
+	animations->Add(431, ani);
+
+	ani = new CAnimation(150);//cross
+	ani->Add(10075);
+	ani->Add(10076);
+	ani->Add(10077);
+	animations->Add(432, ani);
+
+	ani = new CAnimation(150);//KNIFE
+	ani->Add(10078);
+	ani->Add(10079);
+	animations->Add(433, ani);
 
 	ani = new CAnimation(100);	//chết	
 	ani->Add(10099);
@@ -1367,7 +1475,8 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV2);
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(50, 155);
+			simon->SetPosition(1000, 155);
+			simon->GetPosition(x, y);
 			timer = GetTickCount();
 		}
 		else if (countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2 * SIMON_STAND_BBOX_WIDTH)
@@ -1409,6 +1518,11 @@ void Update(DWORD dt)
 			lv2_1 = false;			
 			boss = true;
 		}
+		if (y > 400)
+		{
+			lv2_1 = false;
+			lv2_2 = true;
+		}
 	}
 	if (lv2_2 == true)
 	{
@@ -1417,9 +1531,16 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV2_2);
 			LoadResourceLv2_2();
 			countLoadResourceLv2_2 = true;
-			simon->SetPosition(50, 150);
+			simon->SetPosition(500, 120);
 			simon->GetPosition(x, y);
 		}
+		/*if (y > 120)
+		{
+			lv2_1 = true;
+			lv2_2 = false;
+			simon->SetPosition(127, 399);
+			simon->GetPosition(x, y);
+		}*/
 	}
 	if (boss == true)
 	{

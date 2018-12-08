@@ -15,25 +15,25 @@ UI::~UI()
 bool UI::Initialize(LPDIRECT3DDEVICE9 d3ddv, Simon * simon)
 {
 	CTextures * textures = CTextures::GetInstance();	
-	heart = new CSprite(1, 0, 0, 16, 16, textures->Get(ID_TEX_HEART));
-	pinkrect = new CSprite(2, 65, 37 ,131 ,82, textures->Get(ID_TEX_RECT));
-	axe = new CSprite(3, 0, 0, 30, 30, textures->Get(ID_TEX_AXE));
-	holyWater = new CSprite(4, 0, 0, 30, 30, textures->Get(ID_TEX_HOLY_WATER));
-	cross = new CSprite(5, 0, 0, 30, 30, textures->Get(ID_TEX_CROSS));
-	knife = new CSprite(6, 0, 0, 30, 30, textures->Get(ID_TEX_KNIFE));
-	stopWatch = new CSprite(7, 0, 0, 30, 30, textures->Get(ID_TEX_STOP_WATCH));
+	heart = new CSprite(1, 0, 33, 16, 50, textures->Get(ID_TEX_UI));
+	pinkrect = new CSprite(2, 65, 37, 131, 82, textures->Get(ID_TEX_UI));
+	axe = new CSprite(3, 32, 0, 64, 32, textures->Get(ID_TEX_UI));
+	holyWater = new CSprite(4, 96, 0, 128, 32, textures->Get(ID_TEX_UI));
+	cross = new CSprite(5, 0, 0, 32, 32, textures->Get(ID_TEX_UI));
+	knife = new CSprite(6, 64, 6, 96, 25, textures->Get(ID_TEX_UI));
+	stopWatch = new CSprite(7, 128, 0, 160, 32, textures->Get(ID_TEX_UI));
+	//nohp = new CSprite(10,51,37,58,50,textures->Get(ID_TEX_UI));
 
-	
 	for (int i = 0; i < 16; i++)
 	{
-		CSprite* sprite = new CSprite(8,0,0,8,15, textures->Get(ID_TEX_HP));
-		
+		CSprite* sprite = new CSprite(8, 23, 37, 30, 50, textures->Get(ID_TEX_UI));
+
 		simonHPList.push_back(sprite);
 	}
-	
+
 	for (int i = 0; i < 16; i++)
-	{		
-		CSprite* sprite = new CSprite(8, 0, 0,8, 15, textures->Get(ID_TEX_ENEMYHP));
+	{
+		CSprite* sprite = new CSprite(9, 37, 37, 44, 50, textures->Get(ID_TEX_UI));
 		enemyHPList.push_back(sprite);
 	}
 

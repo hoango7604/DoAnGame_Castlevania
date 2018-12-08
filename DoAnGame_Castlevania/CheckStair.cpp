@@ -4,7 +4,7 @@
 void CheckStair::Render()
 {
 	//animations[0]->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CheckStair::GetBoundingBox(float &l, float &t, float &r, float &b)

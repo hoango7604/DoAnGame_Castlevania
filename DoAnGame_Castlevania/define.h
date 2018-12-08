@@ -209,20 +209,12 @@
 #define ID_TEX_HEART					105
 #define ID_TEX_BOSS						110
 
-#define ID_TEX_AXE						115
-#define ID_TEX_BLACK					120
-#define ID_TEX_CROSS					125
-#define ID_TEX_DOUBLE_SHOT_UI			130
-#define ID_TEX_DOUBLE_SHOT				135
-#define ID_TEX_TRIPLE_SHOT_UI			140
-#define ID_TEX_TRIPLE_SHOT				145
-#define ID_TEX_ENEMYHP					150
-#define ID_TEX_HOLY_WATER				155
-#define ID_TEX_HP						160
-#define ID_TEX_KNIFE					165
-#define ID_TEX_NOHP						170
-#define ID_TEX_STOP_WATCH				175
-#define ID_TEX_RECT						176
+#define ID_TEX_AXE_ACTION				111
+#define ID_TEX_HOLY_WATER_ACTION		112
+#define ID_TEX_CROSS_ACTION				113
+#define ID_TEX_KNIFE_ACTION				114
+#define ID_TEX_UI						115
+#define ID_TEX_ROSARY					116
 
 #define ID_TEX_EFFECT1					180
 #define ID_TEX_EFFECT2					185
