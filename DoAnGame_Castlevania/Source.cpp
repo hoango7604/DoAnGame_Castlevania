@@ -615,6 +615,18 @@ void LoadResourceLv2_1()
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(3839, 218);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(3950, 406);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
+
 	Candle *candle;
 	candle = new Candle();
 	candle->AddAnimation(800);
@@ -662,13 +674,13 @@ void LoadResourceLv2_2()
 	CheckStair * checkstair;
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(158, 182);
+	checkstair->SetPosition(154, 182);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(864, 248);
+	checkstair->SetPosition(860, 248);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 	for (int i = 0; i < 2; i++)
@@ -1573,7 +1585,7 @@ void Update(DWORD dt)
 			}
 			else
 			{
-				simon->SetPosition(3840, 429);
+				simon->SetPosition(3835, 429);
 				simon->GetPosition(x, y);
 				game->x_cam = MAX_WIDTH_LV2_1 - SCREEN_WIDTH;
 			}
@@ -1990,12 +2002,12 @@ void Update(DWORD dt)
 				game->x_cam += SIMON_WALKING_SPEED * dt;
 			else 
 			{
-				if (x > MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2)
+				if (x > MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_BOSS - SCREEN_WIDTH / 2)
 				{
 					game->x_cam = x - SCREEN_WIDTH / 2;					
 				}
-				else if (x > MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2) {
-					game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;				
+				else if (x > MAX_WIDTH_BOSS - SCREEN_WIDTH / 2) {
+					game->x_cam = MAX_WIDTH_BOSS - SCREEN_WIDTH;				
 				}
 				else if (x < MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2)
 				{
