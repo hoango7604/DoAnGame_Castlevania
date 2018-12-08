@@ -37,8 +37,6 @@ LPSPRITE CSprites::Get(int id)
 	return sprites[id];
 }
 
-
-
 void CAnimation::Add(int spriteId, DWORD time)
 {
 	int t = time;
@@ -66,10 +64,14 @@ void CAnimation::Render(float x, float y, int alpha)
 			lastFrameTime = now;
 			if (currentFrame == frames.size()) currentFrame = 0;
 		}
-
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
+}
+
+void CAnimation::ResetFrame()
+{
+	currentFrame = frames.size() - 1;
 }
 
 CAnimations * CAnimations::__instance = NULL;

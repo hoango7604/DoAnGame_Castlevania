@@ -20,7 +20,6 @@ class Simon : public CGameObject
 {
 	int action;
 	int level;
-	int untouchable;
 	DWORD untouchable_start;
 
 public:
@@ -52,6 +51,7 @@ public:
 	bool isMoving;
 
 	bool isHurt;
+	bool isUntouchable;
 
 	DWORD attackTime;
 	DWORD onCheckPointTime;
@@ -70,7 +70,6 @@ public:
 	Simon() : CGameObject()
 	{
 		level = SIMON_LEVEL_BIG;
-		untouchable = 0;
 		whip = new Whip();
 		life = 3;
 		preHP = 16;
@@ -97,7 +96,7 @@ public:
 	int GetAction() { return action; }
 
 	void SetLevel(int l) { level = l; }
-	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+	void StartUntouchable() { isUntouchable = true; untouchable_start = GetTickCount(); }
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	int GetScore() { return score; }

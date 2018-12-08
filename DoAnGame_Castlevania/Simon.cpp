@@ -250,23 +250,20 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != SIMON_STATE_DIE)
+	if (state != SIMON_STATE_DIE || state != SIMON_STATE_HURT)
 		CalcPotentialCollisions(coObjects, coEvents);
 
-	// turn off isOnCheckStair
-
-
 	// Set idle state
-	if (!isOnStair && !isSit && !isMoving && !isJump && !isAttack)
+	if (!isOnStair && !isSit && !isMoving && !isJump && !isAttack && !isHurt)
 	{
 		SetState(SIMON_STATE_IDLE);
 	}
 
 	// reset untouchable timer if untouchable time has passed
-	if (untouchable != 0 && GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
+	if (isUntouchable && GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
-		untouchable = 0;
+		isUntouchable = false;
 	}
 
 	// when simon attack with whip
@@ -301,7 +298,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	// No collision occured, proceed normally
-	if (coEvents.size() == 0 || isOnStair)
+	if (coEvents.size() == 0/* || isOnStair*/)
 	{
 		x += dx;
 		y += dy;
@@ -319,6 +316,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		/*
 		 * Handle collision here
 		 */
+		bool willHurt = false;
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -326,16 +324,63 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (!dynamic_cast<Ground *>(e->obj) && e->ny != 0)
 				y -= ny * 0.4f;
 
-			if (dynamic_cast<Zombie *>(e->obj) || dynamic_cast<Panther *>(e->obj))
+			if ((dynamic_cast<Zombie *>(e->obj) || dynamic_cast<Panther *>(e->obj)) && !isUntouchable)
 			{
+				// Reset frame cho hành động attack
+				if (isAttack)
+				{
+					if (this->nx > 0)
+					{
+						if (isSit)
+							animations[SIMON_ANI_SIT_ATTACK_RIGHT]->ResetFrame();
+						else
+							animations[SIMON_ANI_ATTACK_RIGHT]->ResetFrame();
+
+						if (whip->level == 0)
+							whip->animations[WHIP_RIGHT]->ResetFrame();
+						else if (whip->level == 1)
+							whip->animations[WHIP_RIGHT_1]->ResetFrame();
+						else
+							whip->animations[WHIP_RIGHT_2]->ResetFrame();
+					}
+					else if (this->nx < 0)
+					{
+						if (isSit)
+							animations[SIMON_ANI_SIT_ATTACK_LEFT]->ResetFrame();
+						else
+							animations[SIMON_ANI_ATTACK_LEFT]->ResetFrame();
+
+						if (whip->level == 0)
+							whip->animations[WHIP_LEFT]->ResetFrame();
+						else if (whip->level == 1)
+							whip->animations[WHIP_LEFT_1]->ResetFrame();
+						else
+						whip->animations[WHIP_LEFT_2]->ResetFrame();
+					}
+				}
+
+				// Đặt hướng hurt
+       			if (e->nx > 0)
+					this->nx = -1;
+				else if (e->nx < 0)
+					this->nx = 1;
+
 				SetState(SIMON_STATE_HURT);
+				willHurt = true;
+				StartUntouchable();
 			}
-			else if (dynamic_cast<Ground *>(e->obj))
+			else if (dynamic_cast<Ground *>(e->obj) && !willHurt && !isOnStair)
 			{
 				// Da cham dat
 				// Khong va cham theo phuong ngang
-				if (isJump && e->nx == 0 && e->ny < 0)
-					isJump = false;
+				if (e->nx == 0 && e->ny < 0)
+				{
+					if (isJump)
+						isJump = false;
+
+					if (isHurt)
+						isHurt = false;
+				}
 
 				// Xét va chạm cứng
 				if (nx != 0) vx = 0;
@@ -558,7 +603,6 @@ void Simon::Render()
 	}
 
 	int alpha = 255;
-	if (untouchable) alpha = 128;
 
 	if (ani != -1)
 	{
@@ -609,6 +653,18 @@ void Simon::SetState(int state)
 		break;
 	case SIMON_STATE_HURT:
 		isHurt = true;
+
+		vy = -SIMON_DIE_DEFLECT_SPEED;
+		if (nx > 0)
+		{
+			
+			vx = -SIMON_DIE_DEFLECT_SPEED;
+		}
+		else if (nx < 0)
+		{
+			vx = SIMON_DIE_DEFLECT_SPEED;
+		}
+
 		isAttack = false;
 		isJump = false;
 		isMoving = false;
@@ -616,6 +672,8 @@ void Simon::SetState(int state)
 		isOnCheckStairDown = false;
 		isOnCheckStairUp = false;
 		isSit = false;
+		isExitSit = false;
+
 		break;
 	case SIMON_STATE_ONCHECKSTAIR:
 		if (nx < 0)

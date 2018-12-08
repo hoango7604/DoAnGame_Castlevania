@@ -78,7 +78,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	// Chet
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 
-	if (isEnableKeyBoard)
+	if (isEnableKeyBoard && !simon->isHurt)
 	{
 		// Nhay
 		if (KeyCode == DIK_SPACE)
@@ -112,7 +112,7 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 	// Chet
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 
-	if (isEnableKeyBoard)
+	if (isEnableKeyBoard && !simon->isHurt)
 	{
 		// Len xuong cau thang
 		if (KeyCode == DIK_UP)
@@ -165,7 +165,7 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	// Chet
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 
-	if (isEnableKeyBoard)
+	if (isEnableKeyBoard && !simon->isHurt)
 	{
 		// Len xuong cau thang
 		if (game->IsKeyDown(DIK_UP))
