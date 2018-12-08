@@ -1418,13 +1418,14 @@ void Update(DWORD dt)
 			LoadResourceLv2_2();
 			countLoadResourceLv2_2 = true;
 			simon->SetPosition(50, 150);
+			simon->GetPosition(x, y);
 		}
 	}
 	if (boss == true)
 	{
 		if (countLoadResourceboss == false)
 		{
-			listGrids->InitList(MAX_WIDTH_LV1);
+			listGrids->InitList(MAX_WIDTH_BOSS);
 			LoadResourceboss();
 			countLoadResourceboss = true;
 			timer2 = GetTickCount();
@@ -1705,17 +1706,17 @@ void Update(DWORD dt)
 		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
 		{
 			game->x_cam = x - SCREEN_WIDTH / 2;
-			game->y_cam = 0;
+			
 		}
 		else if (x > MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
 		{
 			game->x_cam = MAX_WIDTH_LV1 - SCREEN_WIDTH;
-			game->y_cam = 0;
+			
 		}
 		else
 		{
 			game->x_cam = 0;
-			game->y_cam = 0;
+			
 		}
 	}
 	else if (lv2 == true)
@@ -1723,16 +1724,16 @@ void Update(DWORD dt)
 		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2)
 		{
 			game->x_cam = x - SCREEN_WIDTH / 2;
-			game->y_cam = 0;
+			
 		}
 		else if (x > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2) {
 			game->x_cam = MAX_WIDTH_LV2 - SCREEN_WIDTH;
-			game->y_cam = 0;
+			
 		}
 		else if (x < SCREEN_WIDTH / 2)
 		{
 			game->x_cam = 0;
-			game->y_cam = 0;
+			
 		}
 	}
 	else if (lv2_1 == true)
@@ -1741,7 +1742,7 @@ void Update(DWORD dt)
 		if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH/2)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
-			game->y_cam = 0;
+			
 		}
 		else 
 		{
@@ -1760,7 +1761,7 @@ void Update(DWORD dt)
 		if (game->x_cam < MAX_WIDTH_LV2 && check == true)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
-			game->y_cam = 0;
+			
 		}
 		else if (game->x_cam > MAX_WIDTH_LV2)
 		{
@@ -1774,24 +1775,33 @@ void Update(DWORD dt)
 			if (x > MAX_WIDTH_LV2 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
 			{
 				game->x_cam = x - SCREEN_WIDTH / 2;
-				game->y_cam = 0;
+				
 			}
 			else if (x > MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2) 
 			{
 				game->x_cam = MAX_WIDTH_LV2_1 - SCREEN_WIDTH;
-				game->y_cam = 0;
+				
 			}
 			else if (x < MAX_WIDTH_LV2 + SCREEN_WIDTH / 2)
 			{
 				game->x_cam = MAX_WIDTH_LV2;
-				game->y_cam = 0;
+				
 			}
 		}
 	}
 	else if (lv2_2 == true)
 	{
-		game->x_cam = 0;
-		game->y_cam = 0;
+		if (x < SCREEN_WIDTH / 2)
+		{
+			game->x_cam = 0;
+		}
+		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2)
+		{
+			game->x_cam = x - SCREEN_WIDTH / 2;
+
+		}
+		else if (x > MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2)
+			game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;
 	}
 	else if (boss == true)
 	{
