@@ -139,6 +139,11 @@ void ListGrids::UpdateObjectInGrid(LPGAMEOBJECT object)
 	// Dựa vào vị trí x của object để đặt vật vào grid tương ứng
 	int gridNumber = floor(object->x / GRID_WIDTH);
 
+	if (gridNumber < 0)
+		gridNumber = 0;
+	else if (gridNumber >= listGrids.size())
+		gridNumber = listGrids.size() - 1;
+
 	if (gridNumber != object->gridNumber)
 	{
 		// Xóa object khỏi grid cũ

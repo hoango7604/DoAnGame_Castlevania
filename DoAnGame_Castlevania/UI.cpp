@@ -91,7 +91,6 @@ void UI::Render(float x,float y,Simon *simon)
 	{
 		enemyHPList[i]->Draw(x + 130 + 11 * i, 62, 255);
 	}
-	//axe->Draw(x + SCREEN_WIDTH/2 + 20 , 60, 255);
 	heart->Draw(x + SCREEN_WIDTH / 2 + 105 ,40, 255);
 	pinkrect->Draw(x + SCREEN_WIDTH / 2 , 40, 255);
 	if (simon->currentWeapon != NULL)
@@ -102,6 +101,18 @@ void UI::Render(float x,float y,Simon *simon)
 			{
 			case ITEM_KNIFE:
 				knife->Draw(x + SCREEN_WIDTH / 2 + 10, 50, 255);
+				break;
+			case ITEM_AXE:
+				axe->Draw(x + SCREEN_WIDTH / 2 + 10, 50, 255);
+				break;
+			case ITEM_HOLYWATER:
+				holyWater->Draw(x + SCREEN_WIDTH / 2 + 10, 50, 255);
+				break;
+			case ITEM_CROSS:
+				cross->Draw(x + SCREEN_WIDTH / 2 + 10, 50, 255);
+				break;
+			case ITEM_CLOCK:
+				stopWatch->Draw(x + SCREEN_WIDTH / 2 + 10, 50, 255);
 				break;
 			}
 		}

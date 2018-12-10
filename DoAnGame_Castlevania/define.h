@@ -93,7 +93,27 @@
 #define KNIFE_BBOX_WIDTH				32
 #define KNIFE_BBOX_HEIGHT				18
 
-#define KNIFE_SPEED						0.2f
+#define KNIFE_SPEED						0.8f
+
+// Axe
+#define AXE_BBOX_WIDTH					32
+#define AXE_BBOX_HEIGHT					32
+
+// Holy fire
+#define HOLYFIRE_BBOX_WIDTH				32
+#define HOLYFIRE_BBOX_HEIGHT			32
+
+// Cross
+#define CROSS_BBOX_WIDTH				32
+#define CROSS_BBOX_HEIGHT				32
+
+// Rosary
+#define ROSARY_BBOX_WIDTH				32
+#define ROSARY_BBOX_HEIGHT				32
+
+// Clock
+#define CLOCK_BBOX_WIDTH				32
+#define CLOCK_BBOX_HEIGHT				32
 
 // Money
 #define MONEY_BBOX_WIDTH				30
@@ -210,6 +230,7 @@
 #define ID_TEX_BOSS						110
 
 #define ID_TEX_AXE_ACTION				111
+#define ID_TEX_HOLY_WATER				1112
 #define ID_TEX_HOLY_WATER_ACTION		112
 #define ID_TEX_CROSS_ACTION				113
 #define ID_TEX_KNIFE_ACTION				114
@@ -226,12 +247,27 @@
 
 #define EFFECT_TIME						200
 #define LEVELUP_TIME					3000
+#define ITEM_LIVE_TIME					5000
 
 // Item
 #define ITEM_WHIPITEM					808
 #define ITEM_HEART						805
-#define ITEM_KNIFE						809
 #define ITEM_MONEY						810
+#define ITEM_AXE						4430
+#define ITEM_HOLYWATER					4431
+#define ITEM_CROSS						4432
+#define ITEM_KNIFE						4433
+#define ITEM_ROSARY						4434
+#define ITEM_CLOCK						4435
+
+// Weapon in action
+#define WEAPON_ANI_AXE					430
+#define WEAPON_ANI_HOLYWATER			431
+#define WEAPON_ANI_CROSS				432
+#define WEAPON_ANI_KNIFE_LEFT			4330
+#define WEAPON_ANI_KNIFE_RIGHT			4331
+
+#define WEAPON_ACTIVATE_TIME			300
 
 // Checkpoint type
 #define CHECKPOINT_LEVELUP				0

@@ -298,7 +298,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	// No collision occured, proceed normally
-	if (coEvents.size() == 0/* || isOnStair*/)
+	if (coEvents.size() == 0)
 	{
 		x += dx;
 		y += dy;
@@ -309,20 +309,15 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		// block 
-		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.4f;
-
 		/*
 		 * Handle collision here
 		 */
 		bool willHurt = false;
+		bool willBlock = false;
+
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (!dynamic_cast<Ground *>(e->obj) && e->ny != 0)
-				y -= ny * 0.4f;
 
 			if ((dynamic_cast<Zombie *>(e->obj) || dynamic_cast<Panther *>(e->obj)) && !isUntouchable)
 			{
@@ -380,11 +375,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 					if (isHurt)
 						isHurt = false;
-				}
 
-				// Xét va chạm cứng
-				if (nx != 0) vx = 0;
-				if (ny != 0) vy = 0;
+					willBlock = true;
+
+					// Xét va chạm cứng
+					if (ny != 0) vy = 0;
+				}
 			}
 			else if (dynamic_cast<CheckPoint *>(e->obj))
 			{
@@ -424,11 +420,35 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				case ITEM_KNIFE:
 					SetCurrentWeapon(ITEM_KNIFE);
 					break;
+				case ITEM_AXE:
+					SetCurrentWeapon(ITEM_AXE);
+					break;
+				case ITEM_HOLYWATER:
+					SetCurrentWeapon(ITEM_HOLYWATER);
+					break;
+				case ITEM_CROSS:
+					SetCurrentWeapon(ITEM_CROSS);
+					break;
+				case ITEM_CLOCK:
+					SetCurrentWeapon(ITEM_CLOCK);
+					break;
 				case ITEM_MONEY:
 					IncScore(1000);
 					break;
 				}
 			}
+		}
+
+		// block 
+		if (!isOnStair && willBlock)
+		{
+			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+			y += min_ty * dy + ny * 0.4f;
+		}
+		else
+		{
+			x += dx;
+			y += dy;
 		}
 	}
 	// clean up collision events
@@ -774,7 +794,6 @@ void Simon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 	top = y;
 	right = x + SIMON_STAND_BBOX_WIDTH;
 	bottom = y + SIMON_STAND_BBOX_HEIGHT;
-
 }
 
 

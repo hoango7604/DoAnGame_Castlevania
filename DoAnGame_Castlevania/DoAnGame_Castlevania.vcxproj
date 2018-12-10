@@ -140,6 +140,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GridObjects.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="Knife.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MerMan.h" />
     <ClInclude Include="Panther.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="Weapon.h" />
     <ClInclude Include="Whip.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Zombie.h" />
@@ -166,6 +168,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GridObjects.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="Knife.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MerMan.cpp" />
     <ClCompile Include="Panther.cpp" />
@@ -176,6 +179,7 @@
     <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Whip.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Zombie.cpp" />
