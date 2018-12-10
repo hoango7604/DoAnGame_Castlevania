@@ -1,6 +1,5 @@
 #include "Item.h"
 
-
 void Item::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
@@ -37,7 +36,6 @@ void Item::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Item::Render()
 {
 	animations[0]->Render(x, y);
-	// RenderBoundingBox();
 }
 
 void Item::GetBoundingBox(float &l, float &t, float &r, float &b)
@@ -62,6 +60,26 @@ void Item::GetBoundingBox(float &l, float &t, float &r, float &b)
 	case ITEM_KNIFE:
 		r = x + KNIFE_BBOX_WIDTH;
 		b = y + KNIFE_BBOX_HEIGHT;
+		break;
+	case ITEM_AXE:
+		r = x + AXE_BBOX_WIDTH;
+		b = y + AXE_BBOX_HEIGHT;
+		break;
+	case ITEM_HOLYWATER:
+		r = x + HOLYFIRE_BBOX_WIDTH;
+		b = y + HOLYFIRE_BBOX_HEIGHT;
+		break;
+	case ITEM_CROSS:
+		r = x + CROSS_BBOX_WIDTH;
+		b = y + CROSS_BBOX_HEIGHT;
+		break;
+	case ITEM_ROSARY:
+		r = x + ROSARY_BBOX_WIDTH;
+		b = y + ROSARY_BBOX_HEIGHT;
+		break;
+	case ITEM_CLOCK:
+		r = x + CLOCK_BBOX_WIDTH;
+		b = y + CLOCK_BBOX_HEIGHT;
 		break;
 	}
 }

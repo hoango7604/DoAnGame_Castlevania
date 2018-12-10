@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "Textures.h"
 #include "GridObjects.h"
+#include "Knife.h"
 
 #include "Simon.h"
 #include "Ground.h"
@@ -35,6 +36,9 @@ Effect *whipEffect;
 Map *map;
 UI * ui;
 CSprite *sprite;
+
+Knife *knife;
+
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
 
@@ -57,9 +61,11 @@ bool countLoadResourceLv2_1 = false;
 bool countLoadResourceLv2_2 = false;
 bool countLoadResourceboss = false;
 bool isEnableKeyBoard = true;
+
 DWORD timer; // load enemy lv2
 DWORD timer2;//load enemy boss
 DWORD gameTime = 999000;
+
 CSprites * sprites = CSprites::GetInstance();
 CAnimations * animations = CAnimations::GetInstance();
 CTextures * textures = CTextures::GetInstance();
@@ -84,7 +90,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		// Nhay
 		if (KeyCode == DIK_SPACE)
 		{
-			if (simon->isJump == false && simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
+			if (/*simon->isJump == false && */simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
 				simon->SetAction(SIMON_ACTION_JUMP);
 		}
 		// Danh
@@ -99,10 +105,36 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		// Dùng vũ khí
 		else if (KeyCode == DIK_S)
 		{
-			if (simon->isAttack == false)
+			if (simon->isAttack == false && simon->currentWeapon != 0)
 			{
+				int nx = simon->nx;
+
 				simon->SetAction(SIMON_ACTION_ATTACK);
 				simon->isUseWhip = false;
+
+				switch (simon->currentWeapon)
+				{
+				case ITEM_KNIFE:
+					knife = new Knife(simon, 2 * SCREEN_WIDTH / 3);
+
+					if (nx > 0)
+					{
+						knife->SetSpeed(KNIFE_SPEED, 0);
+						knife->AddAnimation(WEAPON_ANI_KNIFE_RIGHT);
+					}
+					else if (nx < 0)
+					{
+						knife->SetSpeed(-KNIFE_SPEED, 0);
+						knife->AddAnimation(WEAPON_ANI_KNIFE_LEFT);
+					}
+
+					knife->SetType(ITEM_KNIFE);
+					knife->SetPosition(simon->x, simon->y);
+					knife->appearTime = GetTickCount();
+					knife->firstCast = GetTickCount();
+					listGrids->AddObject(knife);
+					break;
+				}
 			}
 		}
 	}
@@ -593,25 +625,25 @@ void LoadResourceLv2_1()
 	CheckStair *checkstair = new CheckStair();
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(3139, 360);
+	checkstair->SetPosition(3130, 345);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(3392, 218);
+	checkstair->SetPosition(3394, 215);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
-	checkstair = new CheckStair();
+	checkstair = new CheckStair();	
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(3780, 360);
+	checkstair->SetPosition(3780, 345);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(3520, 406);
+	checkstair->SetPosition(3515, 406);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
@@ -836,9 +868,10 @@ void LoadResources()
 	textures->Add(ID_TEX_BAT, L"Castlevania\\BAT.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_BOSS, L"Castlevania\\VAMPIRE_BAT.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_AXE_ACTION, L"Castlevania\\AXE_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_HOLY_WATER, L"Castlevania\\HOLY_WATER.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_HOLY_WATER_ACTION, L"Castlevania\\HOLY_WATER_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_CROSS_ACTION, L"Castlevania\\CROSS_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_KNIFE_ACTION, L"Castlevania\\KNIFE.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_KNIFE_ACTION, L"Castlevania\\KNIFE_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
 	//ui
 	textures->Add(ID_TEX_UI, L"Castlevania\\UI.png", D3DCOLOR_XRGB(255, 0, 255));
 
@@ -849,8 +882,6 @@ void LoadResources()
 	textures->Add(ID_TEX_MONEY, L"Castlevania\\money_bag_red.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_ROSARY, L"Castlevania\\ROSARY.png", D3DCOLOR_XRGB(255, 0, 255));
 
-	
-	
 #pragma region Addsprite
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 
@@ -956,28 +987,31 @@ void LoadResources()
 	sprites->Add(10060, 349, 0, 408, 52, whipL);
 	sprites->Add(10061, 585, 0, 529, 30, whipL);
 
-	LPDIRECT3DTEXTURE9 axe = textures->Get(ID_TEX_AXE_ACTION);
+	LPDIRECT3DTEXTURE9 axe = textures->Get(ID_TEX_AXE_ACTION); // Rìu
 	sprites->Add(10068, 0, 0, 30, 28, axe);
 	sprites->Add(10069, 30, 0, 60, 28, axe);
 	sprites->Add(10070, 60, 0, 90, 28, axe);
 	sprites->Add(10071, 90, 0, 120, 28, axe);
 
-	LPDIRECT3DTEXTURE9 holywater = textures->Get(ID_TEX_HOLY_WATER_ACTION);
-	sprites->Add(10072, 7, 3, 24, 20, holywater);
-	sprites->Add(10073, 42, 2, 54, 25, holywater);
-	sprites->Add(10074, 63, 0, 96, 26, holywater);
+	LPDIRECT3DTEXTURE9 holywater = textures->Get(ID_TEX_HOLY_WATER); // Nước thánh item
+	sprites->Add(50072, 0, 0, 32, 32, holywater);
 
-	LPDIRECT3DTEXTURE9 cross = textures->Get(ID_TEX_CROSS_ACTION);
+	LPDIRECT3DTEXTURE9 holywater_action = textures->Get(ID_TEX_HOLY_WATER_ACTION); // Nước thánh
+	sprites->Add(10072, 7, 3, 24, 20, holywater_action);
+	sprites->Add(10073, 42, 2, 54, 25, holywater_action);
+	sprites->Add(10074, 63, 0, 96, 26, holywater_action);
+
+	LPDIRECT3DTEXTURE9 cross = textures->Get(ID_TEX_CROSS_ACTION); // Boomerang
 	sprites->Add(10075, 0, 0, 26, 28, cross);
 	sprites->Add(10076, 29, 0, 56, 28, cross);
 	sprites->Add(10077, 55, 1, 84, 28, cross);
 
-	LPDIRECT3DTEXTURE9 knife = textures->Get(ID_TEX_KNIFE_ACTION);
-	sprites->Add(10078, 0, 0, 32, 18, knife);
+	LPDIRECT3DTEXTURE9 knife = textures->Get(ID_TEX_KNIFE_ACTION); // Dao
+	sprites->Add(10078, 0, 0, 32, 18, knife);					// dao trái
+	sprites->Add(10079, 32, 0, 64, 18, knife);					// dao phải
 
-
-	LPDIRECT3DTEXTURE9 knife1 = textures->Get(ID_TEX_KNIFE_ACTION);
-	sprites->Add(10079, 0, 0, 32, 18, knife1);
+	LPDIRECT3DTEXTURE9 clock = textures->Get(ID_TEX_UI); // Clock
+	sprites->Add(10080, 128, 0, 160, 32, clock);
 
 	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_BRICK);
 	sprites->Add(20001, 0, 0, 32, 32, texMisc);
@@ -1064,6 +1098,9 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMisc12 = textures->Get(ID_TEX_MONEY);
 	sprites->Add(40024, 0, 0, 30, 30, texMisc12);
+
+	LPDIRECT3DTEXTURE9 texMisc13 = textures->Get(ID_TEX_ROSARY);
+	sprites->Add(40025, 0, 0, 32, 32, texMisc13);
 	#pragma endregion
 
 	LPANIMATION ani;
@@ -1238,31 +1275,58 @@ void LoadResources()
 	ani->Add(10067);
 	animations->Add(429, ani);
 
-	ani = new CAnimation(150);//axe
+	ani = new CAnimation(150); // axe item
+	ani->Add(10069);
+	animations->Add(4430, ani);
+
+	ani = new CAnimation(150); // axe
 	ani->Add(10068);
 	ani->Add(10069);
 	ani->Add(10070);
 	ani->Add(10071);
 	animations->Add(430, ani);
 
-	ani = new CAnimation(150);//holywater
+	ani = new CAnimation(150); // holywater item
+	ani->Add(50072);
+	animations->Add(4431, ani);
+
+	ani = new CAnimation(150); //holywater
 	ani->Add(10072);
 	ani->Add(10073);
 	ani->Add(10074);
 	animations->Add(431, ani);
 
-	ani = new CAnimation(150);//cross
+	ani = new CAnimation(150); // cross item
+	ani->Add(10077);
+	animations->Add(4432, ani);
+
+	ani = new CAnimation(150); // cross
 	ani->Add(10075);
 	ani->Add(10076);
 	ani->Add(10077);
 	animations->Add(432, ani);
 
-	ani = new CAnimation(150);//KNIFE
-	ani->Add(10078);
+	ani = new CAnimation(150); // knife item
 	ani->Add(10079);
-	animations->Add(433, ani);
+	animations->Add(4433, ani);
 
-	ani = new CAnimation(100);	//chết	
+	ani = new CAnimation(150); // knife trái
+	ani->Add(10078);
+	animations->Add(4330, ani);
+
+	ani = new CAnimation(150); // knife phải
+	ani->Add(10079);
+	animations->Add(4331, ani);
+	
+	ani = new CAnimation(150); // rosary item
+	ani->Add(40025);
+	animations->Add(4434, ani);
+	
+	ani = new CAnimation(150); // clock item
+	ani->Add(10080);
+	animations->Add(4435, ani);
+
+	ani = new CAnimation(100);	// chết	
 	ani->Add(10099);
 	animations->Add(599, ani);
 
@@ -1360,10 +1424,6 @@ void LoadResources()
 	ani = new CAnimation(0); //whip item nang cap
 	ani->Add(40022);
 	animations->Add(808, ani);
-
-	ani = new CAnimation(0); //knife
-	ani->Add(40023);
-	animations->Add(809, ani);
 
 	ani = new CAnimation(0); //money
 	ani->Add(40024);
@@ -1707,85 +1767,36 @@ void Update(DWORD dt)
 				listRemoveObjects.push_back(panther);
 			}
 		}
-		else if (dynamic_cast<BigFire *>(objects.at(i)))
+		else if (dynamic_cast<BigFire *>(objects.at(i)) || dynamic_cast<Candle *>(objects.at(i)))
 		{
-			BigFire *bigFire = dynamic_cast<BigFire *>(objects.at(i));
-			if (bigFire->isHitted)
+			bool isHitted = false;
+			float object_x, object_y, object_right, object_bottom;
+
+			if (dynamic_cast<BigFire *>(objects.at(i)))
 			{
-				float bigfire_x, bigfire_y, bigfire_right, bigfire_bottom;
-				bigFire->GetBoundingBox(bigfire_x, bigfire_y, bigfire_right, bigfire_bottom);
-				
-				item = new Item();
-				item->SetPosition(bigfire_x, bigfire_y);
-				item->SetSpeed(0, -0.1);
-				objects.push_back(item);
-				listGrids->AddObject(item);
+				BigFire *bigfire = dynamic_cast<BigFire *>(objects.at(i));
+				bigfire->GetBoundingBox(object_x, object_y, object_right, object_bottom);
 
-				// Whip item
-				if (simon->whip->level < 2)
-				{
-					item->AddAnimation(ITEM_WHIPITEM);
-					item->SetType(ITEM_WHIPITEM);
-				}
-				else
-				{
-					/**
-					 * Random ra item: (do hiện tại chỉ có 3 món này)
-					 * 95% heart
-					 * 4% money
-					 * 1% knife
-					 */
-
-					srand(time(NULL));
-					int random_portion = rand() % 100;
-
-					// Heart
-					if (random_portion < 95)
-					{
-						item->AddAnimation(ITEM_HEART);
-						item->SetType(ITEM_HEART);
-					}
-					// Money
-					else if (random_portion >= 95 && random_portion < 99)
-					{
-						item->AddAnimation(ITEM_MONEY);
-						item->SetType(ITEM_MONEY);
-					}
-					// Knife
-					else
-					{
-						item->AddAnimation(ITEM_KNIFE);
-						item->SetType(ITEM_KNIFE);
-					}
-				}
-
-				// Thêm hiệu ứng tóe lửa
-				whipEffect = new Effect(GetTickCount());
-				whipEffect->AddAnimation(806);
-				whipEffect->SetPosition(bigfire_x, bigfire_y + (bigfire_bottom - bigfire_y) / 4);
-				objects.push_back(whipEffect);
-				listGrids->AddObject(whipEffect);
-
-				whipEffect = new Effect(GetTickCount());
-				whipEffect->AddAnimation(807);
-				whipEffect->SetPosition(bigfire_x, bigfire_y + (bigfire_bottom - bigfire_y) / 4);
-				objects.push_back(whipEffect);
-				listGrids->AddObject(whipEffect);
-
-				listRemoveObjects.push_back(bigFire);
+				isHitted = bigfire->isHitted;
+				if (isHitted)
+					listRemoveObjects.push_back(bigfire);
 			}
-		}
-		else if (dynamic_cast<Candle *>(objects.at(i)))
-		{
-			Candle *candle = dynamic_cast<Candle *>(objects.at(i));
-			if (candle->isHitted)
+			else if (dynamic_cast<Candle *>(objects.at(i)))
 			{
-				float candle_x, candle_y, candle_right, candle_bottom;
-				candle->GetBoundingBox(candle_x, candle_y, candle_right, candle_bottom);
+				Candle *candle = dynamic_cast<Candle *>(objects.at(i));
+				candle->GetBoundingBox(object_x, object_y, object_right, object_bottom);
 
+				isHitted = candle->isHitted;
+				if (isHitted)
+					listRemoveObjects.push_back(candle);
+			}
+
+			if (isHitted)
+			{
 				item = new Item();
-				item->SetPosition(candle_x, candle_y);
+				item->SetPosition(object_x, object_y);
 				item->SetSpeed(0, -0.1);
+				item->appearTime = GetTickCount();
 				objects.push_back(item);
 				listGrids->AddObject(item);
 
@@ -1799,55 +1810,90 @@ void Update(DWORD dt)
 				{
 					/**
 					 * Random ra item: (do hiện tại chỉ có 3 món này)
-					 * 95% heart
+					 * 90% heart
 					 * 4% money
 					 * 1% knife
+					 * 1% axe
+					 * 1% holy water
+					 * 1% cross
+					 * 1% rosary
+					 * 1% clock
 					 */
 
 					srand(time(NULL));
 					int random_portion = rand() % 100;
 
 					// Heart
-					if (random_portion < 95)
+					if (random_portion < 90)
 					{
-						item->AddAnimation(ITEM_HEART);
-						item->SetType(ITEM_HEART);
+						/*item->AddAnimation(ITEM_HEART);
+						item->SetType(ITEM_HEART);*/
+						item->AddAnimation(ITEM_KNIFE);
+						item->SetType(ITEM_KNIFE);
 					}
 					// Money
-					else if (random_portion >= 95 && random_portion < 99)
+					else if (random_portion >= 90 && random_portion < 94)
 					{
 						item->AddAnimation(ITEM_MONEY);
 						item->SetType(ITEM_MONEY);
 					}
 					// Knife
-					else
+					else if(random_portion >= 94 && random_portion < 95)
 					{
 						item->AddAnimation(ITEM_KNIFE);
 						item->SetType(ITEM_KNIFE);
+					}
+					// Axe
+					else if(random_portion >= 95 && random_portion < 96)
+					{
+						item->AddAnimation(ITEM_AXE);
+						item->SetType(ITEM_AXE);
+					}
+					// Holy water
+					else if(random_portion >= 96 && random_portion < 97)
+					{
+						item->AddAnimation(ITEM_HOLYWATER);
+						item->SetType(ITEM_HOLYWATER);
+					}
+					// Cross
+					else if(random_portion >= 97 && random_portion < 98)
+					{
+						item->AddAnimation(ITEM_CROSS);
+						item->SetType(ITEM_CROSS);
+					}
+					// Rosary
+					else if(random_portion >= 98 && random_portion < 99)
+					{
+						item->AddAnimation(ITEM_ROSARY);
+						item->SetType(ITEM_ROSARY);
+					}
+					// Clock
+					else if(random_portion >= 99 && random_portion < 100)
+					{
+						item->AddAnimation(ITEM_CLOCK);
+						item->SetType(ITEM_CLOCK);
 					}
 				}
 
 				// Thêm hiệu ứng tóe lửa
 				whipEffect = new Effect(GetTickCount());
 				whipEffect->AddAnimation(806);
-				whipEffect->SetPosition(candle_x, candle_y + (candle_bottom - candle_y) / 4);
+				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
 				objects.push_back(whipEffect);
 				listGrids->AddObject(whipEffect);
 
 				whipEffect = new Effect(GetTickCount());
 				whipEffect->AddAnimation(807);
-				whipEffect->SetPosition(candle_x, candle_y + (candle_bottom - candle_y) / 4);
+				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
 				objects.push_back(whipEffect);
 				listGrids->AddObject(whipEffect);
-
-				listRemoveObjects.push_back(candle);
 			}
 		}
 		else if (dynamic_cast<Item *>(objects.at(i)))
 		{
 			Item *item = dynamic_cast<Item *>(objects.at(i));
 
-			if (item->GetEaten())
+			if (item->GetEaten() || GetTickCount() - item->appearTime > ITEM_LIVE_TIME)
 			{
 				listRemoveObjects.push_back(item);
 			}
@@ -2021,9 +2067,9 @@ void Update(DWORD dt)
 #pragma region UI
 
 	if (lv1 == true)
-		ui->Update(gameTime/1000, 1,simon);
+		ui->Update(gameTime / 1000, 1, simon);
 	else
-		ui->Update(gameTime/1000, 2,simon);
+		ui->Update(gameTime / 1000, 2, simon);
 
 #pragma endregion
 }
