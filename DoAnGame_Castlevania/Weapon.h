@@ -1,12 +1,11 @@
 #pragma once
-#include "Item.h"
 #include "Zombie.h"
 #include "BigFire.h"
 #include "Candle.h"
 #include "Panther.h"
 #include "Simon.h"
 
-class Weapon : public Item
+class Weapon : public CGameObject
 {
 
 public:
@@ -14,6 +13,7 @@ public:
 	float max_x;
 	Simon *simon;
 
+	bool isExposed;
 	bool isActivate;
 	DWORD firstCast;
 

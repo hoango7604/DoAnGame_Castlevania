@@ -66,8 +66,8 @@ void Item::GetBoundingBox(float &l, float &t, float &r, float &b)
 		b = y + AXE_BBOX_HEIGHT;
 		break;
 	case ITEM_HOLYWATER:
-		r = x + HOLYFIRE_BBOX_WIDTH;
-		b = y + HOLYFIRE_BBOX_HEIGHT;
+		r = x + HOLYWATER_BBOX_WIDTH;
+		b = y + HOLYWATER_BBOX_HEIGHT;
 		break;
 	case ITEM_CROSS:
 		r = x + CROSS_BBOX_WIDTH;

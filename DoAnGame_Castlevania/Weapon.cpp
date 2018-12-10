@@ -23,7 +23,6 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 			SetPosition(x, y + 10);
-			appearTime = GetTickCount();
 
 			isActivate = true;
 		}
@@ -33,5 +32,5 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Weapon::Render()
 {
 	if (isActivate)
-		Item::Render();
+		animations[0]->Render(x, y);
 }

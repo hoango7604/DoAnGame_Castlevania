@@ -10,6 +10,8 @@
 #include "Textures.h"
 #include "GridObjects.h"
 #include "Knife.h"
+#include "Axe.h"
+#include "HolyWater.h"
 
 #include "Simon.h"
 #include "Ground.h"
@@ -36,8 +38,7 @@ Effect *whipEffect;
 Map *map;
 UI * ui;
 CSprite *sprite;
-
-Knife *knife;
+Weapon *weapon;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
@@ -78,6 +79,73 @@ public:
 	virtual void OnKeyUp(int KeyCode);
 };
 
+void GenerateWeapon()
+{
+	int nx = simon->nx;
+
+	simon->SetAction(SIMON_ACTION_ATTACK);
+	simon->isUseWhip = false;
+
+	switch (simon->currentWeapon)
+	{
+	case ITEM_KNIFE:
+		weapon = new Knife(simon, 2 * SCREEN_WIDTH / 3);
+
+		if (nx > 0)
+		{
+			weapon->SetSpeed(KNIFE_SPEED, 0);
+			weapon->AddAnimation(WEAPON_ANI_KNIFE_RIGHT);
+		}
+		else if (nx < 0)
+		{
+			weapon->SetSpeed(-KNIFE_SPEED, 0);
+			weapon->AddAnimation(WEAPON_ANI_KNIFE_LEFT);
+		}
+
+		weapon->SetPosition(simon->x, simon->y);
+		weapon->firstCast = GetTickCount();
+		listGrids->AddObject(weapon);
+		break;
+
+	case ITEM_AXE:
+		weapon = new Axe(simon);
+
+		if (nx > 0)
+		{
+			weapon->SetSpeed(AXE_SPEED_X, -AXE_SPEED_Y);
+		}
+		else if (nx < 0)
+		{
+			weapon->SetSpeed(-AXE_SPEED_X, -AXE_SPEED_Y);
+		}
+
+		weapon->AddAnimation(WEAPON_ANI_AXE);
+		weapon->SetPosition(simon->x, simon->y);
+		weapon->firstCast = GetTickCount();
+		listGrids->AddObject(weapon);
+		break;
+
+	case ITEM_HOLYWATER:
+		weapon = new HolyWater(simon);
+
+		if (nx > 0)
+		{
+			weapon->SetSpeed(HOLYWATER_SPEED_X, -HOLYWATER_SPEED_Y);
+		}
+		else if (nx < 0)
+		{
+			weapon->SetSpeed(-HOLYWATER_SPEED_X, -HOLYWATER_SPEED_Y);
+		}
+
+		weapon->AddAnimation(WEAPON_ANI_HOLYWATER);
+		weapon->AddAnimation(WEAPON_ANI_HOLYWATER_FIRE);
+		weapon->SetPosition(simon->x, simon->y);
+		weapon->firstCast = GetTickCount();
+		listGrids->AddObject(weapon);
+		break;
+	}
+}
+
 CSampleKeyHander * keyHandler;
 
 void CSampleKeyHander::OnKeyDown(int KeyCode)
@@ -107,34 +175,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		{
 			if (simon->isAttack == false && simon->currentWeapon != 0)
 			{
-				int nx = simon->nx;
-
-				simon->SetAction(SIMON_ACTION_ATTACK);
-				simon->isUseWhip = false;
-
-				switch (simon->currentWeapon)
-				{
-				case ITEM_KNIFE:
-					knife = new Knife(simon, 2 * SCREEN_WIDTH / 3);
-
-					if (nx > 0)
-					{
-						knife->SetSpeed(KNIFE_SPEED, 0);
-						knife->AddAnimation(WEAPON_ANI_KNIFE_RIGHT);
-					}
-					else if (nx < 0)
-					{
-						knife->SetSpeed(-KNIFE_SPEED, 0);
-						knife->AddAnimation(WEAPON_ANI_KNIFE_LEFT);
-					}
-
-					knife->SetType(ITEM_KNIFE);
-					knife->SetPosition(simon->x, simon->y);
-					knife->appearTime = GetTickCount();
-					knife->firstCast = GetTickCount();
-					listGrids->AddObject(knife);
-					break;
-				}
+				GenerateWeapon();
 			}
 		}
 	}
@@ -997,9 +1038,9 @@ void LoadResources()
 	sprites->Add(50072, 0, 0, 32, 32, holywater);
 
 	LPDIRECT3DTEXTURE9 holywater_action = textures->Get(ID_TEX_HOLY_WATER_ACTION); // Nước thánh
-	sprites->Add(10072, 7, 3, 24, 20, holywater_action);
-	sprites->Add(10073, 42, 2, 54, 25, holywater_action);
-	sprites->Add(10074, 63, 0, 96, 26, holywater_action);
+	sprites->Add(10072, 0, 0, 32, 26, holywater_action);
+	sprites->Add(10073, 32, 0, 64, 26, holywater_action);
+	sprites->Add(10074, 64, 0, 96, 26, holywater_action);
 
 	LPDIRECT3DTEXTURE9 cross = textures->Get(ID_TEX_CROSS_ACTION); // Boomerang
 	sprites->Add(10075, 0, 0, 26, 28, cross);
@@ -1292,9 +1333,12 @@ void LoadResources()
 
 	ani = new CAnimation(150); //holywater
 	ani->Add(10072);
+	animations->Add(431, ani);
+
+	ani = new CAnimation(100); //holywater fire
 	ani->Add(10073);
 	ani->Add(10074);
-	animations->Add(431, ani);
+	animations->Add(4310, ani);
 
 	ani = new CAnimation(150); // cross item
 	ani->Add(10077);
@@ -1828,8 +1872,8 @@ void Update(DWORD dt)
 					{
 						/*item->AddAnimation(ITEM_HEART);
 						item->SetType(ITEM_HEART);*/
-						item->AddAnimation(ITEM_KNIFE);
-						item->SetType(ITEM_KNIFE);
+						item->AddAnimation(ITEM_HOLYWATER);
+						item->SetType(ITEM_HOLYWATER);
 					}
 					// Money
 					else if (random_portion >= 90 && random_portion < 94)
@@ -1896,6 +1940,15 @@ void Update(DWORD dt)
 			if (item->GetEaten() || GetTickCount() - item->appearTime > ITEM_LIVE_TIME)
 			{
 				listRemoveObjects.push_back(item);
+			}
+		}
+		else if (dynamic_cast<Weapon *>(objects.at(i)))
+		{
+			Weapon *weapon = dynamic_cast<Weapon *>(objects.at(i));
+
+			if (weapon->isExposed)
+			{
+				listRemoveObjects.push_back(weapon);
 			}
 		}
 		else if (dynamic_cast<Effect *>(objects.at(i)))

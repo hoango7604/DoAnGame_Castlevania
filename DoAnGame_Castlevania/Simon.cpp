@@ -368,7 +368,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				// Da cham dat
 				// Khong va cham theo phuong ngang
-				if (e->nx == 0 && e->ny < 0)
+				if (e->ny < 0)
 				{
 					if (isJump)
 						isJump = false;

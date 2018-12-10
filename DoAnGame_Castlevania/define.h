@@ -93,15 +93,21 @@
 #define KNIFE_BBOX_WIDTH				32
 #define KNIFE_BBOX_HEIGHT				18
 
-#define KNIFE_SPEED						0.8f
+#define KNIFE_SPEED						1.0f
 
 // Axe
 #define AXE_BBOX_WIDTH					32
 #define AXE_BBOX_HEIGHT					32
 
-// Holy fire
-#define HOLYFIRE_BBOX_WIDTH				32
-#define HOLYFIRE_BBOX_HEIGHT			32
+#define AXE_SPEED_X						0.3f
+#define AXE_SPEED_Y						0.4f
+
+// Holy water
+#define HOLYWATER_BBOX_WIDTH			32
+#define HOLYWATER_BBOX_HEIGHT			26
+
+#define HOLYWATER_SPEED_X				0.2f
+#define HOLYWATER_SPEED_Y				0.25f
 
 // Cross
 #define CROSS_BBOX_WIDTH				32
@@ -263,6 +269,7 @@
 // Weapon in action
 #define WEAPON_ANI_AXE					430
 #define WEAPON_ANI_HOLYWATER			431
+#define WEAPON_ANI_HOLYWATER_FIRE		4310
 #define WEAPON_ANI_CROSS				432
 #define WEAPON_ANI_KNIFE_LEFT			4330
 #define WEAPON_ANI_KNIFE_RIGHT			4331

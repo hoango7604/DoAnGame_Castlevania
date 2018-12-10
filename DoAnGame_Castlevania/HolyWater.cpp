@@ -1,6 +1,6 @@
-#include "Knife.h"
+#include "HolyWater.h"
 
-void Knife::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void HolyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	Weapon::Update(dt);
 
@@ -21,24 +21,33 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isExposed = true;
 		}
 
+		// Outtime
+		if (GetTickCount() - firstCast > ITEM_LIVE_TIME / 2)
+		{
+			isExposed = true;
+		}
+
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
 		CalcPotentialCollisions(coObjects, coEvents);
 
-		x += dx;
-		y += dy;
+		// Gravity
+		vy += SIMON_GRAVITY * dt;
 
 		// No collision occured, proceed normally
 		if (coEvents.size() == 0)
 		{
-
+			x += dx;
+			y += dy;
 		}
 		else
 		{
 			float min_tx, min_ty, nx = 0, ny;
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+			bool willBlock = false;
 
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
@@ -48,35 +57,53 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					Zombie *zombie = dynamic_cast<Zombie *>(e->obj);
 					zombie->SetState(ZOMBIE_STATE_DIE);
-					this->isExposed = true;
-				}
-				else if (dynamic_cast<BigFire *>(e->obj))
-				{
-					BigFire *bigfire = dynamic_cast<BigFire *>(e->obj);
-					bigfire->isHitted = true;
-					this->isExposed = true;
-				}
-				else if (dynamic_cast<Candle *>(e->obj))
-				{
-					Candle *candle = dynamic_cast<Candle *>(e->obj);
-					candle->isHitted = true;
-					this->isExposed = true;
+					isBurn = true;
 				}
 				else if (dynamic_cast<Panther *>(e->obj))
 				{
 					Panther *panther = dynamic_cast<Panther *>(e->obj);
 					panther->isDie = true;
-					this->isExposed = true;
+					isBurn = true;
 				}
+				else if (dynamic_cast<Ground *>(e->obj))
+				{
+					if (e->ny < 0)
+					{
+						vx = 0;
+						vy = 0;
+						isBurn = true;
+						willBlock = true;
+					}
+				}
+			}
+
+			// block 
+			if (willBlock)
+			{
+				x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+				y += min_ty * dy + ny * 0.4f;
+			}
+			else
+			{
+				x += dx;
+				y += dy;
 			}
 		}
 	}
 }
 
-void Knife::GetBoundingBox(float & l, float & t, float & r, float & b)
+void HolyWater::Render()
+{
+	if (isBurn)
+		animations[1]->Render(x, y);
+	else if (isActivate)
+		animations[0]->Render(x, y);
+}
+
+void HolyWater::GetBoundingBox(float & l, float & t, float & r, float & b)
 {
 	l = x;
 	t = y;
-	r = x + KNIFE_BBOX_WIDTH;
-	b = y + KNIFE_BBOX_HEIGHT;
+	r = x + HOLYWATER_BBOX_WIDTH;
+	b = y + HOLYWATER_BBOX_HEIGHT;
 }

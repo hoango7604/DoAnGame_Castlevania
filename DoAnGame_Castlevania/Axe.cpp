@@ -1,6 +1,6 @@
-#include "Knife.h"
+#include "Axe.h"
 
-void Knife::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Axe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	Weapon::Update(dt);
 
@@ -25,6 +25,9 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
 		CalcPotentialCollisions(coObjects, coEvents);
+
+		// Gravity
+		vy += SIMON_GRAVITY * dt;
 
 		x += dx;
 		y += dy;
@@ -68,15 +71,20 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					panther->isDie = true;
 					this->isExposed = true;
 				}
+				else if (dynamic_cast<Ground *>(e->obj))
+				{
+					if (e->ny < 0)
+						this->isExposed = true;
+				}
 			}
 		}
 	}
 }
 
-void Knife::GetBoundingBox(float & l, float & t, float & r, float & b)
+void Axe::GetBoundingBox(float & l, float & t, float & r, float & b)
 {
 	l = x;
 	t = y;
-	r = x + KNIFE_BBOX_WIDTH;
-	b = y + KNIFE_BBOX_HEIGHT;
+	r = x + AXE_BBOX_WIDTH;
+	b = y + AXE_BBOX_HEIGHT;
 }
