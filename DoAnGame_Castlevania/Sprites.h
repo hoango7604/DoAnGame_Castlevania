@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -33,7 +35,7 @@ class CSprites
 	unordered_map<int, LPSPRITE> sprites;
 
 public:
-	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	void Add(LPCSTR fileSource, LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(int id);
 
 	static CSprites * GetInstance();
