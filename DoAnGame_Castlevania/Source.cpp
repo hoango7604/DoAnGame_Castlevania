@@ -1123,7 +1123,7 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 holywater_action = textures->Get(ID_TEX_HOLY_WATER_ACTION); 
 	sprites->Add("Castlevania\\filetxt\\spr_holy_action.txt", holywater_action);	
-
+	
 	LPDIRECT3DTEXTURE9 cross = textures->Get(ID_TEX_CROSS_ACTION); 
 	sprites->Add("Castlevania\\filetxt\\spr_cross.txt", cross);	
 
@@ -1392,10 +1392,13 @@ void LoadResources()
 	animations->Add(4431, ani);
 
 	ani = new CAnimation(150); //holywater
-	ani->Add(10072);
+	ani->Add(10072);	
+	animations->Add(431, ani);
+
+	ani = new CAnimation(100); //holywater fire
 	ani->Add(10073);
 	ani->Add(10074);
-	animations->Add(431, ani);
+	animations->Add(4310, ani);
 
 	ani = new CAnimation(150); // cross item
 	ani->Add(10077);
