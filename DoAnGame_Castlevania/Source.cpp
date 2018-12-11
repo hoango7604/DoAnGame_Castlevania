@@ -47,6 +47,12 @@ bool lv2 = false;
 bool lv2_1 = false;
 bool lv2_2 = false;
 bool boss = false;
+bool lv3_1 = false;
+bool lv3_2 = false;
+bool lv3_3 = false;
+bool lv3_4 = false;
+bool lv3_5 = false;
+
 // check scene lv2->lv2_1
 bool checkScene = false;
 bool check1 = false;
@@ -60,6 +66,13 @@ bool countLoadResourceLv2 = false;
 bool countLoadResourceLv2_1 = false;
 bool countLoadResourceLv2_2 = false;
 bool countLoadResourceboss = false;
+
+bool countLoadResourceLv3_5 = false;
+bool countLoadResourceLv3_4 = false;
+bool countLoadResourceLv3_3 = false;
+bool countLoadResourceLv3_2 = false;
+bool countLoadResourceLv3_1 = false;
+
 bool isEnableKeyBoard = true;
 
 DWORD timer; // load enemy lv2
@@ -288,7 +301,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void LoadResourceLv1()
 {
 	// Đặt vị trí xuất phát cho simon
-	simon->SetPosition(1400, 327); // 100 327
+	simon->SetPosition(100, 327); // 100 327
 
 	// Khởi tạo listGrids
 	listGrids->InitList(MAX_WIDTH_LV1);
@@ -832,6 +845,32 @@ void LoadResourceboss()
 	listGrids->AddObject(bossbat);
 }
 
+void LoadResourceLv3_5()
+{
+	for (int i = 0; i < 16; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(128 + i * 32 , 280);
+		listGrids->AddObject(ground);
+	}
+}
+void LoadResourceLv3_4()
+{
+
+}
+void LoadResourceLv3_3()
+{
+
+}
+void LoadResourceLv3_2()
+{
+
+}
+void LoadResourceLv3_1()
+{
+
+}
+
 /*
 	Load all game resources
 	In this example: load textures, sprites, animations and mario object
@@ -839,48 +878,10 @@ void LoadResourceboss()
 	TO-DO: Improve this function by loading texture,sprite,animation,object from file
 */
 void LoadResources()
-{
-	/*textures->Add(ID_TEX_SIMON, L"Castlevania\\Simon_right.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_SIMON_2, L"Castlevania\\Simon_ver_editted.png", D3DCOLOR_XRGB(255, 0, 255));	
-	textures->Add(ID_TEX_BRICK, L"Castlevania\\2.png", D3DCOLOR_XRGB(3, 26, 110));
-	textures->Add(ID_TEX_BRICK2, L"Castlevania\\BRICK1.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_ZOMBIE, L"Castlevania\\ZOMBIE.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_ZOMBIE_RIGHT, L"Castlevania\\ZOMBIE_right.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_PANTHER, L"Castlevania\\PANTHER.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_PANTHER_RIGHT, L"Castlevania\\PANTHER_right.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_FIRE, L"Castlevania\\123.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_CANDLE, L"Castlevania\\1.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_WHIP, L"Castlevania\\WHIP.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_WHIP_2, L"Castlevania\\WHIP_left.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_TILESET, L"Castlevania\\tileset.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_TILESET_2, L"Castlevania\\tileset2.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_TILESET_3, L"Castlevania\\tileset3.png", D3DCOLOR_XRGB(255, 0, 255));	
-	textures->Add(ID_TEX_LADDER, L"Castlevania\\3.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_LADDER_LEFT, L"Castlevania\\3_.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_BBOX, L"Castlevania\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	textures->Add(ID_TEX_STAIR_BOT, L"Castlevania\\stair_bottom.png", D3DCOLOR_XRGB(0, 0, 255));//
-	textures->Add(ID_TEX_STAIR_TOP, L"Castlevania\\stair_top.png", D3DCOLOR_XRGB(0, 0, 255));
-	textures->Add(ID_TEX_MERMAN_LEFT, L"Castlevania\\MERMAN.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_MERMAN_RIGHT, L"Castlevania\\MERMAN_right.png", D3DCOLOR_XRGB(255, 0, 255));	
-	textures->Add(ID_TEX_BAT, L"Castlevania\\BAT.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_BOSS, L"Castlevania\\VAMPIRE_BAT.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_AXE_ACTION, L"Castlevania\\AXE_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_HOLY_WATER, L"Castlevania\\HOLY_WATER.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_HOLY_WATER_ACTION, L"Castlevania\\HOLY_WATER_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_CROSS_ACTION, L"Castlevania\\CROSS_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_KNIFE_ACTION, L"Castlevania\\KNIFE_ACTION.png", D3DCOLOR_XRGB(255, 0, 255));
-	//ui
-	textures->Add(ID_TEX_UI, L"Castlevania\\UI.png", D3DCOLOR_XRGB(255, 0, 255));
-
-	//effect and item
-	textures->Add(ID_TEX_EFFECT1, L"Castlevania\\0.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_EFFECT2, L"Castlevania\\DEAD.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_WHIP_VIP, L"Castlevania\\WHIP_VIP.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_MONEY, L"Castlevania\\money_bag_red.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(ID_TEX_ROSARY, L"Castlevania\\ROSARY.png", D3DCOLOR_XRGB(255, 0, 255));*/
+{	
 	textures->Add("Castlevania\\filetxt\\textures.txt", D3DCOLOR_XRGB(255, 0, 255));
 
-/*#pragma region Addsprite
+	/*#pragma region Addsprite
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 
 	sprites->Add(10001, 436, 0, 484, 64, texSimon);		// đứng im phải
@@ -1100,7 +1101,7 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texMisc13 = textures->Get(ID_TEX_ROSARY);
 	sprites->Add(40025, 0, 0, 32, 32, texMisc13);
 	#pragma endregion*/
-#pragma region ManageSprite
+	#pragma region ManageSprite
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 	sprites->Add("Castlevania\\filetxt\\spr_Simon_right.txt", texSimon);		
 	
@@ -1204,7 +1205,7 @@ void LoadResources()
 
 	LPANIMATION ani;
 
-#pragma region SimonAnimation
+	#pragma region SimonAnimation
 
 	ani = new CAnimation(100);	//đứng phải
 	ani->Add(10001);
@@ -1434,104 +1435,104 @@ void LoadResources()
 
 #pragma endregion
 
-#pragma region ObjectAnimation
+	#pragma region ObjectAnimation
 
-	ani = new CAnimation(100);	//đất1
-	ani->Add(20001);
-	animations->Add(601, ani);
+		ani = new CAnimation(100);	//đất1
+		ani->Add(20001);
+		animations->Add(601, ani);
 
-	ani = new CAnimation(100); //zombie đi trái
-	ani->Add(30001);
-	ani->Add(30002);
-	animations->Add(602, ani);
+		ani = new CAnimation(100); //zombie đi trái
+		ani->Add(30001);
+		ani->Add(30002);
+		animations->Add(602, ani);
 
-	ani = new CAnimation(100); //zombie đi phải
-	ani->Add(30003);
-	ani->Add(30004);
-	animations->Add(604, ani);
+		ani = new CAnimation(100); //zombie đi phải
+		ani->Add(30003);
+		ani->Add(30004);
+		animations->Add(604, ani);
 
-	ani = new CAnimation(100);	//đất2
-	ani->Add(20002);
-	animations->Add(603, ani);
+		ani = new CAnimation(100);	//đất2
+		ani->Add(20002);
+		animations->Add(603, ani);
 
-	ani = new CAnimation(100); //panther nằm chờ
-	ani->Add(30011);
-	animations->Add(605, ani);
+		ani = new CAnimation(100); //panther nằm chờ
+		ani->Add(30011);
+		animations->Add(605, ani);
 
-	ani = new CAnimation(100); //panther chạy trái
-	ani->Add(30012);
-	ani->Add(30013);
-	ani->Add(30014);
-	animations->Add(606, ani);
+		ani = new CAnimation(100); //panther chạy trái
+		ani->Add(30012);
+		ani->Add(30013);
+		ani->Add(30014);
+		animations->Add(606, ani);
 
-	ani = new CAnimation(100); //panther chạy phải
-	ani->Add(30015);
-	ani->Add(30016);
-	ani->Add(30017);
-	animations->Add(607, ani);
+		ani = new CAnimation(100); //panther chạy phải
+		ani->Add(30015);
+		ani->Add(30016);
+		ani->Add(30017);
+		animations->Add(607, ani);
 
-	ani = new CAnimation(100); //panther phóng
-	ani->Add(30014);
-	animations->Add(608, ani);
+		ani = new CAnimation(100); //panther phóng
+		ani->Add(30014);
+		animations->Add(608, ani);
 
-	ani = new CAnimation(100); //boss dơi nằm chờ
-	ani->Add(30022);
-	animations->Add(609, ani);
+		ani = new CAnimation(100); //boss dơi nằm chờ
+		ani->Add(30022);
+		animations->Add(609, ani);
 
-	ani = new CAnimation(100); //boosss dơi bay
-	ani->Add(30023);
-	ani->Add(30024);
-	animations->Add(610, ani);
+		ani = new CAnimation(100); //boosss dơi bay
+		ani->Add(30023);
+		ani->Add(30024);
+		animations->Add(610, ani);
 
-	ani = new CAnimation(100); //fire
-	ani->Add(40011);
-	ani->Add(40012);
-	animations->Add(700, ani);
+		ani = new CAnimation(100); //fire
+		ani->Add(40011);
+		ani->Add(40012);
+		animations->Add(700, ani);
 
-	ani = new CAnimation(100); //candle
-	ani->Add(40013);
-	ani->Add(40014);
-	animations->Add(800, ani);
+		ani = new CAnimation(100); //candle
+		ani->Add(40013);
+		ani->Add(40014);
+		animations->Add(800, ani);
 
-	ani = new CAnimation(0); //STAIR RIHGT
-	ani->Add(40015);
-	animations->Add(801, ani);
+		ani = new CAnimation(0); //STAIR RIHGT
+		ani->Add(40015);
+		animations->Add(801, ani);
 
-	ani = new CAnimation(0); //STAIR LEFT
-	ani->Add(40016);
-	animations->Add(802, ani);
+		ani = new CAnimation(0); //STAIR LEFT
+		ani->Add(40016);
+		animations->Add(802, ani);
 
-	ani = new CAnimation(0); //STAIR BOT
-	ani->Add(40017);
-	animations->Add(803, ani);
+		ani = new CAnimation(0); //STAIR BOT
+		ani->Add(40017);
+		animations->Add(803, ani);
 
-	ani = new CAnimation(0); //STAIR TOP
-	ani->Add(40018);
-	animations->Add(804, ani);
+		ani = new CAnimation(0); //STAIR TOP
+		ani->Add(40018);
+		animations->Add(804, ani);
 
-	ani = new CAnimation(0); //heart
-	ani->Add(40019);
-	animations->Add(805, ani);
+		ani = new CAnimation(0); //heart
+		ani->Add(40019);
+		animations->Add(805, ani);
 
-	ani = new CAnimation(150); //hieu ung' dau' sao
-	ani->Add(40020);
-	animations->Add(806, ani);
+		ani = new CAnimation(150); //hieu ung' dau' sao
+		ani->Add(40020);
+		animations->Add(806, ani);
 
-	ani = new CAnimation(50); //hieu ung toe' lua
-	ani->Add(40021);
-	ani->Add(41021);
-	ani->Add(42021);
-	animations->Add(807, ani);
+		ani = new CAnimation(50); //hieu ung toe' lua
+		ani->Add(40021);
+		ani->Add(41021);
+		ani->Add(42021);
+		animations->Add(807, ani);
 
-	ani = new CAnimation(0); //whip item nang cap
-	ani->Add(40022);
-	animations->Add(808, ani);
+		ani = new CAnimation(0); //whip item nang cap
+		ani->Add(40022);
+		animations->Add(808, ani);
 
-	ani = new CAnimation(0); //money
-	ani->Add(40024);
-	animations->Add(810, ani);
+		ani = new CAnimation(0); //money
+		ani->Add(40024);
+		animations->Add(810, ani);
 
-	#pragma endregion
+		#pragma endregion
 
 	#pragma region simon
 
@@ -1777,6 +1778,63 @@ void Update(DWORD dt)
 				listGrids->AddObject(zombie);
 				timer2 = timer2 + 5000;
 			}
+		}
+		
+		//can xu li win boss de chuyen sang dracula
+		if (x > MAX_WIDTH_BOSS)// test map va dat object vao
+		{
+			boss = false;
+			lv3_5 = true;
+		}
+	}
+	if (lv3_5 == true)
+	{
+		if (countLoadResourceLv3_5 == false)
+		{
+			listGrids->InitList(MAX_WIDTH_LV3_5);
+			LoadResourceLv3_5();
+			countLoadResourceLv3_5 = true;
+			
+		}
+	}
+	if (lv3_4 == true)
+	{
+		if (countLoadResourceLv3_4 == false)
+		{
+			listGrids->InitList(MAX_WIDTH_LV3_4);
+			LoadResourceLv3_4();
+			countLoadResourceLv3_4 = true;
+			
+		}
+	}
+	if (lv3_3 == true)
+	{
+		if (countLoadResourceLv3_3 == false)
+		{
+			listGrids->InitList(MAX_WIDTH_LV3_3);
+			LoadResourceLv3_3();
+			countLoadResourceLv3_3 = true;
+			
+		}
+	}
+	if (lv3_2 == true)
+	{
+		if (countLoadResourceLv3_2 == false)
+		{
+			listGrids->InitList(MAX_WIDTH_LV3_2);
+			LoadResourceLv3_2();
+			countLoadResourceLv3_2 = true;
+			
+		}
+	}
+	if (lv3_1 == true)
+	{
+		if (countLoadResourceLv3_1 == false)
+		{
+			listGrids->InitList(MAX_WIDTH_LV3_1);
+			LoadResourceLv3_1();
+			countLoadResourceLv3_1 = true;
+			
 		}
 	}
 #pragma endregion
@@ -2197,22 +2255,54 @@ void Render()
 		LPDIRECT3DTEXTURE9 tileset = textures->Get(ID_TEX_TILESET);
 		LPDIRECT3DTEXTURE9 tileset1 = textures->Get(ID_TEX_TILESET_2);
 		LPDIRECT3DTEXTURE9 tileset2 = textures->Get(ID_TEX_TILESET_3);
+		LPDIRECT3DTEXTURE9 tileset31 = textures->Get(ID_TEX_TILESET31);
+		LPDIRECT3DTEXTURE9 tileset32 = textures->Get(ID_TEX_TILESET32);
+		LPDIRECT3DTEXTURE9 tileset33 = textures->Get(ID_TEX_TILESET33);
+		LPDIRECT3DTEXTURE9 tileset34 = textures->Get(ID_TEX_TILESET34);
+		LPDIRECT3DTEXTURE9 tileset35 = textures->Get(ID_TEX_TILESET35);
 		
 		if (lv1 == true)
 		{
-			map = new	Map (/*48, 10,*/ tileset, 32, 32); 
-			map->LoadMatrixMap("Castlevania\\Mapstate.txt");
-			//map->Draw(game->x_cam, game->y_cam);
+			/*map = new	Map ( tileset, 32, 32); 
+			map->LoadMatrixMap("Castlevania\\Mapstate.txt");*/
+			map = new	Map(tileset35, 32, 32);
+			map->LoadMatrixMap("Castlevania\\map35_bg.txt");
+			
 		}
 		else if( lv2 == true || lv2_1 == true) {									
-			map = new	Map (/*176, 11,*/ tileset1, 32, 32); 
+			map = new	Map (tileset1, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");
-			//map->Draw(game->x_cam , game->y_cam);
+			
 		}
 		else if (lv2_2 == true)
 		{
-			map = new	Map(/*32, 11,*/ tileset2, 32, 32);
+			map = new	Map(tileset2, 32, 32);
 			map->LoadMatrixMap("Castlevania\\Mapstate2_1.txt");
+		}
+		else if (lv3_1 == true)
+		{
+			map = new	Map(tileset31, 32, 32);
+			map->LoadMatrixMap("Castlevania\\map31_bg.txt");
+		}
+		else if (lv3_2 == true)
+		{
+			map = new	Map(tileset32, 32, 32);
+			map->LoadMatrixMap("Castlevania\\map32_bg.txt");
+		}
+		else if (lv3_3 == true)
+		{
+			map = new	Map(tileset33, 32, 32);
+			map->LoadMatrixMap("Castlevania\\map33_bg.txt");
+		}
+		else if (lv3_4 == true)
+		{
+			map = new	Map(tileset34, 32, 32);
+			map->LoadMatrixMap("Castlevania\\map34_bg.txt");
+		}
+		else if (lv3_5 == true)
+		{
+			map = new	Map(tileset35, 32, 32);
+			map->LoadMatrixMap("Castlevania\\map35_bg.txt");
 		}
 		map->Draw(game->x_cam, game->y_cam);
 

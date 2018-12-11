@@ -33,3 +33,8 @@
 33 Castlevania\WHIP_VIP.png
 34 Castlevania\money_bag_red.png
 35 Castlevania\ROSARY.png
+36 Castlevania\map31.png
+37 Castlevania\map32.png
+38 Castlevania\map33.png
+39 Castlevania\map34.png
+40 Castlevania\map35.png

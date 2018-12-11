@@ -199,6 +199,11 @@
 #define MAX_WIDTH_LV2_1					4096
 #define MAX_WIDTH_LV2_2					1024
 #define MAX_WIDTH_BOSS					5650
+#define MAX_WIDTH_LV3_5					3072
+#define MAX_WIDTH_LV3_4					1536
+#define MAX_WIDTH_LV3_3					1536
+#define MAX_WIDTH_LV3_2					544
+#define MAX_WIDTH_LV3_1					506
 #define MAX_FRAME_RATE					120
 
 //texture
@@ -243,6 +248,12 @@
 #define ID_TEX_WHIP_VIP					33
 #define ID_TEX_MONEY					34
 #define ID_TEX_ROSARY					35
+
+#define ID_TEX_TILESET31				36
+#define ID_TEX_TILESET32				37
+#define ID_TEX_TILESET33				38
+#define ID_TEX_TILESET34				39
+#define ID_TEX_TILESET35				40
 
 #define BRICK_BBOX_WIDTH				32
 #define BRICK_BBOX_HEIGHT				32

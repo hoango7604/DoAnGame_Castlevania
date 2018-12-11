@@ -40,6 +40,7 @@ void CTextures::Add( LPCSTR fileSource, D3DCOLOR transparentColor)
 		stringstream ss;
 		ss.str(lineString);
 		ss >> id >>lineString1;
+
 		int len;
 		int slength = (int)lineString1.length() + 1;
 		len = MultiByteToWideChar(CP_ACP, 0, lineString1.c_str(), slength, 0, 0);
