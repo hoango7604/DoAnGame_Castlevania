@@ -202,45 +202,47 @@
 #define MAX_FRAME_RATE					120
 
 //texture
-#define ID_TEX_SIMON					0
-#define ID_TEX_LV1						10
-#define ID_TEX_LV1_2					15
-#define ID_TEX_BRICK					20
-#define ID_TEX_SIMON_2					30
-#define ID_TEX_PANTHER					25
-#define ID_TEX_PANTHER_RIGHT			26
-#define ID_TEX_ZOMBIE					35
-#define ID_TEX_ZOMBIE_RIGHT				36
-#define ID_TEX_FIRE						40
-#define ID_TEX_CANDLE					45
-#define ID_TEX_WHIP						50
-#define ID_TEX_WHIP_2					55
-#define ID_TEX_TILESET					60
-#define ID_TEX_TILESET_2				61
-#define ID_TEX_TILESET_3				62
-#define ID_TEX_BRICK2					65
-#define ID_TEX_LADDER					70
-#define ID_TEX_LADDER_LEFT				75
-#define ID_TEX_STAIR_BOT				80
-#define ID_TEX_STAIR_TOP				85
-#define ID_TEX_MERMAN_RIGHT				90
-#define ID_TEX_MERMAN_LEFT				95
-#define ID_TEX_BAT                      100 
-#define ID_TEX_HEART					105
-#define ID_TEX_BOSS						110
+#define ID_TEX_SIMON					1
+#define ID_TEX_SIMON_2					2
+#define ID_TEX_BRICK					3
+#define ID_TEX_BRICK2					4
+#define ID_TEX_ZOMBIE					5
+#define ID_TEX_ZOMBIE_RIGHT				6
+#define ID_TEX_PANTHER					7
+#define ID_TEX_PANTHER_RIGHT			8
+#define ID_TEX_FIRE						9
+#define ID_TEX_CANDLE					10
+#define ID_TEX_WHIP						11
+#define ID_TEX_WHIP_2					12
+#define ID_TEX_TILESET					13
+#define ID_TEX_TILESET_2				14
+#define ID_TEX_TILESET_3				15
+#define ID_TEX_LADDER					16
+#define ID_TEX_LADDER_LEFT				17
+#define ID_TEX_BBOX						18
+#define ID_TEX_STAIR_BOT				19
+#define ID_TEX_STAIR_TOP				20
 
-#define ID_TEX_AXE_ACTION				111
-#define ID_TEX_HOLY_WATER				1112
-#define ID_TEX_HOLY_WATER_ACTION		112
-#define ID_TEX_CROSS_ACTION				113
-#define ID_TEX_KNIFE_ACTION				114
-#define ID_TEX_UI						115
-#define ID_TEX_ROSARY					116
+#define ID_TEX_MERMAN_RIGHT				21
+#define ID_TEX_MERMAN_LEFT				22
+#define ID_TEX_BAT                      23
+#define ID_TEX_BOSS						24
 
-#define ID_TEX_EFFECT1					180
-#define ID_TEX_EFFECT2					185
-#define ID_TEX_WHIP_VIP					190
-#define ID_TEX_MONEY					195
+
+
+#define ID_TEX_AXE_ACTION				25
+#define ID_TEX_HOLY_WATER				26
+#define ID_TEX_HOLY_WATER_ACTION		27
+#define ID_TEX_CROSS_ACTION				28
+#define ID_TEX_KNIFE_ACTION				29
+#define ID_TEX_UI						30
+
+
+#define ID_TEX_EFFECT1					31
+#define ID_TEX_EFFECT2					32
+#define ID_TEX_WHIP_VIP					33
+#define ID_TEX_MONEY					34
+#define ID_TEX_ROSARY					35
 
 #define BRICK_BBOX_WIDTH				32
 #define BRICK_BBOX_HEIGHT				32
