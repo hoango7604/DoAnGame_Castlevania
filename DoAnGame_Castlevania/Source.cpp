@@ -914,18 +914,22 @@ void LoadResourceLv3_5()
 		listGrids->AddObject(ground);
 	}
 }
+
 void LoadResourceLv3_4()
 {
 
 }
+
 void LoadResourceLv3_3()
 {
 
 }
+
 void LoadResourceLv3_2()
 {
 
 }
+
 void LoadResourceLv3_1()
 {
 
@@ -1641,8 +1645,6 @@ void LoadResources()
 
 	// Load map lv1 ra trước
 	LoadResourceLv1();
-
-
 }
 
 void Update(DWORD dt)
@@ -2057,8 +2059,8 @@ void Update(DWORD dt)
 					{
 						/*item->AddAnimation(ITEM_HEART);
 						item->SetType(ITEM_HEART);*/
-						item->AddAnimation(ITEM_CROSS);
-						item->SetType(ITEM_CROSS);
+						item->AddAnimation(ITEM_ROSARY);
+						item->SetType(ITEM_ROSARY);
 					}
 					// Money
 					else if (random_portion >= 90 && random_portion < 94)
