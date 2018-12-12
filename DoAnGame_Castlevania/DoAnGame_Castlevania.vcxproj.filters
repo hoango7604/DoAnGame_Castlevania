@@ -150,6 +150,12 @@
     <ClInclude Include="Cross.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Knife.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BigFire.cpp">
@@ -240,6 +246,12 @@
       <Filter>Source Files\Weapons</Filter>
     </ClCompile>
     <ClCompile Include="Cross.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Knife.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

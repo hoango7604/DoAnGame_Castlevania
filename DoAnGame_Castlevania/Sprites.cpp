@@ -26,10 +26,25 @@ void CSprite::Draw(float x, float y, int alpha)
 	game->Draw(x, y, texture, left, top, right, bottom, alpha);
 }
 
-void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+void CSprites::Add(LPCSTR fileSource, LPDIRECT3DTEXTURE9 tex)
 {
-	LPSPRITE s = new CSprite(id, left, top, right, bottom, tex);
-	sprites[id] = s;
+	fstream pFile;
+	pFile.open(fileSource, fstream::in);
+	string lineString;
+	int *posSpace = NULL;
+	string subString;
+	int id, left, top, bottom, right;
+
+	while (pFile.good())
+	{
+		getline(pFile, lineString);
+		stringstream ss;
+		ss.str(lineString);
+		ss >> id >> left >> top >> right >> bottom;
+		LPSPRITE s = new CSprite(id, left, top, right, bottom, tex);
+		sprites[id] = s;
+
+	}
 }
 
 LPSPRITE CSprites::Get(int id)
