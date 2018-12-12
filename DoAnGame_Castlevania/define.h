@@ -97,7 +97,7 @@
 
 // Axe
 #define AXE_BBOX_WIDTH					32
-#define AXE_BBOX_HEIGHT					32
+#define AXE_BBOX_HEIGHT					20
 
 #define AXE_SPEED_X						0.3f
 #define AXE_SPEED_Y						0.4f
@@ -110,8 +110,10 @@
 #define HOLYWATER_SPEED_Y				0.25f
 
 // Cross
-#define CROSS_BBOX_WIDTH				32
-#define CROSS_BBOX_HEIGHT				32
+#define CROSS_BBOX_WIDTH				16
+#define CROSS_BBOX_HEIGHT				16
+
+#define CROSS_SPEED						0.5f
 
 // Rosary
 #define ROSARY_BBOX_WIDTH				32

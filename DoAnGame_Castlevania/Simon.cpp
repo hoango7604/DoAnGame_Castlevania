@@ -1,7 +1,6 @@
 ﻿#include "Simon.h"
-
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#include "Weapon.h"
+#include "Cross.h"
 
 int Simon::score = 0;
 int Simon::heartsAmount = 5;
@@ -23,7 +22,8 @@ void Simon::CalcPotentialCollisions(
 		if (!dynamic_cast<Candle *>(coObjects->at(i)) &&
 			!dynamic_cast<BigFire *>(coObjects->at(i)) &&
 			!dynamic_cast<Stair *>(coObjects->at(i)) &&
-			!dynamic_cast<CheckStair *>(coObjects->at(i)))
+			!dynamic_cast<CheckStair *>(coObjects->at(i)) &&
+			!dynamic_cast<Weapon *>(coObjects->at(i)))
 		{
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
@@ -407,6 +407,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				Item *item = dynamic_cast<Item *>(e->obj);
 				item->SetEaten();
+
+				if (e->ny > 0)
+					dy = 0;
+				else
+					willBlock = true;
 
 				int type = item->GetType();
 				switch (type)

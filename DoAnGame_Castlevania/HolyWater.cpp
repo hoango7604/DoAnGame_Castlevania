@@ -1,4 +1,52 @@
-#include "HolyWater.h"
+﻿#include "HolyWater.h"
+
+void HolyWater::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOLLISIONEVENT>& coEvents)
+{
+	float ml, mr, mt, mb;
+
+	this->GetBoundingBox(ml, mt, mr, mb);
+
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (!dynamic_cast<Candle *>(coObjects->at(i)) &&
+			!dynamic_cast<BigFire *>(coObjects->at(i)) &&
+			!dynamic_cast<Stair *>(coObjects->at(i)) &&
+			!dynamic_cast<CheckStair *>(coObjects->at(i)) &&
+			!dynamic_cast<Weapon *>(coObjects->at(i)) &&
+			!dynamic_cast<Item *>(coObjects->at(i)))
+		{
+			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
+
+			float sl, sr, st, sb;
+
+			coObjects->at(i)->GetBoundingBox(sl, st, sr, sb);
+
+			// Xét các vật thể đi vào vùng lửa thánh
+			if (ml < sr && mr > sl)
+			{
+				if (dynamic_cast<Zombie *>(e->obj) && isBurn)
+				{
+					Zombie *zombie = dynamic_cast<Zombie *>(e->obj);
+					zombie->SetState(ZOMBIE_STATE_DIE);
+					isBurn = true;
+				}
+				else if (dynamic_cast<Panther *>(e->obj) && isBurn)
+				{
+					Panther *panther = dynamic_cast<Panther *>(e->obj);
+					panther->isDie = true;
+					isBurn = true;
+				}
+			}
+
+			if (e->t > 0 && e->t <= 1.0f)
+				coEvents.push_back(e);
+			else
+				delete e;
+		}
+	}
+
+	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
+}
 
 void HolyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -32,12 +80,12 @@ void HolyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		CalcPotentialCollisions(coObjects, coEvents);
 
-		// Gravity
-		vy += SIMON_GRAVITY * dt;
-
 		// No collision occured, proceed normally
 		if (coEvents.size() == 0)
 		{
+			// Gravity
+			vy += SIMON_GRAVITY * dt;
+
 			x += dx;
 			y += dy;
 		}
@@ -53,19 +101,7 @@ void HolyWater::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
 
-				if (dynamic_cast<Zombie *>(e->obj))
-				{
-					Zombie *zombie = dynamic_cast<Zombie *>(e->obj);
-					zombie->SetState(ZOMBIE_STATE_DIE);
-					isBurn = true;
-				}
-				else if (dynamic_cast<Panther *>(e->obj))
-				{
-					Panther *panther = dynamic_cast<Panther *>(e->obj);
-					panther->isDie = true;
-					isBurn = true;
-				}
-				else if (dynamic_cast<Ground *>(e->obj))
+				if (dynamic_cast<Ground *>(e->obj))
 				{
 					if (e->ny < 0)
 					{

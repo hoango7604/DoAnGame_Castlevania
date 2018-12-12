@@ -12,6 +12,7 @@
 #include "Knife.h"
 #include "Axe.h"
 #include "HolyWater.h"
+#include "Cross.h"
 
 #include "Simon.h"
 #include "Ground.h"
@@ -139,6 +140,24 @@ void GenerateWeapon()
 
 		weapon->AddAnimation(WEAPON_ANI_HOLYWATER);
 		weapon->AddAnimation(WEAPON_ANI_HOLYWATER_FIRE);
+		weapon->SetPosition(simon->x, simon->y);
+		weapon->firstCast = GetTickCount();
+		listGrids->AddObject(weapon);
+		break;
+
+	case ITEM_CROSS:
+		weapon = new Cross(simon, SCREEN_WIDTH / 2);
+
+		if (nx > 0)
+		{
+			weapon->SetSpeed(CROSS_SPEED, 0);
+		}
+		else if (nx < 0)
+		{
+			weapon->SetSpeed(-CROSS_SPEED, 0);
+		}
+
+		weapon->AddAnimation(WEAPON_ANI_CROSS);
 		weapon->SetPosition(simon->x, simon->y);
 		weapon->firstCast = GetTickCount();
 		listGrids->AddObject(weapon);
@@ -1539,31 +1558,6 @@ void Update(DWORD dt)
 
 	if (lv1 == true)
 	{
-		Item *bonus = NULL;
-		// Chưa chỉnh lại theo grid
-		// Thưởng bonus vòng 1
-		/*if (simon->isBonus)
-		{
-			bonus = new Item();
-			bonus->SetPosition(1367, 407);
-			bonus->AddAnimation(ITEM_MONEY);
-			bonus->SetType(ITEM_MONEY);
-			simon->isBonus = false;
-		}
-
-		if (bonus != NULL)
-		{
-			if (bonus->y > 370)
-			{
-				bonus->y -= SIMON_CLIMBING_SPEED_Y * dt;
-				bonus->Render();
-			}
-			else
-			{
-				objects.push_back(bonus);
-			}
-		}*/
-
 		// Lên cấp
 		if (simon->isLevelUp) {
 			isEnableKeyBoard = false;
@@ -1593,7 +1587,7 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV2);
 			LoadResourceLv2();
 			countLoadResourceLv2 = true;
-			simon->SetPosition(3000, 155);
+			simon->SetPosition(30, 350);
 			simon->GetPosition(x, y);
 			timer = GetTickCount();
 		}
@@ -1799,6 +1793,22 @@ void Update(DWORD dt)
 
 			if (zombie->GetState() == ZOMBIE_STATE_DIE)
 			{
+				float object_x, object_y, object_right, object_bottom;
+				zombie->GetBoundingBox(object_x, object_y, object_right, object_bottom);
+
+				// Thêm hiệu ứng tóe lửa
+				whipEffect = new Effect(GetTickCount());
+				whipEffect->AddAnimation(806);
+				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
+				objects.push_back(whipEffect);
+				listGrids->AddObject(whipEffect);
+
+				whipEffect = new Effect(GetTickCount());
+				whipEffect->AddAnimation(807);
+				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
+				objects.push_back(whipEffect);
+				listGrids->AddObject(whipEffect);
+
 				listRemoveObjects.push_back(zombie);
 			}
 		}
@@ -1808,6 +1818,22 @@ void Update(DWORD dt)
 
 			if (panther->isDie)
 			{
+				float object_x, object_y, object_right, object_bottom;
+				panther->GetBoundingBox(object_x, object_y, object_right, object_bottom);
+
+				// Thêm hiệu ứng tóe lửa
+				whipEffect = new Effect(GetTickCount());
+				whipEffect->AddAnimation(806);
+				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
+				objects.push_back(whipEffect);
+				listGrids->AddObject(whipEffect);
+
+				whipEffect = new Effect(GetTickCount());
+				whipEffect->AddAnimation(807);
+				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
+				objects.push_back(whipEffect);
+				listGrids->AddObject(whipEffect);
+
 				listRemoveObjects.push_back(panther);
 			}
 		}
@@ -1872,8 +1898,8 @@ void Update(DWORD dt)
 					{
 						/*item->AddAnimation(ITEM_HEART);
 						item->SetType(ITEM_HEART);*/
-						item->AddAnimation(ITEM_HOLYWATER);
-						item->SetType(ITEM_HOLYWATER);
+						item->AddAnimation(ITEM_CROSS);
+						item->SetType(ITEM_CROSS);
 					}
 					// Money
 					else if (random_portion >= 90 && random_portion < 94)

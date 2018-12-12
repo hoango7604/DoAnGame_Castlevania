@@ -21,6 +21,12 @@ void Axe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isExposed = true;
 		}
 
+		// Outtime
+		if (GetTickCount() - firstCast > ITEM_LIVE_TIME / 2)
+		{
+			isExposed = true;
+		}
+
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -51,30 +57,21 @@ void Axe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					Zombie *zombie = dynamic_cast<Zombie *>(e->obj);
 					zombie->SetState(ZOMBIE_STATE_DIE);
-					this->isExposed = true;
 				}
 				else if (dynamic_cast<BigFire *>(e->obj))
 				{
 					BigFire *bigfire = dynamic_cast<BigFire *>(e->obj);
 					bigfire->isHitted = true;
-					this->isExposed = true;
 				}
 				else if (dynamic_cast<Candle *>(e->obj))
 				{
 					Candle *candle = dynamic_cast<Candle *>(e->obj);
 					candle->isHitted = true;
-					this->isExposed = true;
 				}
 				else if (dynamic_cast<Panther *>(e->obj))
 				{
 					Panther *panther = dynamic_cast<Panther *>(e->obj);
 					panther->isDie = true;
-					this->isExposed = true;
-				}
-				else if (dynamic_cast<Ground *>(e->obj))
-				{
-					if (e->ny < 0)
-						this->isExposed = true;
 				}
 			}
 		}

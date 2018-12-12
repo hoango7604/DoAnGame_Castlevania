@@ -11,3 +11,6 @@
 *.log
 *.idb
 *.enc
+*.obj
+*.obj
+DoAnGame_Castlevania/x64/Debug/BigFire.obj

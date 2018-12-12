@@ -3,6 +3,8 @@
 #include "BigFire.h"
 #include "Candle.h"
 #include "Panther.h"
+#include "Stair.h"
+#include "CheckStair.h"
 #include "Simon.h"
 
 class Weapon : public CGameObject

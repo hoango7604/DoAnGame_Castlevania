@@ -134,6 +134,7 @@
     <ClInclude Include="Candle.h" />
     <ClInclude Include="CheckPoint.h" />
     <ClInclude Include="CheckStair.h" />
+    <ClInclude Include="Cross.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Effect.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Candle.cpp" />
     <ClCompile Include="CheckPoint.cpp" />
     <ClCompile Include="CheckStair.cpp" />
+    <ClCompile Include="Cross.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="define.cpp" />
     <ClCompile Include="Effect.cpp" />

@@ -147,6 +147,9 @@
     <ClInclude Include="HolyWater.h">
       <Filter>Header Files\Weapons</Filter>
     </ClInclude>
+    <ClInclude Include="Cross.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BigFire.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="HolyWater.cpp">
       <Filter>Source Files\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Cross.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

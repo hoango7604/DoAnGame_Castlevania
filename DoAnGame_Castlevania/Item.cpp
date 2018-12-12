@@ -1,4 +1,29 @@
 #include "Item.h"
+#include "Weapon.h"
+
+void Item::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOLLISIONEVENT>& coEvents)
+{
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (!dynamic_cast<Candle *>(coObjects->at(i)) &&
+			!dynamic_cast<BigFire *>(coObjects->at(i)) &&
+			!dynamic_cast<Stair *>(coObjects->at(i)) &&
+			!dynamic_cast<CheckStair *>(coObjects->at(i)) &&
+			!dynamic_cast<Zombie *>(coObjects->at(i)) &&
+			!dynamic_cast<Panther *>(coObjects->at(i)) &&
+			!dynamic_cast<Weapon *>(coObjects->at(i)))
+		{
+			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
+
+			if (e->t > 0 && e->t <= 1.0f)
+				coEvents.push_back(e);
+			else
+				delete e;
+		}
+	}
+
+	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
+}
 
 void Item::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
