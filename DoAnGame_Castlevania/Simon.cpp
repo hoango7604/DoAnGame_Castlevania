@@ -461,9 +461,9 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				case ITEM_MONEY:
 					IncScore(1000);
 					break;
-				case ITEM_ROSARY:
+				/*case ITEM_ROSARY:
 					d3ddv->ColorFill(bb, NULL, (255, 0, 0));
-					break;
+					break;*/
 				}
 			}
 		}

@@ -1513,7 +1513,7 @@ void LoadResources()
 	animations->Add(4331, ani);
 	
 	ani = new CAnimation(150); // rosary item
-	ani->Add(40025);
+	ani->Add(10090);
 	animations->Add(4434, ani);
 	
 	ani = new CAnimation(150); // clock item
@@ -1658,7 +1658,7 @@ void LoadResources()
 	ani = new CAnimation(0);// thưởng rớt ra sau khi boss dơi chết
 	ani->Add(40029);
 	ani->Add(40030);
-	animations->Add(812, ani);
+	animations->Add(813, ani);
 
 	#pragma endregion
 
