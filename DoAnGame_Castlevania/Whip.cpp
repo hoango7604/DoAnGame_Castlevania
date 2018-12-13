@@ -24,6 +24,18 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				Simon::score += 100;
 			}
 		}
+		if (dynamic_cast<MerMan *>(coObjects->at(i)))
+		{
+			MerMan *merman = dynamic_cast<MerMan *>(coObjects->at(i));
+
+			float zl, zr, zt, zb;
+			merman->GetBoundingBox(zl, zt, zr, zb);
+			if (wl < zl && wr > zr && wt > zt && wb < zb)
+			{
+				merman->SetState(MERMAN_STATE_DIE);
+				Simon::score += 100;
+			}
+		}
 		else if (dynamic_cast<BigFire *>(coObjects->at(i)))
 		{
 			BigFire *bigfire = dynamic_cast<BigFire *>(coObjects->at(i));

@@ -162,6 +162,21 @@
 #define PANTHER_ANI_RUN_LEFT			1
 #define PANTHER_ANI_RUN_RIGHT			2
 #define PANTHER_ANI_JUMP				3
+//MerMan
+#define MERMAN_BBOX_WIDTH				32
+#define MERMAN_BBOX_HEIGHT				64
+ 
+#define MERMAN_STATE_JUMP				5
+#define MERMAN_STATE_WALK				10
+#define MERMAN_STATE_HIT				15
+#define MERMAN_STATE_DIE				20
+
+#define MERMAN_ANI_JUMP					0
+#define MERMAN_ANI_WALK_LEFT			1
+#define MERMAN_ANI_HIT_LEFT				2
+#define MERMAN_ANI_WALK_RIGHT			3
+#define MERMAN_ANI_HIT_RIGHT			4
+#define MERMAN_ANI_DIE					5
 
 //BossBat
 #define BOSSBAT_BBOX_WIDTH				100	
@@ -200,6 +215,8 @@
 #define MAIN_WINDOW_TITLE L"Castlevania"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
+#define ROSARY_COLOR D3DCOLOR_XRGB(131, 135, 142)
+
 #define SCREEN_WIDTH					640
 #define SCREEN_HEIGHT					580
 #define MAX_WIDTH_LV1					1536
@@ -236,8 +253,8 @@
 #define ID_TEX_STAIR_BOT				19
 #define ID_TEX_STAIR_TOP				20
 
-#define ID_TEX_MERMAN_RIGHT				21
-#define ID_TEX_MERMAN_LEFT				22
+#define ID_TEX_MERMAN_LEFT				21
+#define ID_TEX_MERMAN_RIGHT				22
 #define ID_TEX_BAT                      23
 #define ID_TEX_BOSS						24
 
@@ -262,6 +279,7 @@
 #define ID_TEX_TILESET33				38
 #define ID_TEX_TILESET34				39
 #define ID_TEX_TILESET35				40
+#define ID_TEX_BOSSES					41
 
 #define BRICK_BBOX_WIDTH				32
 #define BRICK_BBOX_HEIGHT				32
