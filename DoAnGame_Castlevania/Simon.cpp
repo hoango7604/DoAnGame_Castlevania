@@ -221,8 +221,10 @@ void Simon::CalcPotentialCollisions(
 	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
 }
 
-void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	LPDIRECT3DDEVICE9 d3ddv = CGame::GetInstance()->GetDirect3DDevice();
+	LPDIRECT3DSURFACE9 bb = CGame::GetInstance()->GetBackBuffer();
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
@@ -284,18 +286,37 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	// Handle Simon go over screen camera
-	float leftCorner = CGame::GetInstance()->x_cam;
-	float rightCorner = leftCorner + SCREEN_WIDTH - SIMON_STAND_BBOX_WIDTH;
-	// Left corner
-	if (x < leftCorner)
+	
+	if (lv == 1 || lv == 22 || lv == 2)
 	{
-		x = leftCorner;
+		if (x < 0)
+			x = 0;
+		if (lv == 2 && x> MAX_WIDTH_LV2 -2*SIMON_STAND_BBOX_WIDTH)
+		{
+			x = MAX_WIDTH_LV2 - 2*SIMON_STAND_BBOX_WIDTH;
+		}
+		
+		else if (lv == 22 && x > MAX_WIDTH_LV2_2 - SIMON_STAND_BBOX_WIDTH)
+		{
+			x = MAX_WIDTH_LV2_2 - SIMON_STAND_BBOX_WIDTH;
+		}
 	}
-	// Right corner
-	else if (x > rightCorner)
+	else if (lv == 21)
 	{
-		x = rightCorner;
+		if (x < MAX_WIDTH_LV2 && CGame::GetInstance()->x_cam == MAX_WIDTH_LV2)
+			x = MAX_WIDTH_LV2;
+		if (x > MAX_WIDTH_LV2_1 - SIMON_STAND_BBOX_WIDTH && CGame::GetInstance()->x_cam == MAX_WIDTH_LV2_1 - SCREEN_WIDTH)
+			x = MAX_WIDTH_LV2_1 - SIMON_STAND_BBOX_WIDTH;
 	}
+	else if (lv == 99)
+	{
+		if (x < MAX_WIDTH_LV2_1 && CGame::GetInstance()->x_cam == MAX_WIDTH_LV2_1)
+			x = MAX_WIDTH_LV2_1;
+		if (x > MAX_WIDTH_BOSS - SIMON_STAND_BBOX_WIDTH)
+			x = MAX_WIDTH_BOSS - SIMON_STAND_BBOX_WIDTH;
+	}
+	
+	
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -439,6 +460,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					break;
 				case ITEM_MONEY:
 					IncScore(1000);
+					break;
+				case ITEM_ROSARY:
+					d3ddv->ColorFill(bb, NULL, (255, 0, 0));
 					break;
 				}
 			}

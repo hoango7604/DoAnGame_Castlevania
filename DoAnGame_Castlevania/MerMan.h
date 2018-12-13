@@ -1,8 +1,19 @@
 #pragma once
-class MerMan
+#include "GameObject.h"
+#include "Game.h"
+#include "Ground.h"
+
+class MerMan : public CGameObject
 {
+
 public:
-	MerMan();
-	~MerMan();
+	
+	bool isonGround;
+	
+
+	virtual void SetState(int state);
+	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	virtual void Render();
 };
 

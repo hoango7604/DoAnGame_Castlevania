@@ -4,7 +4,7 @@
 #include <vector>
 #include "GameObject.h"
 #include "Sprites.h"
-
+#include "MerMan.h"
 
 class Whip :public CGameObject
 {

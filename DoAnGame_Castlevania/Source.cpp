@@ -43,17 +43,7 @@ Weapon *weapon;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
-
-bool lv1 = true;
-bool lv2 = false;
-bool lv2_1 = false;
-bool lv2_2 = false;
-bool boss = false;
-bool lv3_1 = false;
-bool lv3_2 = false;
-bool lv3_3 = false;
-bool lv3_4 = false;
-bool lv3_5 = false;
+int lv = 1;
 
 // check scene lv2->lv2_1
 bool checkScene = false;
@@ -61,24 +51,27 @@ bool check1 = false;
 bool check = false;
 //check lv2->lv2_2
 bool temp = false;
+
 //check scene lv2_1 ->boss
 bool checkScene1 = false;
 bool check3 = false;
-bool countLoadResourceLv2 = false;
-bool countLoadResourceLv2_1 = false;
-bool countLoadResourceLv2_2 = false;
+
+bool countLoadResource2 = false;
+bool countLoadResource2_1 = false ;
+bool countLoadResource2_2 = false;
 bool countLoadResourceboss = false;
 
-bool countLoadResourceLv3_5 = false;
-bool countLoadResourceLv3_4 = false;
-bool countLoadResourceLv3_3 = false;
-bool countLoadResourceLv3_2 = false;
-bool countLoadResourceLv3_1 = false;
+bool countLoadResource3_5 = false;
+bool countLoadResource3_4 = false;
+bool countLoadResource3_3 = false;
+bool countLoadResource3_2 = false;
+bool countLoadResource3_1 = false;
+
 
 bool isEnableKeyBoard = true;
 
-DWORD timer; // load enemy lv2
-DWORD timer2;//load enemy boss
+DWORD timer; // load enemy
+
 DWORD gameTime = 999000;
 
 CSprites * sprites = CSprites::GetInstance();
@@ -361,7 +354,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void LoadResourceLv1()
 {
 	// Đặt vị trí xuất phát cho simon
-	simon->SetPosition(1500, 327); // 100 327
+	simon->SetPosition(1400, 327); // 100 327
 
 	// Khởi tạo listGrids
 	listGrids->InitList(MAX_WIDTH_LV1);
@@ -694,6 +687,18 @@ void LoadResourceLv2_1()
 		ground->SetPosition(2782 + 32 * 35 + 3 + i * 32.0f, 246);
 		listGrids->AddObject(ground);
 	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(3585 +  i * 32.0f, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(3585 , 312 + i * 32.0f);
+		listGrids->AddObject(ground);
+	}
 
 	CheckStair *checkstair = new CheckStair();
 	checkstair = new CheckStair();
@@ -830,6 +835,13 @@ void LoadResourceLv2_2()
 		ground->SetPosition(2782 + 32 * 9 + i * 32.0f, 440);
 		listGrids->AddObject(ground);
 	}
+	for (int i = 0; i < 8; i++)
+	{
+		Candle *candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(64 +128*i , 156);
+		listGrids->AddObject(candle);
+	}
 }
 
 void LoadResourceboss()
@@ -896,6 +908,18 @@ void LoadResourceboss()
 		candle->SetPosition(5438 + i * 127, 310);
 		listGrids->AddObject(candle);
 	}
+	CheckStair *checkstair;
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(4286, 156);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(4346, 279);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
 
 	BossBat *bossbat = new BossBat();
 	bossbat->AddAnimation(609);
@@ -1264,6 +1288,9 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMisc13 = textures->Get(ID_TEX_ROSARY);
 	sprites->Add("Castlevania\\filetxt\\spr_rosary.txt", texMisc13);
+
+	LPDIRECT3DTEXTURE9 texMisc14 = textures->Get(ID_TEX_BOSSES);
+	sprites->Add("Castlevania\\filetxt\\spr_bosses.txt", texMisc14);
 #pragma endregion
 
 
@@ -1499,7 +1526,7 @@ void LoadResources()
 
 #pragma endregion
 
-#pragma region ObjectAnimation
+	#pragma region ObjectAnimation
 
 	ani = new CAnimation(100);	//đất1
 	ani->Add(20001);
@@ -1548,6 +1575,28 @@ void LoadResources()
 	ani->Add(30024);
 	animations->Add(610, ani);
 
+	ani = new CAnimation(100); //merman bay
+	ani->Add(30030);	
+	animations->Add(611, ani);
+
+	ani = new CAnimation(100); //merman đi trái
+	ani->Add(30026);
+	ani->Add(30027);
+	animations->Add(612, ani);
+
+	ani = new CAnimation(100); //merman đánh trái
+	ani->Add(30025);
+	animations->Add(613, ani);
+
+	ani = new CAnimation(100); //merman đi phải
+	ani->Add(30029);
+	ani->Add(30030);
+	animations->Add(614, ani);
+
+	ani = new CAnimation(100); //merman đánh phải
+	ani->Add(30028);
+	animations->Add(615, ani);
+
 	ani = new CAnimation(100); //fire
 	ani->Add(40011);
 	ani->Add(40012);
@@ -1595,6 +1644,21 @@ void LoadResources()
 	ani = new CAnimation(0); //money
 	ani->Add(40024);
 	animations->Add(810, ani);
+
+	ani = new CAnimation(50);//boss dơi chết
+	ani->Add(40025);
+	ani->Add(40026);
+	ani->Add(40027);
+	animations->Add(811, ani);
+
+	ani = new CAnimation(0);// đạn từ dracula, dơi, người cá
+	ani->Add(40028);
+	animations->Add(812, ani);
+
+	ani = new CAnimation(0);// thưởng rớt ra sau khi boss dơi chết
+	ani->Add(40029);
+	ani->Add(40030);
+	animations->Add(812, ani);
 
 	#pragma endregion
 
@@ -1645,6 +1709,7 @@ void LoadResources()
 
 	// Load map lv1 ra trước
 	LoadResourceLv1();
+	
 }
 
 void Update(DWORD dt)
@@ -1660,7 +1725,7 @@ void Update(DWORD dt)
 	if (!simon->isLevelUp)
 		gameTime -= dt;
 
-	if (lv1 == true)
+	if (lv == 1)
 	{
 		// Lên cấp
 		if (simon->isLevelUp) {
@@ -1673,8 +1738,8 @@ void Update(DWORD dt)
 			{
 				listGrids->ReleaseList();
 
-				lv2 = true;
-				lv1 = false;
+				lv = 2;
+				
 				simon->isLevelUp = false;
 				simon->SetState(SIMON_STATE_IDLE);
 				isEnableKeyBoard = true;
@@ -1682,20 +1747,20 @@ void Update(DWORD dt)
 		}
 	}
 	
-	if (lv2 == true)
+	if (lv == 2)
 	{
 		// Lần đầu load resource lv2
-		if (countLoadResourceLv2 == false)
+		if (countLoadResource2 == false)
 		{
 			game->x_cam = 0;
 			listGrids->InitList(MAX_WIDTH_LV2);
 			LoadResourceLv2();
-			countLoadResourceLv2 = true;
-			simon->SetPosition(30, 350);
+			countLoadResource2 = true;
+			simon->SetPosition(2900, 350);
 			simon->GetPosition(x, y);
 			timer = GetTickCount();
 		}
-		else if (countLoadResourceLv2 == true && x < MAX_WIDTH_LV2 - 2 * SIMON_STAND_BBOX_WIDTH)
+		else if (countLoadResource2 == true && x < MAX_WIDTH_LV2 - 2* SIMON_STAND_BBOX_WIDTH)
 		{
 			// Zombie xuất hiện chưa đúng, cần chỉnh lại (1 lượt 3 con)
 			if (GetTickCount() - timer > 5000)
@@ -1709,51 +1774,50 @@ void Update(DWORD dt)
 				timer = timer + 5000;
 			}
 		}
-		else  //check point
+		else if(x > MAX_WIDTH_LV2 - 2 * SIMON_STAND_BBOX_WIDTH && y<200)  //check point
 		{
 			listGrids->ReleaseList();
 
-			lv2_1 = true;
-			lv2 = false;
+			lv = 21;
+			
+			
 		}
 	}
-	if (lv2_1 == true)
+	if (lv == 21)
 	{
 		// Lần đầu load resource lv2_1
-		if (countLoadResourceLv2_1 == false)
+		if (countLoadResource2_1 == false )
 		{
 			listGrids->InitList(MAX_WIDTH_LV2_1);
 			LoadResourceLv2_1();
-			countLoadResourceLv2_1 = true;
+			countLoadResource2_1 = true;
 		}
 		
-		if (x > MAX_WIDTH_LV2_1 - 2 * SIMON_STAND_BBOX_WIDTH)
+		if (x > MAX_WIDTH_LV2_1 - 2 * SIMON_STAND_BBOX_WIDTH && y <200)
 		{
 			listGrids->ReleaseList();
-
-			lv2_1 = false;			
-			boss = true;
+			lv = 99;						
 		}
-		if (y > 430)
+		if (y > 420)
 		{
-			lv2_1 = false;
-			lv2_2 = true;
+			lv = 22;
 			temp = true;
+			
 		}
 	}
-	if (lv2_2 == true)
+	if (lv == 22)
 	{
-		if (countLoadResourceLv2_2 == false)
+		if (countLoadResource2_2 == false)
 		{
 			//game->x_cam = 0;
 			listGrids->InitList(MAX_WIDTH_LV2_2);
 			LoadResourceLv2_2();
-			countLoadResourceLv2_2 = true;			
+			countLoadResource2_2 = true;			
 			simon->SetPosition(150, 120);
 			simon->GetPosition(x, y);
-				
+			timer = GetTickCount();
 		}
-		if (countLoadResourceLv2_2 == true && temp == true)
+		if (countLoadResource2_2 == true && temp == true)
 		{
 			
 			if (x < 3600)
@@ -1769,43 +1833,56 @@ void Update(DWORD dt)
 				simon->SetPosition(778, 120);
 				simon->GetPosition(x, y);
 			}
-			/*game->x_cam = 0;
-			simon->SetPosition(150, 120);
-			simon->GetPosition(x, y);*/
+			
 			temp = false;
 		}
-		if (y < 120)
+		if (countLoadResource2_2 == true)
+		{
+			if (GetTickCount() - timer > 3000)
+			{
+				MerMan *merman = new MerMan();
+				merman->AddAnimation(611);
+				merman->AddAnimation(612);
+				merman->AddAnimation(613);
+				merman->AddAnimation(614);
+				merman->AddAnimation(615);
+				merman->SetPosition(rand() % (MAX_WIDTH_LV2_2  + 1) ,400);
+				merman->SetState(MERMAN_STATE_JUMP);
+				listGrids->AddObject(merman);
+				timer = timer + 3000;
+			}
+		}
+		if ((y < 72 && x<100) || (y<72 &&x >400))
 		{
 			
-			lv2_1 = true;
-			lv2_2 = false;
+			lv = 21;			
 			if (x < 400)
 			{
-				simon->SetPosition(3198, 429);
+				simon->SetPosition(3198, 419);
 				simon->GetPosition(x, y);
 				game->x_cam = MAX_WIDTH_LV2;
 			}
 			else
 			{
-				simon->SetPosition(3835, 429);
+				simon->SetPosition(3835, 419);
 				simon->GetPosition(x, y);
 				game->x_cam = MAX_WIDTH_LV2_1 - SCREEN_WIDTH;
 			}
 		}
 		
 	}
-	if (boss == true)
+	if (lv == 99)
 	{
 		if (countLoadResourceboss == false)
 		{
 			listGrids->InitList(MAX_WIDTH_BOSS);
 			LoadResourceboss();
 			countLoadResourceboss = true;
-			timer2 = GetTickCount();
+			timer = GetTickCount();
 		}
 		else if (countLoadResourceboss == true)
 		{
-			if (GetTickCount() - timer2 > 5000)
+			if (GetTickCount() - timer > 5000)
 			{
 				Zombie *zombie = new Zombie();
 				zombie->AddAnimation(602);
@@ -1813,65 +1890,64 @@ void Update(DWORD dt)
 				zombie->SetPosition(4900, 376);
 				zombie->SetState(ZOMBIE_STATE_WALKING);
 				listGrids->AddObject(zombie);
-				timer2 = timer2 + 5000;
+				timer = timer + 5000;
 			}
 		}
 		
 		//can xu li win boss de chuyen sang dracula
-		if (x > MAX_WIDTH_BOSS)// test map va dat object vao
+		/*if (x > MAX_WIDTH_BOSS)// test map va dat object vao
 		{
-			boss = false;
-			lv3_5 = true;
-		}
+			lv = 35;
+		}*/
 	}
-	if (lv3_5 == true)
+	if (lv == 35)
 	{
-		if (countLoadResourceLv3_5 == false)
+		if (countLoadResource3_5 == false)
 		{
 			listGrids->InitList(MAX_WIDTH_LV3_5);
 			LoadResourceLv3_5();
-			countLoadResourceLv3_5 = true;
+			countLoadResource3_5 = true;
 			
 		}
 	}
-	if (lv3_4 == true)
+	if (lv == 34)
 	{
-		if (countLoadResourceLv3_4 == false)
+		if (countLoadResource3_5 == false)
 		{
-			listGrids->InitList(MAX_WIDTH_LV3_4);
-			LoadResourceLv3_4();
-			countLoadResourceLv3_4 = true;
-			
+			listGrids->InitList(MAX_WIDTH_LV3_5);
+			LoadResourceLv3_5();
+			countLoadResource3_5 = true;
+
 		}
 	}
-	if (lv3_3 == true)
+	if (lv == 33)
 	{
-		if (countLoadResourceLv3_3 == false)
+		if (countLoadResource3_5 == false)
 		{
-			listGrids->InitList(MAX_WIDTH_LV3_3);
-			LoadResourceLv3_3();
-			countLoadResourceLv3_3 = true;
-			
+			listGrids->InitList(MAX_WIDTH_LV3_5);
+			LoadResourceLv3_5();
+			countLoadResource3_5 = true;
+
 		}
 	}
-	if (lv3_2 == true)
+	if (lv == 32)
 	{
-		if (countLoadResourceLv3_2 == false)
+		if (countLoadResource3_5 == false)
 		{
-			listGrids->InitList(MAX_WIDTH_LV3_2);
-			LoadResourceLv3_2();
-			countLoadResourceLv3_2 = true;
-			
+			listGrids->InitList(MAX_WIDTH_LV3_5);
+			LoadResourceLv3_5();
+			countLoadResource3_5 = true;
+
 		}
 	}
-	if (lv3_1 == true)
+	if (lv == 31)
 	{
-		if (countLoadResourceLv3_1 == false)
+		if (countLoadResource3_5 == false)
 		{
-			listGrids->InitList(MAX_WIDTH_LV3_1);
-			LoadResourceLv3_1();
-			countLoadResourceLv3_1 = true;
-			
+			listGrids->InitList(MAX_WIDTH_LV3_5);
+			LoadResourceLv3_5();
+			countLoadResource3_5 = true;
+
 		}
 	}
 #pragma endregion
@@ -1895,7 +1971,7 @@ void Update(DWORD dt)
 		}
 	}
 
-	simon->Update(dt, &objects);
+	simon->Update(lv,dt, &objects);
 
 	for (int i = 0; i < objects.size(); i++)
 	{
@@ -1996,6 +2072,31 @@ void Update(DWORD dt)
 				listGrids->AddObject(whipEffect);
 
 				listRemoveObjects.push_back(panther);
+			}
+		}
+		else if (dynamic_cast<MerMan *>(objects.at(i)))
+		{
+			MerMan *merman = dynamic_cast<MerMan *>(objects.at(i));
+
+			if (merman->GetState() == MERMAN_STATE_DIE)
+			{
+				float object_x, object_y, object_right, object_bottom;
+				merman->GetBoundingBox(object_x, object_y, object_right, object_bottom);
+
+				// Thêm hiệu ứng tóe lửa
+				whipEffect = new Effect(GetTickCount());
+				whipEffect->AddAnimation(806);
+				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
+				objects.push_back(whipEffect);
+				listGrids->AddObject(whipEffect);
+
+				whipEffect = new Effect(GetTickCount());
+				whipEffect->AddAnimation(807);
+				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
+				objects.push_back(whipEffect);
+				listGrids->AddObject(whipEffect);
+
+				listRemoveObjects.push_back(merman);
 			}
 		}
 		else if (dynamic_cast<BigFire *>(objects.at(i)) || dynamic_cast<Candle *>(objects.at(i)))
@@ -2158,7 +2259,7 @@ void Update(DWORD dt)
 #pragma endregion
 
 #pragma region Camera
-	if (lv1 == true)
+	if (lv == 1)
 	{
 		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
 		{
@@ -2176,7 +2277,7 @@ void Update(DWORD dt)
 			
 		}
 	}
-	else if (lv2 == true)
+	else if (lv == 2)
 	{
 		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2)
 		{
@@ -2193,7 +2294,7 @@ void Update(DWORD dt)
 			
 		}
 	}
-	else if (lv2_1 == true)
+	else if (lv == 21)
 	{
 		// chuyen scene
 		if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH/2)
@@ -2246,7 +2347,7 @@ void Update(DWORD dt)
 			}
 		}
 	}
-	else if (lv2_2 == true)
+	else if (lv == 22)
 	{
 		if (x < SCREEN_WIDTH / 2)
 		{
@@ -2260,7 +2361,7 @@ void Update(DWORD dt)
 		else if (x > MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2)
 			game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;
 	}
-	else if (boss == true)
+	else if (lv == 99)
 	{
 		if (game->x_cam < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
 		{
@@ -2306,7 +2407,7 @@ void Update(DWORD dt)
 
 #pragma region UI
 
-	if (lv1 == true)
+	if (lv == 1)
 		ui->Update(gameTime / 1000, 1, simon);
 	else
 		ui->Update(gameTime / 1000, 2, simon);
@@ -2323,7 +2424,7 @@ void Render()
 	if (d3ddv->BeginScene())
 	{
 		// Clear back buffer with a color
-		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
+		d3ddv->ColorFill(bb, NULL, ROSARY_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		CTextures * textures = CTextures::GetInstance();			
@@ -2339,45 +2440,45 @@ void Render()
 		LPDIRECT3DTEXTURE9 tileset34 = textures->Get(ID_TEX_TILESET34);
 		LPDIRECT3DTEXTURE9 tileset35 = textures->Get(ID_TEX_TILESET35);
 		
-		if (lv1 == true)
+		if (lv==1)
 		{
-			/*map = new	Map ( tileset, 32, 32); 
-			map->LoadMatrixMap("Castlevania\\Mapstate.txt");*/
-			map = new	Map(tileset35, 32, 32);
-			map->LoadMatrixMap("Castlevania\\map35_bg.txt");
+			map = new	Map ( tileset, 32, 32); 
+			map->LoadMatrixMap("Castlevania\\Mapstate.txt");
+			/*map = new	Map(tileset35, 32, 32);
+			map->LoadMatrixMap("Castlevania\\map35_bg.txt");*/
 			
 		}
-		else if( lv2 == true || lv2_1 == true) {									
+		else if( lv == 2 || lv == 21) {									
 			map = new	Map (tileset1, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");
 			
 		}
-		else if (lv2_2 == true)
+		else if (lv == 22)
 		{
 			map = new	Map(tileset2, 32, 32);
 			map->LoadMatrixMap("Castlevania\\Mapstate2_1.txt");
 		}
-		else if (lv3_1 == true)
+		else if (lv == 31)
 		{
 			map = new	Map(tileset31, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map31_bg.txt");
 		}
-		else if (lv3_2 == true)
+		else if (lv == 32)
 		{
 			map = new	Map(tileset32, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map32_bg.txt");
 		}
-		else if (lv3_3 == true)
+		else if (lv == 33)
 		{
 			map = new	Map(tileset33, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map33_bg.txt");
 		}
-		else if (lv3_4 == true)
+		else if (lv == 34)
 		{
 			map = new	Map(tileset34, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map34_bg.txt");
 		}
-		else if (lv3_5 == true)
+		else if (lv == 35)
 		{
 			map = new	Map(tileset35, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map35_bg.txt");
@@ -2397,6 +2498,7 @@ void Render()
 
 		simon->Render();
 		ui->Render(game->x_cam, game->y_cam,simon);
+		
 		/*RECT newRect;
 		SetRect(&newRect, 0, 0, 30, 30);
 		D3DXVECTOR3 p(0, 0, 0);
