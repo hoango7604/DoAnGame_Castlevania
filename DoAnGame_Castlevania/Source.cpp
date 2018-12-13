@@ -159,7 +159,7 @@ void GenerateWeapon()
 		break;
 
 	case ITEM_CROSS:
-		weapon = new Cross(simon, SCREEN_WIDTH / 2);
+		weapon = new Cross(simon, 3 * SCREEN_WIDTH / 5);
 
 		if (nx > 0)
 		{
@@ -361,7 +361,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void LoadResourceLv1()
 {
 	// Đặt vị trí xuất phát cho simon
-	simon->SetPosition(100, 327); // 100 327
+	simon->SetPosition(1500, 327); // 100 327
 
 	// Khởi tạo listGrids
 	listGrids->InitList(MAX_WIDTH_LV1);
@@ -634,7 +634,7 @@ void LoadResourceLv2() {
 	panther->AddAnimation(606);
 	panther->AddAnimation(607);
 	panther->AddAnimation(608);
-	panther->SetPosition(1700, 200);
+	panther->SetPosition(1770, 200);
 	panther->SetState(PANTHER_STATE_WAIT);
 	listGrids->AddObject(panther);
 
@@ -1703,7 +1703,7 @@ void Update(DWORD dt)
 				Zombie *zombie = new Zombie();
 				zombie->AddAnimation(602);
 				zombie->AddAnimation(604);
-				zombie->SetPosition(1200, 376);
+				zombie->SetPosition(1200, 350);
 				zombie->SetState(ZOMBIE_STATE_WALKING);
 				listGrids->AddObject(zombie);
 				timer = timer + 5000;

@@ -289,12 +289,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Left corner
 	if (x < leftCorner)
 	{
-		x = 0;
+		x = leftCorner;
 	}
 	// Right corner
 	else if (x > rightCorner)
 	{
-		//x = rightCorner;
+		x = rightCorner;
 	}
 
 	// No collision occured, proceed normally
@@ -379,7 +379,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					willBlock = true;
 
 					// Xét va chạm cứng
-					if (ny != 0) vy = 0;
+					vy = 0;
 				}
 			}
 			else if (dynamic_cast<CheckPoint *>(e->obj))
@@ -456,6 +456,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y += dy;
 		}
 	}
+
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }

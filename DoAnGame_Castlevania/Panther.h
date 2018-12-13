@@ -1,16 +1,14 @@
 #pragma once
-#include "GameObject.h"
-#include "Game.h"
+#include "Enemy.h"
 #include "Ground.h"
 
-class Panther : public CGameObject
+class Panther : public Enemy
 {
 
 public:
 	bool isActivate;
 	bool isUse;
 	bool isJump;
-	bool isDie;
 
 	virtual void SetState(int state);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);

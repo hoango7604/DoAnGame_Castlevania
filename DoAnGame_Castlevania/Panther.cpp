@@ -24,7 +24,7 @@ void Panther::SetState(int state)
 
 void Panther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	CGameObject::Update(dt, coObjects);
+	Enemy::Update(dt, coObjects);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -54,9 +54,7 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (!dynamic_cast<Ground *>(e->obj) && e->ny != 0)
-				y -= ny * 0.4f;
-			else if (dynamic_cast<Ground *>(e->obj))
+			if (dynamic_cast<Ground *>(e->obj))
 			{
 				// Da cham dat
 				// Khong va cham theo phuong ngang
