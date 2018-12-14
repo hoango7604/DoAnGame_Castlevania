@@ -23,7 +23,8 @@ void Simon::CalcPotentialCollisions(
 			!dynamic_cast<BigFire *>(coObjects->at(i)) &&
 			!dynamic_cast<Stair *>(coObjects->at(i)) &&
 			!dynamic_cast<CheckStair *>(coObjects->at(i)) &&
-			!dynamic_cast<Weapon *>(coObjects->at(i)))
+			!dynamic_cast<Weapon *>(coObjects->at(i)) &&
+			!dynamic_cast<Door *>(coObjects->at(i)))
 		{
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
@@ -383,6 +384,7 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				SetState(SIMON_STATE_HURT);
 				willHurt = true;
+				preHP -= 1;
 				StartUntouchable();
 			}
 			else if (dynamic_cast<Ground *>(e->obj) && !willHurt && !isOnStair)

@@ -31,6 +31,7 @@
 #include "CheckPoint.h"
 #include "UI.h"
 #include "BossBat.h"
+#include "Door.h"
 
 CGame *game;
 Simon * simon;
@@ -639,6 +640,8 @@ void LoadResourceLv2() {
 	panther->SetPosition(1950, 260);
 	panther->SetState(PANTHER_STATE_WAIT);
 	listGrids->AddObject(panther);
+
+	
 }
 
 void LoadResourceLv2_1()
@@ -777,6 +780,15 @@ void LoadResourceLv2_1()
 	candle->AddAnimation(800);
 	candle->SetPosition(4035, 192);
 	listGrids->AddObject(candle);
+
+	Door *door = new Door();
+	door->AddAnimation(814);
+	door->AddAnimation(815);
+	door->SetPosition(3056, 168);
+	door->SetState(DOOR_STATE_ACTIVE);
+	listGrids->AddObject(door);
+
+	
 }
 
 void LoadResourceLv2_2()
@@ -842,6 +854,7 @@ void LoadResourceLv2_2()
 		candle->SetPosition(64 +128*i , 156);
 		listGrids->AddObject(candle);
 	}
+	
 }
 
 void LoadResourceboss()
@@ -927,6 +940,13 @@ void LoadResourceboss()
 	bossbat->SetPosition(5325, 125);
 	bossbat->SetState(BOSSBAT_STATE_WAIT);
 	listGrids->AddObject(bossbat);
+
+	Door *door = new Door();
+	door->AddAnimation(814);
+	door->AddAnimation(815);
+	door->SetPosition(4081, 168);
+	door->SetState(DOOR_STATE_ACTIVE);
+	listGrids->AddObject(door);
 }
 
 void LoadResourceLv3_5()
@@ -1291,6 +1311,9 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMisc14 = textures->Get(ID_TEX_BOSSES);
 	sprites->Add("Castlevania\\filetxt\\spr_bosses.txt", texMisc14);
+
+	LPDIRECT3DTEXTURE9 texMisc15 = textures->Get(ID_TEX_GATE);
+	sprites->Add("Castlevania\\filetxt\\spr_door.txt", texMisc15);
 #pragma endregion
 
 
@@ -1655,10 +1678,20 @@ void LoadResources()
 	ani->Add(40028);
 	animations->Add(812, ani);
 
-	ani = new CAnimation(0);// thưởng rớt ra sau khi boss dơi chết
+	ani = new CAnimation(100);// thưởng rớt ra sau khi boss dơi chết
 	ani->Add(40029);
 	ani->Add(40030);
 	animations->Add(813, ani);
+
+	ani = new CAnimation(100);// mở cửa
+	ani->Add(40031);
+	ani->Add(40032);
+	animations->Add(814, ani);
+
+	ani = new CAnimation(100);// đóng cửa
+	ani->Add(40032);
+	ani->Add(40031);
+	animations->Add(815, ani);
 
 	#pragma endregion
 

@@ -252,37 +252,40 @@
 #define ID_TEX_BBOX						18
 #define ID_TEX_STAIR_BOT				19
 #define ID_TEX_STAIR_TOP				20
-
 #define ID_TEX_MERMAN_LEFT				21
 #define ID_TEX_MERMAN_RIGHT				22
 #define ID_TEX_BAT                      23
 #define ID_TEX_BOSS						24
-
-
-
 #define ID_TEX_AXE_ACTION				25
 #define ID_TEX_HOLY_WATER				26
 #define ID_TEX_HOLY_WATER_ACTION		27
 #define ID_TEX_CROSS_ACTION				28
 #define ID_TEX_KNIFE_ACTION				29
 #define ID_TEX_UI						30
-
-
 #define ID_TEX_EFFECT1					31
 #define ID_TEX_EFFECT2					32
 #define ID_TEX_WHIP_VIP					33
 #define ID_TEX_MONEY					34
 #define ID_TEX_ROSARY					35
-
 #define ID_TEX_TILESET31				36
 #define ID_TEX_TILESET32				37
 #define ID_TEX_TILESET33				38
 #define ID_TEX_TILESET34				39
 #define ID_TEX_TILESET35				40
 #define ID_TEX_BOSSES					41
+#define ID_TEX_GATE						42
 
 #define BRICK_BBOX_WIDTH				32
 #define BRICK_BBOX_HEIGHT				32
+
+#define DOOR_BBOX_WIDTH					32
+#define DOOR_BBOX_HEIGHT				96
+
+#define DOOR_STATE_DEACTIVE				0
+#define DOOR_STATE_ACTIVE				1
+
+#define DOOR_ANI_OPEN					0
+#define DOOR_ANI_CLOSE					1
 
 #define EFFECT_TIME						200
 #define LEVELUP_TIME					3000
