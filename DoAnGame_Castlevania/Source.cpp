@@ -782,10 +782,10 @@ void LoadResourceLv2_1()
 	listGrids->AddObject(candle);
 
 	Door *door = new Door();
-	door->AddAnimation(814);
-	door->AddAnimation(815);
-	door->SetPosition(3056, 168);
-	door->SetState(DOOR_STATE_ACTIVE);
+	door->AddAnimation(8814);
+	door->AddAnimation(8815);
+	door->SetPosition(3070, 150);
+	door->SetState(DOOR_STATE_DEACTIVE);
 	listGrids->AddObject(door);
 
 	
@@ -942,10 +942,10 @@ void LoadResourceboss()
 	listGrids->AddObject(bossbat);
 
 	Door *door = new Door();
-	door->AddAnimation(814);
-	door->AddAnimation(815);
-	door->SetPosition(4081, 168);
-	door->SetState(DOOR_STATE_ACTIVE);
+	door->AddAnimation(8814);
+	door->AddAnimation(8815);
+	door->SetPosition(4070, 150);
+	//door->SetState(DOOR_STATE_DEACTIVE);
 	listGrids->AddObject(door);
 }
 
@@ -1312,8 +1312,8 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texMisc14 = textures->Get(ID_TEX_BOSSES);
 	sprites->Add("Castlevania\\filetxt\\spr_bosses.txt", texMisc14);
 
-	LPDIRECT3DTEXTURE9 texMisc15 = textures->Get(ID_TEX_GATE);
-	sprites->Add("Castlevania\\filetxt\\spr_door.txt", texMisc15);
+	LPDIRECT3DTEXTURE9 texMic15 = textures->Get(ID_TEX_GATE);
+	sprites->Add("Castlevania\\filetxt\\spr_door.txt", texMic15);
 #pragma endregion
 
 
@@ -1683,15 +1683,15 @@ void LoadResources()
 	ani->Add(40030);
 	animations->Add(813, ani);
 
-	ani = new CAnimation(100);// mở cửa
+	ani = new CAnimation(1000);// mở cửa
 	ani->Add(40031);
 	ani->Add(40032);
-	animations->Add(814, ani);
+	animations->Add(8814, ani);
 
-	ani = new CAnimation(100);// đóng cửa
+	ani = new CAnimation(1000);// đóng cửa
 	ani->Add(40032);
 	ani->Add(40031);
-	animations->Add(815, ani);
+	animations->Add(8815, ani);
 
 	#pragma endregion
 
@@ -2457,7 +2457,7 @@ void Render()
 	if (d3ddv->BeginScene())
 	{
 		// Clear back buffer with a color
-		d3ddv->ColorFill(bb, NULL, ROSARY_COLOR);
+		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		CTextures * textures = CTextures::GetInstance();			

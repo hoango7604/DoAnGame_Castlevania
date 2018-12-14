@@ -283,6 +283,8 @@
 
 #define DOOR_STATE_DEACTIVE				0
 #define DOOR_STATE_ACTIVE				1
+#define DOOR_STATE_0					2
+
 
 #define DOOR_ANI_OPEN					0
 #define DOOR_ANI_CLOSE					1
