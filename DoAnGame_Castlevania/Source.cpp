@@ -784,8 +784,8 @@ void LoadResourceLv2_1()
 	Door *door = new Door();
 	door->AddAnimation(8814);
 	door->AddAnimation(8815);
-	door->SetPosition(3070, 150);
-	door->SetState(DOOR_STATE_DEACTIVE);
+	door->AddAnimation(8816);
+	door->SetPosition(3070, 150);	
 	listGrids->AddObject(door);
 
 	
@@ -1688,10 +1688,14 @@ void LoadResources()
 	ani->Add(40032);
 	animations->Add(8814, ani);
 
+	ani = new CAnimation(1000);// mở cửa
+	ani->Add(40032);
+	animations->Add(8815, ani);
+
 	ani = new CAnimation(1000);// đóng cửa
 	ani->Add(40032);
 	ani->Add(40031);
-	animations->Add(8815, ani);
+	animations->Add(8816, ani);
 
 	#pragma endregion
 

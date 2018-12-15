@@ -6,6 +6,7 @@
 
 class Door : public CGameObject
 {
+	int check =0;
 	DWORD time;
 public:
 	virtual void SetState(int state);
