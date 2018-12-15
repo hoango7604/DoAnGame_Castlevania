@@ -84,7 +84,7 @@ void Zombie::Render()
 	RenderBoundingBox();
 }
 
-void Zombie::SetState(int state)
+void Zombie::SetState(int state,int i)
 {
 	CGameObject::SetState(state);
 	switch (state)
@@ -95,7 +95,10 @@ void Zombie::SetState(int state)
 		vy = 0;
 		break;
 	case ZOMBIE_STATE_WALKING:
-		vx = -ZOMBIE_WALKING_SPEED;
+		if (i == 0)
+			vx = -ZOMBIE_WALKING_SPEED;
+		else
+			vx = ZOMBIE_WALKING_SPEED;
 	}
 
 }

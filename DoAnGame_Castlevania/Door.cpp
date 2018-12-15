@@ -23,33 +23,27 @@ void Door::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Door::Render()
 {
 	
-	if (state == DOOR_STATE_DEACTIVE)
-	{
+	if (state == DOOR_STATE_ACTIVE)
+	{		
 		
-		animations[3]->Render(x, y);
-		RenderBoundingBox();
-		
-		this->SetState(DOOR_STATE_0);
-	}
-	else if (state == DOOR_STATE_ACTIVE)
-	{
+		animations[0]->Render(x, y);
 		if (check == 0)
 		{
-			animations[0]->Render(x, y);
-			check++;
 			time = GetTickCount();
+			check++;
 		}
-		else if(check!=0)
-			animations[1]->Render(x, y);
-		RenderBoundingBox();
-		
+		if( GetTickCount() - time > 500)
+			animations[1]->Render(x, y);				
 	}
-	if (GetTickCount() - time > 2000)
-		state = DOOR_STATE_01;
-	if (state == DOOR_STATE_01)
+	/*if (GetTickCount() - time > 3000)
+		state = DOOR_STATE_0;
+	if (state == DOOR_STATE_0)
 	{
-		return;
-	}
+		animations[2]->Render(x, y);
+		time = GetTickCount();
+		
+	}*/
+	
 	
 
 	

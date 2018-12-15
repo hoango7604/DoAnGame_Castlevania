@@ -782,9 +782,9 @@ void LoadResourceLv2_1()
 	listGrids->AddObject(candle);
 
 	Door *door = new Door();
-	door->AddAnimation(8814);
-	door->AddAnimation(8815);
-	door->AddAnimation(8816);
+	door->AddAnimation(814);
+	door->AddAnimation(815);
+	door->AddAnimation(816);
 	door->SetPosition(3070, 150);	
 	listGrids->AddObject(door);
 
@@ -942,8 +942,9 @@ void LoadResourceboss()
 	listGrids->AddObject(bossbat);
 
 	Door *door = new Door();
-	door->AddAnimation(8814);
-	door->AddAnimation(8815);
+	door->AddAnimation(814);
+	door->AddAnimation(815);
+	door->AddAnimation(816);
 	door->SetPosition(4070, 150);
 	//door->SetState(DOOR_STATE_DEACTIVE);
 	listGrids->AddObject(door);
@@ -1314,6 +1315,15 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMic15 = textures->Get(ID_TEX_GATE);
 	sprites->Add("Castlevania\\filetxt\\spr_door.txt", texMic15);
+
+	LPDIRECT3DTEXTURE9 texMic16 = textures->Get(ID_TEX_BOSSES_RIGHT);
+	sprites->Add("Castlevania\\filetxt\\spr_bosses_right.txt", texMic16);
+
+	LPDIRECT3DTEXTURE9 texMic17 = textures->Get(ID_TEX_ENEMIES);
+	sprites->Add("Castlevania\\filetxt\\spr_enemy_left.txt", texMic17);
+
+	LPDIRECT3DTEXTURE9 texMic18 = textures->Get(ID_TEX_ENEMIES_RIGHT);
+	sprites->Add("Castlevania\\filetxt\\spr_enemy_right.txt", texMic18);
 #pragma endregion
 
 
@@ -1683,20 +1693,36 @@ void LoadResources()
 	ani->Add(40030);
 	animations->Add(813, ani);
 
-	ani = new CAnimation(1000);// mở cửa
+	ani = new CAnimation(500);// mở cửa
 	ani->Add(40031);
 	ani->Add(40032);
-	animations->Add(8814, ani);
+	animations->Add(814, ani);
 
-	ani = new CAnimation(1000);// mở cửa
+	ani = new CAnimation(1000);//cửa đang mở
 	ani->Add(40032);
-	animations->Add(8815, ani);
+	animations->Add(815, ani);
 
 	ani = new CAnimation(1000);// đóng cửa
 	ani->Add(40032);
 	ani->Add(40031);
-	animations->Add(8816, ani);
+	animations->Add(816, ani);
 
+	ani = new CAnimation(0);//tóe nước người cá
+	ani->Add(40033);
+	animations->Add(817, ani);
+
+	//enemy xương trái
+	//enemy xương phải
+	//vũ khí của enemy xương
+
+	//chim bay trái
+	//chim bay phải
+	//gù trái
+	//gù phải
+	//dracula lv1 trái
+	//dracula lv1 phải
+	//dracula lv2 trái
+	//dracula lv2 phải
 	#pragma endregion
 
 	#pragma region simon
@@ -1802,12 +1828,17 @@ void Update(DWORD dt)
 			// Zombie xuất hiện chưa đúng, cần chỉnh lại (1 lượt 3 con)
 			if (GetTickCount() - timer > 5000)
 			{
-				Zombie *zombie = new Zombie();
-				zombie->AddAnimation(602);
-				zombie->AddAnimation(604);
-				zombie->SetPosition(1200, 376);
-				zombie->SetState(ZOMBIE_STATE_WALKING);
-				listGrids->AddObject(zombie);
+				simon->GetPosition(x, y);
+				for (int i = 0; i < 2; i++)
+				{
+					Zombie *zombie = new Zombie();
+					zombie->AddAnimation(602);
+					zombie->AddAnimation(604);
+					zombie->SetPosition(rand() % (SCREEN_WIDTH + 1) + x - SCREEN_WIDTH / 2 +i*32, 376);					
+					zombie->SetState(ZOMBIE_STATE_WALKING,i%2);
+					listGrids->AddObject(zombie);
+					
+				}
 				timer = timer + 5000;
 			}
 		}
@@ -1919,16 +1950,18 @@ void Update(DWORD dt)
 		}
 		else if (countLoadResourceboss == true)
 		{
-			if (GetTickCount() - timer > 5000)
+			simon->GetPosition(x, y);
+			for (int i = 0; i < 2; i++)
 			{
 				Zombie *zombie = new Zombie();
 				zombie->AddAnimation(602);
 				zombie->AddAnimation(604);
-				zombie->SetPosition(4900, 376);
-				zombie->SetState(ZOMBIE_STATE_WALKING);
+				zombie->SetPosition(rand() % (SCREEN_WIDTH + 1) + x - SCREEN_WIDTH / 2 + i * 32, 376);
+				zombie->SetState(ZOMBIE_STATE_WALKING, i % 2);
 				listGrids->AddObject(zombie);
-				timer = timer + 5000;
+				
 			}
+			timer = timer + 5000;
 		}
 		
 		//can xu li win boss de chuyen sang dracula
@@ -2334,25 +2367,31 @@ void Update(DWORD dt)
 	else if (lv == 21)
 	{
 		// chuyen scene
+		
 		if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH/2)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
+			simon->SetState(SIMON_STATE_IDLE);
+			isEnableKeyBoard = false;
 			
 		}
-		else 
+		else if (game->x_cam > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2 && game->x_cam < MAX_WIDTH_LV2 )
 		{
 			if (x < 3200)
 			{
 				if(check1 == false)
-				simon->SetState(SIMON_STATE_WALK);	
+				simon->SetState(SIMON_STATE_WALK);
+				//isEnableKeyBoard = false;
 			}
-			if (x > 3200 && x < 3210 ) 
+			else if (x > 3200 ) 
 			{
 				check1 = true;
 				check = true;
 				simon->SetState(SIMON_STATE_IDLE);
+				
 			}
 		}
+		
 		if (game->x_cam < MAX_WIDTH_LV2 && check == true)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
@@ -2382,7 +2421,9 @@ void Update(DWORD dt)
 				game->x_cam = MAX_WIDTH_LV2;
 				
 			}
+			isEnableKeyBoard = true;
 		}
+		
 	}
 	else if (lv == 22)
 	{
@@ -2403,6 +2444,8 @@ void Update(DWORD dt)
 		if (game->x_cam < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
+			simon->SetState(SIMON_STATE_IDLE);
+			isEnableKeyBoard = false;
 			
 		}
 		else 
@@ -2437,6 +2480,7 @@ void Update(DWORD dt)
 				{
 					game->x_cam = MAX_WIDTH_LV2_1;					
 				}
+				isEnableKeyBoard = true;
 			}
 		}
 	}

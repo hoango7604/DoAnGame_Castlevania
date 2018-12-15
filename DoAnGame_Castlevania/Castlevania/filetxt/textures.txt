@@ -40,3 +40,6 @@
 40 Castlevania\map35.png
 41 Castlevania\Bosses.png
 42 Castlevania\Gate.png
+43 Castlevania\Bosses_right.png
+44 Castlevania\Enemies.png
+45 Castlevania\Enemies_right.png
