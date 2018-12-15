@@ -15,6 +15,7 @@
 #include "CheckStair.h"
 #include "CheckPoint.h"
 #include "Panther.h"
+#include "Door.h"
 
 class Simon : public CGameObject
 {

@@ -29,14 +29,14 @@ private:
 	CSprite* cross;
 	CSprite* knife;
 	CSprite* stopWatch;
+	CSprite* noHP;
 
 	CSprite* upgrade1;
 	CSprite* upgrade2;
 
 	int simonHP;
 	int bossHP;
-	int uiHP;
-
+		
 	int score;
 	int time;
 	int item;

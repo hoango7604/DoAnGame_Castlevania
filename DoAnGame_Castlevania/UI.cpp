@@ -22,7 +22,7 @@ bool UI::Initialize(LPDIRECT3DDEVICE9 d3ddv, Simon * simon)
 	cross = new CSprite(5, 0, 0, 32, 32, textures->Get(ID_TEX_UI));
 	knife = new CSprite(6, 64, 6, 96, 25, textures->Get(ID_TEX_UI));
 	stopWatch = new CSprite(7, 128, 0, 160, 32, textures->Get(ID_TEX_UI));
-	//nohp = new CSprite(10,51,37,58,50,textures->Get(ID_TEX_UI));
+	noHP = new CSprite(10,51,37,58,50,textures->Get(ID_TEX_UI));
 
 	for (int i = 0; i < 16; i++)
 	{
@@ -83,9 +83,13 @@ void UI::Render(float x,float y,Simon *simon)
 {	
 	if (font)
 		font->DrawTextA(NULL, information.c_str(), -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
-	for (int i = 0; i < simonHPList.size(); i++)
+	for (int i = 0; i < simon->preHP; i++)
 	{
 		simonHPList[i]->Draw(x + 130 + 11 * i, 42 , 255);
+	}
+	for (int i = 0; i <16 - simon->preHP; i++)
+	{
+		noHP->Draw(x + 295 - 11 * i, 42, 255);
 	}
 	for (int i = 0; i < enemyHPList.size(); i++)
 	{
