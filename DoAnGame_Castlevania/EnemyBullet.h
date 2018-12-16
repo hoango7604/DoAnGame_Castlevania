@@ -2,18 +2,18 @@
 #include "Enemy.h"
 #include "Ground.h"
 
-class MerMan : public Enemy
+class EnemyBullet : public Enemy
 {
-
 public:
-	
-	bool isOnGround;
-	bool isAttack;
-	bool didAttack;
-	DWORD attackTime;
-	DWORD lastAttackTime;
-	
-	virtual void SetState(int state);
+
+	EnemyBullet(int nx)
+	{
+		if (nx > 0)
+			vx = ENEMY_BULLET_SPEED;
+		else
+			vx = -ENEMY_BULLET_SPEED;
+	}
+
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
