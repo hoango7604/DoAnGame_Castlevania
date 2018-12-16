@@ -90,6 +90,9 @@ void MerMan::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			this->SetState(MERMAN_STATE_WALK);
 		}
 	}
+	for(int i =0;i<3;i++)
+	wa_ani[i]->Update(dt,coObjects);		
+	
 }
 
 void MerMan::Render()
@@ -108,13 +111,21 @@ void MerMan::Render()
 			ani = MERMAN_ANI_WALK_RIGHT;
 		break;
 	/*case MERMAN_STATE_DIE:
-		ani = -1;
+		ani = -1;_ani
 		break;*/
 	}
 	
 	if (ani != -1)
 		animations[ani]->Render(x, y);
-
+	
+	
+	for (int i = 0; i < 3; i++)
+	{
+		float z, t;
+		wa_ani[i]->GetPosition(z, t);
+		wa_ani[i]->animations[i]->Render(z, t);
+	}
+	
 	RenderBoundingBox();
 }
 

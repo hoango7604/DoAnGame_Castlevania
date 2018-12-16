@@ -952,17 +952,141 @@ void LoadResourceboss()
 
 void LoadResourceLv3_5()
 {
-	for (int i = 0; i < 16; i++)
+	simon->SetPosition(150, 50);
+	for (int i = 0; i < 18; i++)
 	{
 		Ground *ground = new Ground();
-		ground->SetPosition(128 + i * 32 , 280);
+		ground->SetPosition(64 + i * 32 , 280);
 		listGrids->AddObject(ground);
 	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(704 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(832 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(960 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1216 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 12; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1345 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1792 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1984 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2176 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2304 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2431 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 12; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(2689 + i * 32, 410);
+		listGrids->AddObject(ground);
+	}
+	CheckStair *checkstair ;
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(2720, 200);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(2840, 375);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
 }
 
 void LoadResourceLv3_4()
 {
+	simon->SetPosition(1450, 50);
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1408 +i*32, 278);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1025 + i * 32, 344);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)//lỗi lên lthang
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(991 , 218 + i * 32);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1218 + i * 32, 215);
+		listGrids->AddObject(ground);
+	}
 
+	CheckStair *checkstair;
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1217, 120);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(1093, 312);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(1290, 181);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	
 }
 
 void LoadResourceLv3_3()
@@ -2000,7 +2124,9 @@ void Update(DWORD dt)
 				merman->AddAnimation(613);
 				merman->AddAnimation(614);
 				merman->AddAnimation(615);
-				merman->SetPosition(rand() % (MAX_WIDTH_LV2_2  + 1) ,400);
+				merman->SetPosition(rand() % (MAX_WIDTH_LV2_2  + 1) ,400);	
+				for(int i=0;i<3;i++)
+					merman->wa_ani[i]->AddAnimation(817);
 				merman->SetState(MERMAN_STATE_JUMP);
 				listGrids->AddObject(merman);
 				timer = timer + 3000;
@@ -2068,41 +2194,41 @@ void Update(DWORD dt)
 	}
 	if (lv == 34)
 	{
-		if (countLoadResource3_5 == false)
+		if (countLoadResource3_4 == false)
 		{
-			listGrids->InitList(MAX_WIDTH_LV3_5);
-			LoadResourceLv3_5();
-			countLoadResource3_5 = true;
+			listGrids->InitList(MAX_WIDTH_LV3_4);
+			LoadResourceLv3_4();
+			countLoadResource3_4 = true;
 
 		}
 	}
 	if (lv == 33)
 	{
-		if (countLoadResource3_5 == false)
+		if (countLoadResource3_3 == false)
 		{
-			listGrids->InitList(MAX_WIDTH_LV3_5);
-			LoadResourceLv3_5();
-			countLoadResource3_5 = true;
+			listGrids->InitList(MAX_WIDTH_LV3_3);
+			LoadResourceLv3_3();
+			countLoadResource3_3 = true;
 
 		}
 	}
 	if (lv == 32)
 	{
-		if (countLoadResource3_5 == false)
+		if (countLoadResource3_2 == false)
 		{
-			listGrids->InitList(MAX_WIDTH_LV3_5);
-			LoadResourceLv3_5();
-			countLoadResource3_5 = true;
+			listGrids->InitList(MAX_WIDTH_LV3_2);
+			LoadResourceLv3_2();
+			countLoadResource3_2 = true;
 
 		}
 	}
 	if (lv == 31)
 	{
-		if (countLoadResource3_5 == false)
+		if (countLoadResource3_1 == false)
 		{
-			listGrids->InitList(MAX_WIDTH_LV3_5);
-			LoadResourceLv3_5();
-			countLoadResource3_5 = true;
+			listGrids->InitList(MAX_WIDTH_LV3_1);
+			LoadResourceLv3_1();
+			countLoadResource3_1 = true;
 
 		}
 	}
@@ -2569,6 +2695,76 @@ void Update(DWORD dt)
 				isEnableKeyBoard = true;
 			}
 		}
+	}
+	else if (lv == 35)
+	{
+		if (x < SCREEN_WIDTH / 2)
+		{
+			game->x_cam = 0;
+		}
+		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_5 - SCREEN_WIDTH / 2)
+		{
+			game->x_cam = x - SCREEN_WIDTH / 2;
+
+		}
+		else if (x > MAX_WIDTH_LV3_5 - SCREEN_WIDTH / 2)
+			game->x_cam = MAX_WIDTH_LV3_5 - SCREEN_WIDTH;
+	}
+	else if (lv == 34)
+	{
+		if (x < SCREEN_WIDTH / 2)
+		{
+			game->x_cam = 0;
+		}
+		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_4 - SCREEN_WIDTH / 2)
+		{
+			game->x_cam = x - SCREEN_WIDTH / 2;
+
+		}
+		else if (x > MAX_WIDTH_LV3_4 - SCREEN_WIDTH / 2)
+			game->x_cam = MAX_WIDTH_LV3_4 - SCREEN_WIDTH;
+	}
+	else if (lv == 33)
+	{
+		if (x < SCREEN_WIDTH / 2)
+		{
+			game->x_cam = 0;
+		}
+		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_3 - SCREEN_WIDTH / 2)
+		{
+			game->x_cam = x - SCREEN_WIDTH / 2;
+
+		}
+		else if (x > MAX_WIDTH_LV3_3 - SCREEN_WIDTH / 2)
+			game->x_cam = MAX_WIDTH_LV3_3 - SCREEN_WIDTH;
+	}
+	else if (lv == 32)
+	{
+		if (x < SCREEN_WIDTH / 2)
+		{
+			game->x_cam = 0;
+		}
+		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_2 - SCREEN_WIDTH / 2)
+		{
+			game->x_cam = x - SCREEN_WIDTH / 2;
+
+		}
+		else if (x > MAX_WIDTH_LV3_2 - SCREEN_WIDTH / 2)
+			game->x_cam = MAX_WIDTH_LV3_2 - SCREEN_WIDTH;
+	}
+	else if (lv == 31)
+	{
+		if (x < SCREEN_WIDTH / 2)
+		{
+			game->x_cam = 0;
+		}
+		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2)
+		{
+			game->x_cam = x - SCREEN_WIDTH / 2;
+
+		}
+		else if (x > MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2)
+			game->x_cam = MAX_WIDTH_LV3_1 - SCREEN_WIDTH;
 	}
 #pragma endregion
 

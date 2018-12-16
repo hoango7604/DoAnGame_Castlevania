@@ -159,6 +159,9 @@
     <ClInclude Include="Door.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="WaterAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BigFire.cpp">
@@ -259,6 +262,9 @@
     </ClCompile>
     <ClCompile Include="Door.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterAnimation.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -154,6 +154,7 @@
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="WaterAnimation.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Whip.h" />
     <ClInclude Include="Item.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="WaterAnimation.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Whip.cpp" />
     <ClCompile Include="Item.cpp" />
