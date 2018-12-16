@@ -989,6 +989,7 @@ void LoadResourceLv3_1()
 void LoadResources()
 {	
 	textures->Add("Castlevania\\filetxt\\textures.txt", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("Castlevania\\filetxt\\textures1.txt", D3DCOLOR_XRGB(96, 68, 106));
 
 	/*#pragma region Addsprite
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
@@ -1711,18 +1712,103 @@ void LoadResources()
 	ani->Add(40033);
 	animations->Add(817, ani);
 
-	//enemy xương trái
-	//enemy xương phải
-	//vũ khí của enemy xương
+	
+	ani = new CAnimation(100);//enemy xương trái
+	ani->Add(40034);
+	ani->Add(40035);
+	animations->Add(818, ani);
 
-	//chim bay trái
-	//chim bay phải
-	//gù trái
-	//gù phải
-	//dracula lv1 trái
-	//dracula lv1 phải
-	//dracula lv2 trái
-	//dracula lv2 phải
+	ani = new CAnimation(100);//enemy xương phải
+	ani->Add(40042);
+	ani->Add(40043);
+	animations->Add(819, ani);
+
+	ani = new CAnimation(100);//vũ khí xương trái
+	ani->Add(40036);
+	ani->Add(40037);
+	animations->Add(820, ani);
+
+	ani = new CAnimation(100);//vũ khí xương phải
+	ani->Add(40044);
+	ani->Add(40045);
+	animations->Add(821, ani);
+	
+	ani = new CAnimation(100);//chim bay trái
+	ani->Add(40038);
+	ani->Add(40039);
+	animations->Add(822, ani);
+
+	ani = new CAnimation(100);//chim bay phải
+	ani->Add(40046);
+	ani->Add(40047);
+	animations->Add(823, ani);
+
+	ani = new CAnimation(100);//gù trái
+	ani->Add(40040);
+	ani->Add(40041);
+	animations->Add(824, ani);
+
+	ani = new CAnimation(100);//gù phải
+	ani->Add(40048);
+	ani->Add(40049);
+	animations->Add(825, ani);
+	
+	 
+	ani = new CAnimation(100);//đầu của dracula lv1
+	ani->Add(40054);
+	animations->Add(826, ani);
+
+	ani = new CAnimation(100);//dracula lv1 đánh trái
+	ani->Add(40050);
+	ani->Add(40051);
+	animations->Add(827, ani);
+
+	ani = new CAnimation(100);//dracula lv1 bị đánh trái (mất đầu)
+	ani->Add(40053);	
+	animations->Add(828, ani);
+
+	ani = new CAnimation(100);//dracula lv1 đánh phải
+	ani->Add(40059);
+	ani->Add(40060);
+	animations->Add(829, ani);
+
+	ani = new CAnimation(100);//dracula lv1 bị đánh phải (mất đầu)
+	ani->Add(40062);
+	animations->Add(830, ani);
+	
+	
+	ani = new CAnimation(100);//dracula lv2 đứng im trái 
+	ani->Add(40055);
+	animations->Add(831, ani);
+
+	ani = new CAnimation(100);//dracula lv2 chuẩn bị bay trái 
+	ani->Add(40056);
+	animations->Add(832, ani);
+
+	ani = new CAnimation(100);//dracula lv2 bay trái 
+	ani->Add(40057);
+	animations->Add(833, ani);
+
+	ani = new CAnimation(100);//dracula lv2 trên không trái 
+	ani->Add(40058);
+	animations->Add(834, ani);
+
+	ani = new CAnimation(100);//dracula lv2 đứng im phải 
+	ani->Add(40064);
+	animations->Add(835, ani);
+
+	ani = new CAnimation(100);//dracula lv2 chuẩn bị bay phải 
+	ani->Add(40065);
+	animations->Add(836, ani);
+
+	ani = new CAnimation(100);//dracula lv2 bay phải 
+	ani->Add(40066);
+	animations->Add(837, ani);
+
+	ani = new CAnimation(100);//dracula lv2 trên không phải 
+	ani->Add(40067);
+	animations->Add(838, ani);
+	
 	#pragma endregion
 
 	#pragma region simon

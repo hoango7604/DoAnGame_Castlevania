@@ -272,8 +272,8 @@
 #define ID_TEX_TILESET33				38
 #define ID_TEX_TILESET34				39
 #define ID_TEX_TILESET35				40
-#define ID_TEX_BOSSES					41
-#define ID_TEX_GATE						42
+#define ID_TEX_GATE						41
+#define ID_TEX_BOSSES					42
 #define ID_TEX_BOSSES_RIGHT				43
 #define ID_TEX_ENEMIES					44
 #define ID_TEX_ENEMIES_RIGHT			45
