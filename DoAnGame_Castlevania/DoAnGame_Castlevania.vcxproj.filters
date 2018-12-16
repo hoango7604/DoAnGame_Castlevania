@@ -1,68 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Header Files\Weapons">
-      <UniqueIdentifier>{a336f625-da03-4c62-bd2a-84d84bdf2259}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\CheckObject">
-      <UniqueIdentifier>{92936d3e-a671-4c7e-87da-2ef11cc96eba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects">
-      <UniqueIdentifier>{488907f0-8fce-4935-8589-d90d076b6cb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Grid">
-      <UniqueIdentifier>{48175902-d3b2-41da-a4ae-f7af8b548c46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Resources">
-      <UniqueIdentifier>{d909cd89-51a6-436c-a623-a53ac1358e45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Stair">
-      <UniqueIdentifier>{1eaf793c-e4b3-4cb5-8fb2-cac95e9c8052}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Simon">
-      <UniqueIdentifier>{a40d5efe-19b8-4a9f-b323-6ce81b8c4196}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Enemies">
-      <UniqueIdentifier>{1b03f876-170f-4ab6-809c-a3ee32cc2b10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\CheckObject">
-      <UniqueIdentifier>{11150063-cc69-449c-a0ad-998b3a845258}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Grid">
-      <UniqueIdentifier>{cf5b9333-493f-483c-b310-cc7a25eaef8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Enemies">
-      <UniqueIdentifier>{97e81392-eab9-4b4f-bf63-c3e60bac39ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Simon">
-      <UniqueIdentifier>{d828d1cd-c36c-4840-ad00-e08cbf597ef1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Stair">
-      <UniqueIdentifier>{510852fb-c3f0-4573-9125-b8edb7149c84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Resources">
-      <UniqueIdentifier>{2559ea5d-ca87-486f-bd23-f2b013bb7203}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects">
-      <UniqueIdentifier>{2ef4ee33-06d0-43fe-9e55-3e0dba89cc65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Weapons">
-      <UniqueIdentifier>{7d4708ed-9bc9-41a2-aa8c-b33c1d21e1b4}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Knife.h">
       <Filter>Header Files\Weapons</Filter>
     </ClInclude>
@@ -129,6 +67,12 @@
     <ClInclude Include="BossBat.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
     <ClInclude Include="MerMan.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
@@ -168,6 +112,12 @@
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="BossBat.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Candle.cpp">

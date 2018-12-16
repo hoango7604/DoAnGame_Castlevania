@@ -1,8 +1,12 @@
-#include "Cross.h"
+﻿#include "Cross.h"
 #include "Effect.h"
 
 void Cross::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOLLISIONEVENT>& coEvents)
 {
+	float ml, mr, mt, mb;
+
+	this->GetBoundingBox(ml, mt, mr, mb);
+
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		if (!dynamic_cast<CheckStair *>(coObjects->at(i)) &&
@@ -14,6 +18,23 @@ void Cross::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCO
 			!dynamic_cast<Weapon *>(coObjects->at(i)))
 		{
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
+
+			float sl, sr, st, sb;
+
+			coObjects->at(i)->GetBoundingBox(sl, st, sr, sb);
+
+			if (ml < sr && mr > sl && mt < sb && mb > st)
+			{
+				if (dynamic_cast<Enemy *>(e->obj))
+				{
+					Enemy *enemy = dynamic_cast<Enemy *>(e->obj);
+					enemy->isDie = true;
+				}
+				else if (dynamic_cast<Simon *>(e->obj) && isReturn)
+				{
+					isExposed = true;
+				}
+			}
 
 			if (e->t > 0 && e->t <= 1.0f)
 				coEvents.push_back(e);
@@ -78,48 +99,35 @@ void Cross::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		delete simonObject;
 
 		// No collision occured, proceed normally
-		if (coEvents.size() == 0)
+		x += dx;
+		y += dy;
+
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			x += dx;
-			y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny;
+			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-			y += min_ty * dy + ny * 0.4f;
-
-			for (UINT i = 0; i < coEventsResult.size(); i++)
+			if (dynamic_cast<Enemy *>(e->obj))
 			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
-
-				if (dynamic_cast<Zombie *>(e->obj))
-				{
-					Zombie *zombie = dynamic_cast<Zombie *>(e->obj);
-					zombie->SetState(ZOMBIE_STATE_DIE);
-				}
-				else if (dynamic_cast<BigFire *>(e->obj))
-				{
-					BigFire *bigfire = dynamic_cast<BigFire *>(e->obj);
-					bigfire->isHitted = true;
-				}
-				else if (dynamic_cast<Candle *>(e->obj))
-				{
-					Candle *candle = dynamic_cast<Candle *>(e->obj);
-					candle->isHitted = true;
-				}
-				else if (dynamic_cast<Panther *>(e->obj))
-				{
-					Panther *panther = dynamic_cast<Panther *>(e->obj);
-					panther->isDie = true;
-				}
-				else if (dynamic_cast<Simon *>(e->obj))
-				{
-					isExposed = true;
-				}
+				Enemy *enemy = dynamic_cast<Enemy *>(e->obj);
+				enemy->isDie = true;
+			}
+			else if (dynamic_cast<BigFire *>(e->obj))
+			{
+				BigFire *bigfire = dynamic_cast<BigFire *>(e->obj);
+				bigfire->isHitted = true;
+			}
+			else if (dynamic_cast<Candle *>(e->obj))
+			{
+				Candle *candle = dynamic_cast<Candle *>(e->obj);
+				candle->isHitted = true;
+			}
+			else if (dynamic_cast<Simon *>(e->obj))
+			{
+				isExposed = true;
 			}
 		}
 	}

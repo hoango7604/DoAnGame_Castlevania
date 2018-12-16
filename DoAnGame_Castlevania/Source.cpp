@@ -17,16 +17,19 @@
 #include "Simon.h"
 #include "Ground.h"
 #include "define.h"
-#include "Zombie.h"
 #include "BigFire.h"
 #include "Candle.h"
 #include "Item.h"
 #include "Effect.h"
 #include "Map.h"
 #include "Stair.h"
+
+#include "Enemy.h"
+#include "Zombie.h"
 #include "RedBat.h"
 #include "Panther.h"
 #include "MerMan.h"
+#include "EnemyBullet.h"
 #include "CheckStair.h"
 #include "CheckPoint.h"
 #include "UI.h"
@@ -41,6 +44,7 @@ Map *map;
 UI * ui;
 CSprite *sprite;
 Weapon *weapon;
+Enemy *enemy;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
@@ -68,8 +72,9 @@ bool countLoadResource3_3 = false;
 bool countLoadResource3_2 = false;
 bool countLoadResource3_1 = false;
 
-
 bool isEnableKeyBoard = true;
+bool isClockWeaponUsed = false;
+DWORD clockWeaponCast;
 
 DWORD timer; // load enemy
 
@@ -153,7 +158,7 @@ void GenerateWeapon()
 		break;
 
 	case ITEM_CROSS:
-		weapon = new Cross(simon, SCREEN_WIDTH / 2);
+		weapon = new Cross(simon, 2 * SCREEN_WIDTH / 5);
 
 		if (nx > 0)
 		{
@@ -169,6 +174,10 @@ void GenerateWeapon()
 		weapon->firstCast = GetTickCount();
 		listGrids->AddObject(weapon);
 		break;
+	case ITEM_CLOCK:
+		isClockWeaponUsed = true;
+		clockWeaponCast = GetTickCount();
+		break;
 	}
 }
 
@@ -178,6 +187,45 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	// Chet
 	if (simon->GetState() == SIMON_STATE_DIE) return;
+
+	if (KeyCode == DIK_1)
+		simon->SetPosition(1490, 100);
+
+	if (KeyCode == DIK_2)
+		simon->SetPosition(3000, 100);
+
+	if (KeyCode == DIK_3)
+		simon->SetPosition(3980, 100);
+
+	if (KeyCode == DIK_Q)
+	{
+		simon->currentWeapon = ITEM_AXE;
+		GenerateWeapon();
+	}
+
+	if (KeyCode == DIK_W)
+	{
+		simon->currentWeapon = ITEM_KNIFE;
+		GenerateWeapon();
+	}
+
+	if (KeyCode == DIK_E)
+	{
+		simon->currentWeapon = ITEM_CROSS;
+		GenerateWeapon();
+	}
+
+	if (KeyCode == DIK_R)
+	{
+		simon->currentWeapon = ITEM_HOLYWATER;
+		GenerateWeapon();
+	}
+
+	if (KeyCode == DIK_T)
+	{
+		simon->currentWeapon = ITEM_CLOCK;
+		GenerateWeapon();
+	}
 
 	if (isEnableKeyBoard && !simon->isHurt)
 	{
@@ -355,7 +403,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void LoadResourceLv1()
 {
 	// Đặt vị trí xuất phát cho simon
-	simon->SetPosition(1400, 327); // 100 327
+	simon->SetPosition(100, 327); // 100 327
 
 	// Khởi tạo listGrids
 	listGrids->InitList(MAX_WIDTH_LV1);
@@ -628,7 +676,7 @@ void LoadResourceLv2() {
 	panther->AddAnimation(606);
 	panther->AddAnimation(607);
 	panther->AddAnimation(608);
-	panther->SetPosition(1700, 200);
+	panther->SetPosition(1770, 200);
 	panther->SetState(PANTHER_STATE_WAIT);
 	listGrids->AddObject(panther);
 
@@ -675,7 +723,7 @@ void LoadResourceLv2_1()
 	for (int i = 0; i < 2; i++)
 	{
 		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 246 + 32);
+		ground->SetPosition(2782 + 32 * 29 + i * 32.0f, 280);
 		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 3; i++)
@@ -692,16 +740,25 @@ void LoadResourceLv2_1()
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		Ground *ground = new Ground();
+		/*Ground *ground = new Ground();
 		ground->SetPosition(3585 +  i * 32.0f, 280);
-		listGrids->AddObject(ground);
+		listGrids->AddObject(ground);*/
+		for (int j = 0; j < 4; j++)
+		{
+			Ground *ground = new Ground();
+			ground->SetPosition(3585 + i * 32.0f, 280 + j * 32.0f);
+			ground->isBlock = true;
+			listGrids->AddObject(ground);
+		}
 	}
-	for (int i = 0; i < 3; i++)
+	/*for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(3585 , 312 + i * 32.0f);
+		ground->AddAnimation(601);
+		ground->isBlock = true;
 		listGrids->AddObject(ground);
-	}
+	}*/
 
 	CheckStair *checkstair = new CheckStair();
 	checkstair = new CheckStair();
@@ -788,7 +845,23 @@ void LoadResourceLv2_1()
 	door->SetPosition(3070, 150);	
 	listGrids->AddObject(door);
 
-	
+	enemy = new RedBat();
+	enemy->AddAnimation(60800);
+	enemy->SetPosition(3800, 215);
+	enemy->SetState(BAT_STATE_FLYING);
+	listGrids->AddObject(enemy);
+
+	enemy = new RedBat();
+	enemy->AddAnimation(60800);
+	enemy->SetPosition(4000, 260);
+	enemy->SetState(BAT_STATE_FLYING);
+	listGrids->AddObject(enemy);
+
+	enemy = new RedBat();
+	enemy->AddAnimation(60800);
+	enemy->SetPosition(4200, 260);
+	enemy->SetState(BAT_STATE_FLYING);
+	listGrids->AddObject(enemy);
 }
 
 void LoadResourceLv2_2()
@@ -931,6 +1004,18 @@ void LoadResourceboss()
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(4346, 279);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(4673, 217);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(4796, 405);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
@@ -1724,6 +1809,13 @@ void LoadResources()
 	ani->Add(30014);
 	animations->Add(608, ani);
 
+	ani = new CAnimation(100); //dơi bay trái
+	ani->Add(30019);
+	ani->Add(30020);
+	ani->Add(30021);
+	ani->Add(30020);
+	animations->Add(60800, ani);
+
 	ani = new CAnimation(100); //boss dơi nằm chờ
 	ani->Add(30022);
 	animations->Add(609, ani);
@@ -2029,7 +2121,7 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV2);
 			LoadResourceLv2();
 			countLoadResource2 = true;
-			simon->SetPosition(2900, 350);
+			simon->SetPosition(50, 350);
 			simon->GetPosition(x, y);
 			timer = GetTickCount();
 		}
@@ -2057,8 +2149,6 @@ void Update(DWORD dt)
 			listGrids->ReleaseList();
 
 			lv = 21;
-			
-			
 		}
 	}
 	if (lv == 21)
@@ -2116,7 +2206,7 @@ void Update(DWORD dt)
 		}
 		if (countLoadResource2_2 == true)
 		{
-			if (GetTickCount() - timer > 3000)
+			if (GetTickCount() - timer > 5000)
 			{
 				MerMan *merman = new MerMan();
 				merman->AddAnimation(611);
@@ -2124,12 +2214,17 @@ void Update(DWORD dt)
 				merman->AddAnimation(613);
 				merman->AddAnimation(614);
 				merman->AddAnimation(615);
-				merman->SetPosition(rand() % (MAX_WIDTH_LV2_2  + 1) ,400);	
-				for(int i=0;i<3;i++)
+				merman->SetPosition(rand() % (SCREEN_WIDTH - 80) + game->x_cam, 400);
+				if (simon->x > 4 * MAX_WIDTH_LV2_2 / 5)
+					merman->nx = -1;
+				else
+					merman->nx = 1;
+
+				for (int i = 0; i < 3; i++)
 					merman->wa_ani[i]->AddAnimation(817);
 				merman->SetState(MERMAN_STATE_JUMP);
 				listGrids->AddObject(merman);
-				timer = timer + 3000;
+				timer = GetTickCount();
 			}
 		}
 		if ((y < 72 && x<100) || (y<72 &&x >400))
@@ -2255,44 +2350,95 @@ void Update(DWORD dt)
 
 	simon->Update(lv,dt, &objects);
 
-	for (int i = 0; i < objects.size(); i++)
+	if (isClockWeaponUsed)
 	{
-		if (dynamic_cast<BossBat *>(objects.at(i)))
+		if (GetTickCount() - clockWeaponCast > CLOCK_WEAPON_FREEZE_TIME)
 		{
-			BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
-			bossbat->Update(x, y, dt, &objects);
+			isClockWeaponUsed = false;
 		}
-		else if (dynamic_cast<Panther *>(objects.at(i)))
+	}
+	else
+	{
+		for (int i = 0; i < objects.size(); i++)
 		{
-			Panther *panther = dynamic_cast<Panther *>(objects.at(i));
-			if (panther->isActivate && ((panther->x < (simon->x - 2 * SCREEN_WIDTH / 3)) || (panther->x > (simon->x + 2 * SCREEN_WIDTH / 3))))
+			if (dynamic_cast<BossBat *>(objects.at(i)))
 			{
-				panther->isDie = true;
+				BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
+				bossbat->Update(x, y, dt, &objects);
 			}
-			else if (!panther->isUse)
+			else if (dynamic_cast<Panther *>(objects.at(i)))
 			{
-				if ((simon->y - panther->y < PANTHER_DISTANCE_SIMON_Y && panther->x - simon->x < PANTHER_DISTANCE_SIMON_X))
+				Panther *panther = dynamic_cast<Panther *>(objects.at(i));
+				if (panther->isActivate && ((panther->x < (simon->x - 2 * SCREEN_WIDTH / 3)) || (panther->x > (simon->x + 2 * SCREEN_WIDTH / 3))))
 				{
-					panther->SetState(PANTHER_STATE_RUN);
-					panther->isActivate = true;
+					panther->isDie = true;
+				}
+				else if (!panther->isUse)
+				{
+					if ((simon->y - panther->y < PANTHER_DISTANCE_SIMON_Y && panther->x - simon->x < PANTHER_DISTANCE_SIMON_X))
+					{
+						panther->SetState(PANTHER_STATE_RUN);
+						panther->isActivate = true;
+					}
+
+					if (panther->isActivate &&
+						(panther->x >= PANTHER_JUMP_POINT_1_X - 3 && panther->x <= PANTHER_JUMP_POINT_1_X + 10) ||
+						(panther->x >= PANTHER_JUMP_POINT_2_X - 3 && panther->x <= PANTHER_JUMP_POINT_2_X + 10) ||
+						(panther->x >= PANTHER_JUMP_POINT_3_X - 3 && panther->x <= PANTHER_JUMP_POINT_3_X + 10))
+					{
+						panther->SetState(PANTHER_STATE_JUMP);
+					}
+
 				}
 
-				if (panther->isActivate &&
-				   (panther->x >= PANTHER_JUMP_POINT_1_X - 3 && panther->x <= PANTHER_JUMP_POINT_1_X + 10) ||
-				   (panther->x >= PANTHER_JUMP_POINT_2_X - 3 && panther->x <= PANTHER_JUMP_POINT_2_X + 10) ||
-				   (panther->x >= PANTHER_JUMP_POINT_3_X - 3 && panther->x <= PANTHER_JUMP_POINT_3_X + 10))
+				panther->Update(dt, &objects);
+			}
+			else if (dynamic_cast<MerMan *>(objects.at(i)))
+			{
+				MerMan *merman = dynamic_cast<MerMan *>(objects.at(i));
+
+				if (merman->isOnGround)
 				{
-					panther->SetState(PANTHER_STATE_JUMP);
+					if (merman->y > game->y_cam + SCREEN_HEIGHT / 2)
+					{
+						if (merman->y > game->y_cam + SCREEN_HEIGHT)
+							merman->isDie = true;
+						else
+						{
+							merman->isAttack = false;
+							merman->SetState(MERMAN_STATE_WALK);
+						}
+					}
+					else
+					{
+						if (merman->isAttack && !merman->didAttack)
+						{
+							int nx = merman->nx;
+							enemy = new EnemyBullet(nx);
+							enemy->AddAnimation(812);
+
+							if (nx > 0)
+							{
+								enemy->SetPosition(merman->x, merman->y + 10);
+							}
+							else
+							{
+								enemy->SetPosition(merman->x + MERMAN_BBOX_WIDTH, merman->y + 10);
+							}
+
+							listGrids->AddObject(enemy);
+							merman->didAttack = true;
+						}
+					}
 				}
 
+				merman->Update(dt, &objects);
 			}
+			else
+				objects[i]->Update(dt, &objects);
 
-			panther->Update(dt, &objects);
+			listGrids->UpdateObjectInGrid(objects[i]);
 		}
-		else
-			objects[i]->Update(dt, &objects);
-
-		listGrids->UpdateObjectInGrid(objects[i]);
 	}
 	
 #pragma endregion
@@ -2306,64 +2452,33 @@ void Update(DWORD dt)
 	// Thêm các object sẽ bị remove vào listRemoveObjects và cập nhật thêm các object mới vào objects và listGrids
 	for (int i = 0; i < objects.size(); i++)
 	{
-		if (dynamic_cast<Zombie *>(objects.at(i)))
+		if (dynamic_cast<Enemy *>(objects.at(i)))
 		{
-			Zombie *zombie = dynamic_cast<Zombie *>(objects.at(i));
-
-			if (zombie->GetState() == ZOMBIE_STATE_DIE)
+			if (dynamic_cast<Zombie *>(objects.at(i)))
 			{
-				float object_x, object_y, object_right, object_bottom;
-				zombie->GetBoundingBox(object_x, object_y, object_right, object_bottom);
-
-				// Thêm hiệu ứng tóe lửa
-				whipEffect = new Effect(GetTickCount());
-				whipEffect->AddAnimation(806);
-				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
-				objects.push_back(whipEffect);
-				listGrids->AddObject(whipEffect);
-
-				whipEffect = new Effect(GetTickCount());
-				whipEffect->AddAnimation(807);
-				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
-				objects.push_back(whipEffect);
-				listGrids->AddObject(whipEffect);
-
-				listRemoveObjects.push_back(zombie);
+				enemy = dynamic_cast<Zombie *>(objects.at(i));
 			}
-		}
-		else if (dynamic_cast<Panther *>(objects.at(i)))
-		{
-			Panther *panther = dynamic_cast<Panther *>(objects.at(i));
-
-			if (panther->isDie)
+			else if (dynamic_cast<Panther *>(objects.at(i)))
 			{
-				float object_x, object_y, object_right, object_bottom;
-				panther->GetBoundingBox(object_x, object_y, object_right, object_bottom);
-
-				// Thêm hiệu ứng tóe lửa
-				whipEffect = new Effect(GetTickCount());
-				whipEffect->AddAnimation(806);
-				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
-				objects.push_back(whipEffect);
-				listGrids->AddObject(whipEffect);
-
-				whipEffect = new Effect(GetTickCount());
-				whipEffect->AddAnimation(807);
-				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
-				objects.push_back(whipEffect);
-				listGrids->AddObject(whipEffect);
-
-				listRemoveObjects.push_back(panther);
+				enemy = dynamic_cast<Panther *>(objects.at(i));
 			}
-		}
-		else if (dynamic_cast<MerMan *>(objects.at(i)))
-		{
-			MerMan *merman = dynamic_cast<MerMan *>(objects.at(i));
+			else if (dynamic_cast<RedBat *>(objects.at(i)))
+			{
+				enemy = dynamic_cast<RedBat *>(objects.at(i));
+			}
+			else if (dynamic_cast<MerMan *>(objects.at(i)))
+			{
+				enemy = dynamic_cast<MerMan *>(objects.at(i));
+			}
+			else if (dynamic_cast<EnemyBullet *>(objects.at(i)))
+			{
+				enemy = dynamic_cast<EnemyBullet *>(objects.at(i));
+			}
 
-			if (merman->GetState() == MERMAN_STATE_DIE)
+			if (enemy->isDie)
 			{
 				float object_x, object_y, object_right, object_bottom;
-				merman->GetBoundingBox(object_x, object_y, object_right, object_bottom);
+				enemy->GetBoundingBox(object_x, object_y, object_right, object_bottom);
 
 				// Thêm hiệu ứng tóe lửa
 				whipEffect = new Effect(GetTickCount());
@@ -2378,7 +2493,7 @@ void Update(DWORD dt)
 				objects.push_back(whipEffect);
 				listGrids->AddObject(whipEffect);
 
-				listRemoveObjects.push_back(merman);
+				listRemoveObjects.push_back(enemy);
 			}
 		}
 		else if (dynamic_cast<BigFire *>(objects.at(i)) || dynamic_cast<Candle *>(objects.at(i)))
@@ -2438,7 +2553,7 @@ void Update(DWORD dt)
 					int random_portion = rand() % 100;
 
 					// Heart
-					if (random_portion < 90)
+					if (random_portion < 10) // 90
 					{
 						/*item->AddAnimation(ITEM_HEART);
 						item->SetType(ITEM_HEART);*/
@@ -2446,43 +2561,43 @@ void Update(DWORD dt)
 						item->SetType(ITEM_ROSARY);
 					}
 					// Money
-					else if (random_portion >= 90 && random_portion < 94)
+					else if (random_portion >= 10 && random_portion < 20) // 90 94
 					{
 						item->AddAnimation(ITEM_HOLYWATER);
 						item->SetType(ITEM_HOLYWATER);
 					}
 					// Knife
-					else if(random_portion >= 94 && random_portion < 95)
+					else if(random_portion >= 20 && random_portion < 30) // 94 95
 					{
-						item->AddAnimation(ITEM_CROSS);
-						item->SetType(ITEM_CROSS);
+						item->AddAnimation(ITEM_KNIFE);
+						item->SetType(ITEM_KNIFE);
 					}
 					// Axe
-					else if(random_portion >= 95 && random_portion < 96)
+					else if(random_portion >= 30 && random_portion < 40)
 					{
 						item->AddAnimation(ITEM_AXE);
 						item->SetType(ITEM_AXE);
 					}
 					// Holy water
-					else if(random_portion >= 96 && random_portion < 97)
+					else if(random_portion >= 40 && random_portion < 50)
 					{
 						item->AddAnimation(ITEM_HOLYWATER);
 						item->SetType(ITEM_HOLYWATER);
 					}
 					// Cross
-					else if(random_portion >= 97 && random_portion < 98)
+					else if(random_portion >= 50 && random_portion < 70)
 					{
 						item->AddAnimation(ITEM_CROSS);
 						item->SetType(ITEM_CROSS);
 					}
 					// Rosary
-					else if(random_portion >= 98 && random_portion < 99)
+					else if(random_portion >= 70 && random_portion < 80)
 					{
 						item->AddAnimation(ITEM_ROSARY);
 						item->SetType(ITEM_ROSARY);
 					}
 					// Clock
-					else if(random_portion >= 99 && random_portion < 100)
+					else if(random_portion >= 80 && random_portion < 100)
 					{
 						item->AddAnimation(ITEM_CLOCK);
 						item->SetType(ITEM_CLOCK);

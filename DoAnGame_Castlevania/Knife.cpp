@@ -44,10 +44,10 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
 
-				if (dynamic_cast<Zombie *>(e->obj))
+				if (dynamic_cast<Enemy *>(e->obj))
 				{
-					Zombie *zombie = dynamic_cast<Zombie *>(e->obj);
-					zombie->SetState(ZOMBIE_STATE_DIE);
+					Enemy *enemy = dynamic_cast<Enemy *>(e->obj);
+					enemy->isDie = true;
 					this->isExposed = true;
 				}
 				else if (dynamic_cast<BigFire *>(e->obj))
@@ -60,12 +60,6 @@ void Knife::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					Candle *candle = dynamic_cast<Candle *>(e->obj);
 					candle->isHitted = true;
-					this->isExposed = true;
-				}
-				else if (dynamic_cast<Panther *>(e->obj))
-				{
-					Panther *panther = dynamic_cast<Panther *>(e->obj);
-					panther->isDie = true;
 					this->isExposed = true;
 				}
 			}

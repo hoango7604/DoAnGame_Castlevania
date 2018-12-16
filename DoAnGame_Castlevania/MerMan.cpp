@@ -1,40 +1,31 @@
 ﻿#include "MerMan.h"
-#include "MerMan.h"
 #include "define.h"
 
 void MerMan::SetState(int state)
 {
-	CGameObject::SetState(state);
+	Enemy::SetState(state);
 
 	switch (state)
 	{
 	case MERMAN_STATE_JUMP:
 		vy = -0.8;
 		break;
-	case MERMAN_STATE_DIE:
-		vx = vy = 0;
-		break;
 	case MERMAN_STATE_WALK:
-		vx = 0.5*SIMON_WALKING_SPEED;
+		if (nx > 0)
+			vx = 0.5 * SIMON_WALKING_SPEED;
+		else
+			vx = -0.5 * SIMON_WALKING_SPEED;
 		break;
-
-	}
-	if (x < 0 && vx <0)
-	{
-		x = 0;
-		vx = -vx;
-	}
-	if (x > MAX_WIDTH_LV2_2 -2*MERMAN_BBOX_WIDTH && vx > 0)
-	{
-		vx = -vx;
-		x = MAX_WIDTH_LV2_2 - 2 * MERMAN_BBOX_WIDTH;
+	case MERMAN_STATE_HIT:
+		vx = 0;
+		isAttack = true;
+		break;
 	}
 }
 
 void MerMan::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-	x += dx;
+	Enemy::Update(dt, coObjects);
 	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -43,21 +34,56 @@ void MerMan::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	vy += SIMON_GRAVITY * dt;
 
-	
+	// Đặt thời gian mới bắt đầu tấn công
+	if (!isOnGround)
+	{
+		lastAttackTime = GetTickCount();
+	}
+
+	// Bật trạng thái attack
+	if (isOnGround && !isAttack && GetTickCount() - lastAttackTime > MERMAN_ATTACK_DURATION_TIME)
+	{
+		SetState(MERMAN_STATE_HIT);
+		attackTime = GetTickCount();
+	}
+
+	// Thoát trạng thái attack
+	if (isAttack && GetTickCount() - attackTime > MERMAN_ATTACK_TIME)
+	{
+		isAttack = false;
+		SetState(MERMAN_STATE_WALK);
+		lastAttackTime = GetTickCount();
+		didAttack = false;
+	}
+
+	// Vị trí di chuyển
+	if ((x < 0 && vx < 0))
+	{
+		x = 0;
+		vx = -vx;
+		nx = -nx;
+	}
+	if (x > MAX_WIDTH_LV2_2 - 3 * MERMAN_BBOX_WIDTH && vx > 0)
+	{
+		x = MAX_WIDTH_LV2_2 - 3 * MERMAN_BBOX_WIDTH;
+		vx = -vx;
+		nx = -nx;
+	}
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
+		x += dx;
 		y += dy;
 	}
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
-		bool willBlock = false;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
+		bool willBlock = false;
+
 		// block
-		
 
 		for (int i = 0; i < coEventsResult.size(); i++)
 		{
@@ -68,13 +94,17 @@ void MerMan::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (e->ny < 0)
 				{											
 					willBlock = true;
-					isonGround = true;
+					if (!isOnGround)
+					{
+						SetState(MERMAN_STATE_WALK);
+						isOnGround = true;
+					}
 					// Xét va chạm cứng
 					if (ny != 0) vy = 0;
 				}
-								
 			}
 		}
+
 		if (willBlock)
 		{
 			x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
@@ -84,10 +114,6 @@ void MerMan::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			x += dx;
 			y += dy;
-		}
-		if (isonGround)
-		{
-			this->SetState(MERMAN_STATE_WALK);
 		}
 	}
 	for(int i =0;i<3;i++)
@@ -105,14 +131,25 @@ void MerMan::Render()
 		ani = MERMAN_ANI_JUMP;
 		break;
 	case MERMAN_STATE_WALK:
-		if (vx < 0)
+		if (nx < 0)
+		{
 			ani = MERMAN_ANI_WALK_LEFT;
-		else if (vx > 0)
+		}
+		else if (nx > 0)
+		{
 			ani = MERMAN_ANI_WALK_RIGHT;
+		}
 		break;
-	/*case MERMAN_STATE_DIE:
-		ani = -1;_ani
-		break;*/
+	case MERMAN_STATE_HIT:
+		if (nx < 0)
+		{
+			ani = MERMAN_ANI_HIT_LEFT;
+		}
+		else if (nx > 0)
+		{
+			ani = MERMAN_ANI_HIT_RIGHT;
+		}
+		break;
 	}
 	
 	if (ani != -1)

@@ -1,5 +1,6 @@
 ﻿#include "Simon.h"
 #include "Weapon.h"
+#include "RedBat.h"
 #include "Cross.h"
 
 int Simon::score = 0;
@@ -18,12 +19,16 @@ void Simon::CalcPotentialCollisions(
 
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
+		float cbl, cbr, cbt, cbb;
+		coObjects->at(i)->GetBoundingBox(cbl, cbt, cbr, cbb);
+
 		// Simon se khong va cham voi nhung vat sau:
 		if (!dynamic_cast<Candle *>(coObjects->at(i)) &&
 			!dynamic_cast<BigFire *>(coObjects->at(i)) &&
 			!dynamic_cast<Stair *>(coObjects->at(i)) &&
 			!dynamic_cast<CheckStair *>(coObjects->at(i)) &&
 			!dynamic_cast<Weapon *>(coObjects->at(i)) &&
+			!dynamic_cast<Item *>(coObjects->at(i)) &&
 			!dynamic_cast<Door *>(coObjects->at(i)))
 		{
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
@@ -32,6 +37,47 @@ void Simon::CalcPotentialCollisions(
 				coEvents.push_back(e);
 			else
 				delete e;
+		}
+		else if (dynamic_cast<Item *>(coObjects->at(i)))
+		{
+			Item *item = dynamic_cast<Item *>(coObjects->at(i));
+
+			if (x < cbr && x + SIMON_STAND_BBOX_WIDTH > cbl && y < cbb && y + SIMON_STAND_BBOX_HEIGHT > cbt)
+			{
+				item->SetEaten();
+
+				int type = item->GetType();
+				switch (type)
+				{
+				case ITEM_HEART:
+					IncHeart(5);
+					break;
+				case ITEM_WHIPITEM:
+					whip->UpLevel();
+					break;
+				case ITEM_KNIFE:
+					SetCurrentWeapon(ITEM_KNIFE);
+					break;
+				case ITEM_AXE:
+					SetCurrentWeapon(ITEM_AXE);
+					break;
+				case ITEM_HOLYWATER:
+					SetCurrentWeapon(ITEM_HOLYWATER);
+					break;
+				case ITEM_CROSS:
+					SetCurrentWeapon(ITEM_CROSS);
+					break;
+				case ITEM_CLOCK:
+					SetCurrentWeapon(ITEM_CLOCK);
+					break;
+				case ITEM_MONEY:
+					IncScore(1000);
+					break;
+					/*case ITEM_ROSARY:
+						d3ddv->ColorFill(bb, NULL, (255, 0, 0));
+						break;*/
+				}
+			}
 		}
 		// Xet simon co dang dung ngay tai check stair hay khong
 		else if (dynamic_cast<CheckStair *>(coObjects->at(i)))
@@ -341,7 +387,7 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if ((dynamic_cast<Zombie *>(e->obj) || dynamic_cast<Panther *>(e->obj)) && !isUntouchable)
+			if (dynamic_cast<Enemy *>(e->obj) && !isUntouchable)
 			{
 				// Reset frame cho hành động attack
 				if (isAttack)
@@ -386,9 +432,16 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				willHurt = true;
 				preHP -= 1;
 				StartUntouchable();
+
+				if (dynamic_cast<RedBat *>(e->obj))
+				{
+					RedBat *redbat = dynamic_cast<RedBat *>(e->obj);
+					redbat->isDie = true;
+				}
 			}
 			else if (dynamic_cast<Ground *>(e->obj) && !willHurt && !isOnStair)
 			{
+				Ground *ground = dynamic_cast<Ground *>(e->obj);
 				// Da cham dat
 				// Khong va cham theo phuong ngang
 				if (e->ny < 0)
@@ -402,7 +455,13 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					willBlock = true;
 
 					// Xét va chạm cứng
-					if (ny != 0) vy = 0;
+					vy = 0;
+				}
+
+				if (ground->isBlock && e->nx != 0)
+				{
+					SetState(SIMON_STATE_IDLE);
+					willBlock = true;
 				}
 			}
 			else if (dynamic_cast<CheckPoint *>(e->obj))
@@ -482,6 +541,7 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			y += dy;
 		}
 	}
+
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }

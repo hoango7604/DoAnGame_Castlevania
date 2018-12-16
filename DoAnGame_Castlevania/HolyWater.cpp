@@ -8,9 +8,7 @@ void HolyWater::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<
 
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (!dynamic_cast<Candle *>(coObjects->at(i)) &&
-			!dynamic_cast<BigFire *>(coObjects->at(i)) &&
-			!dynamic_cast<Stair *>(coObjects->at(i)) &&
+		if (!dynamic_cast<Stair *>(coObjects->at(i)) &&
 			!dynamic_cast<CheckStair *>(coObjects->at(i)) &&
 			!dynamic_cast<Weapon *>(coObjects->at(i)) &&
 			!dynamic_cast<Item *>(coObjects->at(i)))
@@ -22,18 +20,24 @@ void HolyWater::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<
 			coObjects->at(i)->GetBoundingBox(sl, st, sr, sb);
 
 			// Xét các vật thể đi vào vùng lửa thánh
-			if (ml < sr && mr > sl)
+			if (ml < sr && mr > sl && mt < sb && mb > st)
 			{
-				if (dynamic_cast<Zombie *>(e->obj) && isBurn)
+				if (dynamic_cast<Enemy *>(e->obj) && isBurn)
 				{
-					Zombie *zombie = dynamic_cast<Zombie *>(e->obj);
-					zombie->SetState(ZOMBIE_STATE_DIE);
+					Enemy *enemy = dynamic_cast<Enemy *>(e->obj);
+					enemy->isDie = true;
 					isBurn = true;
 				}
-				else if (dynamic_cast<Panther *>(e->obj) && isBurn)
+				else if ((dynamic_cast<BigFire *>(e->obj) && isBurn))
 				{
-					Panther *panther = dynamic_cast<Panther *>(e->obj);
-					panther->isDie = true;
+					BigFire *bigFire = dynamic_cast<BigFire *>(e->obj);
+					bigFire->isHitted = true;
+					isBurn = true;
+				}
+				else if ((dynamic_cast<Candle *>(e->obj) && isBurn))
+				{
+					Candle *candle = dynamic_cast<Candle *>(e->obj);
+					candle->isHitted = true;
 					isBurn = true;
 				}
 			}

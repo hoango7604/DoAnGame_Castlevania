@@ -131,7 +131,7 @@
 #define ZOMBIE_WALKING_SPEED			0.07f
 
 #define ZOMBIE_BBOX_WIDTH				32
-#define ZOMBIE_BBOX_HEIGHT				32
+#define ZOMBIE_BBOX_HEIGHT				64
 #define ZOMBIE_BBOX_HEIGHT_DIE			9
 
 #define ZOMBIE_STATE_WALKING			100
@@ -140,6 +140,19 @@
 #define ZOMBIE_ANI_WALKING_LEFT			0
 #define ZOMBIE_ANI_WALKING_RIGHT		1
 #define ZOMBIE_ANI_DIE					2
+
+// Bat
+#define BAT_FLYING_SPEED				0.12f
+#define BAT_FLYING_GRAVITY				0.0005f
+#define BAT_STABLE_GRAVITY				0.25f
+
+#define BAT_BBOX_WIDTH					32
+#define BAT_BBOX_HEIGHT					40
+
+#define BAT_STATE_FLYING				0
+
+#define BAT_ANI_FLYING_LEFT				0
+#define BAT_ANI_FLYING_RIGHT			1
 
 //Panther
 #define PANTHER_WALKING_SPEED			0.3f
@@ -162,6 +175,7 @@
 #define PANTHER_ANI_RUN_LEFT			1
 #define PANTHER_ANI_RUN_RIGHT			2
 #define PANTHER_ANI_JUMP				3
+
 //MerMan
 #define MERMAN_BBOX_WIDTH				32
 #define MERMAN_BBOX_HEIGHT				64
@@ -177,6 +191,15 @@
 #define MERMAN_ANI_WALK_RIGHT			3
 #define MERMAN_ANI_HIT_RIGHT			4
 #define MERMAN_ANI_DIE					5
+
+#define MERMAN_ATTACK_DURATION_TIME		2000
+#define MERMAN_ATTACK_TIME				1000
+
+// Enemy bullet
+#define ENEMY_BULLET_BBOX_WIDTH			10
+#define ENEMY_BULLET_BBOX_HEIGHT		10
+
+#define ENEMY_BULLET_SPEED				0.15f
 
 //BossBat
 #define BOSSBAT_BBOX_WIDTH				100	
@@ -296,6 +319,7 @@
 #define EFFECT_TIME						200
 #define LEVELUP_TIME					3000
 #define ITEM_LIVE_TIME					5000
+#define CLOCK_WEAPON_FREEZE_TIME		2000
 
 // Item
 #define ITEM_WHIPITEM					808

@@ -1,14 +1,19 @@
 #pragma once
-#include "GameObject.h"
-#include "Game.h"
+#include "Enemy.h"
 #include "Ground.h"
 #include "WaterAnimation.h"
-class MerMan : public CGameObject
+
+class MerMan : public Enemy
 {
 
 public:
 	
-	bool isonGround;
+	bool isOnGround;
+	bool isAttack;
+	bool didAttack;
+	DWORD attackTime;
+	DWORD lastAttackTime;
+	
 	WaterAnimation * wa_ani[3];
 	void SetPosition(float x, float y) {
 		this->x = x;

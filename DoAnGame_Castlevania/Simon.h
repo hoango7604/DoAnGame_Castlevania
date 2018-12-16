@@ -9,12 +9,11 @@
 #include "BigFire.h"
 #include "Candle.h"
 #include "Item.h"
-#include "Zombie.h"
+#include "Enemy.h"
 #include "Ground.h"
 #include "Stair.h"
 #include "CheckStair.h"
 #include "CheckPoint.h"
-#include "Panther.h"
 #include "Door.h"
 
 class Simon : public CGameObject

@@ -2,6 +2,7 @@
 #include "Simon.h"
 #include "Whip.h"
 #include "Zombie.h"
+#include "RedBat.h"
 #include "Candle.h"
 #include "BigFire.h"
 
@@ -12,28 +13,26 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (dynamic_cast<Zombie *>(coObjects->at(i)))
+		if (dynamic_cast<Enemy *>(coObjects->at(i)))
 		{
-			Zombie *zombie = dynamic_cast<Zombie *>(coObjects->at(i));
+			Enemy *enemy = NULL;
 
-			float zl, zr, zt, zb;
-			zombie->GetBoundingBox(zl, zt, zr, zb);
-			if (wl < zl && wr > zr && wt > zt && wb < zb)
-			{
-				zombie->SetState(ZOMBIE_STATE_DIE);
-				Simon::score += 100;
-			}
-		}
-		if (dynamic_cast<MerMan *>(coObjects->at(i)))
-		{
-			MerMan *merman = dynamic_cast<MerMan *>(coObjects->at(i));
+			if (dynamic_cast<Zombie *>(coObjects->at(i)))
+				enemy = dynamic_cast<Zombie *>(coObjects->at(i));
+			else if (dynamic_cast<MerMan *>(coObjects->at(i)))
+				enemy = dynamic_cast<MerMan *>(coObjects->at(i));
+			else if (dynamic_cast<RedBat *>(coObjects->at(i)))
+				enemy = dynamic_cast<RedBat *>(coObjects->at(i));
 
-			float zl, zr, zt, zb;
-			merman->GetBoundingBox(zl, zt, zr, zb);
-			if (wl < zl && wr > zr && wt > zt && wb < zb)
+			if (enemy != NULL)
 			{
-				merman->SetState(MERMAN_STATE_DIE);
-				Simon::score += 100;
+				float zl, zr, zt, zb;
+				enemy->GetBoundingBox(zl, zt, zr, zb);
+				if (wl < zl && wr > zr && wt > zt && wb < zb)
+				{
+					enemy->isDie = true;
+					Simon::score += 100;
+				}
 			}
 		}
 		else if (dynamic_cast<BigFire *>(coObjects->at(i)))
