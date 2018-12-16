@@ -16,11 +16,11 @@ public:
 		for (int i = 0; i < 3; i++)
 		{
 			wa_ani[i] = new WaterAnimation();
-			
+			wa_ani[i]->SetSpeed(0, -0.0055);
 		}
-		wa_ani[0]->SetPosition(x - 10, y);
-		wa_ani[1]->SetPosition(x +10, y);
-		wa_ani[2]->SetPosition(x , y-10);
+		wa_ani[0]->SetPosition(x - 32, y);
+		wa_ani[1]->SetPosition(x +32, y);
+		wa_ani[2]->SetPosition(x , y-32);
 		
 	}
 	virtual void SetState(int state);

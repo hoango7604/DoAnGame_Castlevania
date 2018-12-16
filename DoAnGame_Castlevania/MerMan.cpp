@@ -123,7 +123,7 @@ void MerMan::Render()
 	{
 		float z, t;
 		wa_ani[i]->GetPosition(z, t);
-		wa_ani[i]->animations[i]->Render(z, t);
+		wa_ani[i]->animations[0]->Render(z, t);
 	}
 	
 	RenderBoundingBox();
