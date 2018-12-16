@@ -2136,7 +2136,7 @@ void Update(DWORD dt)
 					Zombie *zombie = new Zombie();
 					zombie->AddAnimation(602);
 					zombie->AddAnimation(604);
-					zombie->SetPosition(rand() % (SCREEN_WIDTH + 1) + x - SCREEN_WIDTH / 2 +i*32, 376);					
+					zombie->SetPosition(rand() % (SCREEN_WIDTH + 1) + x - SCREEN_WIDTH / 2 +i*32, 365);					
 					zombie->SetState(ZOMBIE_STATE_WALKING,i%2);
 					listGrids->AddObject(zombie);
 					
@@ -2257,18 +2257,21 @@ void Update(DWORD dt)
 		}
 		else if (countLoadResourceboss == true)
 		{
-			simon->GetPosition(x, y);
-			for (int i = 0; i < 2; i++)
+			if (GetTickCount() - timer > 5000)
 			{
-				Zombie *zombie = new Zombie();
-				zombie->AddAnimation(602);
-				zombie->AddAnimation(604);
-				zombie->SetPosition(rand() % (SCREEN_WIDTH + 1) + x - SCREEN_WIDTH / 2 + i * 32, 376);
-				zombie->SetState(ZOMBIE_STATE_WALKING, i % 2);
-				listGrids->AddObject(zombie);
-				
+				simon->GetPosition(x, y);
+				for (int i = 0; i < 2; i++)
+				{
+					Zombie *zombie = new Zombie();
+					zombie->AddAnimation(602);
+					zombie->AddAnimation(604);
+					zombie->SetPosition(rand() % (SCREEN_WIDTH + 1) + x - SCREEN_WIDTH / 2 + i * 32, 365);
+					zombie->SetState(ZOMBIE_STATE_WALKING, i % 2);
+					listGrids->AddObject(zombie);
+
+				}
+				timer = timer + 5000;
 			}
-			timer = timer + 5000;
 		}
 		
 		//can xu li win boss de chuyen sang dracula
