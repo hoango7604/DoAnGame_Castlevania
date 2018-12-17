@@ -4,6 +4,7 @@
 #include "Zombie.h"
 #include "Panther.h"
 #include "RedBat.h"
+#include "BossBat.h"
 #include "Candle.h"
 #include "BigFire.h"
 
@@ -16,7 +17,27 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (dynamic_cast<Enemy *>(coObjects->at(i)))
 		{
-			if (!dynamic_cast<Panther *>(coObjects->at(i)))
+			if (dynamic_cast<BossBat *>(coObjects->at(i)))
+			{
+				BossBat *bossbat = dynamic_cast<BossBat *>(coObjects->at(i));
+
+				float zl, zr, zt, zb;
+				bossbat->GetBoundingBox(zl, zt, zr, zb);
+
+				if (wl < zr && wr > zl && wt < zb && wb > zt)
+				{
+					bossbat->health -= 1;
+					bossbat->isHurt = true;
+					bossbat->hurtTime = GetTickCount();
+
+					if (bossbat->health == 0)
+					{
+						bossbat->isDie = true;
+						Simon::score += 100;
+					}
+				}
+			}
+			else if (!dynamic_cast<Panther *>(coObjects->at(i)))
 			{
 				Enemy *enemy = dynamic_cast<Enemy *>(coObjects->at(i));
 

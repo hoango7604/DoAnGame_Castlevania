@@ -1003,7 +1003,7 @@ void LoadResourceboss()
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
-	BossBat *bossbat = new BossBat();
+	BossBat *bossbat = new BossBat(simon, game);
 	bossbat->AddAnimation(609);
 	bossbat->AddAnimation(610);
 	bossbat->SetPosition(5325, 125);
@@ -2390,83 +2390,88 @@ void Update(DWORD dt)
 			isClockWeaponUsed = false;
 		}
 	}
-	else
+
+	for (int i = 0; i < objects.size(); i++)
 	{
-		for (int i = 0; i < objects.size(); i++)
+		if (!dynamic_cast<Enemy *>(objects.at(i)))
+			objects[i]->Update(dt, &objects);
+
+		if (dynamic_cast<Enemy *>(objects.at(i)))
 		{
-			if (dynamic_cast<BossBat *>(objects.at(i)))
+			enemy = dynamic_cast<Enemy *>(objects.at(i));
+
+			if (isClockWeaponUsed)
 			{
-				BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
-				bossbat->Update(x, y, dt, &objects);
-			}
-			else if (dynamic_cast<Panther *>(objects.at(i)))
-			{
-				Panther *panther = dynamic_cast<Panther *>(objects.at(i));
-				if (panther->isActivate && ((panther->x < (simon->x - 2 * SCREEN_WIDTH / 3)) || (panther->x > (simon->x + 2 * SCREEN_WIDTH / 3))))
-				{
-					panther->isDie = true;
-				}
-				else if (!panther->isUse)
-				{
-					if ((simon->y - panther->y < PANTHER_DISTANCE_SIMON_Y && panther->x - simon->x < PANTHER_DISTANCE_SIMON_X))
-					{
-						panther->SetState(PANTHER_STATE_RUN);
-						panther->isActivate = true;
-					}
-
-					if (panther->isActivate &&
-						(panther->x >= PANTHER_JUMP_POINT_1_X - 3 && panther->x <= PANTHER_JUMP_POINT_1_X + 10) ||
-						(panther->x >= PANTHER_JUMP_POINT_2_X - 3 && panther->x <= PANTHER_JUMP_POINT_2_X + 10) ||
-						(panther->x >= PANTHER_JUMP_POINT_3_X - 3 && panther->x <= PANTHER_JUMP_POINT_3_X + 10))
-					{
-						panther->SetState(PANTHER_STATE_JUMP);
-					}
-
-				}
-
-				panther->Update(dt, &objects);
-			}
-			else if (dynamic_cast<MerMan *>(objects.at(i)))
-			{
-				MerMan *merman = dynamic_cast<MerMan *>(objects.at(i));
-
-				if (merman->isOnGround)
-				{
-					if (merman->y > game->y_cam + SCREEN_HEIGHT / 2)
-					{
-						if (merman->y > game->y_cam + SCREEN_HEIGHT)
-							merman->isDie = true;
-						else
-						{
-							merman->isAttack = false;
-							merman->SetState(MERMAN_STATE_WALK);
-						}
-					}
-					else
-					{
-						if (merman->isAttack && !merman->didAttack)
-						{
-							int nx = merman->nx;
-							enemy = new EnemyBullet(nx);
-							enemy->AddAnimation(812);
-							enemy->SetPosition(merman->x + MERMAN_BBOX_WIDTH / 2, merman->y + 10);
-
-							listGrids->AddObject(enemy);
-							merman->didAttack = true;
-						}
-					}
-				}
-
-				if (merman->x < game->x_cam - MERMAN_BBOX_WIDTH || merman->x > game->x_cam + SCREEN_WIDTH)
-					merman->isDie = true;
-
-				merman->Update(dt, &objects);
+				enemy->isFrozen = true;
 			}
 			else
-				objects[i]->Update(dt, &objects);
+			{
+				enemy->isFrozen = false;
 
-			listGrids->UpdateObjectInGrid(objects[i]);
+				if (dynamic_cast<Panther *>(objects.at(i)))
+				{
+					Panther *panther = dynamic_cast<Panther *>(objects.at(i));
+					if (panther->isActivate && ((panther->x < (simon->x - 2 * SCREEN_WIDTH / 3)) || (panther->x > (simon->x + 2 * SCREEN_WIDTH / 3))))
+					{
+						panther->isDie = true;
+					}
+					else if (!panther->isUse)
+					{
+						if ((simon->y - panther->y < PANTHER_DISTANCE_SIMON_Y && panther->x - simon->x < PANTHER_DISTANCE_SIMON_X))
+						{
+							panther->SetState(PANTHER_STATE_RUN);
+							panther->isActivate = true;
+						}
+
+						if (panther->isActivate &&
+							(panther->x >= PANTHER_JUMP_POINT_1_X - 3 && panther->x <= PANTHER_JUMP_POINT_1_X + 10) ||
+							(panther->x >= PANTHER_JUMP_POINT_2_X - 3 && panther->x <= PANTHER_JUMP_POINT_2_X + 10) ||
+							(panther->x >= PANTHER_JUMP_POINT_3_X - 3 && panther->x <= PANTHER_JUMP_POINT_3_X + 10))
+						{
+							panther->SetState(PANTHER_STATE_JUMP);
+						}
+					}
+				}
+				else if (dynamic_cast<MerMan *>(objects.at(i)))
+				{
+					MerMan *merman = dynamic_cast<MerMan *>(objects.at(i));
+
+					if (merman->isOnGround)
+					{
+						if (merman->y > game->y_cam + SCREEN_HEIGHT / 2)
+						{
+							if (merman->y > game->y_cam + SCREEN_HEIGHT)
+								merman->isDie = true;
+							else
+							{
+								merman->isAttack = false;
+								merman->SetState(MERMAN_STATE_WALK);
+							}
+						}
+						else
+						{
+							if (merman->isAttack && !merman->didAttack)
+							{
+								int nx = merman->nx;
+								enemy = new EnemyBullet(nx);
+								enemy->AddAnimation(812);
+								enemy->SetPosition(merman->x + MERMAN_BBOX_WIDTH / 2, merman->y + 10);
+
+								listGrids->AddObject(enemy);
+								merman->didAttack = true;
+							}
+						}
+					}
+
+					if (merman->x < game->x_cam - MERMAN_BBOX_WIDTH || merman->x > game->x_cam + SCREEN_WIDTH)
+						merman->isDie = true;
+				}
+
+				enemy->Update(dt, &objects);
+			}
 		}
+
+		listGrids->UpdateObjectInGrid(objects[i]);
 	}
 	
 #pragma endregion
@@ -2482,7 +2487,7 @@ void Update(DWORD dt)
 	{
 		if (dynamic_cast<Enemy *>(objects.at(i)))
 		{
-			if (dynamic_cast<Zombie *>(objects.at(i)))
+			/*if (dynamic_cast<Zombie *>(objects.at(i)))
 			{
 				enemy = dynamic_cast<Zombie *>(objects.at(i));
 			}
@@ -2501,7 +2506,9 @@ void Update(DWORD dt)
 			else if (dynamic_cast<EnemyBullet *>(objects.at(i)))
 			{
 				enemy = dynamic_cast<EnemyBullet *>(objects.at(i));
-			}
+			}*/
+
+			enemy = dynamic_cast<Enemy *>(objects.at(i));
 
 			if (enemy->isDie)
 			{

@@ -1,17 +1,31 @@
 #pragma once
-#include "GameObject.h"
-#include"Game.h"
+#include "Enemy.h"
+#include "Game.h"
+#include "Simon.h"
 
-class BossBat : public CGameObject
+class BossBat : public Enemy
 {
-	bool startAttack = false;
-	DWORD wait = 0;
-	DWORD startAttack1 = 0;
-	bool check = false;
+
 public:
+	Simon *simon;
+	CGame *game;
+
+	bool isHurt;
+	bool isWait;
+	bool isAttack;
+	bool isTop;
+	bool isBottom;
+
+	DWORD waitTime;
+	DWORD attackTime;
+	DWORD hurtTime;
+
+	float destination_x, destination_y;
+
+	BossBat(Simon *simon, CGame *game) { this->simon = simon; this->game = game; maxHealth = 16; health = 16; }
+
 	virtual void SetState(int state);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-	virtual void Update(float xs, float ys, DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 };

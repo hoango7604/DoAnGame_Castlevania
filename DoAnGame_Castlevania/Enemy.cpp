@@ -33,17 +33,7 @@ void Enemy::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCO
 	}
 }
 
-void Enemy::GetBoundingBox(float & left, float & top, float & right, float & bottom)
-{
-
-}
-
 void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-}
-
-void Enemy::Render()
-{
-	animations[0]->Render(x, y);
 }

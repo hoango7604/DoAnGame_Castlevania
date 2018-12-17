@@ -47,6 +47,9 @@ void RedBat::Render()
 	else if (nx > 0)
 		ani = BAT_ANI_FLYING_LEFT;
 
+	if (isFrozen)
+		animations[ani]->ResetFrame();
+
 	animations[ani]->Render(x, y);
 
 	RenderBoundingBox();

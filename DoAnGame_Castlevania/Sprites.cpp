@@ -87,6 +87,7 @@ void CAnimation::Render(float x, float y, int alpha)
 void CAnimation::ResetFrame()
 {
 	currentFrame = frames.size() - 1;
+	lastFrameTime = GetTickCount();
 }
 
 CAnimations * CAnimations::__instance = NULL;

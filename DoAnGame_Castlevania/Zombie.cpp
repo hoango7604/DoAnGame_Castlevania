@@ -90,6 +90,9 @@ void Zombie::Render()
 	else if (vx > 0)
 		ani = ZOMBIE_ANI_WALKING_RIGHT;
 
+	if (isFrozen)
+		animations[ani]->ResetFrame();
+
 	animations[ani]->Render(x, y);
 
 	RenderBoundingBox();

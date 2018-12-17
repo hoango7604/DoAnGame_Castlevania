@@ -117,12 +117,6 @@ void Simon::CalcPotentialCollisions(
 					}
 				}
 
-				// Đặt hướng hurt
-				if (coObjects->at(i)->nx > 0)
-					this->nx = -1;
-				else if (coObjects->at(i)->nx < 0)
-					this->nx = 1;
-
 				SetState(SIMON_STATE_HURT);
 				willHurt = true;
 				preHP -= 1;

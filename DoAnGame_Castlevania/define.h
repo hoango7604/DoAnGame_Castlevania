@@ -93,7 +93,7 @@
 #define KNIFE_BBOX_WIDTH				32
 #define KNIFE_BBOX_HEIGHT				18
 
-#define KNIFE_SPEED						1.0f
+#define KNIFE_SPEED						0.7f
 
 // Axe
 #define AXE_BBOX_WIDTH					32
@@ -104,7 +104,7 @@
 
 // Holy water
 #define HOLYWATER_BBOX_WIDTH			32
-#define HOLYWATER_BBOX_HEIGHT			26
+#define HOLYWATER_BBOX_HEIGHT			23
 
 #define HOLYWATER_SPEED_X				0.2f
 #define HOLYWATER_SPEED_Y				0.25f
@@ -203,7 +203,7 @@
 #define ENEMY_BULLET_BBOX_WIDTH			10
 #define ENEMY_BULLET_BBOX_HEIGHT		10
 
-#define ENEMY_BULLET_SPEED				0.15f
+#define ENEMY_BULLET_SPEED				0.2f
 
 //BossBat
 #define BOSSBAT_BBOX_WIDTH				100	
@@ -215,6 +215,13 @@
 
 #define BOSSBAT_ANI_WAIT				0
 #define BOSSBAT_ANI_ATTACK				1
+
+#define BOSSBAT_ATTACK_TIME				400
+#define BOSSBAT_WAITING_TIME			1000
+#define BOSSBAT_HURTING_TIME			1000
+
+#define BOSSBAT_SPEED_UP				0.1f
+#define BOSSBAT_SPEED_DOWN				0.15f
 
 // Check stair
 #define CHECKSTAIR_UP_LEFT				0

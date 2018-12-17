@@ -1,88 +1,258 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClInclude Include="Axe.h">
+      <Filter>Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBat.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="BigFire.h">
+      <Filter>Game objects\Lighters</Filter>
+    </ClInclude>
+    <ClInclude Include="Candle.h">
+      <Filter>Game objects\Lighters</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckStair.h">
+      <Filter>Game objects\Stairs</Filter>
+    </ClInclude>
+    <ClInclude Include="Cross.h">
+      <Filter>Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="debug.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckPoint.h">
+      <Filter>Game objects\Check levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Game objects\Check levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Game objects\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Game objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GridObjects.h">
+      <Filter>Game objects</Filter>
+    </ClInclude>
+    <ClInclude Include="HolyWater.h">
+      <Filter>Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Game objects\Items</Filter>
+    </ClInclude>
     <ClInclude Include="Knife.h">
-      <Filter>Header Files</Filter>
+      <Filter>Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="MerMan.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Panther.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="RedBat.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Simon.h">
+      <Filter>Simon</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="Stair.h">
+      <Filter>Game objects\Stairs</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Game objects\Grounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Game objects\Grounds</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterAnimation.h">
+      <Filter>Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Weapon.h">
-      <Filter>Header Files</Filter>
+      <Filter>Weapons</Filter>
     </ClInclude>
-    <ClInclude Include="Axe.h" />
-    <ClInclude Include="BigFire.h" />
-    <ClInclude Include="BossBat.h" />
-    <ClInclude Include="Candle.h" />
-    <ClInclude Include="CheckPoint.h" />
-    <ClInclude Include="CheckStair.h" />
-    <ClInclude Include="Cross.h" />
-    <ClInclude Include="debug.h" />
-    <ClInclude Include="define.h" />
-    <ClInclude Include="Door.h" />
-    <ClInclude Include="Effect.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyBullet.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GridObjects.h" />
-    <ClInclude Include="Ground.h" />
-    <ClInclude Include="HolyWater.h" />
-    <ClInclude Include="Knife.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="MerMan.h" />
-    <ClInclude Include="Panther.h" />
-    <ClInclude Include="RedBat.h" />
-    <ClInclude Include="Simon.h" />
-    <ClInclude Include="Sprites.h" />
-    <ClInclude Include="Stair.h" />
-    <ClInclude Include="Textures.h" />
-    <ClInclude Include="UI.h" />
-    <ClInclude Include="WaterAnimation.h" />
-    <ClInclude Include="Weapon.h" />
-    <ClInclude Include="Whip.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="Zombie.h" />
-    <ClInclude Include="Wall.h" />
+    <ClInclude Include="Whip.h">
+      <Filter>Simon</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Knife.h">
+      <Filter>Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Weapons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Axe.cpp">
+      <Filter>Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBat.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BigFire.cpp">
+      <Filter>Game objects\Lighters</Filter>
+    </ClCompile>
+    <ClCompile Include="Candle.cpp">
+      <Filter>Game objects\Lighters</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckStair.cpp">
+      <Filter>Game objects\Stairs</Filter>
+    </ClCompile>
+    <ClCompile Include="Cross.cpp">
+      <Filter>Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="debug.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="define.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckPoint.cpp">
+      <Filter>Game objects\Check levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Game objects\Check levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Game objects\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Game objects</Filter>
+    </ClCompile>
+    <ClCompile Include="GridObjects.cpp">
+      <Filter>Game objects</Filter>
+    </ClCompile>
+    <ClCompile Include="HolyWater.cpp">
+      <Filter>Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Game objects\Items</Filter>
+    </ClCompile>
     <ClCompile Include="Knife.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="MerMan.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Panther.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="RedBat.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Simon.cpp">
+      <Filter>Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>Game objects\Stairs</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Game objects\Grounds</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Game objects\Grounds</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterAnimation.cpp">
+      <Filter>Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Weapons</Filter>
     </ClCompile>
-    <ClCompile Include="Axe.cpp" />
-    <ClCompile Include="BigFire.cpp" />
-    <ClCompile Include="BossBat.cpp" />
-    <ClCompile Include="Candle.cpp" />
-    <ClCompile Include="CheckPoint.cpp" />
-    <ClCompile Include="CheckStair.cpp" />
-    <ClCompile Include="Cross.cpp" />
-    <ClCompile Include="debug.cpp" />
-    <ClCompile Include="define.cpp" />
-    <ClCompile Include="Door.cpp" />
-    <ClCompile Include="Effect.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyBullet.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GridObjects.cpp" />
-    <ClCompile Include="Ground.cpp" />
-    <ClCompile Include="HolyWater.cpp" />
-    <ClCompile Include="Knife.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MerMan.cpp" />
-    <ClCompile Include="Panther.cpp" />
-    <ClCompile Include="RedBat.cpp" />
-    <ClCompile Include="Simon.cpp" />
-    <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Sprites.cpp" />
-    <ClCompile Include="Stair.cpp" />
-    <ClCompile Include="Textures.cpp" />
-    <ClCompile Include="UI.cpp" />
-    <ClCompile Include="WaterAnimation.cpp" />
-    <ClCompile Include="Weapon.cpp" />
-    <ClCompile Include="Whip.cpp" />
-    <ClCompile Include="Item.cpp" />
-    <ClCompile Include="Zombie.cpp" />
-    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Whip.cpp">
+      <Filter>Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Knife.cpp">
+      <Filter>Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Weapons</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Simon">
+      <UniqueIdentifier>{648ea330-9b88-4c74-83bb-08b9a39326b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Weapons">
+      <UniqueIdentifier>{27c4af54-86c7-4c89-893a-2a5302f99499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies">
+      <UniqueIdentifier>{30a987e3-a5db-4afd-a943-c1701fd94031}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Frameworks">
+      <UniqueIdentifier>{30f87e2f-ac08-43e5-b3a9-f02261c26039}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game objects">
+      <UniqueIdentifier>{5ccaa049-1a61-45ea-af45-74e1c5f68783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game objects\Lighters">
+      <UniqueIdentifier>{b154f3c3-3be6-4c50-bc4c-1413e75e97e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game objects\Stairs">
+      <UniqueIdentifier>{6ee554ce-6e0a-447c-874a-f467b8ee1fe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game objects\Check levels">
+      <UniqueIdentifier>{ddd533fb-209e-4899-80c0-e4c28d475c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game objects\Items">
+      <UniqueIdentifier>{bd107248-1380-412e-b6a1-7e9bf7642337}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game objects\Grounds">
+      <UniqueIdentifier>{6c6ca3f5-b991-4be3-9cdc-76ff31e864e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

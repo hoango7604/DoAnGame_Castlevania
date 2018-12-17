@@ -18,6 +18,9 @@ void EnemyBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void EnemyBullet::Render()
 {
+	if (isFrozen)
+		animations[0]->ResetFrame();
+
 	animations[0]->Render(x, y);
 
 	RenderBoundingBox();

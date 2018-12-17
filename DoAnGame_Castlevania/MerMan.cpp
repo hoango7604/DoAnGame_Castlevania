@@ -151,6 +151,9 @@ void MerMan::Render()
 		}
 		break;
 	}
+
+	if (isFrozen)
+		animations[ani]->ResetFrame();
 	
 	if (ani != -1)
 		animations[ani]->Render(x, y);

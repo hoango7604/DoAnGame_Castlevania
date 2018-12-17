@@ -74,6 +74,7 @@ void Panther::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void Panther::Render()
 {
+
 	int ani = -1;
 
 	switch (state)
@@ -91,6 +92,9 @@ void Panther::Render()
 		ani = PANTHER_ANI_JUMP;
 		break;
 	}
+
+	if (isFrozen)
+		animations[ani]->ResetFrame();
 
 	if (ani != -1)
 		animations[ani]->Render(x, y);
