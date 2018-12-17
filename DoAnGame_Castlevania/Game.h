@@ -69,7 +69,7 @@ public:
 		return this->didv;
 	}
 	static CGame * GetInstance();
-
+	static int bossheath;
 	~CGame();
 };
 

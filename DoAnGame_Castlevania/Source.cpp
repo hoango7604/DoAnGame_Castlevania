@@ -3095,7 +3095,7 @@ void Render()
 		}
 
 		simon->Render();
-		ui->Render(game->x_cam, game->y_cam,simon);
+		ui->Render(game->x_cam, game->y_cam,simon, CGame::bossheath);
 		
 		/*RECT newRect;
 		SetRect(&newRect, 0, 0, 30, 30);
