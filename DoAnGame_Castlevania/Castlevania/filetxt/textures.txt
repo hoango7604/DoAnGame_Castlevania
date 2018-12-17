@@ -43,3 +43,6 @@
 43 Castlevania\Bosses_right.png
 44 Castlevania\Enimes.png
 45 Castlevania\Enimes_right.png
+46 Castlevania\13.png
+47 Castlevania\water.png
+

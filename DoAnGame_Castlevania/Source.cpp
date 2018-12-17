@@ -1186,9 +1186,9 @@ void LoadResourceLv3_1()
 void LoadResources()
 {	
 	textures->Add("Castlevania\\filetxt\\textures.txt", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("Castlevania\\filetxt\\textures1.txt", D3DCOLOR_XRGB(96, 68, 106));
-	textures->Add("Castlevania\\filetxt\\textures2.txt", D3DCOLOR_XRGB(204, 43, 102));
+	
 
+	//186 43 92
 	/*#pragma region Addsprite
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 
@@ -1523,6 +1523,12 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMic18 = textures->Get(ID_TEX_ENEMIES_RIGHT);
 	sprites->Add("Castlevania\\filetxt\\spr_enemy_right.txt", texMic18);
+
+	LPDIRECT3DTEXTURE9 texMic19 = textures->Get(46);
+	sprites->Add("Castlevania\\filetxt\\spr_prize.txt", texMic19);
+
+	LPDIRECT3DTEXTURE9 texMic20 = textures->Get(47);
+	sprites->Add("Castlevania\\filetxt\\spr_water.txt", texMic20);
 #pragma endregion
 
 
@@ -1895,8 +1901,7 @@ void LoadResources()
 	animations->Add(812, ani);
 
 	ani = new CAnimation(100);// thưởng rớt ra sau khi boss dơi chết
-	ani->Add(40029);
-	ani->Add(40030);
+	ani->Add(40029);	
 	animations->Add(813, ani);
 
 	ani = new CAnimation(500);// mở cửa
