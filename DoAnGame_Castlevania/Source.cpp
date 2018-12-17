@@ -2435,7 +2435,11 @@ void Update(DWORD dt)
 
 			if (simon->isRosaryUsed)
 			{
-				enemy->isDie = true;
+				if (!dynamic_cast<BossBat *>(objects.at(i)))
+				{
+					enemy->isDie = true;
+					Simon::score += 100;
+				}
 			}
 
 			if (isClockWeaponUsed)
