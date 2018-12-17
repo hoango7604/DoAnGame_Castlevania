@@ -44,6 +44,12 @@ void BossBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			// Tính vx theo vy
 			vx = vy * tan(angle);
 
+			if (vx > 2)
+			{
+				vx = vx / 2;
+				vy = vy / 2;
+			}
+
 			isTop = false;
 			isWait = false;
 		}
@@ -61,6 +67,12 @@ void BossBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 			// Tính vx theo vy
 			vx = vy * tan(angle);
+
+			if (vx > 2)
+			{
+				vx = vx / 2;
+				vy = vy / 2;
+			}
 
 			isBottom = false;
 			isWait = false;
@@ -104,7 +116,10 @@ void BossBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (isHurt)
 				{
 					if (GetTickCount() - hurtTime > BOSSBAT_HURTING_TIME)
+					{
 						isHurt = false;
+						isBleeding = false;
+					}
 				}
 				else
 				{
@@ -142,7 +157,10 @@ void BossBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				if (isHurt)
 				{
 					if (GetTickCount() - hurtTime > BOSSBAT_HURTING_TIME)
+					{
 						isHurt = false;
+						isBleeding = false;
+					}
 				}
 				else
 				{

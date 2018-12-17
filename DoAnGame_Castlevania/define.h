@@ -125,7 +125,7 @@
 
 //prize
 #define PRIZE_BBOX_WIDTH				32
-#define PRIZE_BBOX_HEIGHT				32
+#define PRIZE_BBOX_HEIGHT				29
 
 // Money
 #define MONEY_BBOX_WIDTH				30

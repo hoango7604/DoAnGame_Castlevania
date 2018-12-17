@@ -11,6 +11,7 @@ public:
 	CGame *game;
 
 	bool isHurt;
+	bool isBleeding;
 	bool isWait;
 	bool isAttack;
 	bool isTop;

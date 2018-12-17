@@ -2481,6 +2481,38 @@ void Update(DWORD dt)
 					if (merman->x < game->x_cam - MERMAN_BBOX_WIDTH || merman->x > game->x_cam + SCREEN_WIDTH)
 						merman->isDie = true;
 				}
+				else if (dynamic_cast<BossBat *>(objects.at(i)))
+				{
+					BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
+
+					if (bossbat->isHurt && !bossbat->isBleeding)
+					{
+						// Thêm hiệu ứng tóe lửa
+						whipEffect = new Effect(GetTickCount());
+						whipEffect->AddAnimation(806);
+						whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+						objects.push_back(whipEffect);
+						listGrids->AddObject(whipEffect);
+
+						whipEffect = new Effect(GetTickCount());
+						whipEffect->AddAnimation(807);
+						whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+						objects.push_back(whipEffect);
+						listGrids->AddObject(whipEffect);
+					}
+
+					if (bossbat->isDie)
+					{
+						item = new Item();
+						item->SetPosition(bossbat->x, bossbat->y);
+						item->SetSpeed(0, -0.1);
+						item->appearTime = GetTickCount();
+						item->AddAnimation(ITEM_PRIZE);
+						item->SetType(ITEM_PRIZE);
+						objects.push_back(item);
+						listGrids->AddObject(item);
+					}
+				}
 
 				enemy->Update(dt, &objects);
 			}
