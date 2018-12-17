@@ -35,14 +35,22 @@ void Door::Render()
 		if( GetTickCount() - time > 500)
 			animations[1]->Render(x, y);				
 	}
-	/*if (GetTickCount() - time > 3000)
-		state = DOOR_STATE_0;
-	if (state == DOOR_STATE_0)
+	if (check != 0)
 	{
-		animations[2]->Render(x, y);
-		time = GetTickCount();
-		
-	}*/
+		if (GetTickCount() - time > 3000)
+			state = DOOR_STATE_0;
+		if (state == DOOR_STATE_0)
+		{
+			animations[2]->Render(x, y);
+			time = GetTickCount();
+			if (GetTickCount() - time > 1000)
+				state == DOOR_STATE_01;
+		}
+		if (state == DOOR_STATE_01)
+		{
+
+		}
+	}
 	
 	
 

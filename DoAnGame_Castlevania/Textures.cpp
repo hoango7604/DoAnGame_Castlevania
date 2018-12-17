@@ -29,11 +29,6 @@ void CTextures::Add( LPCSTR fileSource, D3DCOLOR transparentColor)
 	string lineString1;
 	int id;
 	
-
-
-
-
-
 	while (pFile.good())
 	{
 		getline(pFile, lineString);

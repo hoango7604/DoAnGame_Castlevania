@@ -123,6 +123,10 @@
 #define CLOCK_BBOX_WIDTH				32
 #define CLOCK_BBOX_HEIGHT				32
 
+//prize
+#define PRIZE_BBOX_WIDTH				32
+#define PRIZE_BBOX_HEIGHT				32
+
 // Money
 #define MONEY_BBOX_WIDTH				30
 #define MONEY_BBOX_HEIGHT				30
@@ -334,6 +338,7 @@
 #define ITEM_KNIFE						4433
 #define ITEM_ROSARY						4434
 #define ITEM_CLOCK						4435
+#define ITEM_PRIZE						813
 
 // Weapon in action
 #define WEAPON_ANI_AXE					430
