@@ -26,11 +26,12 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (wl < zr && wr > zl && wt < zb && wb > zt)
 				{
-					bossbat->health -= 1;
+					//bossbat->health -= 1;
+					CGame::GetInstance()->bossheath -= 1;
 					bossbat->isHurt = true;
 					bossbat->hurtTime = GetTickCount();
 
-					if (bossbat->health == 0)
+					if (CGame::GetInstance()->bossheath == 0)
 					{
 						bossbat->isDie = true;
 						Simon::score += 100;

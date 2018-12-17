@@ -2,7 +2,7 @@
 #include "debug.h"
 
 CGame * CGame::__instance = NULL;
-
+int CGame::bossheath = 16;
 /*
 	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for
 	rendering 2D images
