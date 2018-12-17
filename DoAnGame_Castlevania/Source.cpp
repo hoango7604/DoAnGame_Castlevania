@@ -81,6 +81,8 @@ bool isEnableKeyBoard = true;
 bool isClockWeaponUsed = false;
 DWORD clockWeaponCast;
 
+bool transparent = false;
+
 DWORD timer; // load enemy
 bool count_enemy = true;
 DWORD gameTime = 999000;
@@ -230,6 +232,13 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	{
 		simon->currentWeapon = ITEM_CLOCK;
 		GenerateWeapon();
+	}
+
+	if (KeyCode == DIK_Y)
+	{
+		simon->isRosaryUsed = true;
+		simon->rosaryCast = GetTickCount();
+		isEnableKeyBoard = false;
 	}
 
 	if (isEnableKeyBoard && !simon->isHurt)
@@ -1529,6 +1538,9 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMic20 = textures->Get(47);
 	sprites->Add("Castlevania\\filetxt\\spr_water.txt", texMic20);
+
+	LPDIRECT3DTEXTURE9 texMic21 = textures->Get(48);
+	sprites->Add("Castlevania\\filetxt\\spr_rosary_action.txt", texMic21);
 #pragma endregion
 
 
@@ -1753,6 +1765,10 @@ void LoadResources()
 	ani = new CAnimation(150); // rosary item
 	ani->Add(10090);
 	animations->Add(4434, ani);
+
+	ani = new CAnimation(150); // rosary action
+	ani->Add(90010);
+	animations->Add(4444, ani);
 	
 	ani = new CAnimation(150); // clock item
 	ani->Add(10080);
@@ -2397,6 +2413,8 @@ void Update(DWORD dt)
 	}
 
 	simon->Update(lv,dt, &objects);
+	if (simon->isRosaryUsed)
+		isEnableKeyBoard = false;
 
 	if (isClockWeaponUsed)
 	{
@@ -2414,6 +2432,11 @@ void Update(DWORD dt)
 		if (dynamic_cast<Enemy *>(objects.at(i)))
 		{
 			enemy = dynamic_cast<Enemy *>(objects.at(i));
+
+			if (simon->isRosaryUsed)
+			{
+				enemy->isDie = true;
+			}
 
 			if (isClockWeaponUsed)
 			{
@@ -2686,8 +2709,10 @@ void Update(DWORD dt)
 					}*/
 					if (random_portion >= 0 && random_portion <= 100)
 					{
-						item->AddAnimation(ITEM_PRIZE);
-						item->SetType(ITEM_PRIZE);
+						/*item->AddAnimation(ITEM_PRIZE);
+						item->SetType(ITEM_PRIZE);*/
+						item->AddAnimation(ITEM_ROSARY);
+						item->SetType(ITEM_ROSARY);
 					}
 				}
 
@@ -3091,6 +3116,21 @@ void Render()
 			for (int j = 0; j < listObjectSize; j++)
 			{
 				listObject[j]->Render();
+			}
+		}
+
+		if (simon->isRosaryUsed)
+		{
+			if (transparent)
+			{
+				animations->Get(4444)->Render(game->x_cam, game->y_cam, 100);
+			}
+			transparent = !transparent;
+
+			if (GetTickCount() - simon->rosaryCast > ROSARY_TIME)
+			{
+				simon->isRosaryUsed = false;
+				isEnableKeyBoard = true;
 			}
 		}
 

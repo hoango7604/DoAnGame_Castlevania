@@ -74,9 +74,11 @@ void Simon::CalcPotentialCollisions(
 				case ITEM_MONEY:
 					IncScore(1000);
 					break;
-					/*case ITEM_ROSARY:
-						d3ddv->ColorFill(bb, NULL, (255, 0, 0));
-						break;*/
+				case ITEM_ROSARY:
+					isRosaryUsed = true;
+					rosaryCast = GetTickCount();
+					SetState(SIMON_STATE_IDLE);
+					break;
 				}
 			}
 		}
@@ -485,48 +487,6 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					break;
 				}
 			}
-			else if (dynamic_cast<Item *>(e->obj))
-			{
-				Item *item = dynamic_cast<Item *>(e->obj);
-				item->SetEaten();
-
-				if (e->ny > 0)
-					dy = 0;
-				else
-					willBlock = true;
-
-				int type = item->GetType();
-				switch (type)
-				{
-				case ITEM_HEART:
-					IncHeart(5);
-					break;
-				case ITEM_WHIPITEM:
-					whip->UpLevel();
-					break;
-				case ITEM_KNIFE:
-					SetCurrentWeapon(ITEM_KNIFE);
-					break;
-				case ITEM_AXE:
-					SetCurrentWeapon(ITEM_AXE);
-					break;
-				case ITEM_HOLYWATER:
-					SetCurrentWeapon(ITEM_HOLYWATER);
-					break;
-				case ITEM_CROSS:
-					SetCurrentWeapon(ITEM_CROSS);
-					break;
-				case ITEM_CLOCK:
-					SetCurrentWeapon(ITEM_CLOCK);
-					break;
-				case ITEM_MONEY:
-					IncScore(1000);
-					break;
-				/*case ITEM_ROSARY:
-					d3ddv->ColorFill(bb, NULL, (255, 0, 0));
-					break;*/
-				}
-			}
 		}
 
 		// block 
@@ -714,6 +674,12 @@ void Simon::Render()
 	}
 
 	int alpha = 255;
+	if (isUntouchable)
+	{
+		if (transparent)
+			alpha = 125;
+		transparent = !transparent;
+	}
 
 	if (ani != -1)
 	{

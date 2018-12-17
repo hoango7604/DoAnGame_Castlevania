@@ -53,6 +53,10 @@ public:
 	bool isHurt;
 	bool willHurt;
 	bool isUntouchable;
+	bool transparent;
+
+	bool isRosaryUsed;
+	DWORD rosaryCast;
 
 	DWORD attackTime;
 	DWORD onCheckPointTime;

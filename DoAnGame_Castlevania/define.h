@@ -119,6 +119,8 @@
 #define ROSARY_BBOX_WIDTH				32
 #define ROSARY_BBOX_HEIGHT				32
 
+#define ROSARY_TIME						500
+
 // Clock
 #define CLOCK_BBOX_WIDTH				32
 #define CLOCK_BBOX_HEIGHT				32
