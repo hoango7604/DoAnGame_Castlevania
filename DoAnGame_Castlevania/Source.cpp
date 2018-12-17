@@ -1908,7 +1908,7 @@ void LoadResources()
 	ani->Add(40032);
 	animations->Add(815, ani);
 
-	ani = new CAnimation(1000);// đóng cửa
+	ani = new CAnimation(500);// đóng cửa
 	ani->Add(40032);
 	ani->Add(40031);
 	animations->Add(816, ani);
@@ -2753,7 +2753,7 @@ void Update(DWORD dt)
 				check_open_door_time = true;
 			}
 			
-			if (GetTickCount() - open_door_time > 1000)
+			if (GetTickCount() - open_door_time > 1800)
 			{
 				if (x < 3200)
 				{
@@ -2777,7 +2777,7 @@ void Update(DWORD dt)
 				
 		if (game->x_cam <= MAX_WIDTH_LV2 && check == true)
 		{				
-			if (GetTickCount() - close_door_time > 1000)
+			if (GetTickCount() - close_door_time > 1800)
 			game->x_cam += SIMON_WALKING_SPEED * dt;
 
 		}
@@ -2842,7 +2842,7 @@ void Update(DWORD dt)
 				check_open_door_time = true;
 			}
 
-			if (GetTickCount() - open_door_time > 1000)
+			if (GetTickCount() - open_door_time > 1500)
 			{
 				if (x < MAX_WIDTH_LV2_1 + 100)
 				{
@@ -2867,7 +2867,7 @@ void Update(DWORD dt)
 		{		
 			if (game->x_cam < MAX_WIDTH_LV2_1)
 			{
-				if (GetTickCount() - close_door_time > 1000)
+				if (GetTickCount() - close_door_time > 1500)
 					game->x_cam += SIMON_WALKING_SPEED * dt;
 			}
 			else 

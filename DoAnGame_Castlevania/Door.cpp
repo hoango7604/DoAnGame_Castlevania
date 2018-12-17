@@ -15,37 +15,50 @@ void Door::GetBoundingBox(float &l, float &t, float &r, float &b)
 void Door::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (((CGame::GetInstance()->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2) && (CGame::GetInstance()->x_cam > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2 - 10)) 
-		|| ((CGame::GetInstance()->x_cam < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)&&(CGame::GetInstance()->x_cam > MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2 -10)))
+	if (((CGame::GetInstance()->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2) && (CGame::GetInstance()->x_cam > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2 - 10))
+		|| ((CGame::GetInstance()->x_cam < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2) && (CGame::GetInstance()->x_cam > MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2 - 10)))
+	{		
 		this->SetState(DOOR_STATE_ACTIVE);
+	}
 	
 }
 void Door::Render()
 {
 	
 	if (state == DOOR_STATE_ACTIVE)
-	{				
-		animations[0]->Render(x, y);
-		if (check == 0)
+	{	
+		if (check1 == false)
 		{
 			time = GetTickCount();
-			check++;
+			check1 = true;
 		}
-		if (GetTickCount() - time > 1000)
+		if (GetTickCount() - time > 500 )
 		{
-			animations[1]->Render(x, y);
-			
+			animations[0]->Render(x, y);			
+			if(GetTickCount() - time > 1500)
+			state = DOOR_STATE_DEACTIVE;
 		}
+		
 	}
-	if (check == 1)
-	{				
+	if(state == DOOR_STATE_DEACTIVE)
+	{		
+		animations[1]->Render(x, y);	
+		if (GetTickCount() - time > 3500)
+			state = DOOR_STATE_0;
+	}
+	if (state == DOOR_STATE_0)
+	{
 		animations[2]->Render(x, y);
-		if (GetTickCount() - time > 3000)					
-			check++;												
-	}	
-	if (check == 2)
-		state = DOOR_STATE_DEACTIVE;
+		if (GetTickCount() - time > 4500)
+			state = DOOR_STATE_01;
+	}
+	if (state == DOOR_STATE_01)
+	{
+		return;
+	}
 
+	
+		
 }
 void Door::SetState(int state)
 {
