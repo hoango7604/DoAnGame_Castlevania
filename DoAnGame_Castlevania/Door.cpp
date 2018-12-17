@@ -24,37 +24,27 @@ void Door::Render()
 {
 	
 	if (state == DOOR_STATE_ACTIVE)
-	{		
-		
+	{				
 		animations[0]->Render(x, y);
 		if (check == 0)
 		{
 			time = GetTickCount();
 			check++;
 		}
-		if( GetTickCount() - time > 500)
-			animations[1]->Render(x, y);				
-	}
-	if (check != 0)
-	{
-		if (GetTickCount() - time > 3000)
-			state = DOOR_STATE_0;
-		if (state == DOOR_STATE_0)
+		if (GetTickCount() - time > 1000)
 		{
-			animations[2]->Render(x, y);
-			time = GetTickCount();
-			if (GetTickCount() - time > 1000)
-				state == DOOR_STATE_01;
-		}
-		if (state == DOOR_STATE_01)
-		{
-
+			animations[1]->Render(x, y);
+			
 		}
 	}
-	
-	
-
-	
+	if (check == 1)
+	{				
+		animations[2]->Render(x, y);
+		if (GetTickCount() - time > 3000)					
+			check++;												
+	}	
+	if (check == 2)
+		state = DOOR_STATE_DEACTIVE;
 
 }
 void Door::SetState(int state)

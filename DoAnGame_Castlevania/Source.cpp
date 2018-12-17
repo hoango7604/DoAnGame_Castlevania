@@ -60,6 +60,10 @@ bool temp = false;
 
 //check scene lv2_1 ->boss
 bool checkScene1 = false;
+DWORD open_door_time, close_door_time;
+bool check_open_door_time = false;
+bool check_close_door_time = false;
+bool check2 = false;
 bool check3 = false;
 
 bool countLoadResource2 = false;
@@ -78,7 +82,7 @@ bool isClockWeaponUsed = false;
 DWORD clockWeaponCast;
 
 DWORD timer; // load enemy
-
+bool count_enemy = true;
 DWORD gameTime = 999000;
 
 CSprites * sprites = CSprites::GetInstance();
@@ -1014,8 +1018,8 @@ void LoadResourceboss()
 	door->AddAnimation(814);
 	door->AddAnimation(815);
 	door->AddAnimation(816);
-	door->SetPosition(4070, 150);
-	//door->SetState(DOOR_STATE_DEACTIVE);
+	door->SetPosition(4080, 150);
+	
 	listGrids->AddObject(door);
 }
 
@@ -2100,6 +2104,7 @@ void Update(DWORD dt)
 	if (lv == 2)
 	{
 		static int count1 = 0;
+		
 		// Lần đầu load resource lv2
 		if (countLoadResource2 == false)
 		{
@@ -2112,11 +2117,11 @@ void Update(DWORD dt)
 			timer = GetTickCount();
 		}
 		else if (countLoadResource2 == true && x < MAX_WIDTH_LV2 - 2* SIMON_STAND_BBOX_WIDTH)
-		{
+		{		
 			if (GetTickCount() - timer > 5000)
 			{
 				simon->GetPosition(x, y);
-				if (x < 5000)
+				if (x < MAX_WIDTH_LV2 - SCREEN_WIDTH/2 && x >  SCREEN_WIDTH / 2 )
 				{
 					if (count1 % 2 == 0)
 					{
@@ -2148,6 +2153,7 @@ void Update(DWORD dt)
 					}
 					timer += 5000;
 				}
+				
 
 			}
 		}
@@ -2268,7 +2274,7 @@ void Update(DWORD dt)
 			if (GetTickCount() - timer > 5000)
 			{
 				simon->GetPosition(x, y);
-				if (x < 5000) 
+				if (x < 5000 && x> MAX_WIDTH_LV2_1 +SCREEN_WIDTH/2 && count_enemy == true) 
 				{
 					if (count % 2 == 0) 
 					{
@@ -2299,6 +2305,10 @@ void Update(DWORD dt)
 						count++;
 					}
 					timer += 5000;
+				}
+				else if (x > 5000)
+				{
+					count_enemy = false;
 				}
 				
 			}
@@ -2727,7 +2737,7 @@ void Update(DWORD dt)
 	else if (lv == 21)
 	{
 		// chuyen scene
-		DWORD close_door_time;
+		
 		if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH/2)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
@@ -2735,9 +2745,13 @@ void Update(DWORD dt)
 			isEnableKeyBoard = false;
 			
 		}
-		else if (game->x_cam > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2 && game->x_cam < MAX_WIDTH_LV2 )
+		else 
 		{
-			static DWORD open_door_time = GetTickCount();
+			if (check_open_door_time == false)
+			{
+				open_door_time = GetTickCount();
+				check_open_door_time = true;
+			}
 			
 			if (GetTickCount() - open_door_time > 1000)
 			{
@@ -2746,25 +2760,32 @@ void Update(DWORD dt)
 					if (check1 == false)
 						simon->SetState(SIMON_STATE_WALK);
 				}
-				else if (x > 3200)
+				else if (x > 3200 && x<3210)
 				{
 					check1 = true;
 					check = true;
 					simon->SetState(SIMON_STATE_IDLE);
-					close_door_time = GetTickCount();
+					if (check_close_door_time == false)
+					{
+						close_door_time = GetTickCount();
+						check_close_door_time = true;
+					}
+					
 				}
 			}
 		}
 				
-		if (game->x_cam < MAX_WIDTH_LV2 && check == true)
+		if (game->x_cam <= MAX_WIDTH_LV2 && check == true)
 		{				
-			//if (GetTickCount() - close_door_time > 3000)
+			if (GetTickCount() - close_door_time > 1000)
 			game->x_cam += SIMON_WALKING_SPEED * dt;
 
 		}
 		else if (game->x_cam > MAX_WIDTH_LV2)
 		{
 			checkScene = true;
+			check_close_door_time = false;
+			check_open_door_time = false;
 		}
 		
 		//
@@ -2815,23 +2836,40 @@ void Update(DWORD dt)
 		}
 		else 
 		{
-			if (x < MAX_WIDTH_LV2_1 + 100)
+			if (check_open_door_time == false)
 			{
-				if (check3 == false)
-				simon->SetState(SIMON_STATE_WALK);
+				open_door_time = GetTickCount();
+				check_open_door_time = true;
 			}
-			else if (x > MAX_WIDTH_LV2_1 + 100 && x < MAX_WIDTH_LV2_1 + 105)
+
+			if (GetTickCount() - open_door_time > 1000)
 			{
-				simon->SetState(SIMON_STATE_IDLE);
-				checkScene1 = true;
-				check3 = true;
+				if (x < MAX_WIDTH_LV2_1 + 100)
+				{
+					if (check3 == false)
+						simon->SetState(SIMON_STATE_WALK);
+				}
+				else if (x > MAX_WIDTH_LV2_1 + 100 && x<MAX_WIDTH_LV2_1 +105)
+				{
+					simon->SetState(SIMON_STATE_IDLE);
+					checkScene1 = true;
+					check3 = true;
+					if (check_close_door_time == false)
+					{
+						close_door_time = GetTickCount();
+						check_close_door_time = true;
+					}
+				}
 			}
 		}
 		
 		if (checkScene1 == true)
-		{
+		{		
 			if (game->x_cam < MAX_WIDTH_LV2_1)
-				game->x_cam += SIMON_WALKING_SPEED * dt;
+			{
+				if (GetTickCount() - close_door_time > 1000)
+					game->x_cam += SIMON_WALKING_SPEED * dt;
+			}
 			else 
 			{
 				if (x > MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_BOSS - SCREEN_WIDTH / 2)

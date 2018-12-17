@@ -7,6 +7,7 @@
 class Door : public CGameObject
 {
 	int check =0;
+	bool check2 = false;
 	DWORD time;
 	DWORD time1;
 public:
