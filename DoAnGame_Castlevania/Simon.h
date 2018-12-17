@@ -51,6 +51,7 @@ public:
 	bool isMoving;
 
 	bool isHurt;
+	bool willHurt;
 	bool isUntouchable;
 
 	DWORD attackTime;

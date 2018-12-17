@@ -304,6 +304,9 @@
 #define BRICK_BBOX_WIDTH				32
 #define BRICK_BBOX_HEIGHT				32
 
+#define WALL_BBOX_WIDTH					128
+#define WALL_BBOX_HEIGHT				160
+
 #define DOOR_BBOX_WIDTH					32
 #define DOOR_BBOX_HEIGHT				96
 

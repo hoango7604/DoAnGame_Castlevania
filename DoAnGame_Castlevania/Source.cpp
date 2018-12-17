@@ -16,6 +16,7 @@
 
 #include "Simon.h"
 #include "Ground.h"
+#include "Wall.h"
 #include "define.h"
 #include "BigFire.h"
 #include "Candle.h"
@@ -738,27 +739,10 @@ void LoadResourceLv2_1()
 		ground->SetPosition(2782 + 32 * 35 + 3 + i * 32.0f, 246);
 		listGrids->AddObject(ground);
 	}
-	for (int i = 0; i < 4; i++)
-	{
-		/*Ground *ground = new Ground();
-		ground->SetPosition(3585 +  i * 32.0f, 280);
-		listGrids->AddObject(ground);*/
-		for (int j = 0; j < 4; j++)
-		{
-			Ground *ground = new Ground();
-			ground->SetPosition(3585 + i * 32.0f, 280 + j * 32.0f);
-			ground->isBlock = true;
-			listGrids->AddObject(ground);
-		}
-	}
-	/*for (int i = 0; i < 3; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(3585 , 312 + i * 32.0f);
-		ground->AddAnimation(601);
-		ground->isBlock = true;
-		listGrids->AddObject(ground);
-	}*/
+
+	Wall *wall = new Wall();
+	wall->SetPosition(3585, 280);
+	listGrids->AddObject(wall);
 
 	CheckStair *checkstair = new CheckStair();
 	checkstair = new CheckStair();
@@ -2419,21 +2403,16 @@ void Update(DWORD dt)
 							int nx = merman->nx;
 							enemy = new EnemyBullet(nx);
 							enemy->AddAnimation(812);
-
-							if (nx > 0)
-							{
-								enemy->SetPosition(merman->x, merman->y + 10);
-							}
-							else
-							{
-								enemy->SetPosition(merman->x + MERMAN_BBOX_WIDTH, merman->y + 10);
-							}
+							enemy->SetPosition(merman->x + MERMAN_BBOX_WIDTH / 2, merman->y + 10);
 
 							listGrids->AddObject(enemy);
 							merman->didAttack = true;
 						}
 					}
 				}
+
+				if (merman->x < game->x_cam - MERMAN_BBOX_WIDTH || merman->x > game->x_cam + SCREEN_WIDTH)
+					merman->isDie = true;
 
 				merman->Update(dt, &objects);
 			}

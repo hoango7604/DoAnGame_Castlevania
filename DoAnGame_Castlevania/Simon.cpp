@@ -28,6 +28,7 @@ void Simon::CalcPotentialCollisions(
 			!dynamic_cast<Stair *>(coObjects->at(i)) &&
 			!dynamic_cast<CheckStair *>(coObjects->at(i)) &&
 			!dynamic_cast<Weapon *>(coObjects->at(i)) &&
+			!dynamic_cast<Enemy *>(coObjects->at(i)) &&
 			!dynamic_cast<Item *>(coObjects->at(i)) &&
 			!dynamic_cast<Door *>(coObjects->at(i)))
 		{
@@ -76,6 +77,61 @@ void Simon::CalcPotentialCollisions(
 					/*case ITEM_ROSARY:
 						d3ddv->ColorFill(bb, NULL, (255, 0, 0));
 						break;*/
+				}
+			}
+		}
+		else if (dynamic_cast<Enemy *>(coObjects->at(i)) && !isUntouchable)
+		{
+			if (x < cbr && x + SIMON_STAND_BBOX_WIDTH > cbl && y < cbb && y + SIMON_STAND_BBOX_HEIGHT > cbt)
+			{
+				// Reset frame cho hành động attack
+				if (isAttack)
+				{
+					if (this->nx > 0)
+					{
+						if (isSit)
+							animations[SIMON_ANI_SIT_ATTACK_RIGHT]->ResetFrame();
+						else
+							animations[SIMON_ANI_ATTACK_RIGHT]->ResetFrame();
+
+						if (whip->level == 0)
+							whip->animations[WHIP_RIGHT]->ResetFrame();
+						else if (whip->level == 1)
+							whip->animations[WHIP_RIGHT_1]->ResetFrame();
+						else
+							whip->animations[WHIP_RIGHT_2]->ResetFrame();
+					}
+					else if (this->nx < 0)
+					{
+						if (isSit)
+							animations[SIMON_ANI_SIT_ATTACK_LEFT]->ResetFrame();
+						else
+							animations[SIMON_ANI_ATTACK_LEFT]->ResetFrame();
+
+						if (whip->level == 0)
+							whip->animations[WHIP_LEFT]->ResetFrame();
+						else if (whip->level == 1)
+							whip->animations[WHIP_LEFT_1]->ResetFrame();
+						else
+							whip->animations[WHIP_LEFT_2]->ResetFrame();
+					}
+				}
+
+				// Đặt hướng hurt
+				if (coObjects->at(i)->nx > 0)
+					this->nx = -1;
+				else if (coObjects->at(i)->nx < 0)
+					this->nx = 1;
+
+				SetState(SIMON_STATE_HURT);
+				willHurt = true;
+				preHP -= 1;
+				StartUntouchable();
+
+				if (dynamic_cast<RedBat *>(coObjects->at(i)))
+				{
+					RedBat *redbat = dynamic_cast<RedBat *>(coObjects->at(i));
+					redbat->isDie = true;
 				}
 			}
 		}
@@ -298,6 +354,9 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	coEvents.clear();
 
+	// Reset biến báo hiệu hurt
+	willHurt = false;
+
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE || state != SIMON_STATE_HURT)
 		CalcPotentialCollisions(coObjects, coEvents);
@@ -380,66 +439,13 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		/*
 		 * Handle collision here
 		 */
-		bool willHurt = false;
 		bool willBlock = false;
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<Enemy *>(e->obj) && !isUntouchable)
-			{
-				// Reset frame cho hành động attack
-				if (isAttack)
-				{
-					if (this->nx > 0)
-					{
-						if (isSit)
-							animations[SIMON_ANI_SIT_ATTACK_RIGHT]->ResetFrame();
-						else
-							animations[SIMON_ANI_ATTACK_RIGHT]->ResetFrame();
-
-						if (whip->level == 0)
-							whip->animations[WHIP_RIGHT]->ResetFrame();
-						else if (whip->level == 1)
-							whip->animations[WHIP_RIGHT_1]->ResetFrame();
-						else
-							whip->animations[WHIP_RIGHT_2]->ResetFrame();
-					}
-					else if (this->nx < 0)
-					{
-						if (isSit)
-							animations[SIMON_ANI_SIT_ATTACK_LEFT]->ResetFrame();
-						else
-							animations[SIMON_ANI_ATTACK_LEFT]->ResetFrame();
-
-						if (whip->level == 0)
-							whip->animations[WHIP_LEFT]->ResetFrame();
-						else if (whip->level == 1)
-							whip->animations[WHIP_LEFT_1]->ResetFrame();
-						else
-						whip->animations[WHIP_LEFT_2]->ResetFrame();
-					}
-				}
-
-				// Đặt hướng hurt
-       			if (e->nx > 0)
-					this->nx = -1;
-				else if (e->nx < 0)
-					this->nx = 1;
-
-				SetState(SIMON_STATE_HURT);
-				willHurt = true;
-				preHP -= 1;
-				StartUntouchable();
-
-				if (dynamic_cast<RedBat *>(e->obj))
-				{
-					RedBat *redbat = dynamic_cast<RedBat *>(e->obj);
-					redbat->isDie = true;
-				}
-			}
-			else if (dynamic_cast<Ground *>(e->obj) && !willHurt && !isOnStair)
+			if (dynamic_cast<Ground *>(e->obj) && !willHurt && !isOnStair)
 			{
 				Ground *ground = dynamic_cast<Ground *>(e->obj);
 				// Da cham dat
@@ -458,10 +464,10 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					vy = 0;
 				}
 
-				if (ground->isBlock && e->nx != 0)
+				if (e->nx != 0)
 				{
-					SetState(SIMON_STATE_IDLE);
 					willBlock = true;
+					vx = 0;
 				}
 			}
 			else if (dynamic_cast<CheckPoint *>(e->obj))

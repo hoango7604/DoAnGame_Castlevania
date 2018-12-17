@@ -2,6 +2,7 @@
 #include "Simon.h"
 #include "Whip.h"
 #include "Zombie.h"
+#include "Panther.h"
 #include "RedBat.h"
 #include "Candle.h"
 #include "BigFire.h"
@@ -15,20 +16,14 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (dynamic_cast<Enemy *>(coObjects->at(i)))
 		{
-			Enemy *enemy = NULL;
-
-			if (dynamic_cast<Zombie *>(coObjects->at(i)))
-				enemy = dynamic_cast<Zombie *>(coObjects->at(i));
-			else if (dynamic_cast<MerMan *>(coObjects->at(i)))
-				enemy = dynamic_cast<MerMan *>(coObjects->at(i));
-			else if (dynamic_cast<RedBat *>(coObjects->at(i)))
-				enemy = dynamic_cast<RedBat *>(coObjects->at(i));
-
-			if (enemy != NULL)
+			if (!dynamic_cast<Panther *>(coObjects->at(i)))
 			{
+				Enemy *enemy = dynamic_cast<Enemy *>(coObjects->at(i));
+
 				float zl, zr, zt, zb;
 				enemy->GetBoundingBox(zl, zt, zr, zb);
-				if (wl < zl && wr > zr && wt > zt && wb < zb)
+
+				if (wl < zr && wr > zl && wt < zb && wb > zt)
 				{
 					enemy->isDie = true;
 					Simon::score += 100;
