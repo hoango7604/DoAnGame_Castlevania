@@ -71,8 +71,8 @@ void BossBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (isAttack && !isBottom)
 		{
 			// Đã bay đến vị trí bottom
-			if (x <= destination_x && x + BOSSBAT_BBOX_WIDTH + 10 >= destination_x &&
-				y <= destination_y && y + BOSSBAT_BBOX_HEIGHT + 10 >= destination_y)
+			if (x - 10 <= destination_x && x + BOSSBAT_BBOX_WIDTH + 10 >= destination_x &&
+				y - 10 <= destination_y && y + BOSSBAT_BBOX_HEIGHT + 10 >= destination_y)
 			{
 				vx = 0;
 				vy = 0;
@@ -82,7 +82,17 @@ void BossBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 				// Đổi vị trí destination x y
 				destination_x = rand() % (SCREEN_WIDTH - 3 * BOSSBAT_BBOX_WIDTH) + game->x_cam;
-				destination_y = rand() % (SCREEN_HEIGHT / 4) + game->y_cam;
+				destination_y = rand() % (SCREEN_HEIGHT / 4) + SCREEN_HEIGHT / 4 + game->y_cam;
+
+				if (destination_x < game->x_cam) 
+					destination_x = game->x_cam;
+				if (destination_x > game->x_cam + SCREEN_WIDTH - 3 * BOSSBAT_BBOX_WIDTH) 
+					destination_x = game->x_cam + SCREEN_WIDTH - 3 * BOSSBAT_BBOX_WIDTH;
+
+				if (destination_y < game->y_cam)
+					destination_y = game->y_cam;
+				if (destination_y > game->y_cam + SCREEN_HEIGHT / 2)
+					destination_y = game->y_cam + SCREEN_HEIGHT / 2;
 
 				isAttack = false;
 				isBottom = true;
@@ -109,8 +119,8 @@ void BossBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (!isAttack && !isTop)
 		{
 			// Đã bay đến vị trí top
-			if (x <= destination_x && x + BOSSBAT_BBOX_WIDTH >= destination_x &&
-				y <= destination_y && y + BOSSBAT_BBOX_HEIGHT >= destination_y)
+			if (x - 10 <= destination_x && x + BOSSBAT_BBOX_WIDTH + 10 >= destination_x &&
+				y - 10 <= destination_y && y + BOSSBAT_BBOX_HEIGHT + 10 >= destination_y)
 			{
 				vx = 0;
 				vy = 0;

@@ -220,8 +220,8 @@
 #define BOSSBAT_WAITING_TIME			1000
 #define BOSSBAT_HURTING_TIME			1000
 
-#define BOSSBAT_SPEED_UP				0.08f
-#define BOSSBAT_SPEED_DOWN				0.1f
+#define BOSSBAT_SPEED_UP				0.05f
+#define BOSSBAT_SPEED_DOWN				0.08f
 
 // Check stair
 #define CHECKSTAIR_UP_LEFT				0
