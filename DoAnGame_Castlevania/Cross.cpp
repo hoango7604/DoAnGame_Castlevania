@@ -34,11 +34,11 @@ void Cross::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCO
 					{
 						BossBat *bossbat = dynamic_cast<BossBat *>(e->obj);
 
-						bossbat->health -= 1;
+						CGame::GetInstance()->bossheath -= 1;
 						bossbat->isHurt = true;
 						bossbat->hurtTime = GetTickCount();
 
-						if (bossbat->health == 0)
+						if (CGame::GetInstance()->bossheath == 0)
 						{
 							bossbat->isDie = true;
 							Simon::score += 100;

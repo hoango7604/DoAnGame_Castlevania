@@ -72,6 +72,3 @@ public:
 	static int bossheath;
 	~CGame();
 };
-
-
-
