@@ -70,5 +70,6 @@ public:
 	}
 	static CGame * GetInstance();
 	static int bossheath;
+	static bool start_fight_boss;
 	~CGame();
 };

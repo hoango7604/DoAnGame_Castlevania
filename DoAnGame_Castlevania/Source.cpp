@@ -2941,18 +2941,24 @@ void Update(DWORD dt)
 			}
 			else 
 			{
-				if (x > MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_BOSS - SCREEN_WIDTH / 2)
+				if (CGame::start_fight_boss == false)
 				{
-					game->x_cam = x - SCREEN_WIDTH / 2;					
+					if (x > MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_BOSS - SCREEN_WIDTH / 2)
+					{
+						game->x_cam = x - SCREEN_WIDTH / 2;
+					}
+					else if (x > MAX_WIDTH_BOSS - SCREEN_WIDTH / 2) {
+						game->x_cam = MAX_WIDTH_BOSS - SCREEN_WIDTH;
+						CGame::start_fight_boss = true;
+					}
+					else if (x < MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2)
+					{
+						game->x_cam = MAX_WIDTH_LV2_1;
+					}
+					isEnableKeyBoard = true;
 				}
-				else if (x > MAX_WIDTH_BOSS - SCREEN_WIDTH / 2) {
-					game->x_cam = MAX_WIDTH_BOSS - SCREEN_WIDTH;				
-				}
-				else if (x < MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2)
-				{
-					game->x_cam = MAX_WIDTH_LV2_1;					
-				}
-				isEnableKeyBoard = true;
+				else
+					game->x_cam = MAX_WIDTH_BOSS - SCREEN_WIDTH;
 			}
 		}
 	}

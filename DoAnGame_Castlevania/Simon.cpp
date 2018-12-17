@@ -416,6 +416,9 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			x = MAX_WIDTH_LV2_1;
 		if (x > MAX_WIDTH_BOSS - SIMON_STAND_BBOX_WIDTH)
 			x = MAX_WIDTH_BOSS - SIMON_STAND_BBOX_WIDTH;
+		if (CGame::GetInstance()->start_fight_boss == true)
+			if (x < MAX_WIDTH_BOSS - SCREEN_WIDTH)
+				x = MAX_WIDTH_BOSS - SCREEN_WIDTH;
 	}
 	
 	
