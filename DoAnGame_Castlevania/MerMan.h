@@ -21,7 +21,7 @@ public:
 		for (int i = 0; i < 3; i++)
 		{
 			wa_ani[i] = new WaterAnimation();
-			wa_ani[i]->SetSpeed(0, -0.0055);
+			wa_ani[i]->SetSpeed(0, -0.4);
 		}
 		wa_ani[0]->SetPosition(x - 32, y);
 		wa_ani[1]->SetPosition(x +32, y);

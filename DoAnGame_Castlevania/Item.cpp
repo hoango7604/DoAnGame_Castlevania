@@ -106,6 +106,10 @@ void Item::GetBoundingBox(float &l, float &t, float &r, float &b)
 		r = x + CLOCK_BBOX_WIDTH;
 		b = y + CLOCK_BBOX_HEIGHT;
 		break;
+	case ITEM_PRIZE:
+		r = x + PRIZE_BBOX_WIDTH;
+		b = y + PRIZE_BBOX_HEIGHT;
+		break;
 	}
 }
 

@@ -7,7 +7,7 @@ void WaterAnimation::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt, coObjects);
 	x += dx;
 	y += dy;
-	vy += 0.0015*dt;
+	vy += SIMON_GRAVITY*dt;
 	
 }
 

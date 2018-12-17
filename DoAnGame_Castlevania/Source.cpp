@@ -1199,6 +1199,7 @@ void LoadResources()
 {	
 	textures->Add("Castlevania\\filetxt\\textures.txt", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add("Castlevania\\filetxt\\textures1.txt", D3DCOLOR_XRGB(96, 68, 106));
+	textures->Add("Castlevania\\filetxt\\textures2.txt", D3DCOLOR_XRGB(204, 43, 102));
 
 	/*#pragma region Addsprite
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
@@ -2114,6 +2115,7 @@ void Update(DWORD dt)
 	
 	if (lv == 2)
 	{
+		static int count1 = 0;
 		// Lần đầu load resource lv2
 		if (countLoadResource2 == false)
 		{
@@ -2127,21 +2129,42 @@ void Update(DWORD dt)
 		}
 		else if (countLoadResource2 == true && x < MAX_WIDTH_LV2 - 2* SIMON_STAND_BBOX_WIDTH)
 		{
-			// Zombie xuất hiện chưa đúng, cần chỉnh lại (1 lượt 3 con)
 			if (GetTickCount() - timer > 5000)
 			{
 				simon->GetPosition(x, y);
-				for (int i = 0; i < 2; i++)
+				if (x < 5000)
 				{
-					Zombie *zombie = new Zombie();
-					zombie->AddAnimation(602);
-					zombie->AddAnimation(604);
-					zombie->SetPosition(rand() % (SCREEN_WIDTH + 1) + x - SCREEN_WIDTH / 2 +i*32, 365);					
-					zombie->SetState(ZOMBIE_STATE_WALKING,i%2);
-					listGrids->AddObject(zombie);
-					
+					if (count1 % 2 == 0)
+					{
+						for (int i = 0; i < 2; i++)
+						{
+							Zombie *zombie = new Zombie();
+							zombie->AddAnimation(602);
+							zombie->AddAnimation(604);
+							zombie->SetPosition(x - SCREEN_WIDTH / 2 + i * 32, 365);
+							zombie->SetState(ZOMBIE_STATE_WALKING, 1);
+							listGrids->AddObject(zombie);
+
+						}
+						count1++;
+					}
+					else if (count1 % 2 != 0)
+					{
+						for (int i = 0; i < 2; i++)
+						{
+							Zombie *zombie = new Zombie();
+							zombie->AddAnimation(602);
+							zombie->AddAnimation(604);
+							zombie->SetPosition(x + SCREEN_WIDTH / 2 + i * 64, 365);
+							zombie->SetState(ZOMBIE_STATE_WALKING, 0);
+							listGrids->AddObject(zombie);
+
+						}
+						count1++;
+					}
+					timer += 5000;
 				}
-				timer = timer + 5000;
+
 			}
 		}
 		else if(x > MAX_WIDTH_LV2 - 2 * SIMON_STAND_BBOX_WIDTH && y<200)  //check point
@@ -2248,6 +2271,7 @@ void Update(DWORD dt)
 	}
 	if (lv == 99)
 	{
+		static int count = 0;
 		if (countLoadResourceboss == false)
 		{
 			listGrids->InitList(MAX_WIDTH_BOSS);
@@ -2260,17 +2284,39 @@ void Update(DWORD dt)
 			if (GetTickCount() - timer > 5000)
 			{
 				simon->GetPosition(x, y);
-				for (int i = 0; i < 2; i++)
+				if (x < 5000) 
 				{
-					Zombie *zombie = new Zombie();
-					zombie->AddAnimation(602);
-					zombie->AddAnimation(604);
-					zombie->SetPosition(rand() % (SCREEN_WIDTH + 1) + x - SCREEN_WIDTH / 2 + i * 32, 365);
-					zombie->SetState(ZOMBIE_STATE_WALKING, i % 2);
-					listGrids->AddObject(zombie);
+					if (count % 2 == 0) 
+					{
+						for (int i = 0; i < 2; i++)
+						{
+							Zombie *zombie = new Zombie();
+							zombie->AddAnimation(602);
+							zombie->AddAnimation(604);
+							zombie->SetPosition(x - SCREEN_WIDTH / 2 + i * 32, 365);
+							zombie->SetState(ZOMBIE_STATE_WALKING, 1);
+							listGrids->AddObject(zombie);
 
+						}
+						count++;
+					}
+					else if (count % 2 != 0)
+					{
+						for (int i = 0; i < 2; i++)
+						{
+							Zombie *zombie = new Zombie();
+							zombie->AddAnimation(602);
+							zombie->AddAnimation(604);
+							zombie->SetPosition(x + SCREEN_WIDTH / 2 + i * 64, 365);
+							zombie->SetState(ZOMBIE_STATE_WALKING, 0);
+							listGrids->AddObject(zombie);
+
+						}
+						count++;
+					}
+					timer += 5000;
 				}
-				timer = timer + 5000;
+				
 			}
 		}
 		
@@ -2556,10 +2602,10 @@ void Update(DWORD dt)
 					int random_portion = rand() % 100;
 
 					// Heart
-					if (random_portion < 10) // 90
+					/*if (random_portion < 10) // 90
 					{
 						/*item->AddAnimation(ITEM_HEART);
-						item->SetType(ITEM_HEART);*/
+						item->SetType(ITEM_HEART);
 						item->AddAnimation(ITEM_ROSARY);
 						item->SetType(ITEM_ROSARY);
 					}
@@ -2604,6 +2650,11 @@ void Update(DWORD dt)
 					{
 						item->AddAnimation(ITEM_CLOCK);
 						item->SetType(ITEM_CLOCK);
+					}*/
+					if (random_portion >= 0 && random_portion <= 100)
+					{
+						item->AddAnimation(ITEM_PRIZE);
+						item->SetType(ITEM_PRIZE);
 					}
 				}
 
@@ -2697,7 +2748,7 @@ void Update(DWORD dt)
 	else if (lv == 21)
 	{
 		// chuyen scene
-		
+		DWORD close_door_time;
 		if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH/2)
 		{
 			game->x_cam += SIMON_WALKING_SPEED * dt;
@@ -2707,31 +2758,36 @@ void Update(DWORD dt)
 		}
 		else if (game->x_cam > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2 && game->x_cam < MAX_WIDTH_LV2 )
 		{
-			if (x < 3200)
+			static DWORD open_door_time = GetTickCount();
+			
+			if (GetTickCount() - open_door_time > 1000)
 			{
-				if(check1 == false)
-				simon->SetState(SIMON_STATE_WALK);
-				//isEnableKeyBoard = false;
-			}
-			else if (x > 3200 ) 
-			{
-				check1 = true;
-				check = true;
-				simon->SetState(SIMON_STATE_IDLE);
-				
+				if (x < 3200)
+				{
+					if (check1 == false)
+						simon->SetState(SIMON_STATE_WALK);
+				}
+				else if (x > 3200)
+				{
+					check1 = true;
+					check = true;
+					simon->SetState(SIMON_STATE_IDLE);
+					close_door_time = GetTickCount();
+				}
 			}
 		}
-		
+				
 		if (game->x_cam < MAX_WIDTH_LV2 && check == true)
-		{
+		{				
+			//if (GetTickCount() - close_door_time > 3000)
 			game->x_cam += SIMON_WALKING_SPEED * dt;
-			
+
 		}
 		else if (game->x_cam > MAX_WIDTH_LV2)
 		{
 			checkScene = true;
 		}
-
+		
 		//
 		//trả camera về simon
 		if (checkScene == true)
