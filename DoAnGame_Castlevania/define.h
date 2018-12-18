@@ -264,7 +264,7 @@
 #define MAX_WIDTH_LV3_4					1536
 #define MAX_WIDTH_LV3_3					1536
 #define MAX_WIDTH_LV3_2					544
-#define MAX_WIDTH_LV3_1					506
+#define MAX_WIDTH_LV3_1					1472
 #define MAX_FRAME_RATE					120
 
 //texture

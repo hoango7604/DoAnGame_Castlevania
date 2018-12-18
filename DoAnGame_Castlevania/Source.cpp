@@ -49,7 +49,7 @@ Enemy *enemy;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
-int lv = 1;
+int lv = 33;
 
 // check scene lv2->lv2_1
 bool checkScene = false;
@@ -1148,6 +1148,99 @@ void LoadResourceLv3_4()
 		ground->SetPosition(1218 + i * 32, 215);
 		listGrids->AddObject(ground);
 	}
+	for (int i = 0; i < 4; i++) 
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(960 , 218 + i *32);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(834 +i*32, 343);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(641 + i * 32, 343);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(513 + i * 32, 216);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(321 + i * 32, 407);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(449 + i * 32, 407);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(64 + i * 32, 215);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(321, 120 + i*32);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(353,120 + i * 32);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(32, 120 + i * 32);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(611 + i * 32, 278 );
+		listGrids->AddObject(ground);
+	}
+
+	Candle *candle;
+	for (int i = 0; i < 2; i++)
+	{		
+		candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(324 + 120*i, 350);
+		listGrids->AddObject(candle);
+	}
+	
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(1474, 150);
+	listGrids->AddObject(candle);
+
+	for (int i = 0; i < 2; i++)
+	{
+		candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(1104 + 96 * i, 286);
+		listGrids->AddObject(candle);
+	}
+
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(575, 150);
+	listGrids->AddObject(candle);
 
 	CheckStair *checkstair;
 	checkstair = new CheckStair();
@@ -1155,7 +1248,7 @@ void LoadResourceLv3_4()
 	checkstair->SetPosition(1217, 120);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
-
+	
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(1093, 312);
@@ -1168,22 +1261,211 @@ void LoadResourceLv3_4()
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(583, 181);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(137, 181);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(409, 377);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(226, 120);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
 	
 }
 
 void LoadResourceLv3_3()
 {
+	simon->SetPosition(1425, 300);
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1409 + i * 32, 407);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1471 , 152 + i * 32);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 14; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(896 + i * 32, 216);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(993, 248 + i * 32);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1025 + i * 32, 408);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(704 + i * 32, 408);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(1409 + i * 32, 279);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(962 , 280 + i * 32);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(672 + i * 32, 216 );
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(512 + i * 32, 344);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(512 + i * 32, 376);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(512 + i * 32, 344);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(865 + i * 32, 408);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(0 + i * 32, 280);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(256 + i * 32, 408);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(320 , 280 + i * 32);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(736 + i * 32 ,344 );
+		listGrids->AddObject(ground);
+	}
+	CheckStair * checkstair;
 
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(219, 376);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(664, 376);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(1370, 248);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
 }
 
 void LoadResourceLv3_2()
 {
+	simon->SetPosition(439, 112);
+	for (int i = 0; i < 6; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(351 + i * 32, 279);
+		listGrids->AddObject(ground);
+	}
 
+	CheckStair * checkstair;
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(310, 248);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
 }
 
 void LoadResourceLv3_1()
 {
+	simon->SetPosition(1000, 200);
+	for (int i = 0; i < 29; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(0 + i * 32, 407);
+		listGrids->AddObject(ground);
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		Ground *ground = new Ground();
+		ground->SetPosition(895 + i * 32, 344);
+		listGrids->AddObject(ground);
 
+	}
+	for (int i = 0; i < 7; i++)
+	{
+		Candle *candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(62 + i*128, 281);
+		listGrids->AddObject(candle);
+	}
+	Candle *candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(958, 230);
+	listGrids->AddObject(candle);
+
+	CheckStair * checkstair;
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1045, 250);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
 }
 
 /*
@@ -2083,7 +2365,7 @@ void LoadResources()
 	ui->Initialize(d3ddv, simon);
 
 	// Load map lv1 ra trước
-	LoadResourceLv1();
+	//LoadResourceLv1();
 	
 }
 
@@ -2662,12 +2944,11 @@ void Update(DWORD dt)
 					int random_portion = rand() % 100;
 
 					// Heart
-					/*if (random_portion < 10) // 90
+					if (random_portion < 10) // 90
 					{
-						/*item->AddAnimation(ITEM_HEART);
+						item->AddAnimation(ITEM_HEART);
 						item->SetType(ITEM_HEART);
-						item->AddAnimation(ITEM_ROSARY);
-						item->SetType(ITEM_ROSARY);
+						
 					}
 					// Money
 					else if (random_portion >= 10 && random_portion < 20) // 90 94
@@ -2710,14 +2991,14 @@ void Update(DWORD dt)
 					{
 						item->AddAnimation(ITEM_CLOCK);
 						item->SetType(ITEM_CLOCK);
-					}*/
-					if (random_portion >= 0 && random_portion <= 100)
+					}
+					/*if (random_portion >= 0 && random_portion <= 100)
 					{
 						/*item->AddAnimation(ITEM_PRIZE);
-						item->SetType(ITEM_PRIZE);*/
+						item->SetType(ITEM_PRIZE);
 						item->AddAnimation(ITEM_ROSARY);
 						item->SetType(ITEM_ROSARY);
-					}
+					}*/
 				}
 
 				// Thêm hiệu ứng tóe lửa
@@ -3010,17 +3291,8 @@ void Update(DWORD dt)
 	}
 	else if (lv == 32)
 	{
-		if (x < SCREEN_WIDTH / 2)
-		{
-			game->x_cam = 0;
-		}
-		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_2 - SCREEN_WIDTH / 2)
-		{
-			game->x_cam = x - SCREEN_WIDTH / 2;
-
-		}
-		else if (x > MAX_WIDTH_LV3_2 - SCREEN_WIDTH / 2)
-			game->x_cam = MAX_WIDTH_LV3_2 - SCREEN_WIDTH;
+		game->x_cam = 0;
+		
 	}
 	else if (lv == 31)
 	{
