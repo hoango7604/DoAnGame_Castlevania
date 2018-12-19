@@ -148,8 +148,10 @@ void Simon::CalcPotentialCollisions(
 
 				if (isOnStair)
 				{
+					int type = checkstair->GetType();					
 					SetState(SIMON_STATE_IDLE);
 					isOnStair = false;
+					
 				}
 				else
 				{

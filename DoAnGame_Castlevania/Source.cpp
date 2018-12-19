@@ -36,6 +36,10 @@
 #include "UI.h"
 #include "BossBat.h"
 #include "Door.h"
+#include "Bird.h"
+#include "Dracula.h"
+#include "Hunchback.h"
+#include "Skeleton.h"
 
 CGame *game;
 Simon * simon;
@@ -49,7 +53,7 @@ Enemy *enemy;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
-int lv = 33;
+int lv = 34;
 
 // check scene lv2->lv2_1
 bool checkScene = false;
@@ -1119,6 +1123,9 @@ void LoadResourceLv3_5()
 	checkstair->SetPosition(2840, 375);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
+
+	
+
 }
 
 void LoadResourceLv3_4()
@@ -1285,7 +1292,19 @@ void LoadResourceLv3_4()
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
-	
+	Skeleton *skeleton;
+	skeleton = new Skeleton();
+	skeleton->AddAnimation(818);
+	skeleton->AddAnimation(819);
+	skeleton->SetPosition(1189, 277);
+	listGrids->AddObject(skeleton);
+
+	Bird *bird;
+	bird = new Bird();
+	bird->AddAnimation(822);
+	bird->AddAnimation(823);
+	bird->SetPosition(1300, 277);
+	listGrids->AddObject(bird);
 }
 
 void LoadResourceLv3_3()
@@ -1412,6 +1431,42 @@ void LoadResourceLv3_3()
 	checkstair->SetPosition(1370, 248);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetPosition(1287, 376);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1411, 187);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(96, 188);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(704, 316);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(608, 250);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1312, 124);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
 }
 
 void LoadResourceLv3_2()
@@ -1477,6 +1532,8 @@ void LoadResourceLv3_1()
 void LoadResources()
 {	
 	textures->Add("Castlevania\\filetxt\\textures.txt", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("Castlevania\\filetxt\\textures1.txt", D3DCOLOR_XRGB(96, 68, 106));
+	textures->Add("Castlevania\\filetxt\\textures2.txt", D3DCOLOR_XRGB(153, 43, 102));
 	
 
 	//186 43 92
@@ -1814,12 +1871,7 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMic18 = textures->Get(ID_TEX_ENEMIES_RIGHT);
 	sprites->Add("Castlevania\\filetxt\\spr_enemy_right.txt", texMic18);
-
-	LPDIRECT3DTEXTURE9 texMic19 = textures->Get(46);
-	sprites->Add("Castlevania\\filetxt\\spr_prize.txt", texMic19);
-
-	LPDIRECT3DTEXTURE9 texMic20 = textures->Get(47);
-	sprites->Add("Castlevania\\filetxt\\spr_water.txt", texMic20);
+	
 
 	LPDIRECT3DTEXTURE9 texMic21 = textures->Get(48);
 	sprites->Add("Castlevania\\filetxt\\spr_rosary_action.txt", texMic21);

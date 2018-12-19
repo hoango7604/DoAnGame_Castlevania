@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="Axe.h" />
     <ClInclude Include="BigFire.h" />
+    <ClInclude Include="Bird.h" />
     <ClInclude Include="BossBat.h" />
     <ClInclude Include="Candle.h" />
     <ClInclude Include="CheckPoint.h" />
@@ -138,6 +139,7 @@
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="Dracula.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
@@ -146,12 +148,14 @@
     <ClInclude Include="GridObjects.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="HolyWater.h" />
+    <ClInclude Include="Hunchback.h" />
     <ClInclude Include="Knife.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MerMan.h" />
     <ClInclude Include="Panther.h" />
     <ClInclude Include="RedBat.h" />
     <ClInclude Include="Simon.h" />
+    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Textures.h" />
@@ -166,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="Axe.cpp" />
     <ClCompile Include="BigFire.cpp" />
+    <ClCompile Include="Bird.cpp" />
     <ClCompile Include="BossBat.cpp" />
     <ClCompile Include="Candle.cpp" />
     <ClCompile Include="CheckPoint.cpp" />
@@ -174,6 +179,7 @@
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="define.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="Dracula.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
@@ -182,12 +188,14 @@
     <ClCompile Include="GridObjects.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="HolyWater.cpp" />
+    <ClCompile Include="Hunchback.cpp" />
     <ClCompile Include="Knife.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MerMan.cpp" />
     <ClCompile Include="Panther.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="Simon.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Stair.cpp" />

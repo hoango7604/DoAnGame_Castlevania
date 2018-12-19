@@ -109,6 +109,18 @@
     <ClInclude Include="Weapon.h">
       <Filter>Weapons</Filter>
     </ClInclude>
+    <ClInclude Include="Bird.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Dracula.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Hunchback.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Axe.cpp">
@@ -221,6 +233,18 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Bird.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Dracula.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Hunchback.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

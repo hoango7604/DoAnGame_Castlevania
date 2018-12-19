@@ -225,6 +225,24 @@
 #define BOSSBAT_SPEED_UP				0.05f
 #define BOSSBAT_SPEED_DOWN				0.08f
 
+//Skeleton
+#define SKELETON_BBOX_WIDTH				32	
+#define SKELETON_BBOX_HEIGHT			45
+
+//Bird
+#define BIRD_BBOX_WIDTH					60	
+#define BIRD_BBOX_HEIGHT				45
+
+//Hunchback
+#define HUNCHBACK_BBOX_WIDTH			32	
+#define HUNCHBACK_BBOX_HEIGHT			45
+
+//Dracula
+#define DRACULA_BBOX_WIDTH				40	
+#define DRACULA_BBOX_HEIGHT				45
+
+
+
 // Check stair
 #define CHECKSTAIR_UP_LEFT				0
 #define CHECKSTAIR_UP_RIGHT				1

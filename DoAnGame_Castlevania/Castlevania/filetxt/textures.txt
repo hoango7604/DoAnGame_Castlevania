@@ -39,10 +39,4 @@
 39 Castlevania\map34.png
 40 Castlevania\map35.png
 41 Castlevania\Gate.png
-42 Castlevania\Bosses.png
-43 Castlevania\Bosses_right.png
-44 Castlevania\Enimes.png
-45 Castlevania\Enimes_right.png
-46 Castlevania\13.png
-47 Castlevania\water.png
 48 Castlevania\rosary_action.png
