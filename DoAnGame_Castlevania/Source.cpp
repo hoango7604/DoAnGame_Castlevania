@@ -53,7 +53,7 @@ Enemy *enemy;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
-int lv = 33;
+int lv = 35;
 
 // check scene lv2->lv2_1
 bool checkScene = false;
@@ -1124,13 +1124,18 @@ void LoadResourceLv3_5()
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
-	
+	CheckPoint *checkPoint;
+
+	checkPoint = new CheckPoint();
+	checkPoint->SetType(CHECKPOINT_LEVELUP);
+	checkPoint->SetPosition(91, 251);
+	listGrids->AddObject(checkPoint);
 
 }
 
 void LoadResourceLv3_4()
 {
-	simon->SetPosition(1450, 50);
+	
 	for (int i = 0; i < 4; i++)
 	{
 		Ground *ground = new Ground();
@@ -1292,6 +1297,8 @@ void LoadResourceLv3_4()
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
+	
+
 	Skeleton *skeleton;
 	skeleton = new Skeleton();
 	skeleton->AddAnimation(818);
@@ -1310,11 +1317,11 @@ void LoadResourceLv3_4()
 
 void LoadResourceLv3_3()
 {
-	simon->SetPosition(1425, 300);
+	
 	for (int i = 0; i < 2; i++)
 	{
 		Ground *ground = new Ground();
-		ground->SetPosition(1409 + i * 32, 407);
+		ground->SetPosition(1410 + i * 32, 407);
 		listGrids->AddObject(ground);
 	}
 	for (int i = 0; i < 10; i++)
@@ -1468,6 +1475,12 @@ void LoadResourceLv3_3()
 	checkstair->SetPosition(1312, 124);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(1413, 313);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
+	listGrids->AddObject(checkstair);
 }
 
 void LoadResourceLv3_2()
@@ -1489,8 +1502,7 @@ void LoadResourceLv3_2()
 }
 
 void LoadResourceLv3_1()
-{
-	simon->SetPosition(1000, 200);
+{	
 	for (int i = 0; i < 29; i++)
 	{
 		Ground *ground = new Ground();
@@ -2615,6 +2627,7 @@ void Update(DWORD dt)
 		}
 		
 	}
+	#pragma region lv99
 	if (lv == 99)
 	{
 		static int count = 0;
@@ -2630,9 +2643,9 @@ void Update(DWORD dt)
 			if (GetTickCount() - timer > 5000)
 			{
 				simon->GetPosition(x, y);
-				if (x < 5000 && x> MAX_WIDTH_LV2_1 +SCREEN_WIDTH/2 && count_enemy == true) 
+				if (x < 5000 && x> MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && count_enemy == true)
 				{
-					if (count % 2 == 0) 
+					if (count % 2 == 0)
 					{
 						for (int i = 0; i < 2; i++)
 						{
@@ -2666,24 +2679,44 @@ void Update(DWORD dt)
 				{
 					count_enemy = false;
 				}
-				
+
 			}
 		}
-		
+
 		//can xu li win boss de chuyen sang dracula
 		/*if (x > MAX_WIDTH_BOSS)// test map va dat object vao
 		{
 			lv = 35;
 		}*/
 	}
+#pragma endregion
+
+	
 	if (lv == 35)
 	{
 		if (countLoadResource3_5 == false)
 		{
 			listGrids->InitList(MAX_WIDTH_LV3_5);
 			LoadResourceLv3_5();
-			countLoadResource3_5 = true;
-			
+			countLoadResource3_5 = true;			
+		}
+		if (simon->isLevelUp) 
+		{
+			isEnableKeyBoard = false;
+			simon->SetState(SIMON_STATE_WALK);
+			if (!simon->isJump)
+				simon->vx = SIMON_LEVELUP_SPEED;
+			DWORD timer = GetTickCount();
+			if (timer - simon->onCheckPointTime > LEVELUP_TIME)
+			{
+				listGrids->ReleaseList();
+
+				lv = 34;
+				simon->SetPosition(1455, 200);
+				simon->isLevelUp = false;
+				simon->SetState(SIMON_STATE_IDLE);
+				isEnableKeyBoard = true;
+			}
 		}
 	}
 	if (lv == 34)
@@ -2695,6 +2728,15 @@ void Update(DWORD dt)
 			countLoadResource3_4 = true;
 
 		}
+		if (y < 90)
+		{
+			listGrids->ReleaseList();
+			lv = 33;
+			simon->SetPosition(1312, 423);
+			
+			simon->GetPosition(x, y);
+			
+		}
 	}
 	if (lv == 33)
 	{
@@ -2703,7 +2745,14 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV3_3);
 			LoadResourceLv3_3();
 			countLoadResource3_3 = true;
-
+		}
+		if (x < 0)
+		{
+			listGrids->ReleaseList();			
+			lv = 32;
+			simon->SetPosition(500, 230);
+			simon->GetPosition(x, y);
+			
 		}
 	}
 	if (lv == 32)
@@ -2715,6 +2764,14 @@ void Update(DWORD dt)
 			countLoadResource3_2 = true;
 
 		}
+		if (y < 90)
+		{
+			listGrids->ReleaseList();
+			lv = 31;
+			simon->SetPosition(1223, 430);
+			game->x_cam = MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2;
+			simon->GetPosition(x, y);
+		}
 	}
 	if (lv == 31)
 	{
@@ -2723,7 +2780,6 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV3_1);
 			LoadResourceLv3_1();
 			countLoadResource3_1 = true;
-
 		}
 	}
 #pragma endregion
