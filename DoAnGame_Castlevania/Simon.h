@@ -42,6 +42,7 @@ public:
 	bool isOnCheckStairDown;
 	bool isOnStair;
 	bool isLeftToRight;
+	int currentCheckStairId;
 
 	bool isSit;
 	bool isExitSit;

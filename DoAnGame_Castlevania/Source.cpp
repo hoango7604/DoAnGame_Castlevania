@@ -336,14 +336,14 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		// Len xuong cau thang
 		if (game->IsKeyDown(DIK_UP))
 		{
-			if (simon->ny == -1 && !simon->isOnStair)
+			if (simon->isOnCheckStairUp && !simon->isOnStair && simon->currentCheckStairId == 0)
 			{
 				if (!simon->isAttack && !simon->isSit && !simon->isJump)
 				{
-					simon->SetState(SIMON_STATE_ONCHECKSTAIR);
+					simon->SetState(SIMON_STATE_ONCHECKSTAIRUP);
 				}
 			}
-			else if (simon->isOnStair && !simon->isAttack)
+			else if (simon->isOnStair && !simon->isAttack && simon->currentCheckStairId != 0)
 			{
 				simon->ny = -1;
 				simon->SetState(SIMON_STATE_ONSTAIR);
@@ -361,11 +361,11 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		// Ngoi
 		if (game->IsKeyDown(DIK_DOWN))
 		{
-			if (simon->ny == 1 && !simon->isOnStair)
+			if (simon->isOnCheckStairDown && !simon->isOnStair)
 			{
 				if (!simon->isAttack && !simon->isSit && !simon->isJump)
 				{
-					simon->SetState(SIMON_STATE_ONCHECKSTAIR);
+					simon->SetState(SIMON_STATE_ONCHECKSTAIRDOWN);
 				}
 			}
 			else if (simon->isOnStair && !simon->isAttack)
@@ -627,6 +627,7 @@ void LoadResourceLv2() {
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(1255, 407);
+	checkstair->SetId(1);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
@@ -634,6 +635,7 @@ void LoadResourceLv2() {
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1382, 215);
+	checkstair->SetId(1);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 
@@ -641,6 +643,7 @@ void LoadResourceLv2() {
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(1448, 278);
+	checkstair->SetId(2);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
@@ -648,6 +651,7 @@ void LoadResourceLv2() {
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1510, 151);
+	checkstair->SetId(2);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 
@@ -655,6 +659,7 @@ void LoadResourceLv2() {
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1790, 151);
+	checkstair->SetId(3);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
@@ -662,6 +667,7 @@ void LoadResourceLv2() {
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(1850, 278);
+	checkstair->SetId(3);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
@@ -669,6 +675,7 @@ void LoadResourceLv2() {
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(2595, 407);
+	checkstair->SetId(4);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
@@ -676,6 +683,7 @@ void LoadResourceLv2() {
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(2788, 153);
+	checkstair->SetId(4);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 
@@ -765,36 +773,42 @@ void LoadResourceLv2_1()
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(3130, 345);
+	checkstair->SetId(1);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(3394, 215);
-	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
-	listGrids->AddObject(checkstair);
-
-	checkstair = new CheckStair();	
-	checkstair->AddAnimation(804);
-	checkstair->SetPosition(3780, 345);
+	checkstair->SetId(2);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(3515, 406);
+	checkstair->SetId(2);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();	
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(3780, 345);
+	checkstair->SetId(3);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(3839, 218);
+	checkstair->SetId(4);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetPosition(3950, 406);
+	checkstair->SetId(4);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
@@ -870,12 +884,14 @@ void LoadResourceLv2_2()
 	CheckStair * checkstair;
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
+	checkstair->SetId(1);
 	checkstair->SetPosition(154, 182);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
+	checkstair->SetId(3);
 	checkstair->SetPosition(860, 248);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
@@ -998,24 +1014,28 @@ void LoadResourceboss()
 	CheckStair *checkstair;
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
+	checkstair->SetId(1);
 	checkstair->SetPosition(4286, 156);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
+	checkstair->SetId(1);
 	checkstair->SetPosition(4346, 279);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
+	checkstair->SetId(2);
 	checkstair->SetPosition(4673, 217);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
+	checkstair->SetId(2);
 	checkstair->SetPosition(4796, 405);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
@@ -1114,18 +1134,17 @@ void LoadResourceLv3_5()
 	CheckStair *checkstair ;
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
+	checkstair->SetId(1);
 	checkstair->SetPosition(2720, 200);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
+	checkstair->SetId(1);
 	checkstair->SetPosition(2840, 375);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
-
-	
-
 }
 
 void LoadResourceLv3_4()
@@ -1416,57 +1435,66 @@ void LoadResourceLv3_3()
 	CheckStair * checkstair;
 
 	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetId(1);
+	checkstair->SetPosition(96, 188);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
+	checkstair->SetId(1);
 	checkstair->SetPosition(219, 376);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetId(2);
+	checkstair->SetPosition(608, 250);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
+	checkstair->SetId(2);
 	checkstair->SetPosition(664, 376);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1370, 248);
-	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	checkstair->AddAnimation(804);
+	checkstair->SetId(3);
+	checkstair->SetPosition(704, 316);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
+	checkstair->SetId(4);
 	checkstair->SetPosition(1287, 376);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1411, 187);
-	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
-	listGrids->AddObject(checkstair);
-
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
-	checkstair->SetPosition(96, 188);
-	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
-	listGrids->AddObject(checkstair);
-
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
-	checkstair->SetPosition(704, 316);
-	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
-	listGrids->AddObject(checkstair);
-
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
-	checkstair->SetPosition(608, 250);
-	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
-	listGrids->AddObject(checkstair);
-
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
+	checkstair->SetId(5);
 	checkstair->SetPosition(1312, 124);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetId(5);
+	checkstair->SetPosition(1370, 248);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetId(4);
+	checkstair->SetPosition(1411, 187);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 }
 

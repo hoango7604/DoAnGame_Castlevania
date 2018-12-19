@@ -4,9 +4,14 @@
 
 class CheckStair : public CGameObject
 {
-	int type;
 
 public:
+	int id;
+	int type;
+
+	void SetId(int id) { this->id = id; }
+	int GetId() { return id; }
+
 	void SetType(int type) { this->type = type; }
 	int GetType() { return type; }
 

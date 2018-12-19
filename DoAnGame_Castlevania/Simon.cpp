@@ -139,19 +139,18 @@ void Simon::CalcPotentialCollisions(
 			checkstair->GetBoundingBox(cbl, cbt, cbr, cbb);
 
 			// Xu ly truong hop simon cham vao CheckStairUp va chua nhan phim len
-			if (x < cbr + 2 * SIMON_ONSTAIR_ERR_RANGE && x + SIMON_STAND_BBOX_WIDTH > cbl - 2 * SIMON_ONSTAIR_ERR_RANGE &&
+			if (x < cbr + 2 * SIMON_ONSTAIR_ERR_RANGE && 
+				x + SIMON_STAND_BBOX_WIDTH > cbl - 2 * SIMON_ONSTAIR_ERR_RANGE &&
 				y + SIMON_STAND_BBOX_HEIGHT < cbb + SIMON_ONSTAIR_ERR_RANGE &&
 				y + SIMON_STAND_BBOX_HEIGHT > cbb - SIMON_ONSTAIR_ERR_RANGE)
 			{
 				isCollideWithCheckBox = true;
-				ny = -1.0f;
 
-				if (isOnStair)
+				if (isOnStair && checkstair->id == currentCheckStairId)
 				{
-					int type = checkstair->GetType();					
 					SetState(SIMON_STATE_IDLE);
 					isOnStair = false;
-					
+					currentCheckStairId = 0;
 				}
 				else
 				{
@@ -163,10 +162,9 @@ void Simon::CalcPotentialCollisions(
 					case CHECKSTAIR_UP_LEFT:
 						isOnCheckStairUp = true;
 
-						if (state == SIMON_STATE_ONCHECKSTAIR)
+						if (state == SIMON_STATE_ONCHECKSTAIRUP)
 						{
 							nx = 1.0f;
-
 							isMoving = true;
 
 							// Truong hop simon onstair
@@ -175,6 +173,7 @@ void Simon::CalcPotentialCollisions(
 							{
 								vx = 0;
 								vy = 0;
+								ny = -1.0f;
 								SetPosition(
 									cbr - 5 * SIMON_ONSTAIR_ERR_RANGE,
 									cbb - 5 * SIMON_ONSTAIR_ERR_RANGE - SIMON_STAND_BBOX_HEIGHT);
@@ -182,21 +181,22 @@ void Simon::CalcPotentialCollisions(
 
 								isLeftToRight = false;
 								isOnStair = true;
+								currentCheckStairId = checkstair->id;
+								isOnCheckStairDown = false;
 								isOnCheckStairUp = false;
 							}
 						}
 						else
 						{
-							isOnCheckStairUp = false;
+							//isOnCheckStairUp = false;
 						}
 						break;
 					case CHECKSTAIR_UP_RIGHT:
 						isOnCheckStairUp = true;
 
-						if (state == SIMON_STATE_ONCHECKSTAIR)
+						if (state == SIMON_STATE_ONCHECKSTAIRUP)
 						{
 							nx = -1.0f;
-
 							isMoving = true;
 
 							// Truong hop simon onstair
@@ -205,6 +205,7 @@ void Simon::CalcPotentialCollisions(
 							{
 								vx = 0;
 								vy = 0;
+								ny = -1.0f;
 								SetPosition(
 									cbl + 5 * SIMON_ONSTAIR_ERR_RANGE - SIMON_STAND_BBOX_WIDTH,
 									cbb - 5 * SIMON_ONSTAIR_ERR_RANGE - SIMON_STAND_BBOX_HEIGHT);
@@ -212,12 +213,14 @@ void Simon::CalcPotentialCollisions(
 
 								isLeftToRight = true;
 								isOnStair = true;
+								currentCheckStairId = checkstair->id;
+								isOnCheckStairDown = false;
 								isOnCheckStairUp = false;
 							}
 						}
 						else
 						{
-							isOnCheckStairUp = false;
+							//isOnCheckStairUp = false;
 						}
 						break;
 					}
@@ -225,17 +228,18 @@ void Simon::CalcPotentialCollisions(
 			}
 
 			// Xu ly truong hop simon cham vao CheckStairDown va chua nhan phim xuong
-			if (x < cbr - 2 * SIMON_ONSTAIR_ERR_RANGE && x + SIMON_STAND_BBOX_WIDTH > cbl &&
+			if (x < cbr - 2 * SIMON_ONSTAIR_ERR_RANGE && 
+				x + SIMON_STAND_BBOX_WIDTH > cbl &&
 				y < cbb + SIMON_ONSTAIR_ERR_RANGE &&
 				y > cbb - 5 * SIMON_ONSTAIR_ERR_RANGE)
 			{
 				isCollideWithCheckBox = true;
-				ny = 1.0f;
 
-				if (isOnStair)
+				if (isOnStair && checkstair->id == currentCheckStairId)
 				{
 					SetState(SIMON_STATE_IDLE);
 					isOnStair = false;
+					currentCheckStairId = 0;
 				}
 				else
 				{
@@ -247,11 +251,9 @@ void Simon::CalcPotentialCollisions(
 					case CHECKSTAIR_DOWN_LEFT:
 						isOnCheckStairDown = true;
 
-						if (state == SIMON_STATE_ONCHECKSTAIR)
+						if (state == SIMON_STATE_ONCHECKSTAIRDOWN)
 						{
-							isOnCheckStairDown = true;
 							nx = -1.0f;
-
 							isMoving = true;
 
 							// Truong hop simon onstair
@@ -260,6 +262,7 @@ void Simon::CalcPotentialCollisions(
 							{
 								vx = 0;
 								vy = 0;
+								ny = 1.0f;
 								SetPosition(
 									cbl - 4 * SIMON_ONSTAIR_ERR_RANGE - SIMON_STAND_BBOX_WIDTH,
 									cbb + 5 * SIMON_ONSTAIR_ERR_RANGE);
@@ -267,22 +270,22 @@ void Simon::CalcPotentialCollisions(
 
 								isLeftToRight = true;
 								isOnStair = true;
+								currentCheckStairId = checkstair->id;
 								isOnCheckStairDown = false;
+								isOnCheckStairUp = false;
 							}
 						}
 						else
 						{
-							isOnCheckStairDown = false;
+							//isOnCheckStairDown = false;
 						}
 						break;
 					case CHECKSTAIR_DOWN_RIGHT:
 						isOnCheckStairDown = true;
 
-						if (state == SIMON_STATE_ONCHECKSTAIR)
+						if (state == SIMON_STATE_ONCHECKSTAIRDOWN)
 						{
-							isOnCheckStairDown = true;
 							nx = 1.0f;
-
 							isMoving = true;
 
 							// Truong hop simon onstair
@@ -291,6 +294,7 @@ void Simon::CalcPotentialCollisions(
 							{
 								vx = 0;
 								vy = 0;
+								ny = 1.0f;
 								SetPosition(
 									cbr + 2 * SIMON_ONSTAIR_ERR_RANGE,
 									cbb + 5 * SIMON_ONSTAIR_ERR_RANGE);
@@ -298,12 +302,14 @@ void Simon::CalcPotentialCollisions(
 
 								isLeftToRight = false;
 								isOnStair = true;
+								currentCheckStairId = checkstair->id;
 								isOnCheckStairDown = false;
+								isOnCheckStairUp = false;
 							}
 						}
 						else
 						{
-							isOnCheckStairDown = false;
+							//isOnCheckStairDown = false;
 						}
 						break;
 					}
@@ -597,7 +603,8 @@ void Simon::Render()
 		{
 			switch (state)
 			{
-			case SIMON_STATE_ONCHECKSTAIR:
+			case SIMON_STATE_ONCHECKSTAIRUP:
+			case SIMON_STATE_ONCHECKSTAIRDOWN:
 				ani = SIMON_ANI_WALKING_RIGHT;
 				break;
 			case SIMON_STATE_ONSTAIR:
@@ -639,7 +646,8 @@ void Simon::Render()
 		{
 			switch (state)
 			{
-			case SIMON_STATE_ONCHECKSTAIR:
+			case SIMON_STATE_ONCHECKSTAIRUP:
+			case SIMON_STATE_ONCHECKSTAIRDOWN:
 				ani = SIMON_ANI_WALKING_LEFT;
 				break;
 			case SIMON_STATE_ONSTAIR:
@@ -757,7 +765,8 @@ void Simon::SetState(int state)
 		isExitSit = false;
 
 		break;
-	case SIMON_STATE_ONCHECKSTAIR:
+	case SIMON_STATE_ONCHECKSTAIRUP:
+	case SIMON_STATE_ONCHECKSTAIRDOWN:
 		if (nx < 0)
 		{
 			vx = -SIMON_WALKING_SPEED;
