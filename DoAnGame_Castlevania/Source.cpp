@@ -1277,46 +1277,54 @@ void LoadResourceLv3_4()
 	listGrids->AddObject(candle);
 
 	CheckStair *checkstair;
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(803);
+	checkstair->SetId(1);
+	checkstair->SetPosition(137, 181);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	listGrids->AddObject(checkstair);
+
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
-	checkstair->SetPosition(1217, 120);
-	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
-	listGrids->AddObject(checkstair);
-	
-	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1093, 312);
-	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	checkstair->SetId(2);
+	checkstair->SetPosition(226, 120);
+	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(1290, 181);
-	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
+	checkstair->SetId(2);
+	checkstair->SetPosition(409, 377);
+	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
+	checkstair->SetId(3);
 	checkstair->SetPosition(583, 181);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(137, 181);
+	checkstair->SetId(4);
+	checkstair->SetPosition(1093, 312);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(803);
-	checkstair->SetPosition(409, 377);
-	checkstair->SetType(CHECKSTAIR_UP_LEFT);
+	checkstair->AddAnimation(804);
+	checkstair->SetId(4);
+	checkstair->SetPosition(1217, 120);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 
 	checkstair = new CheckStair();
-	checkstair->AddAnimation(804);
-	checkstair->SetPosition(226, 120);
-	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
+	checkstair->AddAnimation(803);
+	checkstair->SetId(5);
+	checkstair->SetPosition(1290, 181);
+	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
 	
