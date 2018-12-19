@@ -53,7 +53,7 @@ Enemy *enemy;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
-int lv = 34;
+int lv = 33;
 
 // check scene lv2->lv2_1
 bool checkScene = false;
@@ -1296,15 +1296,16 @@ void LoadResourceLv3_4()
 	skeleton = new Skeleton();
 	skeleton->AddAnimation(818);
 	skeleton->AddAnimation(819);
-	skeleton->SetPosition(1189, 277);
+	skeleton->SetPosition(1000, 277);
+	skeleton->SetState(SKELETON_WALKING);
 	listGrids->AddObject(skeleton);
 
-	Bird *bird;
+	/*Bird *bird;
 	bird = new Bird();
 	bird->AddAnimation(822);
 	bird->AddAnimation(823);
 	bird->SetPosition(1300, 277);
-	listGrids->AddObject(bird);
+	listGrids->AddObject(bird);*/
 }
 
 void LoadResourceLv3_3()

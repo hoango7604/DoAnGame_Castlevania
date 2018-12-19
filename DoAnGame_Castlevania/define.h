@@ -228,6 +228,8 @@
 //Skeleton
 #define SKELETON_BBOX_WIDTH				32	
 #define SKELETON_BBOX_HEIGHT			45
+#define SKELETON_WALKING_SPEED			1.5
+#define SKELETON_WALKING				0
 
 //Bird
 #define BIRD_BBOX_WIDTH					60	

@@ -6,7 +6,8 @@ void Skeleton::SetState(int state)
 
 	switch (state)
 	{
-	
+	case SKELETON_WALKING:
+		vx = SKELETON_WALKING_SPEED;
 	}
 }
 
@@ -22,19 +23,27 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	Enemy::Update(dt, coObjects);
 
-	
-
 	x += dx;
 	y += dy;
+	
+	if (GetTickCount() - timer > 800)
+	{
+		vx = SKELETON_WALKING_SPEED;
+		timer = GetTickCount();
+	}
+	else 
+		vx = 0;
+	
+	
+	
 }
 
 void Skeleton::Render()
 {
 	int ani = 0;
-
 	
-
-	animations[ani]->Render(x, y);
+	animations[1]->Render(x, y);
+	
 
 	//RenderBoundingBox();
 }
