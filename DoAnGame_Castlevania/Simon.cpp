@@ -428,6 +428,44 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (x < MAX_WIDTH_BOSS - SCREEN_WIDTH)
 				x = MAX_WIDTH_BOSS - SCREEN_WIDTH;
 	}
+	else if (lv == 35)
+	{
+		if (x < 0)
+			x = 0;
+		else if (x > MAX_WIDTH_LV3_5 - 2 * SIMON_STAND_BBOX_WIDTH)
+			x = MAX_WIDTH_LV3_5 - 2 * SIMON_STAND_BBOX_WIDTH;
+	}
+	else if (lv == 34)
+	{
+		if (x < 0)
+			x = 0;
+		else if (x > MAX_WIDTH_LV3_4 -2*SIMON_STAND_BBOX_WIDTH)
+			x = MAX_WIDTH_LV3_4 - 2 * SIMON_STAND_BBOX_WIDTH;
+	}
+	else if (lv == 33)
+	{
+		if (x < 0)
+			x = 0;
+		else if (x > MAX_WIDTH_LV3_3 - 2 * SIMON_STAND_BBOX_WIDTH)
+			x = MAX_WIDTH_LV3_3 - 2 * SIMON_STAND_BBOX_WIDTH;
+	}
+	else if (lv == 32)
+	{
+		if (x < 0)
+			x = 0;
+		else if (x > MAX_WIDTH_LV3_2 - 2 * SIMON_STAND_BBOX_WIDTH)
+			x = MAX_WIDTH_LV3_2 - 2 * SIMON_STAND_BBOX_WIDTH;
+	}
+	else if (lv == 31)
+	{
+		if (x < 0)
+			x = 0;
+		else if (x > MAX_WIDTH_LV3_1 - 2 * SIMON_STAND_BBOX_WIDTH)
+			x = MAX_WIDTH_LV3_1 - 2 * SIMON_STAND_BBOX_WIDTH;
+		if (CGame::GetInstance()->start_fight_boss == true)
+			if (x > SCREEN_WIDTH - 2 * SIMON_STAND_BBOX_WIDTH)
+				x = SCREEN_WIDTH - 2 * SIMON_STAND_BBOX_WIDTH;
+	}
 	
 	
 
