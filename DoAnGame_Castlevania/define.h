@@ -134,6 +134,10 @@
 #define MONEY_BBOX_WIDTH				30
 #define MONEY_BBOX_HEIGHT				30
 
+// Invicibility
+#define INVICIBILITY_BBOX_WIDTH				33
+#define INVICIBILITY_BBOX_HEIGHT			40
+
 // Zombie
 #define ZOMBIE_WALKING_SPEED			0.07f
 
@@ -334,6 +338,7 @@
 #define ID_TEX_BOSSES_RIGHT				43
 #define ID_TEX_ENEMIES					44
 #define ID_TEX_ENEMIES_RIGHT			45
+#define ID_TEX_INVICIBILITY				46
 
 #define BRICK_BBOX_WIDTH				32
 #define BRICK_BBOX_HEIGHT				32
@@ -369,6 +374,7 @@
 #define ITEM_ROSARY						4434
 #define ITEM_CLOCK						4435
 #define ITEM_PRIZE						813
+#define ITEM_INVICIBILITY				839
 
 // Weapon in action
 #define WEAPON_ANI_AXE					430

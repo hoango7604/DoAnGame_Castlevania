@@ -39,4 +39,5 @@
 39 Castlevania\map34.png
 40 Castlevania\map35.png
 41 Castlevania\Gate.png
+46 Castlevania\INVICIBILITY_ITEM.png
 48 Castlevania\rosary_action.png

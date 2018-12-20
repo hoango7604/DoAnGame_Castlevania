@@ -110,6 +110,9 @@ void Item::GetBoundingBox(float &l, float &t, float &r, float &b)
 		r = x + PRIZE_BBOX_WIDTH;
 		b = y + PRIZE_BBOX_HEIGHT;
 		break;
+	case ITEM_INVICIBILITY:
+		r = x + INVICIBILITY_BBOX_WIDTH;
+		b = y + INVICIBILITY_BBOX_HEIGHT;
 	}
 }
 

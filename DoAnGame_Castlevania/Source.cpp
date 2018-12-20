@@ -61,7 +61,8 @@ bool check1 = false;
 bool check = false;
 //check lv2->lv2_2
 bool temp = false;
-
+//check lv34-> 33
+bool temp10 = false;
 //check scene lv2_1 ->boss
 bool checkScene1 = false;
 DWORD open_door_time, close_door_time;
@@ -1135,7 +1136,7 @@ void LoadResourceLv3_5()
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetId(1);
-	checkstair->SetPosition(2720, 200);
+	checkstair->SetPosition(2720, 186);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
@@ -1152,6 +1153,28 @@ void LoadResourceLv3_5()
 	checkPoint->SetType(CHECKPOINT_LEVELUP);
 	checkPoint->SetPosition(91, 251);
 	listGrids->AddObject(checkPoint);
+
+	Candle *candle;
+	for (int i = 0; i < 3; i++)
+	{
+		candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(1346 + 128 * i, 220);
+		listGrids->AddObject(candle);
+	}
+
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(186, 163);
+	listGrids->AddObject(candle);
+
+	for (int i = 0; i < 2; i++)
+	{
+		candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(2725 + 90 * i, 350);
+		listGrids->AddObject(candle);
+	}
 
 }
 
@@ -1276,11 +1299,12 @@ void LoadResourceLv3_4()
 	candle->SetPosition(575, 150);
 	listGrids->AddObject(candle);
 
+
 	CheckStair *checkstair;
 
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetId(1);
+	checkstair->SetId(10);
 	checkstair->SetPosition(137, 181);
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
@@ -1450,6 +1474,20 @@ void LoadResourceLv3_3()
 		ground->SetPosition(736 + i * 32 ,344 );
 		listGrids->AddObject(ground);
 	}
+
+	Candle * candle;
+	for (int i = 0; i < 2; i++)
+	{
+		candle = new Candle();
+		candle->AddAnimation(800);
+		candle->SetPosition(1128 + 128 * i, 146);
+		listGrids->AddObject(candle);
+	}
+
+	candle = new Candle();
+	candle->AddAnimation(800);
+	candle->SetPosition(1221, 286);
+	listGrids->AddObject(candle);
 	CheckStair * checkstair;
 
 	checkstair = new CheckStair();
@@ -1518,13 +1556,21 @@ void LoadResourceLv3_3()
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1413, 313);
+	checkstair->SetId(5);
+	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
+	listGrids->AddObject(checkstair);
+
+	checkstair = new CheckStair();
+	checkstair->AddAnimation(804);
+	checkstair->SetPosition(265, 313);
+	checkstair->SetId(10);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
 }
 
 void LoadResourceLv3_2()
 {
-	simon->SetPosition(439, 112);
+	
 	for (int i = 0; i < 6; i++)
 	{
 		Ground *ground = new Ground();
@@ -1535,7 +1581,8 @@ void LoadResourceLv3_2()
 	CheckStair * checkstair;
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
-	checkstair->SetPosition(310, 248);
+	checkstair->SetPosition(313, 248);
+	checkstair->SetId(1);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
 	listGrids->AddObject(checkstair);
 }
@@ -1571,6 +1618,7 @@ void LoadResourceLv3_1()
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
 	checkstair->SetPosition(1045, 250);
+	checkstair->SetId(1);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 }
@@ -1924,6 +1972,8 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texMic18 = textures->Get(ID_TEX_ENEMIES_RIGHT);
 	sprites->Add("Castlevania\\filetxt\\spr_enemy_right.txt", texMic18);
 	
+	LPDIRECT3DTEXTURE9 texMic19 = textures->Get(ID_TEX_INVICIBILITY);
+	sprites->Add("Castlevania\\filetxt\\spr_invicibility.txt", texMic19);
 
 	LPDIRECT3DTEXTURE9 texMic21 = textures->Get(48);
 	sprites->Add("Castlevania\\filetxt\\spr_rosary_action.txt", texMic21);
@@ -2421,6 +2471,9 @@ void LoadResources()
 	ani->Add(40067);
 	animations->Add(838, ani);
 	
+	ani = new CAnimation(100);//dracula lv2 trên không phải 
+	ani->Add(40068);
+	animations->Add(839, ani);
 	#pragma endregion
 
 	#pragma region simon
@@ -2760,38 +2813,75 @@ void Update(DWORD dt)
 	}
 	if (lv == 34)
 	{
-		if (countLoadResource3_4 == false)
+		if (countLoadResource3_4 == false )
 		{
 			listGrids->InitList(MAX_WIDTH_LV3_4);
 			LoadResourceLv3_4();
 			countLoadResource3_4 = true;
 
 		}
-		if (y < 90)
+		if ((y < 85 && x> 1340) || ( y< 85 && x>664  && x<690) || (y < 85 && x>200 && x<210) )
 		{
 			listGrids->ReleaseList();
+			listGrids->InitList(MAX_WIDTH_LV3_3);
+			LoadResourceLv3_3();
 			lv = 33;
-			simon->SetPosition(1312, 423);
-			
-			simon->GetPosition(x, y);
-			
+
+			if (x > 1340)
+			{
+				simon->SetPosition(1312, 423);
+				simon->GetPosition(x, y);
+			}
+			else if (x > 664 && x < 690)
+			{
+				simon->SetPosition(620, 423);
+				simon->GetPosition(x, y);
+			}
+			else if (x > 200 && x < 210)
+			{
+				simon->SetPosition(165, 423);
+				simon->GetPosition(x, y);
+			}
+			//temp10 = true;
 		}
 	}
 	if (lv == 33)
 	{
-		if (countLoadResource3_3 == false)
+		/*if (countLoadResource3_3 == false && temp10 == false)
 		{
 			listGrids->InitList(MAX_WIDTH_LV3_3);
 			LoadResourceLv3_3();
 			countLoadResource3_3 = true;
-		}
+		}*/
 		if (x < 0)
 		{
 			listGrids->ReleaseList();			
 			lv = 32;
-			simon->SetPosition(500, 230);
-			simon->GetPosition(x, y);
-			
+			simon->SetPosition(500, 200);
+			simon->GetPosition(x, y);			
+		}
+		if ((y > 430 && x< 190) || (y > 430 && x>570 && x < 600) || (y > 430 && x>1280 && x < 1300))
+		{
+			listGrids->ReleaseList();
+			listGrids->InitList(MAX_WIDTH_LV3_4);
+			LoadResourceLv3_4();
+			lv = 34;
+			if (x <190 && x>0)
+			{
+				simon->SetPosition(140, 120);
+				simon->GetPosition(x, y);
+			}
+			else if (x > 570 && x < 600)
+			{
+				simon->SetPosition(600,120);
+				simon->GetPosition(x, y);
+			}
+			else if (x > 1280 && x < 1300)
+			{
+				simon->SetPosition(1300,120);
+				simon->GetPosition(x, y);
+			}
+			//temp10 = true;
 		}
 	}
 	if (lv == 32)
@@ -2807,9 +2897,11 @@ void Update(DWORD dt)
 		{
 			listGrids->ReleaseList();
 			lv = 31;
-			simon->SetPosition(1223, 430);
+			simon->SetPosition(1200, 410);
 			game->x_cam = MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2;
 			simon->GetPosition(x, y);
+			listGrids->InitList(MAX_WIDTH_LV3_1);
+			LoadResourceLv3_1();
 		}
 	}
 	if (lv == 31)
@@ -2819,6 +2911,16 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV3_1);
 			LoadResourceLv3_1();
 			countLoadResource3_1 = true;
+		}
+		if (y >430)
+		{
+			listGrids->ReleaseList();
+			listGrids->InitList(MAX_WIDTH_LV3_2);
+			LoadResourceLv3_2();
+			lv = 32;
+			simon->SetPosition(249, 120);		
+			simon->GetPosition(x, y);
+			
 		}
 	}
 #pragma endregion
@@ -3092,7 +3194,7 @@ void Update(DWORD dt)
 					int random_portion = rand() % 100;
 
 					// Heart
-					if (random_portion < 10) // 90
+					/*if (random_portion < 10) // 90
 					{
 						item->AddAnimation(ITEM_HEART);
 						item->SetType(ITEM_HEART);
@@ -3139,14 +3241,13 @@ void Update(DWORD dt)
 					{
 						item->AddAnimation(ITEM_CLOCK);
 						item->SetType(ITEM_CLOCK);
-					}
-					/*if (random_portion >= 0 && random_portion <= 100)
-					{
-						/*item->AddAnimation(ITEM_PRIZE);
-						item->SetType(ITEM_PRIZE);
-						item->AddAnimation(ITEM_ROSARY);
-						item->SetType(ITEM_ROSARY);
 					}*/
+					if (random_portion >= 0 && random_portion <= 100)
+					{
+						
+						item->AddAnimation(ITEM_INVICIBILITY);
+						item->SetType(ITEM_INVICIBILITY);
+					}
 				}
 
 				// Thêm hiệu ứng tóe lửa
