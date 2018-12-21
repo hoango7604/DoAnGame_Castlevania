@@ -4,6 +4,7 @@
 #include "Candle.h"
 #include "Panther.h"
 #include "Stair.h"
+#include "SuperDracula.h"
 #include "CheckStair.h"
 #include "Simon.h"
 

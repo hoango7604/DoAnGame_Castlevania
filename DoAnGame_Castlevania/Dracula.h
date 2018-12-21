@@ -15,6 +15,7 @@ public:
 	bool isActivate;
 	bool isHit;
 	bool isBleeding;
+	bool didAttack;
 	DWORD restCast;
 	DWORD lastRestTime;
 

@@ -60,6 +60,22 @@ void Cross::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCO
 							}
 						}
 					}
+					else if (dynamic_cast<SuperDracula *>(e->obj))
+					{
+						SuperDracula *superDracula = dynamic_cast<SuperDracula *>(e->obj);
+						if (!superDracula->isHitted)
+						{
+							CGame::GetInstance()->bossheath -= 1;
+							superDracula->isHitted = true;
+							superDracula->hitTime = GetTickCount();
+						}
+
+						if (CGame::GetInstance()->bossheath <= 0)
+						{
+							superDracula->isDie = true;
+							Simon::score += 100;
+						}
+					}
 					else
 					{
 						Simon::score += 100;
@@ -146,12 +162,7 @@ void Cross::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<Enemy *>(e->obj))
-			{
-				Enemy *enemy = dynamic_cast<Enemy *>(e->obj);
-				enemy->isDie = true;
-			}
-			else if (dynamic_cast<BigFire *>(e->obj))
+			if (dynamic_cast<BigFire *>(e->obj))
 			{
 				BigFire *bigfire = dynamic_cast<BigFire *>(e->obj);
 				bigfire->isHitted = true;

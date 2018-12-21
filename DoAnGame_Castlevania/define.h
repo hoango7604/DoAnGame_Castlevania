@@ -300,6 +300,8 @@
 #define SUPERDRACULA_FLY				300
 #define SUPERDRACULA_ON_SKY				400
 
+#define SUPERDRACULA_HIT_TIME			1000
+
 // Check stair
 #define CHECKSTAIR_UP_LEFT				0
 #define CHECKSTAIR_UP_RIGHT				1

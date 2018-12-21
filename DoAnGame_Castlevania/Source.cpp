@@ -1689,7 +1689,7 @@ void LoadResourceLv3_1()
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 
-	SuperDracula * superdracula;
+	/*SuperDracula * superdracula;
 	superdracula = new SuperDracula(simon);
 	superdracula->AddAnimation(831);
 	superdracula->AddAnimation(832);
@@ -1702,7 +1702,7 @@ void LoadResourceLv3_1()
 	
 	superdracula->SetPosition(500, 50);
 	superdracula->SetState(SUPERDRACULA_WAIT);
-	listGrids->AddObject(superdracula);
+	listGrids->AddObject(superdracula);*/
 
 	Dracula *dracula;
 	dracula = new Dracula(simon, game);
@@ -3285,6 +3285,30 @@ void Update(DWORD dt)
 				{
 					Dracula *dracula = dynamic_cast<Dracula *>(objects.at(i));
 
+					if (dracula->state == DRACULA_STATE_ATTACK && !dracula->didAttack)
+					{
+						int nx = dracula->nx;
+
+						enemy = new EnemyBullet(nx);
+						enemy->AddAnimation(812);
+						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
+						listGrids->AddObject(enemy);
+
+						enemy = new EnemyBullet(nx);
+						enemy->AddAnimation(812);
+						enemy->vy = 0.05f;
+						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
+						listGrids->AddObject(enemy);
+
+						enemy = new EnemyBullet(nx);
+						enemy->AddAnimation(812);
+						enemy->vy = -0.05f;
+						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
+						listGrids->AddObject(enemy);
+
+						dracula->didAttack = true;
+					}
+
 					if (dracula->isHit && !dracula->isBleeding)
 					{
 						// Thêm hiệu ứng tóe lửa
@@ -3301,6 +3325,31 @@ void Update(DWORD dt)
 						listGrids->AddObject(whipEffect);
 
 						dracula->isBleeding = true;
+					}
+				}
+				else if (dynamic_cast<SuperDracula *>(objects.at(i)))
+				{
+					SuperDracula *superDracula = dynamic_cast<SuperDracula *>(objects.at(i));
+
+					if (superDracula->isHitted && !superDracula->isBleeding)
+					{
+						for (int i = 0; i < 3; i++)
+						{
+							// Thêm hiệu ứng tóe lửa
+							whipEffect = new Effect(GetTickCount());
+							whipEffect->AddAnimation(806);
+							whipEffect->SetPosition(superDracula->x + i * SUPERDRACULA_BBOX_WIDTH / 3, superDracula->y + 3 * SUPERDRACULA_BBOX_HEIGHT / 4);
+							objects.push_back(whipEffect);
+							listGrids->AddObject(whipEffect);
+
+							whipEffect = new Effect(GetTickCount());
+							whipEffect->AddAnimation(807);
+							whipEffect->SetPosition(superDracula->x + i * SUPERDRACULA_BBOX_WIDTH / 3, superDracula->y + 3 * SUPERDRACULA_BBOX_HEIGHT / 4);
+							objects.push_back(whipEffect);
+							listGrids->AddObject(whipEffect);
+						}
+
+						superDracula->isBleeding = true;
 					}
 				}
 				else if (dynamic_cast<BossBat *>(objects.at(i)))

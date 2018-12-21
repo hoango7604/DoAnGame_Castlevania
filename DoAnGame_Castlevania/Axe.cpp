@@ -88,6 +88,19 @@ void Axe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							}
 						}
 					}
+					else if (dynamic_cast<SuperDracula *>(e->obj))
+					{
+						SuperDracula *superDracula = dynamic_cast<SuperDracula *>(e->obj);
+						CGame::GetInstance()->bossheath -= 1;
+						superDracula->isHitted = true;
+						superDracula->hitTime = GetTickCount();
+
+						if (CGame::GetInstance()->bossheath <= 0)
+						{
+							superDracula->isDie = true;
+							Simon::score += 100;
+						}
+					}
 					else
 					{
 						Simon::score += 100;

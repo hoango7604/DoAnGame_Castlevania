@@ -8,6 +8,7 @@
 #include "Candle.h"
 #include "BigFire.h"
 #include "Dracula.h"
+#include "SuperDracula.h"
 
 void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -56,6 +57,25 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						dracula->isDie = true;
 						Simon::score += 100;
 						CGame::GetInstance()->start_fight_boss = false;
+					}
+				}
+			}
+			else if (dynamic_cast<SuperDracula *>(coObjects->at(i)))
+			{
+				SuperDracula *superDracula = dynamic_cast<SuperDracula *>(coObjects->at(i));
+				float zl, zr, zt, zb;
+				superDracula->GetBoundingBox(zl, zt, zr, zb);
+
+				if (wl < zr && wr > zl && wt < zb && wb > zt)
+				{
+					CGame::GetInstance()->bossheath -= 1;
+					superDracula->isHitted = true;
+					superDracula->hitTime = GetTickCount();
+
+					if (CGame::GetInstance()->bossheath <= 0)
+					{
+						superDracula->isDie = true;
+						Simon::score += 100;
 					}
 				}
 			}

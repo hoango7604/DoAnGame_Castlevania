@@ -10,6 +10,7 @@ void Item::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOL
 			!dynamic_cast<Stair *>(coObjects->at(i)) &&
 			!dynamic_cast<CheckStair *>(coObjects->at(i)) &&
 			!dynamic_cast<Enemy *>(coObjects->at(i)) &&
+			!dynamic_cast<Item *>(coObjects->at(i)) &&
 			!dynamic_cast<Weapon *>(coObjects->at(i)))
 		{
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));

@@ -15,6 +15,7 @@ void Dracula::SetState(int state)
 	case DRACULA_STATE_INVISIBLE:
 		isBleeding = false;
 		isHit = false;
+		didAttack = false;
 		lastRestTime = GetTickCount();
 		break;
 	case DRACULA_STATE_EXPOSE:
@@ -33,10 +34,20 @@ void Dracula::GetBoundingBox(float & left, float & top, float & right, float & b
 	}
 	else
 	{
-		left = x;
-		top = y;
-		right = x;
-		bottom = y;
+		if (state == DRACULA_STATE_ATTACK)
+		{
+			left = x;
+			top = y;
+			right = x;
+			bottom = y;
+		}
+		else
+		{
+			left = 0;
+			top = 0;
+			right = 0;
+			bottom = 0;
+		}
 	}
 }
 

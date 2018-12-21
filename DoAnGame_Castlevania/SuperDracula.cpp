@@ -13,7 +13,7 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	Enemy::Update(dt, coObjects);
 	
-	if (isHitted == false)
+	if (!isHitted)
 	{
 		if (GetTickCount() - timer > 2000 && check_wait == false)
 		{
@@ -43,7 +43,14 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			check_wait = false;
 		}
 	}
-	
+	else
+	{
+		if (GetTickCount() - hitTime > SUPERDRACULA_HIT_TIME)
+		{
+			isHitted = false;
+			isBleeding = false;
+		}
+	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;

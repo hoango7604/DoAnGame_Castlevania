@@ -13,6 +13,8 @@ public:
 	DWORD timer;
 	Simon *simon;
 	bool isHitted = false;
+	bool isBleeding;
+	DWORD hitTime;
 	SuperDracula(Simon *simon) {
 		timer = GetTickCount();
 		this->simon = simon;
