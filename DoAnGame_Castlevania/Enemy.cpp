@@ -5,6 +5,7 @@
 #include "CheckStair.h"
 #include "Weapon.h"
 #include "Item.h"
+#include "Bone.h"
 
 void Enemy::SetState(int state)
 {
@@ -19,9 +20,10 @@ void Enemy::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCO
 		if (!dynamic_cast<Candle *>(coObjects->at(i)) &&
 			!dynamic_cast<BigFire *>(coObjects->at(i)) &&
 			!dynamic_cast<Stair *>(coObjects->at(i)) &&
-			!dynamic_cast<CheckStair *>(coObjects->at(i)) &&
-			!dynamic_cast<Enemy *>(coObjects->at(i)) &&
-			!dynamic_cast<Weapon *>(coObjects->at(i)))
+			!dynamic_cast<CheckStair *>(coObjects->at(i)) &&			
+			!dynamic_cast<Weapon *>(coObjects->at(i)) &&
+			!dynamic_cast<Enemy *>(coObjects->at(i))
+			)
 		{
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 

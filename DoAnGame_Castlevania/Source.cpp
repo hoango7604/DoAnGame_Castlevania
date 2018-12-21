@@ -1174,7 +1174,7 @@ void LoadResourceLv3_5()
 		candle->SetPosition(2725 + 90 * i, 350);
 		listGrids->AddObject(candle);
 	}
-
+	
 }
 
 void LoadResourceLv3_4()
@@ -1354,9 +1354,10 @@ void LoadResourceLv3_4()
 	skeleton = new Skeleton();
 	skeleton->AddAnimation(818);
 	skeleton->AddAnimation(819);
-	skeleton->SetPosition(1000, 277);
+	skeleton->SetPosition(1156, 220);
 	skeleton->SetState(SKELETON_WALKING);
 	listGrids->AddObject(skeleton);
+	
 
 	Bird *bird;
 	bird = new Bird(1);
@@ -1571,6 +1572,23 @@ void LoadResourceLv3_3()
 	checkstair->SetId(10);
 	checkstair->SetType(CHECKSTAIR_DOWN_LEFT);
 	listGrids->AddObject(checkstair);
+
+	Skeleton *skeleton;
+	skeleton = new Skeleton();
+	skeleton->AddAnimation(818);
+	skeleton->AddAnimation(819);
+	skeleton->SetPosition(1173, 330);
+	skeleton->SetState(SKELETON_WALKING);
+	listGrids->AddObject(skeleton);
+
+	
+	skeleton = new Skeleton();
+	skeleton->AddAnimation(818);
+	skeleton->AddAnimation(819);
+	skeleton->SetPosition(1173, 150);
+	skeleton->SetState(SKELETON_WALKING);
+	listGrids->AddObject(skeleton);
+	
 }
 
 void LoadResourceLv3_2()
@@ -2380,12 +2398,12 @@ void LoadResources()
 	animations->Add(817, ani);
 
 	
-	ani = new CAnimation(100);//enemy xương trái
+	ani = new CAnimation(400);//enemy xương trái
 	ani->Add(40034);
 	ani->Add(40035);
 	animations->Add(818, ani);
 
-	ani = new CAnimation(100);//enemy xương phải
+	ani = new CAnimation(400);//enemy xương phải
 	ani->Add(40042);
 	ani->Add(40043);
 	animations->Add(819, ani);
@@ -3040,7 +3058,6 @@ void Update(DWORD dt)
 								enemy = new EnemyBullet(nx);
 								enemy->AddAnimation(812);
 								enemy->SetPosition(merman->x + MERMAN_BBOX_WIDTH / 2, merman->y + 10);
-
 								listGrids->AddObject(enemy);
 								merman->didAttack = true;
 							}
@@ -3049,6 +3066,23 @@ void Update(DWORD dt)
 
 					if (merman->x < game->x_cam - MERMAN_BBOX_WIDTH || merman->x > game->x_cam + SCREEN_WIDTH)
 						merman->isDie = true;
+				}
+				else if (dynamic_cast<Skeleton *>(objects.at(i)))
+				{
+					Skeleton *skeleton = dynamic_cast<Skeleton *>(objects.at(i));
+					int nx = skeleton->nx;
+					if (GetTickCount() - skeleton->timer > 2000)
+					{
+						enemy = new Bone(nx);
+						enemy->AddAnimation(820);
+						enemy->AddAnimation(821);
+						enemy->SetPosition(skeleton->x, skeleton->y - 10);
+						listGrids->AddObject(enemy);
+						skeleton->timer += 2000;
+						
+					}
+					
+					
 				}
 				else if (dynamic_cast<BossBat *>(objects.at(i)))
 				{
@@ -3555,17 +3589,23 @@ void Update(DWORD dt)
 	}
 	else if (lv == 31)
 	{
-		if (x < SCREEN_WIDTH / 2)
+		if (CGame::GetInstance()->start_fight_boss == false)
 		{
-			game->x_cam = 0;
-		}
-		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2)
-		{
-			game->x_cam = x - SCREEN_WIDTH / 2;
+			if (x < SCREEN_WIDTH / 2)
+			{
+				game->x_cam = 0;
+				CGame::GetInstance()->start_fight_boss = true;
+			}
+			else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2)
+			{
+				game->x_cam = x - SCREEN_WIDTH / 2;
 
+			}
+			else if (x > MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2)
+				game->x_cam = MAX_WIDTH_LV3_1 - SCREEN_WIDTH;
 		}
-		else if (x > MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2)
-			game->x_cam = MAX_WIDTH_LV3_1 - SCREEN_WIDTH;
+		else
+			game->x_cam = 0;
 	}
 #pragma endregion
 
