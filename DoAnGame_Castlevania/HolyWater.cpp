@@ -36,7 +36,7 @@ void HolyWater::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<
 						bossbat->isHurt = true;
 						bossbat->hurtTime = GetTickCount();
 
-						if (CGame::GetInstance()->bossheath == 0)
+						if (CGame::GetInstance()->bossheath <= 0)
 						{
 							bossbat->isDie = true;
 							Simon::score += 100;
@@ -50,7 +50,7 @@ void HolyWater::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<
 							CGame::GetInstance()->bossheath -= 1;
 							dracula->isHit = true;
 
-							if (CGame::GetInstance()->bossheath == 0)
+							if (CGame::GetInstance()->bossheath <= 0)
 							{
 								dracula->isDie = true;
 								Simon::score += 100;

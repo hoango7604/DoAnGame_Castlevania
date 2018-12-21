@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Ground.h"
 #include "Simon.h"
+
 class SuperDracula : public Enemy
 {
 	bool check_wait = false;

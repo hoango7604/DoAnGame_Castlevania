@@ -66,7 +66,7 @@ void Axe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						bossbat->isHurt = true;
 						bossbat->hurtTime = GetTickCount();
 
-						if (CGame::GetInstance()->bossheath == 0)
+						if (CGame::GetInstance()->bossheath <= 0)
 						{
 							bossbat->isDie = true;
 							Simon::score += 100;
@@ -78,10 +78,10 @@ void Axe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						Dracula *dracula = dynamic_cast<Dracula *>(e->obj);
 						if (dracula->state == DRACULA_STATE_ATTACK && !dracula->isHit)
 						{
-							CGame::GetInstance()->bossheath -= 16;
+							CGame::GetInstance()->bossheath -= 1;
 							dracula->isHit = true;
 
-							if (CGame::GetInstance()->bossheath == 0)
+							if (CGame::GetInstance()->bossheath <= 0)
 							{
 								dracula->isDie = true;
 								Simon::score += 100;

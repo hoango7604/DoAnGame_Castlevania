@@ -1703,8 +1703,6 @@ void LoadResourceLv3_1()
 	superdracula->SetPosition(500, 50);
 	superdracula->SetState(SUPERDRACULA_WAIT);
 	listGrids->AddObject(superdracula);
-}
-
 
 	Dracula *dracula;
 	dracula = new Dracula(simon, game);
@@ -3304,37 +3302,6 @@ void Update(DWORD dt)
 
 						dracula->isBleeding = true;
 					}
-
-					if (dracula->isDie)
-					{
-						for (int i = 0; i < 2; i++)
-						{
-							for (int j = 0; j < 4; j++)
-							{
-								// Thêm hiệu ứng tóe lửa
-								whipEffect = new Effect(GetTickCount());
-								whipEffect->AddAnimation(806);
-								whipEffect->SetPosition(dracula->x + i * DRACULA_BBOX_WIDTH / 2, dracula->y + j * DRACULA_BBOX_HEIGHT / 4);
-								objects.push_back(whipEffect);
-								listGrids->AddObject(whipEffect);
-
-								whipEffect = new Effect(GetTickCount());
-								whipEffect->AddAnimation(807);
-								whipEffect->SetPosition(dracula->x + i * DRACULA_BBOX_WIDTH / 2, dracula->y + j * DRACULA_BBOX_HEIGHT / 4);
-								objects.push_back(whipEffect);
-								listGrids->AddObject(whipEffect);
-							}
-						}
-
-						item = new Item();
-						item->SetPosition(dracula->x, dracula->y);
-						item->SetSpeed(0, -0.1);
-						item->appearTime = GetTickCount();
-						item->AddAnimation(ITEM_PRIZE);
-						item->SetType(ITEM_PRIZE);
-						objects.push_back(item);
-						listGrids->AddObject(item);
-					}
 				}
 				else if (dynamic_cast<BossBat *>(objects.at(i)))
 				{
@@ -3391,27 +3358,6 @@ void Update(DWORD dt)
 	{
 		if (dynamic_cast<Enemy *>(objects.at(i)))
 		{
-			/*if (dynamic_cast<Zombie *>(objects.at(i)))
-			{
-				enemy = dynamic_cast<Zombie *>(objects.at(i));
-			}
-			else if (dynamic_cast<Panther *>(objects.at(i)))
-			{
-				enemy = dynamic_cast<Panther *>(objects.at(i));
-			}
-			else if (dynamic_cast<RedBat *>(objects.at(i)))
-			{
-				enemy = dynamic_cast<RedBat *>(objects.at(i));
-			}
-			else if (dynamic_cast<MerMan *>(objects.at(i)))
-			{
-				enemy = dynamic_cast<MerMan *>(objects.at(i));
-			}
-			else if (dynamic_cast<EnemyBullet *>(objects.at(i)))
-			{
-				enemy = dynamic_cast<EnemyBullet *>(objects.at(i));
-			}*/
-
 			enemy = dynamic_cast<Enemy *>(objects.at(i));
 
 			if (enemy->isDie)
@@ -3419,18 +3365,75 @@ void Update(DWORD dt)
 				float object_x, object_y, object_right, object_bottom;
 				enemy->GetBoundingBox(object_x, object_y, object_right, object_bottom);
 
-				// Thêm hiệu ứng tóe lửa
-				whipEffect = new Effect(GetTickCount());
-				whipEffect->AddAnimation(806);
-				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
-				objects.push_back(whipEffect);
-				listGrids->AddObject(whipEffect);
+				if (dynamic_cast<Dracula *>(objects.at(i)) || dynamic_cast<BossBat *>(objects.at(i)) || dynamic_cast<SuperDracula *>(objects.at(i)))
+				{
+					if (dynamic_cast<Dracula *>(objects.at(i)))
+					{
+						for (int i = 0; i < 3; i++)
+						{
+							for (int j = 0; j < 4; j++)
+							{
+								// Thêm hiệu ứng tóe lửa
+								whipEffect = new Effect(GetTickCount());
+								whipEffect->AddAnimation(806);
+								whipEffect->SetPosition(object_x + i * DRACULA_BBOX_WIDTH, object_y + j * DRACULA_BBOX_HEIGHT);
+								objects.push_back(whipEffect);
+								listGrids->AddObject(whipEffect);
 
-				whipEffect = new Effect(GetTickCount());
-				whipEffect->AddAnimation(807);
-				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
-				objects.push_back(whipEffect);
-				listGrids->AddObject(whipEffect);
+								whipEffect = new Effect(GetTickCount());
+								whipEffect->AddAnimation(807);
+								whipEffect->SetPosition(object_x + i * DRACULA_BBOX_WIDTH, object_y + j * DRACULA_BBOX_HEIGHT);
+								objects.push_back(whipEffect);
+								listGrids->AddObject(whipEffect);
+							}
+						}
+					}
+					else
+					{
+						for (int i = 0; i < 3; i++)
+						{
+							for (int j = 0; j < 4; j++)
+							{
+								// Thêm hiệu ứng tóe lửa
+								whipEffect = new Effect(GetTickCount());
+								whipEffect->AddAnimation(806);
+								whipEffect->SetPosition(object_x + i * (object_right - object_x) / 3, object_y + j * (object_bottom - object_y) / 4);
+								objects.push_back(whipEffect);
+								listGrids->AddObject(whipEffect);
+
+								whipEffect = new Effect(GetTickCount());
+								whipEffect->AddAnimation(807);
+								whipEffect->SetPosition(object_x + i * (object_right - object_x) / 3, object_y + j * (object_bottom - object_y) / 4);
+								objects.push_back(whipEffect);
+								listGrids->AddObject(whipEffect);
+							}
+						}
+					}
+
+					item = new Item();
+					item->SetPosition(object_x, object_y);
+					item->SetSpeed(0, -0.1);
+					item->appearTime = GetTickCount();
+					item->AddAnimation(ITEM_PRIZE);
+					item->SetType(ITEM_PRIZE);
+					objects.push_back(item);
+					listGrids->AddObject(item);
+				}
+				else
+				{
+					// Thêm hiệu ứng tóe lửa
+					whipEffect = new Effect(GetTickCount());
+					whipEffect->AddAnimation(806);
+					whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
+					objects.push_back(whipEffect);
+					listGrids->AddObject(whipEffect);
+
+					whipEffect = new Effect(GetTickCount());
+					whipEffect->AddAnimation(807);
+					whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
+					objects.push_back(whipEffect);
+					listGrids->AddObject(whipEffect);
+				}
 
 				listRemoveObjects.push_back(enemy);
 			}
