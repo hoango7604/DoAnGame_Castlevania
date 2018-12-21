@@ -59,6 +59,7 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				
 				if (e->nx != 0)
 				{
+					x = x + 15;
 					vx = -vx;					
 				}
 

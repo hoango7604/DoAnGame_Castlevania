@@ -123,6 +123,7 @@
     </ClInclude>
     <ClInclude Include="Bone.h" />
     <ClInclude Include="BigBat.h" />
+    <ClInclude Include="SuperDracula.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Axe.cpp">
@@ -250,6 +251,7 @@
     </ClCompile>
     <ClCompile Include="Bone.cpp" />
     <ClCompile Include="BigBat.cpp" />
+    <ClCompile Include="SuperDracula.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Simon">
