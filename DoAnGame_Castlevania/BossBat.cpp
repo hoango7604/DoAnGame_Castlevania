@@ -68,7 +68,7 @@ void BossBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			// Tính vx theo vy
 			vx = vy * tan(angle);
 
-			if (vx > 2)
+			if (vx > 1 || vx < -1)
 			{
 				vx = vx / 2;
 				vy = vy / 2;

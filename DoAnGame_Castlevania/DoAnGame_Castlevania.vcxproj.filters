@@ -121,9 +121,8 @@
     <ClInclude Include="Skeleton.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Bone.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
+    <ClInclude Include="Bone.h" />
+    <ClInclude Include="BigBat.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Axe.cpp">
@@ -249,9 +248,8 @@
     <ClCompile Include="Skeleton.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Bone.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
+    <ClCompile Include="Bone.cpp" />
+    <ClCompile Include="BigBat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Simon">
