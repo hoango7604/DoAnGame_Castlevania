@@ -324,7 +324,6 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 		else if (KeyCode == DIK_RIGHT || KeyCode == DIK_LEFT)
 		{
 			simon->isMoving = false;
-			simon->vx = 0;
 		}
 	}
 }
@@ -1394,7 +1393,22 @@ void LoadResourceLv3_4()
 	skeleton->SetPosition(1156, 220);
 	skeleton->SetState(SKELETON_WALKING);
 	listGrids->AddObject(skeleton);
-		
+	
+
+	Bird *bird;
+	bird = new Bird(-1);
+	bird->AddAnimation(822);
+	bird->AddAnimation(823);
+	bird->SetPosition(1440, 170);
+	listGrids->AddObject(bird);
+
+	Hunchback *hunchback;
+	hunchback = new Hunchback(bird);
+	hunchback->AddAnimation(824);
+	hunchback->AddAnimation(825);
+	hunchback->AddAnimation(8240);
+	hunchback->AddAnimation(8250);
+	listGrids->AddObject(hunchback);
 }
 
 void LoadResourceLv3_3()
@@ -3127,7 +3141,7 @@ void Update(DWORD dt)
 
 			if (simon->isRosaryUsed)
 			{
-				if (!dynamic_cast<BossBat *>(objects.at(i)))
+				if (!dynamic_cast<BossBat *>(objects.at(i)) || (!dynamic_cast<Dracula *>(objects.at(i))))
 				{
 					enemy->isDie = true;
 					Simon::score += 100;
