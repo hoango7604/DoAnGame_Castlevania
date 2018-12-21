@@ -126,10 +126,16 @@ vector<GridObjects*> ListGrids::GetCurrentGrids(float cam_x)
 	
 	// Trường hợp màn hình game nằm giữa 2 grid
 	result.push_back(listGrids[gridNumber]);
+	
+	if (gridNumber - 1 > 0)
+		result.push_back(listGrids[gridNumber - 2]);
 	if (gridNumber > 0)
 		result.push_back(listGrids[gridNumber - 1]);
+
 	if (gridNumber + 1 < listGrids.size())
 		result.push_back(listGrids[gridNumber + 1]);
+	if (gridNumber + 2 < listGrids.size())
+		result.push_back(listGrids[gridNumber + 2]);
 
 	return result;
 }

@@ -20,6 +20,7 @@ class Simon : public CGameObject
 {
 	int action;
 	int level;
+	DWORD untouchableTime;
 	DWORD untouchable_start;
 
 public:
@@ -102,7 +103,7 @@ public:
 	int GetAction() { return action; }
 
 	void SetLevel(int l) { level = l; }
-	void StartUntouchable() { isUntouchable = true; untouchable_start = GetTickCount(); }
+	void StartUntouchable(DWORD time = SIMON_UNTOUCHABLE_TIME) { isUntouchable = true; untouchable_start = GetTickCount(); untouchableTime = time; }
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	int GetScore() { return score; }

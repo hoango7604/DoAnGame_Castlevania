@@ -1199,7 +1199,7 @@ void LoadResourceLv3_4()
 		ground->SetPosition(991 , 218 + i * 32);
 		listGrids->AddObject(ground);
 	}
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(1218 + i * 32, 215);
@@ -1351,7 +1351,6 @@ void LoadResourceLv3_4()
 	checkstair->SetType(CHECKSTAIR_UP_RIGHT);
 	listGrids->AddObject(checkstair);
 
-	
 	Skeleton *skeleton;
 	skeleton = new Skeleton();
 	skeleton->AddAnimation(818);
@@ -1361,12 +1360,20 @@ void LoadResourceLv3_4()
 	listGrids->AddObject(skeleton);
 	
 
-	/*Bird *bird;
-	bird = new Bird();
+	Bird *bird;
+	bird = new Bird(1);
 	bird->AddAnimation(822);
 	bird->AddAnimation(823);
-	bird->SetPosition(1300, 277);
-	listGrids->AddObject(bird);*/
+	bird->SetPosition(800, 170);
+	listGrids->AddObject(bird);
+
+	Hunchback *hunchback;
+	hunchback = new Hunchback(bird);
+	hunchback->AddAnimation(824);
+	hunchback->AddAnimation(825);
+	hunchback->AddAnimation(8240);
+	hunchback->AddAnimation(8250);
+	listGrids->AddObject(hunchback);
 }
 
 void LoadResourceLv3_3()
@@ -2412,26 +2419,31 @@ void LoadResources()
 	ani->Add(40045);
 	animations->Add(821, ani);
 	
-	ani = new CAnimation(100);//chim bay trái
+	ani = new CAnimation(250);//chim bay trái
 	ani->Add(40038);
 	ani->Add(40039);
 	animations->Add(822, ani);
 
-	ani = new CAnimation(100);//chim bay phải
+	ani = new CAnimation(250);//chim bay phải
 	ani->Add(40046);
 	ani->Add(40047);
 	animations->Add(823, ani);
 
-	ani = new CAnimation(100);//gù trái
-	ani->Add(40040);
+	ani = new CAnimation(100);//gù trái đứng yên
 	ani->Add(40041);
 	animations->Add(824, ani);
 
-	ani = new CAnimation(100);//gù phải
-	ani->Add(40048);
+	ani = new CAnimation(100);//gù trái nhảy
+	ani->Add(40040);
+	animations->Add(8240, ani);
+
+	ani = new CAnimation(100);//gù phải đứng yên
 	ani->Add(40049);
 	animations->Add(825, ani);
-	
+
+	ani = new CAnimation(100);//gù phải nhảy
+	ani->Add(40048);
+	animations->Add(8250, ani);
 	 
 	ani = new CAnimation(100);//đầu của dracula lv1
 	ani->Add(40054);

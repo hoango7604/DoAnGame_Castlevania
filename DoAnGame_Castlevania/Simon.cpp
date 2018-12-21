@@ -79,6 +79,9 @@ void Simon::CalcPotentialCollisions(
 					rosaryCast = GetTickCount();
 					SetState(SIMON_STATE_IDLE);
 					break;
+				case ITEM_INVICIBILITY:
+					StartUntouchable(SIMON_INVISIBLE_TIME);
+					break;
 				}
 			}
 		}
@@ -149,6 +152,7 @@ void Simon::CalcPotentialCollisions(
 				if (isOnStair && checkstair->id == currentCheckStairId)
 				{
 					SetState(SIMON_STATE_IDLE);
+					ny = 0;
 					isOnStair = false;
 					currentCheckStairId = 0;
 				}
@@ -239,6 +243,7 @@ void Simon::CalcPotentialCollisions(
 				{
 					SetState(SIMON_STATE_IDLE);
 					isOnStair = false;
+					ny = 0;
 					currentCheckStairId = 0;
 				}
 				else
@@ -372,7 +377,7 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	// reset untouchable timer if untouchable time has passed
-	if (isUntouchable && GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
+	if (isUntouchable && GetTickCount() - untouchable_start > untouchableTime)
 	{
 		untouchable_start = 0;
 		isUntouchable = false;

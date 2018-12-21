@@ -1,14 +1,6 @@
 #include "Bird.h"
-
-void Bird::SetState(int state)
-{
-	Enemy::SetState(state);
-
-	switch (state)
-	{
-
-	}
-}
+#include <ctime>
+#include <math.h>
 
 void Bird::GetBoundingBox(float & left, float & top, float & right, float & bottom)
 {
@@ -22,19 +14,47 @@ void Bird::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	Enemy::Update(dt, coObjects);
 
+	if (!isRest)
+	{
+		x += dx;
 
+		if (GetTickCount() - lastRestTime > BIRD_FLYING_TIME)
+		{
+			isRest = true;
+			restCat = GetTickCount();
 
-	x += dx;
-	y += dy;
+			if (!isDropHunchBack)
+			{
+				srand(time(NULL));
+				int portion = rand() % 2;
+
+				if (portion > 0)
+					isDropHunchBack = true;
+			}
+		}
+	}
+
+	if (isRest && GetTickCount() - restCat > BIRD_REST_TIME)
+	{
+		isRest = false;
+		lastRestTime = GetTickCount();
+	}
 }
 
 void Bird::Render()
 {
 	int ani = -1;
 
+	if (nx > 0)
+	{
+		ani = BIRD_ANI_FLYING_RIGHT;
+	}
+	else
+	{
+		ani = BIRD_ANI_FLYING_LEFT;
+	}
 
-
-	animations[0]->Render(x, y);
+	animations[ani]->Render(x, y);
 
 	//RenderBoundingBox();
 }
