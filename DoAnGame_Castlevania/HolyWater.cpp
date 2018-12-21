@@ -1,5 +1,6 @@
 ﻿#include "HolyWater.h"
 #include "BossBat.h"
+#include "Dracula.h"
 
 void HolyWater::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOLLISIONEVENT>& coEvents)
 {
@@ -41,8 +42,26 @@ void HolyWater::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<
 							Simon::score += 100;
 						}
 					}
+					else if (dynamic_cast<Dracula *>(e->obj))
+					{
+						Dracula *dracula = dynamic_cast<Dracula *>(e->obj);
+						if (dracula->state == DRACULA_STATE_ATTACK && !dracula->isHit)
+						{
+							CGame::GetInstance()->bossheath -= 1;
+							dracula->isHit = true;
+
+							if (CGame::GetInstance()->bossheath == 0)
+							{
+								dracula->isDie = true;
+								Simon::score += 100;
+							}
+						}
+					}
 					else
+					{
+						Simon::score += 100;
 						enemy->isDie = true;
+					}
 
 					isBurn = true;
 				}

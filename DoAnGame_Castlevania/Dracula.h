@@ -1,26 +1,36 @@
 #pragma once
 #include "Enemy.h"
 #include "Ground.h"
+#include "Simon.h"
+#include "Game.h"
 
 class Dracula : public Enemy
 {
 public:
 
+	Simon *simon;
+	CGame *game;
+
 	float min_x, max_x;
 	bool isActivate;
 	bool isHit;
-	bool isRest;
+	bool isBleeding;
 	DWORD restCast;
 	DWORD lastRestTime;
 
-	Dracula (float min_x, float max_x)
+	Dracula (Simon *simon, CGame *game)
 	{
 		isActivate = false;
-		this->min_x = min_x;
-		this->max_x = max_x;
+		this->simon = simon;
+		this->game = game;
+
+		maxHealth = 16; 
+		health = 16;
+
+		vy = -DRACULA_SPEED;
+		nx = -1;
 	}
 
-	void Activate() { isActivate = true; }
 	virtual void SetState(int state);
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

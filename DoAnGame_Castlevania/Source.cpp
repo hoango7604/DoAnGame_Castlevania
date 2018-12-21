@@ -1706,6 +1706,18 @@ void LoadResourceLv3_1()
 }
 
 
+	Dracula *dracula;
+	dracula = new Dracula(simon, game);
+	dracula->AddAnimation(826);
+	dracula->AddAnimation(8270);
+	dracula->AddAnimation(8290);
+	dracula->AddAnimation(827);
+	dracula->AddAnimation(829);
+	dracula->AddAnimation(828);
+	dracula->AddAnimation(830);
+	dracula->SetPosition(500, 360);
+	listGrids->AddObject(dracula);
+}
 
 /*
 	Load all game resources
@@ -2510,8 +2522,11 @@ void LoadResources()
 	ani->Add(40054);
 	animations->Add(826, ani);
 
-	ani = new CAnimation(100);//dracula lv1 đánh trái
+	ani = new CAnimation(100);//dracula lv1 đứng im trái
 	ani->Add(40050);
+	animations->Add(8270, ani);
+
+	ani = new CAnimation(100);//dracula lv1 đánh trái
 	ani->Add(40051);
 	animations->Add(827, ani);
 
@@ -2519,8 +2534,11 @@ void LoadResources()
 	ani->Add(40053);	
 	animations->Add(828, ani);
 
-	ani = new CAnimation(100);//dracula lv1 đánh phải
+	ani = new CAnimation(100);//dracula lv1 đứng im phải
 	ani->Add(40059);
+	animations->Add(8290, ani);
+
+	ani = new CAnimation(100);//dracula lv1 đánh phải
 	ani->Add(40060);
 	animations->Add(829, ani);
 
@@ -3263,35 +3281,53 @@ void Update(DWORD dt)
 						enemy->SetPosition(skeleton->x, skeleton->y - 10);
 						listGrids->AddObject(enemy);
 						skeleton->timer += 2000;
-						
 					}
-					
-					
 				}
-				else if (dynamic_cast<BossBat *>(objects.at(i)))
+				else if (dynamic_cast<Dracula *>(objects.at(i)))
 				{
-					BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
+					Dracula *dracula = dynamic_cast<Dracula *>(objects.at(i));
 
-					if (bossbat->isHurt && !bossbat->isBleeding)
+					if (dracula->isHit && !dracula->isBleeding)
 					{
 						// Thêm hiệu ứng tóe lửa
 						whipEffect = new Effect(GetTickCount());
 						whipEffect->AddAnimation(806);
-						whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+						whipEffect->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y);
 						objects.push_back(whipEffect);
 						listGrids->AddObject(whipEffect);
 
 						whipEffect = new Effect(GetTickCount());
 						whipEffect->AddAnimation(807);
-						whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+						whipEffect->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y);
 						objects.push_back(whipEffect);
 						listGrids->AddObject(whipEffect);
+
+						dracula->isBleeding = true;
 					}
 
-					if (bossbat->isDie)
+					if (dracula->isDie)
 					{
+						for (int i = 0; i < 2; i++)
+						{
+							for (int j = 0; j < 4; j++)
+							{
+								// Thêm hiệu ứng tóe lửa
+								whipEffect = new Effect(GetTickCount());
+								whipEffect->AddAnimation(806);
+								whipEffect->SetPosition(dracula->x + i * DRACULA_BBOX_WIDTH / 2, dracula->y + j * DRACULA_BBOX_HEIGHT / 4);
+								objects.push_back(whipEffect);
+								listGrids->AddObject(whipEffect);
+
+								whipEffect = new Effect(GetTickCount());
+								whipEffect->AddAnimation(807);
+								whipEffect->SetPosition(dracula->x + i * DRACULA_BBOX_WIDTH / 2, dracula->y + j * DRACULA_BBOX_HEIGHT / 4);
+								objects.push_back(whipEffect);
+								listGrids->AddObject(whipEffect);
+							}
+						}
+
 						item = new Item();
-						item->SetPosition(bossbat->x, bossbat->y);
+						item->SetPosition(dracula->x, dracula->y);
 						item->SetSpeed(0, -0.1);
 						item->appearTime = GetTickCount();
 						item->AddAnimation(ITEM_PRIZE);
@@ -3299,6 +3335,40 @@ void Update(DWORD dt)
 						objects.push_back(item);
 						listGrids->AddObject(item);
 					}
+				}
+				else if (dynamic_cast<BossBat *>(objects.at(i)))
+				{
+				BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
+
+				if (bossbat->isHurt && !bossbat->isBleeding)
+				{
+					// Thêm hiệu ứng tóe lửa
+					whipEffect = new Effect(GetTickCount());
+					whipEffect->AddAnimation(806);
+					whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+					objects.push_back(whipEffect);
+					listGrids->AddObject(whipEffect);
+
+					whipEffect = new Effect(GetTickCount());
+					whipEffect->AddAnimation(807);
+					whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+					objects.push_back(whipEffect);
+					listGrids->AddObject(whipEffect);
+
+					bossbat->isBleeding = true;
+				}
+
+				if (bossbat->isDie)
+				{
+					item = new Item();
+					item->SetPosition(bossbat->x, bossbat->y);
+					item->SetSpeed(0, -0.1);
+					item->appearTime = GetTickCount();
+					item->AddAnimation(ITEM_PRIZE);
+					item->SetType(ITEM_PRIZE);
+					objects.push_back(item);
+					listGrids->AddObject(item);
+				}
 				}
 
 				enemy->Update(dt, &objects);

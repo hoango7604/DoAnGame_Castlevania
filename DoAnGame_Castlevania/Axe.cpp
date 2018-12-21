@@ -1,5 +1,6 @@
 #include "Axe.h"
 #include "BossBat.h"
+#include "Dracula.h"
 
 void Axe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -69,10 +70,29 @@ void Axe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							bossbat->isDie = true;
 							Simon::score += 100;
+							CGame::GetInstance()->start_fight_boss = false;
+						}
+					}
+					else if (dynamic_cast<Dracula *>(e->obj))
+					{
+						Dracula *dracula = dynamic_cast<Dracula *>(e->obj);
+						if (dracula->state == DRACULA_STATE_ATTACK && !dracula->isHit)
+						{
+							CGame::GetInstance()->bossheath -= 16;
+							dracula->isHit = true;
+
+							if (CGame::GetInstance()->bossheath == 0)
+							{
+								dracula->isDie = true;
+								Simon::score += 100;
+							}
 						}
 					}
 					else
+					{
+						Simon::score += 100;
 						enemy->isDie = true;
+					}
 				}
 				else if (dynamic_cast<BigFire *>(e->obj))
 				{
