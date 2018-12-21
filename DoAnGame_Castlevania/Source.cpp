@@ -36,6 +36,7 @@
 #include "UI.h"
 #include "BossBat.h"
 #include "Door.h"
+#include "BigBat.h"
 #include "Bird.h"
 #include "Dracula.h"
 #include "Hunchback.h"
@@ -1176,41 +1177,27 @@ void LoadResourceLv3_5()
 		candle->SetPosition(2725 + 90 * i, 350);
 		listGrids->AddObject(candle);
 	}
-	BossBat *bossbat;
-	bossbat = new BossBat(simon, game);
-	bossbat->AddAnimation(609);
-	bossbat->AddAnimation(610);
-	bossbat->SetPosition(2456, 163);
-	bossbat->SetState(BOSSBAT_STATE_ATTACK);
-	listGrids->AddObject(bossbat);
 
-	bossbat = new BossBat(simon, game);
-	bossbat->AddAnimation(609);
-	bossbat->AddAnimation(610);
-	bossbat->SetPosition(1989, 377);
-	bossbat->SetState(BOSSBAT_STATE_ATTACK);
-	listGrids->AddObject(bossbat);
+	BigBat *bigbat;
+	bigbat = new BigBat(simon);
+	bigbat->AddAnimation(610);
+	bigbat->SetPosition(2456, 163);
+	listGrids->AddObject(bigbat);
 
-	bossbat = new BossBat(simon, game);
-	bossbat->AddAnimation(609);
-	bossbat->AddAnimation(610);
-	bossbat->SetPosition(1485, 163);
-	bossbat->SetState(BOSSBAT_STATE_ATTACK);
-	listGrids->AddObject(bossbat);
+	bigbat = new BigBat(simon);
+	bigbat->AddAnimation(610);
+	bigbat->SetPosition(1989, 377);
+	listGrids->AddObject(bigbat);
 
-	bossbat = new BossBat(simon, game);
-	bossbat->AddAnimation(609);
-	bossbat->AddAnimation(610);
-	bossbat->SetPosition(959, 393);
-	bossbat->SetState(BOSSBAT_STATE_ATTACK);
-	listGrids->AddObject(bossbat);
+	bigbat = new BigBat(simon);
+	bigbat->AddAnimation(610);
+	bigbat->SetPosition(1485, 163);
+	listGrids->AddObject(bigbat);
 
-	bossbat = new BossBat(simon, game);
-	bossbat->AddAnimation(609);
-	bossbat->AddAnimation(610);
-	bossbat->SetPosition(550, 163);
-	bossbat->SetState(BOSSBAT_STATE_ATTACK);
-	listGrids->AddObject(bossbat);
+	bigbat = new BigBat(simon);
+	bigbat->AddAnimation(610);
+	bigbat->SetPosition(550, 163);
+	listGrids->AddObject(bigbat);
 }
 
 void LoadResourceLv3_4()

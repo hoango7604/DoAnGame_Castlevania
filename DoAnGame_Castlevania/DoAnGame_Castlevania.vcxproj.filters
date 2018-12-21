@@ -122,6 +122,7 @@
       <Filter>Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Bone.h" />
+    <ClInclude Include="BigBat.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Axe.cpp">
@@ -248,6 +249,7 @@
       <Filter>Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Bone.cpp" />
+    <ClCompile Include="BigBat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Simon">
