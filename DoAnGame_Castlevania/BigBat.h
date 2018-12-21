@@ -17,10 +17,10 @@ public:
 	DWORD waitTime;
 	DWORD attackTime;
 	DWORD hurtTime;
-
+	DWORD timer;
 	float destination_x, destination_y;
 
-	BigBat(Simon *simon) { this->simon = simon; maxHealth = 16; health = 16; }
+	BigBat(Simon *simon) { this->simon = simon; maxHealth = 16; health = 16; timer = GetTickCount(); }
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

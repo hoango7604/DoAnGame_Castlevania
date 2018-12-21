@@ -91,6 +91,7 @@ void Simon::CalcPotentialCollisions(
 				case ITEM_INVICIBILITY:
 					StartUntouchable(SIMON_INVISIBLE_TIME);
 					break;
+				//case ITEM_PRIZE:
 				}
 			}
 		}

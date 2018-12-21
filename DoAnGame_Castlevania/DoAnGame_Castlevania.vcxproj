@@ -160,6 +160,7 @@
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Stair.h" />
+    <ClInclude Include="SuperDracula.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Wall.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Stair.cpp" />
+    <ClCompile Include="SuperDracula.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Wall.cpp" />

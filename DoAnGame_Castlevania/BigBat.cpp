@@ -11,8 +11,7 @@ void BigBat::GetBoundingBox(float &left, float &top, float &right, float &bottom
 
 void BigBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	srand(time(NULL));
-
+	
 	// Đổi trạng thái
 	if (simon->x < x + SCREEN_WIDTH / 3 && simon->x > x - SCREEN_WIDTH / 3)
 	{

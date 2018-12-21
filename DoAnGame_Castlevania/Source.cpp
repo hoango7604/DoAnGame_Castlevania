@@ -41,6 +41,7 @@
 #include "Dracula.h"
 #include "Hunchback.h"
 #include "Skeleton.h"
+#include "SuperDracula.h"
 
 CGame *game;
 Simon * simon;
@@ -60,6 +61,7 @@ int lv = 31;
 bool checkScene = false;
 bool check1 = false;
 bool check = false;
+
 //check lv2->lv2_2
 bool temp = false;
 //check lv34-> 33
@@ -865,19 +867,19 @@ void LoadResourceLv2_1()
 
 	enemy = new RedBat();
 	enemy->AddAnimation(60800);
-	enemy->SetPosition(3800, 215);
+	enemy->SetPosition(3900,239);
 	enemy->SetState(BAT_STATE_FLYING);
 	listGrids->AddObject(enemy);
 
 	enemy = new RedBat();
 	enemy->AddAnimation(60800);
-	enemy->SetPosition(4000, 260);
+	enemy->SetPosition(4000, 250);
 	enemy->SetState(BAT_STATE_FLYING);
 	listGrids->AddObject(enemy);
 
 	enemy = new RedBat();
 	enemy->AddAnimation(60800);
-	enemy->SetPosition(4200, 260);
+	enemy->SetPosition(4200, 270);
 	enemy->SetState(BAT_STATE_FLYING);
 	listGrids->AddObject(enemy);
 }
@@ -1198,6 +1200,21 @@ void LoadResourceLv3_5()
 	bigbat->AddAnimation(610);
 	bigbat->SetPosition(550, 163);
 	listGrids->AddObject(bigbat);
+
+	SuperDracula * superdracula;
+	superdracula = new SuperDracula(simon);
+	superdracula->AddAnimation(831);
+	superdracula->AddAnimation(832);
+	superdracula->AddAnimation(833);
+	superdracula->AddAnimation(834);
+	superdracula->AddAnimation(835);
+	superdracula->AddAnimation(836);
+	superdracula->AddAnimation(837);
+	superdracula->AddAnimation(838);
+	superdracula->AddAnimation(839);
+	superdracula->SetPosition(400, 50);
+	superdracula->SetState(SUPERDRACULA_WAIT);
+	listGrids->AddObject(superdracula);
 }
 
 void LoadResourceLv3_4()
@@ -1635,6 +1652,7 @@ void LoadResourceLv3_2()
 
 void LoadResourceLv3_1()
 {	
+	simon->SetPosition(50, 150);
 	for (int i = 0; i < 29; i++)
 	{
 		Ground *ground = new Ground();
@@ -1660,6 +1678,9 @@ void LoadResourceLv3_1()
 	candle->SetPosition(958, 230);
 	listGrids->AddObject(candle);
 
+	
+
+
 	CheckStair * checkstair;
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(804);
@@ -1667,6 +1688,23 @@ void LoadResourceLv3_1()
 	checkstair->SetId(1);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
+
+	SuperDracula * superdracula;
+	superdracula = new SuperDracula(simon);
+	superdracula->AddAnimation(831);
+	superdracula->AddAnimation(832);
+	superdracula->AddAnimation(833);
+	superdracula->AddAnimation(834);
+	superdracula->AddAnimation(835);
+	superdracula->AddAnimation(836);
+	superdracula->AddAnimation(837);
+	superdracula->AddAnimation(838);
+	superdracula->AddAnimation(839);
+	superdracula->SetPosition(500, 50);
+	superdracula->SetState(SUPERDRACULA_WAIT);
+	listGrids->AddObject(superdracula);
+}
+
 
 	Dracula *dracula;
 	dracula = new Dracula(simon, game);
@@ -2411,7 +2449,8 @@ void LoadResources()
 	animations->Add(812, ani);
 
 	ani = new CAnimation(100);// thưởng rớt ra sau khi boss dơi chết
-	ani->Add(40029);	
+	ani->Add(40029);
+	ani->Add(40030);
 	animations->Add(813, ani);
 
 	ani = new CAnimation(500);// mở cửa
@@ -2696,14 +2735,15 @@ void Update(DWORD dt)
 	if (lv == 21)
 	{
 		// Lần đầu load resource lv2_1
+		
 		if (countLoadResource2_1 == false )
 		{
 			listGrids->InitList(MAX_WIDTH_LV2_1);
 			LoadResourceLv2_1();
 			countLoadResource2_1 = true;
-		}
-		
-		if (x > MAX_WIDTH_LV2_1 - 2 * SIMON_STAND_BBOX_WIDTH && y <200)
+			
+		}		
+		if (x > MAX_WIDTH_LV2_1 - 2 * SIMON_STAND_BBOX_WIDTH && y < 200)
 		{
 			listGrids->ReleaseList();
 			lv = 99;						
@@ -2839,8 +2879,7 @@ void Update(DWORD dt)
 				else if (x > 5000)
 				{
 					count_enemy = false;
-				}
-
+				}				
 			}
 		}
 
@@ -3215,6 +3254,20 @@ void Update(DWORD dt)
 
 					if (merman->x < game->x_cam - MERMAN_BBOX_WIDTH || merman->x > game->x_cam + SCREEN_WIDTH)
 						merman->isDie = true;
+				}
+				else if (dynamic_cast<BigBat *>(objects.at(i)))
+				{
+					BigBat *bigbat = dynamic_cast<BigBat *>(objects.at(i));
+					int nx = bigbat->simon->nx;
+					if (GetTickCount() - bigbat->timer > 5000)
+					{
+						enemy = new EnemyBullet(nx);
+						enemy->AddAnimation(812);
+						enemy->SetPosition(bigbat->x + BOSSBAT_BBOX_WIDTH/2 , bigbat->y );
+						listGrids->AddObject(enemy);
+						bigbat->timer += 5000;
+					}
+					
 				}
 				else if (dynamic_cast<Skeleton *>(objects.at(i)))
 				{
@@ -3634,6 +3687,7 @@ void Update(DWORD dt)
 			checkScene = true;
 			check_close_door_time = false;
 			check_open_door_time = false;
+			
 		}
 		
 		//
@@ -3690,7 +3744,7 @@ void Update(DWORD dt)
 				check_open_door_time = true;
 			}
 
-			if (GetTickCount() - open_door_time > 1500)
+			if (GetTickCount() - open_door_time > 1800)
 			{
 				if (x < MAX_WIDTH_LV2_1 + 100)
 				{
@@ -3715,7 +3769,7 @@ void Update(DWORD dt)
 		{		
 			if (game->x_cam < MAX_WIDTH_LV2_1)
 			{
-				if (GetTickCount() - close_door_time > 1500)
+				if (GetTickCount() - close_door_time > 1800)
 					game->x_cam += SIMON_WALKING_SPEED * dt;
 			}
 			else 
