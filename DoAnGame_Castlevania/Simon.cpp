@@ -2,6 +2,7 @@
 #include "Weapon.h"
 #include "RedBat.h"
 #include "Cross.h"
+#include "Dracula.h"
 
 int Simon::score = 0;
 int Simon::heartsAmount = 5;
@@ -95,50 +96,53 @@ void Simon::CalcPotentialCollisions(
 		}
 		else if (dynamic_cast<Enemy *>(coObjects->at(i)) && !isUntouchable)
 		{
-			if (x < cbr && x + SIMON_STAND_BBOX_WIDTH > cbl && y < cbb && y + SIMON_STAND_BBOX_HEIGHT > cbt)
+			if (!dynamic_cast<Dracula *>(coObjects->at(i)))
 			{
-				// Reset frame cho hành động attack
-				if (isAttack)
+				if (x < cbr && x + SIMON_STAND_BBOX_WIDTH > cbl && y < cbb && y + SIMON_STAND_BBOX_HEIGHT > cbt)
 				{
-					if (this->nx > 0)
+					// Reset frame cho hành động attack
+					if (isAttack)
 					{
-						if (isSit)
-							animations[SIMON_ANI_SIT_ATTACK_RIGHT]->ResetFrame();
-						else
-							animations[SIMON_ANI_ATTACK_RIGHT]->ResetFrame();
+						if (this->nx > 0)
+						{
+							if (isSit)
+								animations[SIMON_ANI_SIT_ATTACK_RIGHT]->ResetFrame();
+							else
+								animations[SIMON_ANI_ATTACK_RIGHT]->ResetFrame();
 
-						if (whip->level == 0)
-							whip->animations[WHIP_RIGHT]->ResetFrame();
-						else if (whip->level == 1)
-							whip->animations[WHIP_RIGHT_1]->ResetFrame();
-						else
-							whip->animations[WHIP_RIGHT_2]->ResetFrame();
+							if (whip->level == 0)
+								whip->animations[WHIP_RIGHT]->ResetFrame();
+							else if (whip->level == 1)
+								whip->animations[WHIP_RIGHT_1]->ResetFrame();
+							else
+								whip->animations[WHIP_RIGHT_2]->ResetFrame();
+						}
+						else if (this->nx < 0)
+						{
+							if (isSit)
+								animations[SIMON_ANI_SIT_ATTACK_LEFT]->ResetFrame();
+							else
+								animations[SIMON_ANI_ATTACK_LEFT]->ResetFrame();
+
+							if (whip->level == 0)
+								whip->animations[WHIP_LEFT]->ResetFrame();
+							else if (whip->level == 1)
+								whip->animations[WHIP_LEFT_1]->ResetFrame();
+							else
+								whip->animations[WHIP_LEFT_2]->ResetFrame();
+						}
 					}
-					else if (this->nx < 0)
+
+					SetState(SIMON_STATE_HURT);
+					willHurt = true;
+					preHP -= 1;
+					StartUntouchable();
+
+					if (dynamic_cast<RedBat *>(coObjects->at(i)))
 					{
-						if (isSit)
-							animations[SIMON_ANI_SIT_ATTACK_LEFT]->ResetFrame();
-						else
-							animations[SIMON_ANI_ATTACK_LEFT]->ResetFrame();
-
-						if (whip->level == 0)
-							whip->animations[WHIP_LEFT]->ResetFrame();
-						else if (whip->level == 1)
-							whip->animations[WHIP_LEFT_1]->ResetFrame();
-						else
-							whip->animations[WHIP_LEFT_2]->ResetFrame();
+						RedBat *redbat = dynamic_cast<RedBat *>(coObjects->at(i));
+						redbat->isDie = true;
 					}
-				}
-
-				SetState(SIMON_STATE_HURT);
-				willHurt = true;
-				preHP -= 1;
-				StartUntouchable();
-
-				if (dynamic_cast<RedBat *>(coObjects->at(i)))
-				{
-					RedBat *redbat = dynamic_cast<RedBat *>(coObjects->at(i));
-					redbat->isDie = true;
 				}
 			}
 		}

@@ -7,6 +7,7 @@
 #include "BossBat.h"
 #include "Candle.h"
 #include "BigFire.h"
+#include "Dracula.h"
 
 void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -33,6 +34,26 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (CGame::GetInstance()->bossheath == 0)
 					{
 						bossbat->isDie = true;
+						Simon::score += 100;
+						CGame::GetInstance()->start_fight_boss = false;
+					}
+				}
+			}
+			else if (dynamic_cast<Dracula *>(coObjects->at(i)))
+			{
+				Dracula *dracula = dynamic_cast<Dracula *>(coObjects->at(i));
+
+				float zl, zr, zt, zb;
+				dracula->GetBoundingBox(zl, zt, zr, zb);
+
+				if (wl < zr && wr > zl && wt < zb && wb > zt)
+				{
+					CGame::GetInstance()->bossheath -= 1;
+					dracula->isHit = true;
+
+					if (CGame::GetInstance()->bossheath == 0)
+					{
+						dracula->isDie = true;
 						Simon::score += 100;
 						CGame::GetInstance()->start_fight_boss = false;
 					}
