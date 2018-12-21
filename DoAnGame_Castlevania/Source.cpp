@@ -53,12 +53,13 @@ Enemy *enemy;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
-int lv = 35;
+int lv = 1;
 
 // check scene lv2->lv2_1
 bool checkScene = false;
 bool check1 = false;
 bool check = false;
+
 //check lv2->lv2_2
 bool temp = false;
 //check lv34-> 33
@@ -864,19 +865,19 @@ void LoadResourceLv2_1()
 
 	enemy = new RedBat();
 	enemy->AddAnimation(60800);
-	enemy->SetPosition(3800, 215);
+	enemy->SetPosition(3900,239);
 	enemy->SetState(BAT_STATE_FLYING);
 	listGrids->AddObject(enemy);
 
 	enemy = new RedBat();
 	enemy->AddAnimation(60800);
-	enemy->SetPosition(4000, 260);
+	enemy->SetPosition(4000, 250);
 	enemy->SetState(BAT_STATE_FLYING);
 	listGrids->AddObject(enemy);
 
 	enemy = new RedBat();
 	enemy->AddAnimation(60800);
-	enemy->SetPosition(4200, 260);
+	enemy->SetPosition(4200, 270);
 	enemy->SetState(BAT_STATE_FLYING);
 	listGrids->AddObject(enemy);
 }
@@ -2414,7 +2415,8 @@ void LoadResources()
 	animations->Add(812, ani);
 
 	ani = new CAnimation(100);// thưởng rớt ra sau khi boss dơi chết
-	ani->Add(40029);	
+	ani->Add(40029);
+	ani->Add(40030);
 	animations->Add(813, ani);
 
 	ani = new CAnimation(500);// mở cửa
@@ -2588,7 +2590,7 @@ void LoadResources()
 	ui->Initialize(d3ddv, simon);
 
 	// Load map lv1 ra trước
-	//LoadResourceLv1();
+	LoadResourceLv1();
 	
 }
 
@@ -2693,14 +2695,15 @@ void Update(DWORD dt)
 	if (lv == 21)
 	{
 		// Lần đầu load resource lv2_1
+		
 		if (countLoadResource2_1 == false )
 		{
 			listGrids->InitList(MAX_WIDTH_LV2_1);
 			LoadResourceLv2_1();
 			countLoadResource2_1 = true;
-		}
-		
-		if (x > MAX_WIDTH_LV2_1 - 2 * SIMON_STAND_BBOX_WIDTH && y <200)
+			
+		}		
+		if (x > MAX_WIDTH_LV2_1 - 2 * SIMON_STAND_BBOX_WIDTH && y < 200)
 		{
 			listGrids->ReleaseList();
 			lv = 99;						
@@ -2836,8 +2839,7 @@ void Update(DWORD dt)
 				else if (x > 5000)
 				{
 					count_enemy = false;
-				}
-
+				}				
 			}
 		}
 
@@ -3579,6 +3581,7 @@ void Update(DWORD dt)
 			checkScene = true;
 			check_close_door_time = false;
 			check_open_door_time = false;
+			
 		}
 		
 		//
@@ -3635,7 +3638,7 @@ void Update(DWORD dt)
 				check_open_door_time = true;
 			}
 
-			if (GetTickCount() - open_door_time > 1500)
+			if (GetTickCount() - open_door_time > 1800)
 			{
 				if (x < MAX_WIDTH_LV2_1 + 100)
 				{
@@ -3660,7 +3663,7 @@ void Update(DWORD dt)
 		{		
 			if (game->x_cam < MAX_WIDTH_LV2_1)
 			{
-				if (GetTickCount() - close_door_time > 1500)
+				if (GetTickCount() - close_door_time > 1800)
 					game->x_cam += SIMON_WALKING_SPEED * dt;
 			}
 			else 
