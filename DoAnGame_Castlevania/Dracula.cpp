@@ -22,8 +22,6 @@ void Dracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	Enemy::Update(dt, coObjects);
 
-
-
 	x += dx;
 	y += dy;
 }
@@ -32,11 +30,15 @@ void Dracula::Render()
 {
 	int ani = -1;
 
-
-
 	animations[ani]->Render(x, y);
 
 	//RenderBoundingBox();
 }
 
-
+void DraculaHead::GetBoundingBox(float & left, float & top, float & right, float & bottom)
+{
+	left = x;
+	top = y;
+	right = x + DRACULA_HEAD_BBOX_WIDTH;
+	bottom = y + DRACULA_HEAD_BBOX_HEIGHT;
+}

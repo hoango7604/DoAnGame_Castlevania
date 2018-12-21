@@ -264,8 +264,11 @@
 #define HUNCHBACK_JUMPING_SPEED_Y		0.4f
 
 //Dracula
-#define DRACULA_BBOX_WIDTH				40	
-#define DRACULA_BBOX_HEIGHT				45
+#define DRACULA_BBOX_WIDTH				40
+#define DRACULA_BBOX_HEIGHT				116
+
+#define DRACULA_HEAD_BBOX_WIDTH			18
+#define DRACULA_HEAD_BBOX_HEIGHT		28
 
 // Check stair
 #define CHECKSTAIR_UP_LEFT				0

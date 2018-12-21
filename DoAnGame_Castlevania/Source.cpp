@@ -322,7 +322,6 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 		else if (KeyCode == DIK_RIGHT || KeyCode == DIK_LEFT)
 		{
 			simon->isMoving = false;
-			simon->vx = 0;
 		}
 	}
 }

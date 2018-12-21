@@ -54,6 +54,7 @@ public:
 
 	bool isHurt;
 	bool willHurt;
+	bool isCollideHorizontal;
 	bool isUntouchable;
 	bool transparent;
 

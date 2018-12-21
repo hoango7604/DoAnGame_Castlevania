@@ -34,6 +34,14 @@ void Simon::CalcPotentialCollisions(
 		{
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
+			if (dynamic_cast<Ground *>(coObjects->at(i)))
+			{
+				if (x < cbr && x + SIMON_STAND_BBOX_WIDTH > cbl && y < cbb && y + SIMON_STAND_BBOX_HEIGHT > cbt)
+				{
+					isCollideHorizontal = false;
+				}
+			}
+
 			if (e->t > 0 && e->t <= 1.0f)
 				coEvents.push_back(e);
 			else
@@ -337,6 +345,7 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	LPDIRECT3DDEVICE9 d3ddv = CGame::GetInstance()->GetDirect3DDevice();
 	LPDIRECT3DSURFACE9 bb = CGame::GetInstance()->GetBackBuffer();
+
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
@@ -365,6 +374,9 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	// Reset biến báo hiệu hurt
 	willHurt = false;
+
+	// Reset biến va chạm ngang
+	isCollideHorizontal = true;
 
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE || state != SIMON_STATE_HURT)
@@ -514,10 +526,9 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					vy = 0;
 				}
 
-				if (e->nx != 0)
+				if (e->nx != 0 && isCollideHorizontal)
 				{
 					willBlock = true;
-					vx = 0;
 				}
 			}
 			else if (dynamic_cast<CheckPoint *>(e->obj))
