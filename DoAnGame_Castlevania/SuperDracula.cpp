@@ -20,21 +20,21 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			state = SUPERDRACULA_START_FLY;
 			check_wait = true;
 		}
-		if (GetTickCount() - timer > 4000 && check_start_fly == false)
+		if (GetTickCount() - timer > 3500 && check_start_fly == false)
 		{
 			state = SUPERDRACULA_FLY;
 			check_start_fly = true;
 		}
-		if (GetTickCount() - timer > 6000 && check_onsky == false)
+		if (GetTickCount() - timer > 5000 && check_onsky == false)
 		{
 			state = SUPERDRACULA_ON_SKY;
 			check_onsky = true;
 		}
-		if (GetTickCount() - timer > 6500)
+		if (GetTickCount() - timer > 5500)
 		{
 			state = SUPERDRACULA_START_FLY;
 		}
-		if (GetTickCount() - timer > 7000)
+		if (GetTickCount() - timer > 6000)
 		{
 			state = SUPERDRACULA_WAIT;
 			timer = GetTickCount();
@@ -50,7 +50,10 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isHitted = false;
 			isBleeding = false;
 		}
+		
+		timer = GetTickCount();
 	}
+	
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -126,7 +129,7 @@ void SuperDracula::Render()
 			vx = 0.04;
 		}
 
-		vy = -0.15;
+		vy = -0.1;
 		
 		break;
 	case SUPERDRACULA_ON_SKY:

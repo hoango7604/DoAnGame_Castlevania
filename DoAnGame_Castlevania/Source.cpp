@@ -1200,21 +1200,7 @@ void LoadResourceLv3_5()
 	bigbat->AddAnimation(610);
 	bigbat->SetPosition(550, 163);
 	listGrids->AddObject(bigbat);
-
-	SuperDracula * superdracula;
-	superdracula = new SuperDracula(simon);
-	superdracula->AddAnimation(831);
-	superdracula->AddAnimation(832);
-	superdracula->AddAnimation(833);
-	superdracula->AddAnimation(834);
-	superdracula->AddAnimation(835);
-	superdracula->AddAnimation(836);
-	superdracula->AddAnimation(837);
-	superdracula->AddAnimation(838);
-	superdracula->AddAnimation(839);
-	superdracula->SetPosition(400, 50);
-	superdracula->SetState(SUPERDRACULA_WAIT);
-	listGrids->AddObject(superdracula);
+	
 }
 
 void LoadResourceLv3_4()
@@ -1688,21 +1674,6 @@ void LoadResourceLv3_1()
 	checkstair->SetId(1);
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
-
-	/*SuperDracula * superdracula;
-	superdracula = new SuperDracula(simon);
-	superdracula->AddAnimation(831);
-	superdracula->AddAnimation(832);
-	superdracula->AddAnimation(833);
-	superdracula->AddAnimation(834);
-	superdracula->AddAnimation(835);
-	superdracula->AddAnimation(836);
-	superdracula->AddAnimation(837);
-	superdracula->AddAnimation(838);
-	
-	superdracula->SetPosition(500, 50);
-	superdracula->SetState(SUPERDRACULA_WAIT);
-	listGrids->AddObject(superdracula);*/
 
 	Dracula *dracula;
 	dracula = new Dracula(simon, game);
@@ -3325,6 +3296,23 @@ void Update(DWORD dt)
 						listGrids->AddObject(whipEffect);
 
 						dracula->isBleeding = true;
+					}
+					if (dracula->isDie)
+					{
+						SuperDracula * superdracula;
+						superdracula = new SuperDracula(simon);
+						superdracula->AddAnimation(831);
+						superdracula->AddAnimation(832);
+						superdracula->AddAnimation(833);
+						superdracula->AddAnimation(834);
+						superdracula->AddAnimation(835);
+						superdracula->AddAnimation(836);
+						superdracula->AddAnimation(837);
+						superdracula->AddAnimation(838);
+
+						superdracula->SetPosition(dracula->x, dracula->y -50);
+						superdracula->SetState(SUPERDRACULA_WAIT);
+						listGrids->AddObject(superdracula);
 					}
 				}
 				else if (dynamic_cast<SuperDracula *>(objects.at(i)))

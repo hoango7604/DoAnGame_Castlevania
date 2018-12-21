@@ -37,6 +37,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						bossbat->isDie = true;
 						Simon::score += 100;
 						CGame::GetInstance()->start_fight_boss = false;
+						CGame::GetInstance()->bossheath = 16;
 					}
 				}
 			}
@@ -49,7 +50,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (wl < zr && wr > zl && wt < zb && wb > zt)
 				{
-					CGame::GetInstance()->bossheath -= 1;
+					CGame::GetInstance()->bossheath -= 4;
 					dracula->isHit = true;
 
 					if (CGame::GetInstance()->bossheath <= 0)
@@ -57,6 +58,28 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						dracula->isDie = true;
 						Simon::score += 100;
 						CGame::GetInstance()->start_fight_boss = false;
+						CGame::GetInstance()->bossheath = 16;
+					}
+				}
+			}
+			else if (dynamic_cast<SuperDracula *>(coObjects->at(i)))
+			{
+				SuperDracula *superdracula = dynamic_cast<SuperDracula *>(coObjects->at(i));
+
+				float zl, zr, zt, zb;
+				superdracula->GetBoundingBox(zl, zt, zr, zb);
+
+				if (wl < zr && wr > zl && wt < zb && wb > zt)
+				{
+					CGame::GetInstance()->bossheath -= 1;
+					//superdracula->isHitted = true;
+
+					if (CGame::GetInstance()->bossheath <= 0)
+					{
+						superdracula->isDie = true;
+						Simon::score += 100;
+						CGame::GetInstance()->start_fight_boss = false;
+						CGame::GetInstance()->bossheath = 16;
 					}
 				}
 			}

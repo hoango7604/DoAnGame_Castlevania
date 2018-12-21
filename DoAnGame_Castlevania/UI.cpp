@@ -91,7 +91,7 @@ void UI::Render(float x,float y,Simon *simon,int bossheath,int lv)
 	{
 		noHP->Draw(x + 295 - 11 * i, 42, 255);
 	}
-	if (lv == 99)
+	if (lv == 99 || lv == 31)
 	{
 		for (int i = 0; i < bossheath; i++)
 		{
