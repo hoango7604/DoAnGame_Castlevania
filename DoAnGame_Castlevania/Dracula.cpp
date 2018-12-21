@@ -6,7 +6,23 @@ void Dracula::SetState(int state)
 
 	switch (state)
 	{
-
+	case DRACULA_STATE_ACTIVATE:
+		isActivate = true;
+		break;
+	case DRACULA_STATE_IDLE:
+		isRest = true;
+		restCast = GetTickCount();
+		break;
+	case DRACULA_STATE_ATTACK:
+		isRest = true;
+		restCast = GetTickCount();
+		break;
+	case DRACULA_STATE_INVISIBLE:
+		isRest = true;
+		lastRestTime = GetTickCount();
+		break;
+	case DRACULA_STATE_EXPOSE:
+		break;
 	}
 }
 
@@ -33,12 +49,4 @@ void Dracula::Render()
 	animations[ani]->Render(x, y);
 
 	//RenderBoundingBox();
-}
-
-void DraculaHead::GetBoundingBox(float & left, float & top, float & right, float & bottom)
-{
-	left = x;
-	top = y;
-	right = x + DRACULA_HEAD_BBOX_WIDTH;
-	bottom = y + DRACULA_HEAD_BBOX_HEIGHT;
 }

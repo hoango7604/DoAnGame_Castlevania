@@ -1360,10 +1360,10 @@ void LoadResourceLv3_4()
 	
 
 	Bird *bird;
-	bird = new Bird(1);
+	bird = new Bird(-1);
 	bird->AddAnimation(822);
 	bird->AddAnimation(823);
-	bird->SetPosition(800, 170);
+	bird->SetPosition(1440, 170);
 	listGrids->AddObject(bird);
 
 	Hunchback *hunchback;
@@ -2995,7 +2995,7 @@ void Update(DWORD dt)
 
 			if (simon->isRosaryUsed)
 			{
-				if (!dynamic_cast<BossBat *>(objects.at(i)))
+				if (!dynamic_cast<BossBat *>(objects.at(i)) || (!dynamic_cast<Dracula *>(objects.at(i))))
 				{
 					enemy->isDie = true;
 					Simon::score += 100;

@@ -44,7 +44,7 @@ void Hunchback::SetState(int state)
 		break;
 	case HUNCHBACK_STATE_JUMP:
 		isIdle = false;
-		vy = -(rand() % 4 + 1) * 0.1f;
+		vy = -(rand() % 2 + 3) * 0.1f;
 		isStickToGround = false;
 
 		vx = (rand() % 4 + 1) * 0.1f;

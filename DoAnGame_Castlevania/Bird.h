@@ -13,6 +13,8 @@ public:
 
 	Bird (float nx) 
 	{
+		this->nx = nx;
+
 		if (nx > 0)
 		{
 			vx = BIRD_FLYING_SPEED;
