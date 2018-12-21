@@ -1699,7 +1699,7 @@ void LoadResourceLv3_1()
 	superdracula->AddAnimation(836);
 	superdracula->AddAnimation(837);
 	superdracula->AddAnimation(838);
-	superdracula->AddAnimation(839);
+	
 	superdracula->SetPosition(500, 50);
 	superdracula->SetState(SUPERDRACULA_WAIT);
 	listGrids->AddObject(superdracula);
@@ -2561,7 +2561,7 @@ void LoadResources()
 	ani->Add(40067);
 	animations->Add(838, ani);
 	
-	ani = new CAnimation(100);//dracula lv2 trên không phải 
+	ani = new CAnimation(100);
 	ani->Add(40068);
 	animations->Add(839, ani);
 	#pragma endregion

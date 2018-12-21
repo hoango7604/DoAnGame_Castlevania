@@ -91,19 +91,42 @@ void SuperDracula::Render()
 	switch (state)
 	{
 	case SUPERDRACULA_WAIT:		
-		animations[0]->Render(x, y);
+		if (simon->x < x)
+		{
+			animations[0]->Render(x, y);
+		}
+		else
+		{
+			animations[4]->Render(x, y);
+		}
 		vx = 0;
 		break;
 	case SUPERDRACULA_START_FLY:
+		if(simon->x <x)
 		animations[1]->Render(x, y);
+		else
+		animations[5]->Render(x, y);
 		break;
 	case SUPERDRACULA_FLY:
-		animations[2]->Render(x, y);
+		if (simon->x < x)
+		{
+			animations[2]->Render(x, y);
+			vx = -0.04;
+		}
+		else
+		{
+			animations[6]->Render(x, y);
+			vx = 0.04;
+		}
+
 		vy = -0.15;
-		vx = -0.04;
+		
 		break;
 	case SUPERDRACULA_ON_SKY:
-		animations[3]->Render(x, y);
+		if (simon->x < x)
+			animations[3]->Render(x, y);
+		else
+			animations[7]->Render(x, y);
 		vy = 0;
 		break;
 	}
