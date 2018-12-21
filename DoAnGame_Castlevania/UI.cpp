@@ -79,7 +79,7 @@ void UI::Update( int time, int stage,Simon *simon)
 	information += "ENEMY                P=" + std::to_string(simon->GetLife()) + "\n";
 }
 
-void UI::Render(float x,float y,Simon *simon,int bossheath)
+void UI::Render(float x,float y,Simon *simon,int bossheath,int lv)
 {	
 	if (font)
 		font->DrawTextA(NULL, information.c_str(), -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
@@ -91,14 +91,23 @@ void UI::Render(float x,float y,Simon *simon,int bossheath)
 	{
 		noHP->Draw(x + 295 - 11 * i, 42, 255);
 	}
-	for (int i = 0; i < bossheath; i++)
+	if (lv == 99)
 	{
-		enemyHPList[i]->Draw(x + 130 + 11 * i, 62, 255);
+		for (int i = 0; i < bossheath; i++)
+		{
+			enemyHPList[i]->Draw(x + 130 + 11 * i, 62, 255);
+		}
+	
+		for (int i = 0; i < 16 - bossheath; i++)
+		{
+			noHP->Draw(x + 295 - 11 * i, 62, 255);
+		}
 	}
-	for (int i = 0; i <16- bossheath; i++)
-	{
-		noHP->Draw(x + 295 - 11 * i, 62, 255);
-	}
+	else
+		for (int i = 0; i < 16; i++)
+		{
+			enemyHPList[i]->Draw(x + 130 + 11 * i, 62, 255);
+		}
 	heart->Draw(x + SCREEN_WIDTH / 2 + 105 ,40, 255);
 	pinkrect->Draw(x + SCREEN_WIDTH / 2 , 40, 255);
 	if (simon->currentWeapon != NULL)

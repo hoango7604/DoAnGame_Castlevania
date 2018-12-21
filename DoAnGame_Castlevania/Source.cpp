@@ -71,6 +71,8 @@ bool check_close_door_time = false;
 bool check2 = false;
 bool check3 = false;
 
+bool check_enemy_lv34 = false;
+bool check_enemy_lv33 = false;
 bool countLoadResource2 = false;
 bool countLoadResource2_1 = false ;
 bool countLoadResource2_2 = false;
@@ -1175,7 +1177,41 @@ void LoadResourceLv3_5()
 		candle->SetPosition(2725 + 90 * i, 350);
 		listGrids->AddObject(candle);
 	}
-	
+	BossBat *bossbat;
+	bossbat = new BossBat(simon, game);
+	bossbat->AddAnimation(609);
+	bossbat->AddAnimation(610);
+	bossbat->SetPosition(2456, 163);
+	bossbat->SetState(BOSSBAT_STATE_ATTACK);
+	listGrids->AddObject(bossbat);
+
+	bossbat = new BossBat(simon, game);
+	bossbat->AddAnimation(609);
+	bossbat->AddAnimation(610);
+	bossbat->SetPosition(1989, 377);
+	bossbat->SetState(BOSSBAT_STATE_ATTACK);
+	listGrids->AddObject(bossbat);
+
+	bossbat = new BossBat(simon, game);
+	bossbat->AddAnimation(609);
+	bossbat->AddAnimation(610);
+	bossbat->SetPosition(1485, 163);
+	bossbat->SetState(BOSSBAT_STATE_ATTACK);
+	listGrids->AddObject(bossbat);
+
+	bossbat = new BossBat(simon, game);
+	bossbat->AddAnimation(609);
+	bossbat->AddAnimation(610);
+	bossbat->SetPosition(959, 393);
+	bossbat->SetState(BOSSBAT_STATE_ATTACK);
+	listGrids->AddObject(bossbat);
+
+	bossbat = new BossBat(simon, game);
+	bossbat->AddAnimation(609);
+	bossbat->AddAnimation(610);
+	bossbat->SetPosition(550, 163);
+	bossbat->SetState(BOSSBAT_STATE_ATTACK);
+	listGrids->AddObject(bossbat);
 }
 
 void LoadResourceLv3_4()
@@ -1358,22 +1394,7 @@ void LoadResourceLv3_4()
 	skeleton->SetPosition(1156, 220);
 	skeleton->SetState(SKELETON_WALKING);
 	listGrids->AddObject(skeleton);
-	
-
-	Bird *bird;
-	bird = new Bird(1);
-	bird->AddAnimation(822);
-	bird->AddAnimation(823);
-	bird->SetPosition(800, 170);
-	listGrids->AddObject(bird);
-
-	Hunchback *hunchback;
-	hunchback = new Hunchback(bird);
-	hunchback->AddAnimation(824);
-	hunchback->AddAnimation(825);
-	hunchback->AddAnimation(8240);
-	hunchback->AddAnimation(8250);
-	listGrids->AddObject(hunchback);
+		
 }
 
 void LoadResourceLv3_3()
@@ -1646,6 +1667,8 @@ void LoadResourceLv3_1()
 	checkstair->SetType(CHECKSTAIR_DOWN_RIGHT);
 	listGrids->AddObject(checkstair);
 }
+
+
 
 /*
 	Load all game resources
@@ -2842,12 +2865,67 @@ void Update(DWORD dt)
 	}
 	if (lv == 34)
 	{
+		static int count34 = 0;
 		if (countLoadResource3_4 == false )
 		{
 			listGrids->InitList(MAX_WIDTH_LV3_4);
 			LoadResourceLv3_4();
 			countLoadResource3_4 = true;
+			
 
+		}
+		else if (countLoadResource3_4 == true)
+		{
+			if (check_enemy_lv34 == false)
+			{
+				timer = GetTickCount();
+				check_enemy_lv34 = true;
+			}
+			if (GetTickCount() - timer > 5000)
+			{
+				simon->GetPosition(x, y);
+				if (x < 750 && x >100 )
+				{
+					if (count34 % 2 == 0)
+					{
+						Bird *bird;
+						bird = new Bird(1);
+						bird->AddAnimation(822);
+						bird->AddAnimation(823);
+						bird->SetPosition(x - SCREEN_WIDTH / 2, 140 + rand() % (SCREEN_HEIGHT/2 - 139));
+						listGrids->AddObject(bird);
+
+						Hunchback *hunchback;
+						hunchback = new Hunchback(bird);
+						hunchback->AddAnimation(824);
+						hunchback->AddAnimation(825);
+						hunchback->AddAnimation(8240);
+						hunchback->AddAnimation(8250);
+						listGrids->AddObject(hunchback);
+						
+						count34++;
+					}
+					else if (count34 % 2 != 0)
+					{
+						Bird *bird;
+						bird = new Bird(-1);
+						bird->AddAnimation(822);
+						bird->AddAnimation(823);
+						bird->SetPosition(x + SCREEN_WIDTH / 2 , 140 + rand() % (SCREEN_HEIGHT/2 - 139));
+						listGrids->AddObject(bird);
+
+						Hunchback *hunchback;
+						hunchback = new Hunchback(bird);
+						hunchback->AddAnimation(824);
+						hunchback->AddAnimation(825);
+						hunchback->AddAnimation(8240);
+						hunchback->AddAnimation(8250);
+						listGrids->AddObject(hunchback);
+						count34++;
+					}
+					timer += 5000;
+				}				
+			}
 		}
 		if ((y < 85 && x> 1340) || ( y< 85 && x>664  && x<690) || (y < 85 && x>200 && x<210) )
 		{
@@ -2873,15 +2951,68 @@ void Update(DWORD dt)
 			}
 			//temp10 = true;
 		}
+		
+
 	}
 	if (lv == 33)
 	{
+		static int count33 = 0;
 		/*if (countLoadResource3_3 == false && temp10 == false)
 		{
 			listGrids->InitList(MAX_WIDTH_LV3_3);
 			LoadResourceLv3_3();
 			countLoadResource3_3 = true;
 		}*/
+		if (check_enemy_lv33 == false)
+		{
+			timer = GetTickCount();
+			check_enemy_lv33 = true;
+		}
+		if (GetTickCount() - timer > 4000)
+		{
+			simon->GetPosition(x, y);
+			if (x < 750 && x >100)
+			{
+				if (count33 % 2 == 0)
+				{
+					Bird *bird;
+					bird = new Bird(1);
+					bird->AddAnimation(822);
+					bird->AddAnimation(823);
+					bird->SetPosition(x - SCREEN_WIDTH / 2, 140 + rand() % ( SCREEN_HEIGHT/2 - 139));
+					listGrids->AddObject(bird);
+
+					Hunchback *hunchback;
+					hunchback = new Hunchback(bird);
+					hunchback->AddAnimation(824);
+					hunchback->AddAnimation(825);
+					hunchback->AddAnimation(8240);
+					hunchback->AddAnimation(8250);
+					listGrids->AddObject(hunchback);
+
+					count33++;
+				}
+				else if (count33 % 2 != 0)
+				{
+					Bird *bird;
+					bird = new Bird(-1);
+					bird->AddAnimation(822);
+					bird->AddAnimation(823);
+					bird->SetPosition(x + SCREEN_WIDTH / 2, 140 + rand() % ( SCREEN_HEIGHT / 2 - 139));
+					listGrids->AddObject(bird);
+
+					Hunchback *hunchback;
+					hunchback = new Hunchback(bird);
+					hunchback->AddAnimation(824);
+					hunchback->AddAnimation(825);
+					hunchback->AddAnimation(8240);
+					hunchback->AddAnimation(8250);
+					listGrids->AddObject(hunchback);
+					count33++;
+				}
+				timer += 4000;
+			}
+		}
 		if (x < 0)
 		{
 			listGrids->ReleaseList();			
@@ -3717,7 +3848,7 @@ void Render()
 		}
 
 		simon->Render();
-		ui->Render(game->x_cam, game->y_cam,simon, CGame::bossheath);
+		ui->Render(game->x_cam, game->y_cam,simon, CGame::bossheath, lv);
 		
 		/*RECT newRect;
 		SetRect(&newRect, 0, 0, 30, 30);

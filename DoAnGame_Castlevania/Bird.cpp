@@ -49,7 +49,7 @@ void Bird::Render()
 	{
 		ani = BIRD_ANI_FLYING_RIGHT;
 	}
-	else
+	if (nx <0)
 	{
 		ani = BIRD_ANI_FLYING_LEFT;
 	}
