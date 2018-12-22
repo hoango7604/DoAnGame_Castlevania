@@ -51,7 +51,7 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isBleeding = false;
 		}
 		
-		timer = GetTickCount();
+		//timer = GetTickCount();
 	}
 	
 
