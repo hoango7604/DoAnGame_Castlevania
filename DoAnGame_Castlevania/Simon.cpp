@@ -523,7 +523,10 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						isJump = false;
 
 					if (isHurt)
+					{
+						currentCheckStairId = 0;
 						isHurt = false;
+					}
 
 					willBlock = true;
 

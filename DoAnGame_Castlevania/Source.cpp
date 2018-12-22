@@ -55,7 +55,7 @@ Enemy *enemy;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
-int lv = 31;
+int lv = 35;
 
 // check scene lv2->lv2_1
 bool checkScene = false;
@@ -206,13 +206,13 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 
 	if (KeyCode == DIK_1)
-		simon->SetPosition(1490, 100);
+		simon->SetPosition(0, 100);
 
 	if (KeyCode == DIK_2)
-		simon->SetPosition(3000, 100);
+		simon->SetPosition(1500, 100);
 
 	if (KeyCode == DIK_3)
-		simon->SetPosition(3980, 100);
+		simon->SetPosition(3000, 100);
 
 	if (KeyCode == DIK_Q)
 	{
@@ -1638,7 +1638,6 @@ void LoadResourceLv3_2()
 
 void LoadResourceLv3_1()
 {	
-	simon->SetPosition(50, 150);
 	for (int i = 0; i < 29; i++)
 	{
 		Ground *ground = new Ground();
