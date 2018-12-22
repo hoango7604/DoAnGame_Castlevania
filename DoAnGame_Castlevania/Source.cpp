@@ -55,7 +55,7 @@ Enemy *enemy;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
-int lv = 31;
+int lv = 35;
 
 // check scene lv2->lv2_1
 bool checkScene = false;
@@ -1063,7 +1063,7 @@ void LoadResourceboss()
 
 void LoadResourceLv3_5()
 {
-	simon->SetPosition(150, 50);
+	simon->SetPosition(2900, 270);
 	for (int i = 0; i < 18; i++)
 	{
 		Ground *ground = new Ground();
@@ -1383,22 +1383,7 @@ void LoadResourceLv3_4()
 	skeleton->SetPosition(1156, 220);
 	skeleton->SetState(SKELETON_WALKING);
 	listGrids->AddObject(skeleton);
-	
-
-	Bird *bird;
-	bird = new Bird(-1);
-	bird->AddAnimation(822);
-	bird->AddAnimation(823);
-	bird->SetPosition(1440, 170);
-	listGrids->AddObject(bird);
-
-	Hunchback *hunchback;
-	hunchback = new Hunchback(bird);
-	hunchback->AddAnimation(824);
-	hunchback->AddAnimation(825);
-	hunchback->AddAnimation(8240);
-	hunchback->AddAnimation(8250);
-	listGrids->AddObject(hunchback);
+		
 }
 
 void LoadResourceLv3_3()
@@ -1638,7 +1623,7 @@ void LoadResourceLv3_2()
 
 void LoadResourceLv3_1()
 {	
-	simon->SetPosition(50, 150);
+	//simon->SetPosition(50, 150);
 	for (int i = 0; i < 29; i++)
 	{
 		Ground *ground = new Ground();
@@ -2993,7 +2978,7 @@ void Update(DWORD dt)
 			timer = GetTickCount();
 			check_enemy_lv33 = true;
 		}
-		if (GetTickCount() - timer > 4000)
+		if (GetTickCount() - timer > 8000)
 		{
 			simon->GetPosition(x, y);
 			if (x < 750 && x >100)
@@ -3035,7 +3020,7 @@ void Update(DWORD dt)
 					listGrids->AddObject(hunchback);
 					count33++;
 				}
-				timer += 4000;
+				timer += 8000;
 			}
 		}
 		if (x < 0)
@@ -3091,12 +3076,12 @@ void Update(DWORD dt)
 	}
 	if (lv == 31)
 	{
-		if (countLoadResource3_1 == false)
+		/*if (countLoadResource3_1 == false )
 		{
 			listGrids->InitList(MAX_WIDTH_LV3_1);
 			LoadResourceLv3_1();
 			countLoadResource3_1 = true;
-		}
+		}*/
 		if (y >430)
 		{
 			listGrids->ReleaseList();

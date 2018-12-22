@@ -76,7 +76,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					if (CGame::GetInstance()->bossheath <= 0)
 					{
-						superdracula->isDie = true;
+						//superdracula->isDie = true;
 						Simon::score += 100;
 						CGame::GetInstance()->start_fight_boss = false;
 						CGame::GetInstance()->bossheath = 16;
