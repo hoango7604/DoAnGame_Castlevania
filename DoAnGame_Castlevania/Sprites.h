@@ -79,7 +79,8 @@ class CAnimations
 	unordered_map<int, LPANIMATION> animations;
 
 public:
-	void Add(int id, LPANIMATION ani);
+	/*void Add(int id, LPANIMATION ani);*/
+	void Add(LPCSTR fileSource);
 	LPANIMATION Get(int id);
 
 	static CAnimations * GetInstance();

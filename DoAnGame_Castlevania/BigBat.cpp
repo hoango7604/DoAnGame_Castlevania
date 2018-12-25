@@ -97,6 +97,11 @@ void BigBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			this->y += dy;
 		}
 	}
+	else
+	{
+		isWait = false;
+		isActivate = false;
+	}
 }
 
 void BigBat::Render()

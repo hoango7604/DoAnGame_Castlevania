@@ -98,9 +98,38 @@ CAnimations * CAnimations::GetInstance()
 	return __instance;
 }
 
-void CAnimations::Add(int id, LPANIMATION ani)
+void CAnimations::Add(LPCSTR fileSource)
 {
-	animations[id] = ani;
+
+	fstream pFile;
+	pFile.open(fileSource, fstream::in);
+	string linestring;
+	int number_of_sprite;
+	int id;
+	DWORD time;
+	while (pFile.good())
+	{
+
+		getline(pFile, linestring);
+		if (linestring == "")
+			return;
+		stringstream ss;
+		ss.str(linestring);
+		ss >> number_of_sprite >> time >> id;
+		int *a = new int[number_of_sprite];
+		LPANIMATION ani;
+		ani = new CAnimation(time);
+		for (int j = 0; j < number_of_sprite; j++)
+		{
+			for (int i = 0; i < 4 + j; i++)
+			{
+				ss >> a[i];
+			}
+			ani->Add(a[j]);
+		}
+		animations[id] = ani;
+		delete a;
+	}
 }
 
 LPANIMATION CAnimations::Get(int id)

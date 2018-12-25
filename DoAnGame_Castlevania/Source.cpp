@@ -55,7 +55,7 @@ Enemy *enemy;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
-int lv = 35;
+int lv = 1;
 
 // check scene lv2->lv2_1
 bool checkScene = false;
@@ -213,6 +213,15 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 
 	if (KeyCode == DIK_3)
 		simon->SetPosition(3000, 100);
+
+	if (KeyCode == DIK_4)
+		simon->SetPosition(4000, 100);
+
+	if (KeyCode == DIK_5)
+		simon->SetPosition(5000, 100);
+
+	if (KeyCode == DIK_6)
+		lv = 35;
 
 	if (KeyCode == DIK_Q)
 	{
@@ -1684,9 +1693,129 @@ void LoadResources()
 	textures->Add("Castlevania\\filetxt\\textures.txt", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add("Castlevania\\filetxt\\textures1.txt", D3DCOLOR_XRGB(96, 68, 106));
 	textures->Add("Castlevania\\filetxt\\textures2.txt", D3DCOLOR_XRGB(153, 43, 102));
-	
+	#pragma region ManageSprite
+	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
+	sprites->Add("Castlevania\\filetxt\\spr_Simon_right.txt", texSimon);
 
-	//186 43 92
+	LPDIRECT3DTEXTURE9 texSimon2 = textures->Get(ID_TEX_SIMON_2);
+	sprites->Add("Castlevania\\filetxt\\spr_Simon_left.txt", texSimon2);
+
+	LPDIRECT3DTEXTURE9 whipR = textures->Get(ID_TEX_WHIP);
+	sprites->Add("Castlevania\\filetxt\\spr_whip_right.txt", whipR);
+
+	LPDIRECT3DTEXTURE9 whipL = textures->Get(ID_TEX_WHIP_2);
+	sprites->Add("Castlevania\\filetxt\\spr_whip_left.txt", whipL);
+
+	LPDIRECT3DTEXTURE9 axe = textures->Get(ID_TEX_AXE_ACTION);
+	sprites->Add("Castlevania\\filetxt\\spr_axe_action.txt", axe);
+
+	LPDIRECT3DTEXTURE9 holywater = textures->Get(ID_TEX_HOLY_WATER);
+	sprites->Add("Castlevania\\filetxt\\spr_holy.txt", holywater);
+
+	LPDIRECT3DTEXTURE9 holywater_action = textures->Get(ID_TEX_HOLY_WATER_ACTION);
+	sprites->Add("Castlevania\\filetxt\\spr_holy_action.txt", holywater_action);
+
+	LPDIRECT3DTEXTURE9 cross = textures->Get(ID_TEX_CROSS_ACTION);
+	sprites->Add("Castlevania\\filetxt\\spr_cross.txt", cross);
+
+	LPDIRECT3DTEXTURE9 knife = textures->Get(ID_TEX_KNIFE_ACTION);
+	sprites->Add("Castlevania\\filetxt\\spr_knife.txt", knife);
+
+	LPDIRECT3DTEXTURE9 clock = textures->Get(ID_TEX_UI);
+	sprites->Add("Castlevania\\filetxt\\spr_clock.txt", clock);
+
+	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_BRICK);
+	sprites->Add("Castlevania\\filetxt\\spr_brick.txt", texMisc);
+
+	LPDIRECT3DTEXTURE9 texMisc2 = textures->Get(ID_TEX_BRICK2);
+	sprites->Add("Castlevania\\filetxt\\spr_brick2.txt", texMisc2);
+
+	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ZOMBIE);
+	sprites->Add("Castlevania\\filetxt\\spr_zombie_left.txt", texEnemy);
+
+	LPDIRECT3DTEXTURE9 texEnemy0 = textures->Get(ID_TEX_ZOMBIE_RIGHT);
+	sprites->Add("Castlevania\\filetxt\\spr_zombie.txt", texEnemy0);
+
+	LPDIRECT3DTEXTURE9 texEnemy1 = textures->Get(ID_TEX_PANTHER);
+	sprites->Add("Castlevania\\filetxt\\spr_panther_left.txt", texEnemy1);
+
+	LPDIRECT3DTEXTURE9 texEnemy10 = textures->Get(ID_TEX_PANTHER_RIGHT);
+	sprites->Add("Castlevania\\filetxt\\spr_panther_right.txt", texEnemy10);
+
+	LPDIRECT3DTEXTURE9 texEnemy11 = textures->Get(ID_TEX_BAT);
+	sprites->Add("Castlevania\\filetxt\\spr_bat.txt", texEnemy11);
+
+	LPDIRECT3DTEXTURE9 texEnemy12 = textures->Get(ID_TEX_BOSS);
+	sprites->Add("Castlevania\\filetxt\\spr_boss.txt", texEnemy12);
+
+	LPDIRECT3DTEXTURE9 texEnemy13 = textures->Get(ID_TEX_MERMAN_LEFT);
+	sprites->Add("Castlevania\\filetxt\\spr_merman_left.txt", texEnemy13);
+
+	LPDIRECT3DTEXTURE9 texEnemy14 = textures->Get(ID_TEX_MERMAN_RIGHT);
+	sprites->Add("Castlevania\\filetxt\\spr_merman_right.txt", texEnemy14);
+
+	LPDIRECT3DTEXTURE9 texEnemy2 = textures->Get(ID_TEX_FIRE);
+	sprites->Add("Castlevania\\filetxt\\spr_fire.txt", texEnemy2);
+
+	LPDIRECT3DTEXTURE9 texEnemy3 = textures->Get(ID_TEX_CANDLE);
+	sprites->Add("Castlevania\\filetxt\\spr_candle.txt", texEnemy3);
+
+	LPDIRECT3DTEXTURE9 texMisc3 = textures->Get(ID_TEX_LADDER);
+	sprites->Add("Castlevania\\filetxt\\spr_ladder.txt", texMisc3);
+
+	LPDIRECT3DTEXTURE9 texMisc4 = textures->Get(ID_TEX_LADDER_LEFT);
+	sprites->Add("Castlevania\\filetxt\\spr_ladder_left.txt", texMisc4);
+
+	LPDIRECT3DTEXTURE9 texMisc5 = textures->Get(ID_TEX_STAIR_BOT);
+	sprites->Add("Castlevania\\filetxt\\spr_stair_bot.txt", texMisc5);
+
+	LPDIRECT3DTEXTURE9 texMisc6 = textures->Get(ID_TEX_STAIR_TOP);
+	sprites->Add("Castlevania\\filetxt\\spr_stair_top.txt", texMisc6);
+
+	LPDIRECT3DTEXTURE9 texMisc7 = textures->Get(ID_TEX_UI);
+	sprites->Add("Castlevania\\filetxt\\spr_ui.txt", texMisc7);
+
+	LPDIRECT3DTEXTURE9 texMisc8 = textures->Get(ID_TEX_EFFECT1);
+	sprites->Add("Castlevania\\filetxt\\spr_effect1.txt", texMisc8);
+
+	LPDIRECT3DTEXTURE9 texMisc9 = textures->Get(ID_TEX_EFFECT2);
+	sprites->Add("Castlevania\\filetxt\\spr_effect2.txt", texMisc9);
+
+	LPDIRECT3DTEXTURE9 texMisc10 = textures->Get(ID_TEX_WHIP_VIP);
+	sprites->Add("Castlevania\\filetxt\\spr_vip.txt", texMisc10);
+
+	LPDIRECT3DTEXTURE9 texMisc11 = textures->Get(ID_TEX_KNIFE_ACTION);
+	sprites->Add("Castlevania\\filetxt\\spr_knife_action.txt", texMisc11);
+
+	LPDIRECT3DTEXTURE9 texMisc12 = textures->Get(ID_TEX_MONEY);
+	sprites->Add("Castlevania\\filetxt\\spr_money.txt", texMisc12);
+
+	LPDIRECT3DTEXTURE9 texMisc13 = textures->Get(ID_TEX_ROSARY);
+	sprites->Add("Castlevania\\filetxt\\spr_rosary.txt", texMisc13);
+
+	LPDIRECT3DTEXTURE9 texMisc14 = textures->Get(ID_TEX_BOSSES);
+	sprites->Add("Castlevania\\filetxt\\spr_bosses.txt", texMisc14);
+
+	LPDIRECT3DTEXTURE9 texMic15 = textures->Get(ID_TEX_GATE);
+	sprites->Add("Castlevania\\filetxt\\spr_door.txt", texMic15);
+
+	LPDIRECT3DTEXTURE9 texMic16 = textures->Get(ID_TEX_BOSSES_RIGHT);
+	sprites->Add("Castlevania\\filetxt\\spr_bosses_right.txt", texMic16);
+
+	LPDIRECT3DTEXTURE9 texMic17 = textures->Get(ID_TEX_ENEMIES);
+	sprites->Add("Castlevania\\filetxt\\spr_enemy_left.txt", texMic17);
+
+	LPDIRECT3DTEXTURE9 texMic18 = textures->Get(ID_TEX_ENEMIES_RIGHT);
+	sprites->Add("Castlevania\\filetxt\\spr_enemy_right.txt", texMic18);
+
+	LPDIRECT3DTEXTURE9 texMic19 = textures->Get(ID_TEX_INVICIBILITY);
+	sprites->Add("Castlevania\\filetxt\\spr_invicibility.txt", texMic19);
+
+	LPDIRECT3DTEXTURE9 texMic21 = textures->Get(48);
+	sprites->Add("Castlevania\\filetxt\\spr_rosary_action.txt", texMic21);
+#pragma endregion
+	animations->Add("Castlevania\\filetxt\\animation.txt");
+	
 	/*#pragma region Addsprite
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 
@@ -1906,131 +2035,8 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMisc13 = textures->Get(ID_TEX_ROSARY);
 	sprites->Add(40025, 0, 0, 32, 32, texMisc13);
-	#pragma endregion*/
-	#pragma region ManageSprite
-	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
-	sprites->Add("Castlevania\\filetxt\\spr_Simon_right.txt", texSimon);		
-	
-	LPDIRECT3DTEXTURE9 texSimon2 = textures->Get(ID_TEX_SIMON_2);
-	sprites->Add("Castlevania\\filetxt\\spr_Simon_left.txt", texSimon2);
-
-	LPDIRECT3DTEXTURE9 whipR = textures->Get(ID_TEX_WHIP);
-	sprites->Add("Castlevania\\filetxt\\spr_whip_right.txt", whipR);			
-
-	LPDIRECT3DTEXTURE9 whipL = textures->Get(ID_TEX_WHIP_2);
-	sprites->Add("Castlevania\\filetxt\\spr_whip_left.txt", whipL);
-	
-	LPDIRECT3DTEXTURE9 axe = textures->Get(ID_TEX_AXE_ACTION); 
-	sprites->Add("Castlevania\\filetxt\\spr_axe_action.txt", axe);
-	
-	LPDIRECT3DTEXTURE9 holywater = textures->Get(ID_TEX_HOLY_WATER); 
-	sprites->Add("Castlevania\\filetxt\\spr_holy.txt", holywater);
-
-	LPDIRECT3DTEXTURE9 holywater_action = textures->Get(ID_TEX_HOLY_WATER_ACTION); 
-	sprites->Add("Castlevania\\filetxt\\spr_holy_action.txt", holywater_action);	
-	
-	LPDIRECT3DTEXTURE9 cross = textures->Get(ID_TEX_CROSS_ACTION); 
-	sprites->Add("Castlevania\\filetxt\\spr_cross.txt", cross);	
-
-	LPDIRECT3DTEXTURE9 knife = textures->Get(ID_TEX_KNIFE_ACTION); 
-	sprites->Add("Castlevania\\filetxt\\spr_knife.txt", knife);
-	
-	LPDIRECT3DTEXTURE9 clock = textures->Get(ID_TEX_UI);
-	sprites->Add("Castlevania\\filetxt\\spr_clock.txt", clock);
-
-	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_BRICK);
-	sprites->Add("Castlevania\\filetxt\\spr_brick.txt", texMisc);
-
-	LPDIRECT3DTEXTURE9 texMisc2 = textures->Get(ID_TEX_BRICK2);
-	sprites->Add("Castlevania\\filetxt\\spr_brick2.txt", texMisc2);
-
-	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ZOMBIE);
-	sprites->Add("Castlevania\\filetxt\\spr_zombie_left.txt", texEnemy);
-
-	LPDIRECT3DTEXTURE9 texEnemy0 = textures->Get(ID_TEX_ZOMBIE_RIGHT);
-	sprites->Add("Castlevania\\filetxt\\spr_zombie.txt", texEnemy0);
-	
-	LPDIRECT3DTEXTURE9 texEnemy1 = textures->Get(ID_TEX_PANTHER);
-	sprites->Add("Castlevania\\filetxt\\spr_panther_left.txt", texEnemy1);
-	
-	LPDIRECT3DTEXTURE9 texEnemy10 = textures->Get(ID_TEX_PANTHER_RIGHT);
-	sprites->Add("Castlevania\\filetxt\\spr_panther_right.txt", texEnemy10);
-	
-	LPDIRECT3DTEXTURE9 texEnemy11 = textures->Get(ID_TEX_BAT);
-	sprites->Add("Castlevania\\filetxt\\spr_bat.txt", texEnemy11);
-	
-	LPDIRECT3DTEXTURE9 texEnemy12 = textures->Get(ID_TEX_BOSS);
-	sprites->Add("Castlevania\\filetxt\\spr_boss.txt", texEnemy12);
-	
-	LPDIRECT3DTEXTURE9 texEnemy13 = textures->Get(ID_TEX_MERMAN_LEFT);
-	sprites->Add("Castlevania\\filetxt\\spr_merman_left.txt", texEnemy13);
-
-	LPDIRECT3DTEXTURE9 texEnemy14 = textures->Get(ID_TEX_MERMAN_RIGHT);
-	sprites->Add("Castlevania\\filetxt\\spr_merman_right.txt", texEnemy14);
-	
-	LPDIRECT3DTEXTURE9 texEnemy2 = textures->Get(ID_TEX_FIRE);
-	sprites->Add("Castlevania\\filetxt\\spr_fire.txt", texEnemy2);
-	
-	LPDIRECT3DTEXTURE9 texEnemy3 = textures->Get(ID_TEX_CANDLE);
-	sprites->Add("Castlevania\\filetxt\\spr_candle.txt", texEnemy3);
-	
-	LPDIRECT3DTEXTURE9 texMisc3 = textures->Get(ID_TEX_LADDER);
-	sprites->Add("Castlevania\\filetxt\\spr_ladder.txt", texMisc3);
-
-	LPDIRECT3DTEXTURE9 texMisc4 = textures->Get(ID_TEX_LADDER_LEFT);
-	sprites->Add("Castlevania\\filetxt\\spr_ladder_left.txt", texMisc4);
-
-	LPDIRECT3DTEXTURE9 texMisc5 = textures->Get(ID_TEX_STAIR_BOT);
-	sprites->Add("Castlevania\\filetxt\\spr_stair_bot.txt", texMisc5);
-
-	LPDIRECT3DTEXTURE9 texMisc6 = textures->Get(ID_TEX_STAIR_TOP);
-	sprites->Add("Castlevania\\filetxt\\spr_stair_top.txt", texMisc6);
-
-	LPDIRECT3DTEXTURE9 texMisc7 = textures->Get(ID_TEX_UI);
-	sprites->Add("Castlevania\\filetxt\\spr_ui.txt", texMisc7);
-
-	LPDIRECT3DTEXTURE9 texMisc8 = textures->Get(ID_TEX_EFFECT1);
-	sprites->Add("Castlevania\\filetxt\\spr_effect1.txt", texMisc8);
-
-	LPDIRECT3DTEXTURE9 texMisc9 = textures->Get(ID_TEX_EFFECT2);
-	sprites->Add("Castlevania\\filetxt\\spr_effect2.txt", texMisc9);
-	
-	LPDIRECT3DTEXTURE9 texMisc10 = textures->Get(ID_TEX_WHIP_VIP);
-	sprites->Add("Castlevania\\filetxt\\spr_vip.txt", texMisc10);
-
-	LPDIRECT3DTEXTURE9 texMisc11 = textures->Get(ID_TEX_KNIFE_ACTION);
-	sprites->Add("Castlevania\\filetxt\\spr_knife_action.txt",texMisc11);
-
-	LPDIRECT3DTEXTURE9 texMisc12 = textures->Get(ID_TEX_MONEY);
-	sprites->Add("Castlevania\\filetxt\\spr_money.txt", texMisc12);
-
-	LPDIRECT3DTEXTURE9 texMisc13 = textures->Get(ID_TEX_ROSARY);
-	sprites->Add("Castlevania\\filetxt\\spr_rosary.txt", texMisc13);
-
-	LPDIRECT3DTEXTURE9 texMisc14 = textures->Get(ID_TEX_BOSSES);
-	sprites->Add("Castlevania\\filetxt\\spr_bosses.txt", texMisc14);
-
-	LPDIRECT3DTEXTURE9 texMic15 = textures->Get(ID_TEX_GATE);
-	sprites->Add("Castlevania\\filetxt\\spr_door.txt", texMic15);
-
-	LPDIRECT3DTEXTURE9 texMic16 = textures->Get(ID_TEX_BOSSES_RIGHT);
-	sprites->Add("Castlevania\\filetxt\\spr_bosses_right.txt", texMic16);
-
-	LPDIRECT3DTEXTURE9 texMic17 = textures->Get(ID_TEX_ENEMIES);
-	sprites->Add("Castlevania\\filetxt\\spr_enemy_left.txt", texMic17);
-
-	LPDIRECT3DTEXTURE9 texMic18 = textures->Get(ID_TEX_ENEMIES_RIGHT);
-	sprites->Add("Castlevania\\filetxt\\spr_enemy_right.txt", texMic18);
-	
-	LPDIRECT3DTEXTURE9 texMic19 = textures->Get(ID_TEX_INVICIBILITY);
-	sprites->Add("Castlevania\\filetxt\\spr_invicibility.txt", texMic19);
-
-	LPDIRECT3DTEXTURE9 texMic21 = textures->Get(48);
-	sprites->Add("Castlevania\\filetxt\\spr_rosary_action.txt", texMic21);
-#pragma endregion
-
-
-	LPANIMATION ani;
+	#pragma endregion*/	
+	/*LPANIMATION ani;
 
 	#pragma region SimonAnimation
 
@@ -2536,8 +2542,9 @@ void LoadResources()
 	ani = new CAnimation(100);
 	ani->Add(40068);
 	animations->Add(839, ani);
-	#pragma endregion
+	#pragma endregion*/
 
+	
 	#pragma region simon
 
 	simon = new Simon();
@@ -2584,7 +2591,7 @@ void LoadResources()
 	ui->Initialize(d3ddv, simon);
 
 	// Load map lv1 ra trước
-	//LoadResourceLv1();
+	LoadResourceLv1();
 	
 }
 
@@ -2837,11 +2844,7 @@ void Update(DWORD dt)
 			}
 		}
 
-		//can xu li win boss de chuyen sang dracula
-		/*if (x > MAX_WIDTH_BOSS)// test map va dat object vao
-		{
-			lv = 35;
-		}*/
+		
 	}
 #pragma endregion
 
@@ -2850,6 +2853,7 @@ void Update(DWORD dt)
 	{
 		if (countLoadResource3_5 == false)
 		{
+			listGrids->ReleaseList();
 			listGrids->InitList(MAX_WIDTH_LV3_5);
 			LoadResourceLv3_5();
 			countLoadResource3_5 = true;			
@@ -3213,13 +3217,16 @@ void Update(DWORD dt)
 				{
 					BigBat *bigbat = dynamic_cast<BigBat *>(objects.at(i));
 					int nx = bigbat->simon->nx;
-					if (GetTickCount() - bigbat->timer > 5000)
+					if (bigbat->isActivate)
 					{
-						enemy = new EnemyBullet(nx);
-						enemy->AddAnimation(812);
-						enemy->SetPosition(bigbat->x + BOSSBAT_BBOX_WIDTH/2 , bigbat->y );
-						listGrids->AddObject(enemy);
-						bigbat->timer += 5000;
+						if (GetTickCount() - bigbat->timer > 5000)
+						{
+							enemy = new EnemyBullet(nx);
+							enemy->AddAnimation(812);
+							enemy->SetPosition(bigbat->x + BOSSBAT_BBOX_WIDTH / 2, bigbat->y);
+							listGrids->AddObject(enemy);
+							bigbat->timer += 5000;
+						}
 					}
 					
 				}
@@ -3357,6 +3364,7 @@ void Update(DWORD dt)
 					item->SetType(ITEM_PRIZE);
 					objects.push_back(item);
 					listGrids->AddObject(item);
+					lv = 35;
 				}
 				}
 
