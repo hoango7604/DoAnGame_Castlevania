@@ -56,7 +56,7 @@ Enemy *enemy;
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
 int lv = 1;
-
+bool checkload = false;
 // check scene lv2->lv2_1
 bool checkScene = false;
 bool check1 = false;
@@ -221,8 +221,11 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		simon->SetPosition(5000, 100);
 
 	if (KeyCode == DIK_6)
+	{
 		lv = 35;
-
+		checkload = false;
+		
+	}
 	if (KeyCode == DIK_Q)
 	{
 		simon->currentWeapon = ITEM_AXE;
@@ -1814,6 +1817,7 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 texMic21 = textures->Get(48);
 	sprites->Add("Castlevania\\filetxt\\spr_rosary_action.txt", texMic21);
 #pragma endregion
+
 	animations->Add("Castlevania\\filetxt\\animation.txt");
 	
 	/*#pragma region Addsprite
@@ -2622,7 +2626,7 @@ void Update(DWORD dt)
 				listGrids->ReleaseList();
 
 				lv = 2;
-				
+				checkload = false;
 				simon->isLevelUp = false;
 				simon->SetState(SIMON_STATE_IDLE);
 				isEnableKeyBoard = true;
@@ -2712,6 +2716,7 @@ void Update(DWORD dt)
 		if (y > 420)
 		{
 			lv = 22;
+			checkload = false;
 			temp = true;
 			
 		}
@@ -2870,6 +2875,7 @@ void Update(DWORD dt)
 				listGrids->ReleaseList();
 
 				lv = 34;
+				checkload = false;
 				simon->SetPosition(1455, 200);
 				simon->isLevelUp = false;
 				simon->SetState(SIMON_STATE_IDLE);
@@ -2947,6 +2953,7 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV3_3);
 			LoadResourceLv3_3();
 			lv = 33;
+			checkload = false;
 
 			if (x > 1340)
 			{
@@ -3031,6 +3038,7 @@ void Update(DWORD dt)
 		{
 			listGrids->ReleaseList();			
 			lv = 32;
+			checkload = false;
 			simon->SetPosition(500, 200);
 			simon->GetPosition(x, y);			
 		}
@@ -3040,6 +3048,7 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV3_4);
 			LoadResourceLv3_4();
 			lv = 34;
+			checkload = false;
 			if (x <190 && x>0)
 			{
 				simon->SetPosition(140, 120);
@@ -3071,6 +3080,7 @@ void Update(DWORD dt)
 		{
 			listGrids->ReleaseList();
 			lv = 31;
+			checkload = false;
 			simon->SetPosition(1200, 410);
 			game->x_cam = MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2;
 			simon->GetPosition(x, y);
@@ -3092,6 +3102,7 @@ void Update(DWORD dt)
 			listGrids->InitList(MAX_WIDTH_LV3_2);
 			LoadResourceLv3_2();
 			lv = 32;
+			checkload = false;
 			simon->SetPosition(249, 120);		
 			simon->GetPosition(x, y);
 			
@@ -3932,48 +3943,55 @@ void Render()
 		LPDIRECT3DTEXTURE9 tileset34 = textures->Get(ID_TEX_TILESET34);
 		LPDIRECT3DTEXTURE9 tileset35 = textures->Get(ID_TEX_TILESET35);
 		
-		if (lv==1)
+		if (lv==1 && checkload == false)
 		{
 			map = new	Map ( tileset, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate.txt");
+			checkload = true;
 			/*map = new	Map(tileset35, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map35_bg.txt");*/
 			
 		}
-		else if( lv == 2 || lv == 21) {									
+		else if( lv == 2 && checkload == false ) {									
 			map = new	Map (tileset1, 32, 32); 
-			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");
-			
+			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");			
+			checkload = true;
 		}
-		else if (lv == 22)
+		else if (lv == 22 && checkload == false)
 		{
 			map = new	Map(tileset2, 32, 32);
 			map->LoadMatrixMap("Castlevania\\Mapstate2_1.txt");
+			checkload = true;
 		}
-		else if (lv == 31)
+		else if (lv == 31 && checkload == false)
 		{
 			map = new	Map(tileset31, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map31_bg.txt");
+			checkload = true;
 		}
-		else if (lv == 32)
+		else if (lv == 32 && checkload == false)
 		{
 			map = new	Map(tileset32, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map32_bg.txt");
+			checkload = true;
 		}
-		else if (lv == 33)
+		else if (lv == 33 && checkload == false)
 		{
 			map = new	Map(tileset33, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map33_bg.txt");
+			checkload = true;
 		}
-		else if (lv == 34)
+		else if (lv == 34 && checkload == false)
 		{
 			map = new	Map(tileset34, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map34_bg.txt");
+			checkload = true;
 		}
-		else if (lv == 35)
+		else if (lv == 35 && checkload == false)
 		{
 			map = new	Map(tileset35, 32, 32);
 			map->LoadMatrixMap("Castlevania\\map35_bg.txt");
+			checkload = true;
 		}
 		map->Draw(game->x_cam, game->y_cam);
 

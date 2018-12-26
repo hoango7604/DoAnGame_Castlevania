@@ -128,7 +128,7 @@ void CAnimations::Add(LPCSTR fileSource)
 			ani->Add(a[j]);
 		}
 		animations[id] = ani;
-		delete a;
+		//delete a;
 	}
 }
 
