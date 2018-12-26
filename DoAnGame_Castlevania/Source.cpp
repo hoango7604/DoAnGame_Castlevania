@@ -885,7 +885,7 @@ void LoadResourceLv2_2()
 void LoadResourceboss()
 {
 	listGrids->AddObject("Castlevania\\resource\\ResourceLv99.txt",simon,game);
-	for (int i = 0; i < 8; i++)
+	/*for (int i = 0; i < 8; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + 32 * 40 + i * 32.0f, 246);
@@ -989,13 +989,14 @@ void LoadResourceboss()
 	door->AddAnimation(816);
 	door->SetPosition(4080, 150);
 	
-	listGrids->AddObject(door);
+	listGrids->AddObject(door);*/
 }
 
 void LoadResourceLv3_5()
 {
 	simon->SetPosition(2900, 270);
-	for (int i = 0; i < 18; i++)
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv35.txt", simon, game);
+	/*for (int i = 0; i < 18; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(64 + i * 32 , 280);
@@ -1130,14 +1131,15 @@ void LoadResourceLv3_5()
 	bigbat = new BigBat(simon);
 	bigbat->AddAnimation(610);
 	bigbat->SetPosition(550, 163);
-	listGrids->AddObject(bigbat);
+	listGrids->AddObject(bigbat);*/
 	
 }
 
 void LoadResourceLv3_4()
 {
-	
-	for (int i = 0; i < 4; i++)
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv34.txt", simon, game);
+
+	/*for (int i = 0; i < 4; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(1408 +i*32, 278);
@@ -1313,14 +1315,14 @@ void LoadResourceLv3_4()
 	skeleton->AddAnimation(819);
 	skeleton->SetPosition(1156, 220);
 	skeleton->SetState(SKELETON_WALKING);
-	listGrids->AddObject(skeleton);
+	listGrids->AddObject(skeleton);*/
 		
 }
 
 void LoadResourceLv3_3()
 {
-	
-	for (int i = 0; i < 2; i++)
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv33.txt", simon, game);
+	/*for (int i = 0; i < 2; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(1410 + i * 32, 407);
@@ -1386,12 +1388,7 @@ void LoadResourceLv3_3()
 		ground->SetPosition(512 + i * 32, 376);
 		listGrids->AddObject(ground);
 	}
-	for (int i = 0; i < 4; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(512 + i * 32, 344);
-		listGrids->AddObject(ground);
-	}
+	
 	for (int i = 0; i < 3; i++)
 	{
 		Ground *ground = new Ground();
@@ -1529,14 +1526,15 @@ void LoadResourceLv3_3()
 	skeleton->AddAnimation(819);
 	skeleton->SetPosition(1173, 150);
 	skeleton->SetState(SKELETON_WALKING);
-	listGrids->AddObject(skeleton);
+	listGrids->AddObject(skeleton);*/
 	
 }
 
 void LoadResourceLv3_2()
 {
-	
-	for (int i = 0; i < 6; i++)
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv32.txt", simon, game);
+
+	/*for (int i = 0; i < 6; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(351 + i * 32, 279);
@@ -1549,13 +1547,15 @@ void LoadResourceLv3_2()
 	checkstair->SetPosition(313, 248);
 	checkstair->SetId(1);
 	checkstair->SetType(CHECKSTAIR_UP_LEFT);
-	listGrids->AddObject(checkstair);
+	listGrids->AddObject(checkstair);*/
 }
 
 void LoadResourceLv3_1()
 {	
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv31.txt", simon, game);
+
 	//simon->SetPosition(50, 150);
-	for (int i = 0; i < 29; i++)
+	/*for (int i = 0; i < 29; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(0 + i * 32, 407);
@@ -1601,7 +1601,7 @@ void LoadResourceLv3_1()
 	dracula->AddAnimation(828);
 	dracula->AddAnimation(830);
 	dracula->SetPosition(500, 360);
-	listGrids->AddObject(dracula);
+	listGrids->AddObject(dracula);*/
 }
 
 /*

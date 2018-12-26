@@ -13,6 +13,8 @@
 #include "Dracula.h"
 #include "SuperDracula.h"
 #include "BossBat.h"
+#include "BigBat.h"
+#include "Skeleton.h"
 class GridObjects
 {
 	float left, right;

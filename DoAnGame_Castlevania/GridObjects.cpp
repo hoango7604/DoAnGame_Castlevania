@@ -124,7 +124,13 @@ void ListGrids::AddObject(LPCSTR fileSource,Simon *simon , CGame *game)
 			anotation = 7;
 		else if (linestring == "BossBat")
 			anotation = 8;
-
+		else if (linestring == "BigBat")
+			anotation = 9;
+		else if (linestring == "Skeleton")
+			anotation = 10;
+		else if (linestring == "Dracula")
+			anotation = 11;
+		
 		if (linestring != "BigFire" && anotation == 0)
 		{
 			
@@ -216,6 +222,46 @@ void ListGrids::AddObject(LPCSTR fileSource,Simon *simon , CGame *game)
 			bossbat->SetState(state);
 			ListGrids::GetInstance()->AddObject(bossbat);
 		}
+		else if (linestring != "BigBat" && anotation == 9)
+		{
+			int  ani;
+			ss >> ani >>x >>y;
+			BigBat *bigbat;
+			bigbat = new BigBat(simon);
+			bigbat->AddAnimation(ani);
+			bigbat->SetPosition(x, y);
+			ListGrids::GetInstance()->AddObject(bigbat);
+		}
+		else if (linestring != "Skeleton" && anotation == 10)
+		{
+			int  ani,ani1,state;
+			ss >> ani >>ani1 >> x >> y >>state;
+			Skeleton *skeleton;
+			skeleton = new Skeleton();
+			skeleton->AddAnimation(ani);
+			skeleton->AddAnimation(ani1);
+			skeleton->SetPosition(x, y);
+			skeleton->SetState(state);
+			ListGrids::GetInstance()->AddObject(skeleton);
+		}
+		else if (linestring != "Dracula" && anotation == 11)
+		{
+			int  ani, ani1,ani2,ani3,ani4,ani5,ani6;
+			ss >> ani >> ani1 >>ani2>>ani3>>ani4>>ani5 >>ani6 >>x >> y  ;
+			Dracula *dracula;
+			dracula = new Dracula(simon,game);
+			dracula->AddAnimation(ani);
+			dracula->AddAnimation(ani1);
+			dracula->AddAnimation(ani2);
+			dracula->AddAnimation(ani3);
+			dracula->AddAnimation(ani4);
+			dracula->AddAnimation(ani5);
+			dracula->AddAnimation(ani6);
+			dracula->SetPosition(x, y);
+			
+			ListGrids::GetInstance()->AddObject(dracula);
+		}
+		
 	}
 }
 
