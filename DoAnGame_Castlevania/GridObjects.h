@@ -2,7 +2,17 @@
 #include "GameObject.h"
 #include "define.h"
 #include <math.h>
-
+#include "BigFire.h"
+#include "CheckPoint.h"
+#include "Wall.h"
+#include "Candle.h"
+#include "Zombie.h"
+#include "Panther.h"
+#include "Door.h"
+#include "RedBat.h"
+#include "Dracula.h"
+#include "SuperDracula.h"
+#include "BossBat.h"
 class GridObjects
 {
 	float left, right;
@@ -35,6 +45,7 @@ public:
 	void RemoveGrid(int i);
 
 	void AddObject(LPGAMEOBJECT object);
+	void AddObject(LPCSTR fileSource,Simon *simon,CGame *game);
 	void RemoveObject(LPGAMEOBJECT object);
 
 	static ListGrids *GetInstance();

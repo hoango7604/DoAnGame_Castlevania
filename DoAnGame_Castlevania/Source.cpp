@@ -443,67 +443,15 @@ void LoadResourceLv1()
 	// Khởi tạo listGrids
 	listGrids->InitList(MAX_WIDTH_LV1);
 
-#pragma region Ground
-	for (int i = 0; i < 50; i++)
-	{
-		Ground *ground = new Ground();
-		ground->AddAnimation(601);
-		ground->SetPosition(0 + i * 32.0f, 407);
-		listGrids->AddObject(ground);
-	}
-#pragma endregion
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv1.txt",simon,game);
 
-#pragma region BigFire
-	BigFire *bigfire;
-
-	bigfire = new BigFire();
-	bigfire->AddAnimation(700);
-	bigfire->SetPosition(335, 340);
-	listGrids->AddObject(bigfire);
-
-	bigfire = new BigFire();
-	bigfire->AddAnimation(700);
-	bigfire->SetPosition(464, 340);
-	listGrids->AddObject(bigfire);
-
-	bigfire = new BigFire();
-	bigfire->AddAnimation(700);
-	bigfire->SetPosition(657, 340);
-	listGrids->AddObject(bigfire);
-
-	bigfire = new BigFire();
-	bigfire->AddAnimation(700);
-	bigfire->SetPosition(851, 340);
-	listGrids->AddObject(bigfire);
-
-	bigfire = new BigFire();
-	bigfire->AddAnimation(700);
-	bigfire->SetPosition(1090, 340);
-	listGrids->AddObject(bigfire);
-
-	bigfire = new BigFire();
-	bigfire->AddAnimation(700);
-	bigfire->SetPosition(1267, 340);
-	listGrids->AddObject(bigfire);
-#pragma endregion
-
-#pragma region BigFire
-	CheckPoint *checkPoint;
-
-	checkPoint = new CheckPoint();
-	checkPoint->SetType(CHECKPOINT_LEVELUP);
-	checkPoint->SetPosition(1377, 374);
-	listGrids->AddObject(checkPoint);
-
-	checkPoint = new CheckPoint();
-	checkPoint->SetType(CHECKPOINT_BONUS);
-	checkPoint->SetPosition(1410, 374);
-	listGrids->AddObject(checkPoint);
-#pragma endregion
 }
 
 void LoadResourceLv2() {
-	for (int i = 0; i < 95; i++)
+
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv2.txt",simon,game);
+
+	/*for (int i = 0; i < 95; i++)
 	{
 		Ground *ground = new Ground();
 
@@ -608,36 +556,7 @@ void LoadResourceLv2() {
 		listGrids->AddObject(candle);
 	}
 
-	for (int i = 0; i < 4; i++)
-	{
-		Stair *stair = new Stair();
-		stair->AddAnimation(801);
-		stair->SetPosition(1247 + i * 32, 405 - i * 32);
-		listGrids->AddObject(stair);
-	}
-	for (int i = 0; i < 2; i++)
-	{
-		Stair *stair = new Stair();
-		stair->AddAnimation(801);
-		stair->SetPosition(1439 + i * 32.0, 278 - i * 32);
-		listGrids->AddObject(stair);
-	}
-
-	for (int i = 0; i < 2; i++)
-	{
-		Stair *stair = new Stair();
-		stair->AddAnimation(802);
-		stair->SetPosition(1824 + i * 32.0, 246 + i * 32);
-		listGrids->AddObject(stair);
-
-	}
-	for (int i = 0; i < 6; i++)
-	{
-		Stair *stair = new Stair();
-		stair->AddAnimation(801);
-		stair->SetPosition(2590 + i * 32.0, 410 - i * 32);
-		listGrids->AddObject(stair);
-	}
+	
 
 	CheckStair *checkstair;
 	// Bottom right
@@ -730,14 +649,16 @@ void LoadResourceLv2() {
 	panther->AddAnimation(608);
 	panther->SetPosition(1950, 260);
 	panther->SetState(PANTHER_STATE_WAIT);
-	listGrids->AddObject(panther);
+	listGrids->AddObject(panther);*/
 
 	
 }
 
 void LoadResourceLv2_1()
 {
-	for (int i = 0; i < 9; i++)
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv2_1.txt",simon,game);
+
+	/*for (int i = 0; i < 9; i++)
 	{
 		Ground *ground = new Ground();
 		ground->SetPosition(2782 + i * 32 + 32 * 8, 246);
@@ -893,12 +814,14 @@ void LoadResourceLv2_1()
 	enemy->AddAnimation(60800);
 	enemy->SetPosition(4200, 270);
 	enemy->SetState(BAT_STATE_FLYING);
-	listGrids->AddObject(enemy);
+	listGrids->AddObject(enemy);*/
 }
 
 void LoadResourceLv2_2()
 {
-	CheckStair * checkstair;
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv2_2.txt",simon,game);
+
+	/*CheckStair * checkstair;
 	checkstair = new CheckStair();
 	checkstair->AddAnimation(803);
 	checkstair->SetId(1);
@@ -948,24 +871,20 @@ void LoadResourceLv2_2()
 		ground->SetPosition(896 + i * 32.0f, 408);
 		listGrids->AddObject(ground);
 	}
-	for (int i = 0; i < 16; i++)
-	{
-		Ground *ground = new Ground();
-		ground->SetPosition(2782 + 32 * 9 + i * 32.0f, 440);
-		listGrids->AddObject(ground);
-	}
+	
 	for (int i = 0; i < 8; i++)
 	{
 		Candle *candle = new Candle();
 		candle->AddAnimation(800);
 		candle->SetPosition(64 +128*i , 156);
 		listGrids->AddObject(candle);
-	}
+	}*/
 	
 }
 
 void LoadResourceboss()
 {
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv99.txt",simon,game);
 	for (int i = 0; i < 8; i++)
 	{
 		Ground *ground = new Ground();
@@ -2778,7 +2697,8 @@ void Update(DWORD dt)
 		if ((y < 72 && x<100) || (y<72 &&x >400))
 		{
 			
-			lv = 21;			
+			lv = 21;
+			checkload = false;
 			if (x < 400)
 			{
 				simon->SetPosition(3198, 419);
