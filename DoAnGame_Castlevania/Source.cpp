@@ -3872,7 +3872,7 @@ void Render()
 			map->LoadMatrixMap("Castlevania\\map35_bg.txt");*/
 			
 		}
-		else if( lv == 2 && checkload == false ) {									
+		else if( (lv == 2 || lv == 21) && checkload == false ) {									
 			map = new	Map (tileset1, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");			
 			checkload = true;
