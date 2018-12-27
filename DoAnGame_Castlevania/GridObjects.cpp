@@ -264,6 +264,9 @@ void ListGrids::AddObject(LPCSTR fileSource,Simon *simon , CGame *game)
 		
 	}
 }
+void ListGrids::AddObject(LPCSTR fileSource, float x, int y)
+{
+}
 void ListGrids::AddObject(LPCSTR fileSource, float x, int count1,int lv,Simon *simon)
 {
 	fstream pFile;
@@ -272,7 +275,7 @@ void ListGrids::AddObject(LPCSTR fileSource, float x, int count1,int lv,Simon *s
 
 	while (pFile.good())
 	{
-		if (lv == 99 && lv == 2)
+		if (lv == 99 || lv == 2)
 		{
 			int ani, ani1;
 			float y;

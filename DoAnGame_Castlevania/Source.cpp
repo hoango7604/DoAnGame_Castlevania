@@ -2575,34 +2575,8 @@ void Update(DWORD dt)
 				simon->GetPosition(x, y);
 				if (x < MAX_WIDTH_LV2 - SCREEN_WIDTH/2 && x >  SCREEN_WIDTH / 2 )
 				{
-					if (count1 % 2 == 0)
-					{
-						for (int i = 0; i < 2; i++)
-						{
-							Zombie *zombie = new Zombie();
-							zombie->AddAnimation(602);
-							zombie->AddAnimation(604);
-							zombie->SetPosition(x - SCREEN_WIDTH / 2 + i * 32, 365);
-							zombie->SetState(ZOMBIE_STATE_WALKING, 1);
-							listGrids->AddObject(zombie);
-
-						}
-						count1++;
-					}
-					else if (count1 % 2 != 0)
-					{
-						for (int i = 0; i < 2; i++)
-						{
-							Zombie *zombie = new Zombie();
-							zombie->AddAnimation(602);
-							zombie->AddAnimation(604);
-							zombie->SetPosition(x + SCREEN_WIDTH / 2 + i * 64, 365);
-							zombie->SetState(ZOMBIE_STATE_WALKING, 0);
-							listGrids->AddObject(zombie);
-
-						}
-						count1++;
-					}
+					listGrids->AddObject("Castlevania\\resource\\Zombie.txt", x, count1, lv, simon);
+					count1++;
 					timer += 5000;
 				}
 				
@@ -2732,34 +2706,8 @@ void Update(DWORD dt)
 				simon->GetPosition(x, y);
 				if (x < 5000 && x> MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && count_enemy == true)
 				{
-					if (count % 2 == 0)
-					{
-						for (int i = 0; i < 2; i++)
-						{
-							Zombie *zombie = new Zombie();
-							zombie->AddAnimation(602);
-							zombie->AddAnimation(604);
-							zombie->SetPosition(x - SCREEN_WIDTH / 2 + i * 32, 365);
-							zombie->SetState(ZOMBIE_STATE_WALKING, 1);
-							listGrids->AddObject(zombie);
-
-						}
-						count++;
-					}
-					else if (count % 2 != 0)
-					{
-						for (int i = 0; i < 2; i++)
-						{
-							Zombie *zombie = new Zombie();
-							zombie->AddAnimation(602);
-							zombie->AddAnimation(604);
-							zombie->SetPosition(x + SCREEN_WIDTH / 2 + i * 64, 365);
-							zombie->SetState(ZOMBIE_STATE_WALKING, 0);
-							listGrids->AddObject(zombie);
-
-						}
-						count++;
-					}
+					listGrids->AddObject("Castlevania\\resource\\Zombie.txt", x, count, lv, simon);
+					count++;
 					timer += 5000;
 				}
 				else if (x > 5000)
@@ -2830,7 +2778,7 @@ void Update(DWORD dt)
 				{
 					if (count_enemy34 < 3)
 					{
-						listGrids->AddObject("Castlevania\\resource\\Bird_Hunchback.txt", x, count34);						
+						listGrids->AddObject("Castlevania\\resource\\Bird_Hunchback.txt", x, count34,lv,simon);						
 					}
 					count_enemy34++;
 					count34++;
@@ -2882,7 +2830,7 @@ void Update(DWORD dt)
 			{
 				if (count_enemy33 < 3)
 				{
-					listGrids->AddObject("Castlevania\\resource\\Bird_Hunchback.txt",x,count33);
+					listGrids->AddObject("Castlevania\\resource\\Bird_Hunchback.txt",x,count33,lv,simon);
 				}
 					/*if (count33 % 2 == 0)
 					{
