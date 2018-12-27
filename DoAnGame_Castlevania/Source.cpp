@@ -2874,7 +2874,6 @@ void Update(DWORD dt)
 			LoadResourceLv3_3();
 			lv = 33;
 			checkload = false;
-
 			if (x > 1340)
 			{
 				simon->SetPosition(1312, 423);
@@ -2890,7 +2889,7 @@ void Update(DWORD dt)
 				simon->SetPosition(165, 423);
 				simon->GetPosition(x, y);
 			}
-			//temp10 = true;
+			
 		}
 		
 
