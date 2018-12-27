@@ -13,6 +13,7 @@ public:
 
 	float min_x, max_x;
 	bool isActivate;
+	bool isActivating;
 	bool isHit;
 	bool isBleeding;
 	bool didAttack;

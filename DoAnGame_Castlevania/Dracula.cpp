@@ -55,7 +55,12 @@ void Dracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (!isActivate)
 	{
-		if (simon->x < 300)
+		if (simon->x < 300 && !isActivating)
+		{
+			isActivating = true;
+		}
+
+		if (isActivating)
 		{
 			Enemy::Update(dt, coObjects);
 
@@ -92,8 +97,13 @@ void Dracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (state == DRACULA_STATE_INVISIBLE)
 			{
-				x = simon->x + rand() % 100 - 50;
+				x = simon->x + rand() % 200 - 100;
 				y = DRACULA_Y;
+
+				if (x < SCREEN_WIDTH / 6)
+					x = SCREEN_WIDTH / 6;
+				else if (x > 5 * SCREEN_WIDTH / 6)
+					x = 5 * SCREEN_WIDTH / 6;
 
 				if (x > simon->x)
 				{
@@ -116,7 +126,8 @@ void Dracula::Render()
 
 	if (!isActivate)
 	{
-		ani = DRACULA_ANI_ACTIVATE;
+		if (isActivating)
+			ani = DRACULA_ANI_ACTIVATE;
 	}
 	else
 	{

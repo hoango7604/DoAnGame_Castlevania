@@ -47,7 +47,7 @@ void Hunchback::SetState(int state)
 		vy = -(rand() % 2 + 3) * 0.1f;
 		isStickToGround = false;
 
-		vx = (rand() % 4 + 1) * 0.1f;
+		vx = (rand() % 3 + 1) * 0.1f;
 		if (nx < 0)
 			vx = -vx;
 
@@ -65,7 +65,7 @@ void Hunchback::GetBoundingBox(float & left, float & top, float & right, float &
 
 void Hunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (bird->isDropHunchBack && x > simon->x - SCREEN_WIDTH / 2 && x < simon->x + SCREEN_WIDTH / 2)
+	if (bird->isDropHunchBack && x > 0 && x > simon->x - SCREEN_WIDTH / 2 && x < simon->x + SCREEN_WIDTH / 2)
 	{
 		isStickToBird = false;
 	}

@@ -3084,24 +3084,52 @@ void Update(DWORD dt)
 				{
 					Dracula *dracula = dynamic_cast<Dracula *>(objects.at(i));
 
+					if (!dracula->isActivate)
+					{
+						if (dracula->isActivating)
+						{
+							isEnableKeyBoard = false;
+							simon->SetState(SIMON_STATE_IDLE);
+						}
+					}
+					else
+					{
+						isEnableKeyBoard = true;
+					}
+
 					if (dracula->state == DRACULA_STATE_ATTACK && !dracula->didAttack)
 					{
 						int nx = dracula->nx;
+						float root_bullet_vy;
+
+						enemy = new EnemyBullet(nx); 
+						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
+						if (enemy->vx > 0)
+							enemy->vx += 0.002f;
+						if (enemy->vx < 0)
+							enemy->vx -= 0.002f;
+						float angle = atan2(simon->x - enemy->x, simon->y - enemy->y);
+						enemy->vy = enemy->vx / tan(angle);
+
+						if (enemy->vy > 0.1f)
+							enemy->vy = 0.1f;
+						if (enemy->vy < -0.1f)
+							enemy->vy = -0.1f;
+
+						root_bullet_vy = enemy->vy;
+
+						listGrids->AddObject(enemy);
 
 						enemy = new EnemyBullet(nx);
 						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+						enemy->vy = root_bullet_vy + 0.04f;
 						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
 						listGrids->AddObject(enemy);
 
 						enemy = new EnemyBullet(nx);
 						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-						enemy->vy = 0.05f;
-						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
-						listGrids->AddObject(enemy);
-
-						enemy = new EnemyBullet(nx);
-						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-						enemy->vy = -0.05f;
+						enemy->vy = root_bullet_vy - 0.04f;
 						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
 						listGrids->AddObject(enemy);
 
