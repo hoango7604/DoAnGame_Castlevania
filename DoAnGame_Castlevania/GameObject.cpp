@@ -157,8 +157,24 @@ void CGameObject::AddAnimation(LPCSTR fileSource)
 		LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
 		animations.push_back(ani);
 	}
-	
 }
+
+/*void CGameObject::AddAnimation(LPCSTR fileSource)
+{
+	fstream pFile;
+	pFile.open(fileSource, fstream::in);
+	string linestring;
+	while (pFile.good())
+	{
+		int aniId;
+		stringstream ss;
+		ss.str(linestring);
+		ss >> aniId;
+		LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
+		animations.push_back(ani);
+	}
+	
+}*/
 
 CGameObject::~CGameObject()
 {

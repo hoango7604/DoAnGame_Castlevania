@@ -3053,7 +3053,7 @@ void Update(DWORD dt)
 							{
 								int nx = merman->nx;
 								enemy = new EnemyBullet(nx);
-								enemy->AddAnimation(812);
+								enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
 								enemy->SetPosition(merman->x + MERMAN_BBOX_WIDTH / 2, merman->y + 10);
 								listGrids->AddObject(enemy);
 								merman->didAttack = true;
@@ -3141,21 +3141,8 @@ void Update(DWORD dt)
 						dracula->isBleeding = true;
 					}
 					if (dracula->isDie)
-					{
-						SuperDracula * superdracula;
-						superdracula = new SuperDracula(simon);
-						superdracula->AddAnimation(831);
-						superdracula->AddAnimation(832);
-						superdracula->AddAnimation(833);
-						superdracula->AddAnimation(834);
-						superdracula->AddAnimation(835);
-						superdracula->AddAnimation(836);
-						superdracula->AddAnimation(837);
-						superdracula->AddAnimation(838);
-
-						superdracula->SetPosition(dracula->x, dracula->y -50);
-						superdracula->SetState(SUPERDRACULA_WAIT);
-						listGrids->AddObject(superdracula);
+					{						
+						listGrids->AddObject("Castlevania\\resource\\SuperDracula.txt",dracula->x,dracula->y,simon);
 					}
 				}
 				else if (dynamic_cast<SuperDracula *>(objects.at(i)))
