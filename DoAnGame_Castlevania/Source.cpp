@@ -444,7 +444,7 @@ void LoadResourceLv1()
 	listGrids->InitList(MAX_WIDTH_LV1);
 
 	listGrids->AddObject("Castlevania\\resource\\ResourceLv1.txt",simon,game);
-
+	
 }
 
 void LoadResourceLv2() {
