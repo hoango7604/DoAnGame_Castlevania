@@ -2806,6 +2806,7 @@ void Update(DWORD dt)
 	if (lv == 34)
 	{
 		static int count34 = 0;
+		static int count_enemy34 = 0;
 		if (countLoadResource3_4 == false )
 		{
 			listGrids->InitList(MAX_WIDTH_LV3_4);
@@ -2824,47 +2825,17 @@ void Update(DWORD dt)
 			if (GetTickCount() - timer > 5000)
 			{
 				simon->GetPosition(x, y);
-				if (x < 750 && x >100 )
+				
+				if (x < 750 && x >100)
 				{
-					if (count34 % 2 == 0)
+					if (count_enemy34 < 3)
 					{
-						Bird *bird;
-						bird = new Bird(1);
-						bird->AddAnimation(822);
-						bird->AddAnimation(823);
-						bird->SetPosition(x - SCREEN_WIDTH / 2, 140 + rand() % (SCREEN_HEIGHT/2 - 139));
-						listGrids->AddObject(bird);
-
-						Hunchback *hunchback;
-						hunchback = new Hunchback(simon, bird);
-						hunchback->AddAnimation(824);
-						hunchback->AddAnimation(825);
-						hunchback->AddAnimation(8240);
-						hunchback->AddAnimation(8250);
-						listGrids->AddObject(hunchback);
-						
-						count34++;
+						listGrids->AddObject("Castlevania\\resource\\Bird_Hunchback.txt", x, count34);						
 					}
-					else if (count34 % 2 != 0)
-					{
-						Bird *bird;
-						bird = new Bird(-1);
-						bird->AddAnimation(822);
-						bird->AddAnimation(823);
-						bird->SetPosition(x + SCREEN_WIDTH / 2 , 140 + rand() % (SCREEN_HEIGHT/2 - 139));
-						listGrids->AddObject(bird);
-
-						Hunchback *hunchback;
-						hunchback = new Hunchback(simon, bird);
-						hunchback->AddAnimation(824);
-						hunchback->AddAnimation(825);
-						hunchback->AddAnimation(8240);
-						hunchback->AddAnimation(8250);
-						listGrids->AddObject(hunchback);
-						count34++;
-					}
+					count_enemy34++;
+					count34++;
 					timer += 5000;
-				}				
+				}																					
 			}
 		}
 		if ((y < 85 && x> 1340) || ( y< 85 && x>664  && x<690) || (y < 85 && x>200 && x<210) )
@@ -2874,6 +2845,7 @@ void Update(DWORD dt)
 			LoadResourceLv3_3();
 			lv = 33;
 			checkload = false;
+
 			if (x > 1340)
 			{
 				simon->SetPosition(1312, 423);
@@ -2889,7 +2861,7 @@ void Update(DWORD dt)
 				simon->SetPosition(165, 423);
 				simon->GetPosition(x, y);
 			}
-			
+			//temp10 = true;
 		}
 		
 
@@ -2897,12 +2869,7 @@ void Update(DWORD dt)
 	if (lv == 33)
 	{
 		static int count33 = 0;
-		/*if (countLoadResource3_3 == false && temp10 == false)
-		{
-			listGrids->InitList(MAX_WIDTH_LV3_3);
-			LoadResourceLv3_3();
-			countLoadResource3_3 = true;
-		}*/
+		static int count_enemy33 = 0;		
 		if (check_enemy_lv33 == false)
 		{
 			timer = GetTickCount();
@@ -2913,43 +2880,49 @@ void Update(DWORD dt)
 			simon->GetPosition(x, y);
 			if (x < 750 && x >100)
 			{
-				if (count33 % 2 == 0)
+				if (count_enemy33 < 3)
 				{
-					Bird *bird;
-					bird = new Bird(1);
-					bird->AddAnimation(822);
-					bird->AddAnimation(823);
-					bird->SetPosition(x - SCREEN_WIDTH / 2, 140 + rand() % ( SCREEN_HEIGHT/2 - 139));
-					listGrids->AddObject(bird);
-
-					Hunchback *hunchback;
-					hunchback = new Hunchback(simon, bird);
-					hunchback->AddAnimation(824);
-					hunchback->AddAnimation(825);
-					hunchback->AddAnimation(8240);
-					hunchback->AddAnimation(8250);
-					listGrids->AddObject(hunchback);
-
-					count33++;
+					listGrids->AddObject("Castlevania\\resource\\Bird_Hunchback.txt",x,count33);
 				}
-				else if (count33 % 2 != 0)
-				{
-					Bird *bird;
-					bird = new Bird(-1);
-					bird->AddAnimation(822);
-					bird->AddAnimation(823);
-					bird->SetPosition(x + SCREEN_WIDTH / 2, 140 + rand() % ( SCREEN_HEIGHT / 2 - 139));
-					listGrids->AddObject(bird);
+					/*if (count33 % 2 == 0)
+					{
+						Bird *bird;
+						bird = new Bird(1);
+						bird->AddAnimation(822);
+						bird->AddAnimation(823);
+						bird->SetPosition(x - SCREEN_WIDTH / 2, 140 + rand() % ( SCREEN_HEIGHT/2 - 139));
+						listGrids->AddObject(bird);
 
-					Hunchback *hunchback;
-					hunchback = new Hunchback(simon, bird);
-					hunchback->AddAnimation(824);
-					hunchback->AddAnimation(825);
-					hunchback->AddAnimation(8240);
-					hunchback->AddAnimation(8250);
-					listGrids->AddObject(hunchback);
-					count33++;
-				}
+						Hunchback *hunchback;
+						hunchback = new Hunchback(bird);
+						hunchback->AddAnimation(824);
+						hunchback->AddAnimation(825);
+						hunchback->AddAnimation(8240);
+						hunchback->AddAnimation(8250);
+						listGrids->AddObject(hunchback);
+
+						count33++;
+					}
+					else if (count33 % 2 != 0)
+					{
+						Bird *bird;
+						bird = new Bird(-1);
+						bird->AddAnimation(822);
+						bird->AddAnimation(823);
+						bird->SetPosition(x + SCREEN_WIDTH / 2, 140 + rand() % ( SCREEN_HEIGHT / 2 - 139));
+						listGrids->AddObject(bird);
+
+						Hunchback *hunchback;
+						hunchback = new Hunchback(bird);
+						hunchback->AddAnimation(824);
+						hunchback->AddAnimation(825);
+						hunchback->AddAnimation(8240);
+						hunchback->AddAnimation(8250);
+						listGrids->AddObject(hunchback);
+						count33++;
+					}*/
+				count_enemy33++;
+				count33++;
 				timer += 8000;
 			}
 		}

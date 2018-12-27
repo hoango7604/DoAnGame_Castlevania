@@ -72,7 +72,7 @@ public:
 		float &ny);
 
 	void AddAnimation(int aniId);
-
+	void AddAnimation(LPCSTR fileSource);
 	CGameObject();
 
 	virtual void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);

@@ -264,7 +264,157 @@ void ListGrids::AddObject(LPCSTR fileSource,Simon *simon , CGame *game)
 		
 	}
 }
+void ListGrids::AddObject(LPCSTR fileSource, float x, int count1,int lv,Simon *simon)
+{
+	fstream pFile;
+	pFile.open(fileSource, fstream::in);
+	string linestring;
 
+	while (pFile.good())
+	{
+		if (lv == 99 && lv == 2)
+		{
+			int ani, ani1;
+			float y;
+			int state;
+			getline(pFile, linestring);
+			stringstream ss;
+			ss.str(linestring);
+			ss >> ani >> ani1 >> y >> state;
+			if (count1 % 2 != 0)
+			{
+				for (int i = 0; i < 2; i++)
+				{
+					Zombie *zombie = new Zombie();
+					zombie->AddAnimation(ani);
+					zombie->AddAnimation(ani1);
+					zombie->SetPosition(x + SCREEN_WIDTH / 2 + i * 64, y);
+					zombie->SetState(state, 0);
+					ListGrids::GetInstance()->AddObject(zombie);
+				}
+			}
+			else if (count1 % 2 == 0)
+			{
+				for (int i = 0; i < 2; i++)
+				{
+					Zombie *zombie = new Zombie();
+					zombie->AddAnimation(ani);
+					zombie->AddAnimation(ani1);
+					zombie->SetPosition(x - SCREEN_WIDTH / 2 + i * 64, y);
+					zombie->SetState(state, 1);
+					ListGrids::GetInstance()->AddObject(zombie);
+
+				}
+			}
+		}
+		else if( lv == 34 || lv == 33)
+		{
+			int ani, ani1, ani2, ani3, ani4, ani5;
+			getline(pFile, linestring);
+			stringstream ss;
+			ss.str(linestring);
+			ss >> ani >> ani1 >> ani2>> ani3 >> ani4 >> ani5;
+			if (count1 % 2 == 0)
+			{
+				Bird *bird;
+				bird = new Bird(1);
+				bird->AddAnimation(ani);
+				bird->AddAnimation(ani1);
+				bird->SetPosition(x - SCREEN_WIDTH / 2, 140 + rand() % (SCREEN_HEIGHT / 2 - 139));
+				ListGrids::GetInstance()->AddObject(bird);
+
+				Hunchback *hunchback;
+				hunchback = new Hunchback(simon, bird);
+				hunchback->AddAnimation(ani2);
+				hunchback->AddAnimation(ani3);
+				hunchback->AddAnimation(ani4);
+				hunchback->AddAnimation(ani5);
+				ListGrids::GetInstance()->AddObject(hunchback);
+
+
+			}
+			else if (count1 % 2 != 0)
+			{
+				Bird *bird;
+				bird = new Bird(-1);
+				bird->AddAnimation(ani);
+				bird->AddAnimation(ani1);
+				bird->SetPosition(x + SCREEN_WIDTH / 2, 140 + rand() % (SCREEN_HEIGHT / 2 - 139));
+				ListGrids::GetInstance()->AddObject(bird);
+
+				Hunchback *hunchback;
+				hunchback = new Hunchback(simon, bird);
+				hunchback->AddAnimation(ani2);
+				hunchback->AddAnimation(ani3);
+				hunchback->AddAnimation(ani4);
+				hunchback->AddAnimation(ani5);
+				ListGrids::GetInstance()->AddObject(hunchback);
+
+			}
+		}
+	}
+}
+void ListGrids::AddObject(LPCSTR fileSource, float x_cam, float simon_x )
+{
+	fstream pFile;
+	pFile.open(fileSource, fstream::in);
+	string linestring;
+
+	while (pFile.good())
+	{
+		int ani, ani1,ani2,ani3,ani4,ani5;
+		float y;
+		int state;
+		getline(pFile, linestring);
+		stringstream ss;
+		ss.str(linestring);
+		ss >> ani >> ani1 >> ani2 >> ani3 >> ani4 >> ani5>> y >> state;
+		MerMan *merman = new MerMan();
+		merman->AddAnimation(ani);
+		merman->AddAnimation(ani1);
+		merman->AddAnimation(ani2);
+		merman->AddAnimation(ani3);
+		merman->AddAnimation(ani5);
+		merman->SetPosition(rand() % (SCREEN_WIDTH - 80) + x_cam, y);
+		if (simon_x > 4 * MAX_WIDTH_LV2_2 / 5)
+			merman->nx = -1;
+		else
+			merman->nx = 1;
+
+		for (int i = 0; i < 3; i++)
+			merman->wa_ani[i]->AddAnimation(ani5);
+		merman->SetState(state);
+		ListGrids::GetInstance()->AddObject(merman);
+	}
+}
+void ListGrids::AddObject(LPCSTR fileSource, float x, float y, Simon * simon)
+{
+	fstream pFile;
+	pFile.open(fileSource, fstream::in);
+	string linestring;
+
+	while (pFile.good())
+	{
+		int ani, ani1, ani2, ani3, ani4, ani5, ani6, ani7, state;
+		stringstream ss;
+		ss.str(linestring);
+		ss >> ani >> ani1 >> ani2 >> ani3 >> ani4 >> ani5 >> ani6 >> ani7 >> state;
+		SuperDracula * superdracula;
+		superdracula = new SuperDracula(simon);
+		superdracula->AddAnimation(ani);
+		superdracula->AddAnimation(ani1);
+		superdracula->AddAnimation(ani2);
+		superdracula->AddAnimation(ani3);
+		superdracula->AddAnimation(ani4);
+		superdracula->AddAnimation(ani5);
+		superdracula->AddAnimation(ani6);
+		superdracula->AddAnimation(ani7);
+
+		superdracula->SetPosition(x, y - 50);
+		superdracula->SetState(state);
+	}
+
+}
 void ListGrids::RemoveObject(LPGAMEOBJECT object)
 {
 	GridObjects *gridObjects = listGrids[object->gridNumber];
