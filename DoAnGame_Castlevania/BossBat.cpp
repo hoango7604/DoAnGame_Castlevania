@@ -33,22 +33,13 @@ void BossBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		// Nếu sắp tấn công
 		if (isAttack && GetTickCount() - waitTime > BOSSBAT_WAITING_TIME)
 		{
-			if (destination_y < y)
-				vy = -BOSSBAT_SPEED_DOWN;
-			else
-				vy = BOSSBAT_SPEED_DOWN;
+			vy = (destination_y - y) / BOSSBAT_TIME_DOWN;
 			
 			// Tính vận tốc bay ngang theo góc hợp bởi vị trí hiện tại của boss dơi và destination
 			float angle = atan2(destination_x - x, destination_y - y);
 
 			// Tính vx theo vy
 			vx = vy * tan(angle);
-
-			if (vx > 2)
-			{
-				vx = vx / 2;
-				vy = vy / 2;
-			}
 
 			isTop = false;
 			isWait = false;
@@ -57,22 +48,13 @@ void BossBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		// Nếu sắp quay về vị trí khác
 		if (!isAttack && GetTickCount() - attackTime > BOSSBAT_ATTACK_TIME)
 		{
-			if (destination_y > y)
-				vy = BOSSBAT_SPEED_UP;
-			else
-				vy = -BOSSBAT_SPEED_UP;
+			vy = (destination_y - y) / BOSSBAT_TIME_UP;
 
 			// Tính vận tốc bay ngang theo góc hợp bởi vị trí hiện tại của boss dơi và destination
 			float angle = atan2(destination_x - x, destination_y - y);
 
 			// Tính vx theo vy
 			vx = vy * tan(angle);
-
-			if (vx > 1 || vx < -1)
-			{
-				vx = vx / 2;
-				vy = vy / 2;
-			}
 
 			isBottom = false;
 			isWait = false;

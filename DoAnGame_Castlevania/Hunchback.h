@@ -2,18 +2,21 @@
 #include "Enemy.h"
 #include "Bird.h"
 #include "Ground.h"
+#include "Simon.h"
 
 class Hunchback : public Enemy
 {
 public:
+	Simon *simon;
 	Bird *bird;
 	bool isStickToBird;
 	bool isStickToGround;
 	bool isIdle;
 	DWORD idleCast;
 
-	Hunchback(Bird *bird) 
+	Hunchback(Simon *simon, Bird *bird) 
 	{
+		this->simon = simon;
 		this->bird = bird;
 		isStickToBird = true;
 		

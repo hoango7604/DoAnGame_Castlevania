@@ -65,7 +65,7 @@ void Hunchback::GetBoundingBox(float & left, float & top, float & right, float &
 
 void Hunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (bird->isDropHunchBack)
+	if (bird->isDropHunchBack && x > simon->x - SCREEN_WIDTH / 2 && x < simon->x + SCREEN_WIDTH / 2)
 	{
 		isStickToBird = false;
 	}
@@ -88,6 +88,15 @@ void Hunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (GetTickCount() - idleCast > HUNCHBACK_IDLE_TIME)
 			{
+				if (x < simon->x)
+				{
+					nx = 1;
+				}
+				else
+				{
+					nx = -1;
+				}
+
 				SetState(HUNCHBACK_STATE_JUMP);
 			}
 		}

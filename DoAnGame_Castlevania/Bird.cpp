@@ -26,9 +26,9 @@ void Bird::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (!isDropHunchBack)
 			{
 				srand(time(NULL));
-				int portion = rand() % 2;
+				int portion = rand() % 3;
 
-				if (portion > 0)
+				if (portion > 1)
 					isDropHunchBack = true;
 			}
 		}

@@ -2836,7 +2836,7 @@ void Update(DWORD dt)
 						listGrids->AddObject(bird);
 
 						Hunchback *hunchback;
-						hunchback = new Hunchback(bird);
+						hunchback = new Hunchback(simon, bird);
 						hunchback->AddAnimation(824);
 						hunchback->AddAnimation(825);
 						hunchback->AddAnimation(8240);
@@ -2855,7 +2855,7 @@ void Update(DWORD dt)
 						listGrids->AddObject(bird);
 
 						Hunchback *hunchback;
-						hunchback = new Hunchback(bird);
+						hunchback = new Hunchback(simon, bird);
 						hunchback->AddAnimation(824);
 						hunchback->AddAnimation(825);
 						hunchback->AddAnimation(8240);
@@ -2924,7 +2924,7 @@ void Update(DWORD dt)
 					listGrids->AddObject(bird);
 
 					Hunchback *hunchback;
-					hunchback = new Hunchback(bird);
+					hunchback = new Hunchback(simon, bird);
 					hunchback->AddAnimation(824);
 					hunchback->AddAnimation(825);
 					hunchback->AddAnimation(8240);
@@ -2943,7 +2943,7 @@ void Update(DWORD dt)
 					listGrids->AddObject(bird);
 
 					Hunchback *hunchback;
-					hunchback = new Hunchback(bird);
+					hunchback = new Hunchback(simon, bird);
 					hunchback->AddAnimation(824);
 					hunchback->AddAnimation(825);
 					hunchback->AddAnimation(8240);

@@ -229,12 +229,14 @@
 
 #define BOSSBAT_SPEED_UP				0.05f
 #define BOSSBAT_SPEED_DOWN				0.08f
+#define BOSSBAT_TIME_UP					2500
+#define BOSSBAT_TIME_DOWN				2000
 
 // BigBat
 #define BIGBAT_SPEED					0.08f
 
 //Skeleton
-#define SKELETON_BBOX_WIDTH				32	
+#define SKELETON_BBOX_WIDTH				32
 #define SKELETON_BBOX_HEIGHT			65
 #define SKELETON_WALKING_SPEED			0.15
 #define SKELETON_WALKING				0
