@@ -9,6 +9,7 @@ class SuperDracula : public Enemy
 	bool check_start_fly = false;
 	bool check_fly = false;
 	bool check_onsky = false;
+	bool check_hit = false;
 public:
 	DWORD timer;
 	Simon *simon;

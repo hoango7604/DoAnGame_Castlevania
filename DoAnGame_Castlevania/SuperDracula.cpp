@@ -13,28 +13,28 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	Enemy::Update(dt, coObjects);
 	
-	if (!isHitted)
-	{
-		if (GetTickCount() - timer > 2000 && check_wait == false)
+	//if (!isHitted)
+	//{
+		if (GetTickCount() - timer > 1500 && check_wait == false)
 		{
 			state = SUPERDRACULA_START_FLY;
 			check_wait = true;
 		}
-		if (GetTickCount() - timer > 3500 && check_start_fly == false)
+		if (GetTickCount() - timer > 2000 && check_start_fly == false)
 		{
 			state = SUPERDRACULA_FLY;
 			check_start_fly = true;
 		}
-		if (GetTickCount() - timer > 5000 && check_onsky == false)
+		if (GetTickCount() - timer > 2500 && check_onsky == false)
 		{
 			state = SUPERDRACULA_ON_SKY;
 			check_onsky = true;
 		}
-		if (GetTickCount() - timer > 5500)
+		if (GetTickCount() - timer > 2650)
 		{
 			state = SUPERDRACULA_START_FLY;
 		}
-		if (GetTickCount() - timer > 6000)
+		if (GetTickCount() - timer > 3150)
 		{
 			state = SUPERDRACULA_WAIT;
 			timer = GetTickCount();
@@ -42,17 +42,26 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			check_start_fly = false;
 			check_wait = false;
 		}
-	}
-	else
+	//}
+	if(isHitted)
+		{
+			isBleeding = false;
+			isHitted = false;
+		}
+	/*else
 	{
+		if (check_hit == false)
+		{
+			hitTime = GetTickCount();
+			check_hit = true;
+		}
 		if (GetTickCount() - hitTime > SUPERDRACULA_HIT_TIME)
 		{
 			isHitted = false;
 			isBleeding = false;
+			check_hit = false;
 		}
-		
-		//timer = GetTickCount();
-	}
+	}*/
 	
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -121,15 +130,15 @@ void SuperDracula::Render()
 		if (simon->x < x)
 		{
 			animations[2]->Render(x, y);
-			vx = -0.04;
+			vx = -0.08;
 		}
 		else
 		{
 			animations[6]->Render(x, y);
-			vx = 0.04;
+			vx = 0.08;
 		}
 
-		vy = -0.1;
+		vy = -0.5;
 		
 		break;
 	case SUPERDRACULA_ON_SKY:
