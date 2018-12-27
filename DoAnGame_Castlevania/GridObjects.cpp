@@ -377,7 +377,7 @@ void ListGrids::AddObject(LPCSTR fileSource, float x_cam, float simon_x )
 		merman->AddAnimation(ani1);
 		merman->AddAnimation(ani2);
 		merman->AddAnimation(ani3);
-		merman->AddAnimation(ani5);
+		merman->AddAnimation(ani4);
 		merman->SetPosition(rand() % (SCREEN_WIDTH - 80) + x_cam, y);
 		if (simon_x > 4 * MAX_WIDTH_LV2_2 / 5)
 			merman->nx = -1;
@@ -398,6 +398,7 @@ void ListGrids::AddObject(LPCSTR fileSource, float x, float y, Simon * simon)
 
 	while (pFile.good())
 	{
+		getline(pFile, linestring);
 		int ani, ani1, ani2, ani3, ani4, ani5, ani6, ani7, state;
 		stringstream ss;
 		ss.str(linestring);
@@ -415,6 +416,7 @@ void ListGrids::AddObject(LPCSTR fileSource, float x, float y, Simon * simon)
 
 		superdracula->SetPosition(x, y - 50);
 		superdracula->SetState(state);
+		ListGrids::GetInstance()->AddObject(superdracula);
 	}
 
 }

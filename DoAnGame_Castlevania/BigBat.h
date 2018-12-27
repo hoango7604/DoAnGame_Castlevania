@@ -13,14 +13,14 @@ public:
 	bool isBleeding;
 	bool isWait;
 	bool isActivate;
-
+	bool check_active = false;
 	DWORD waitTime;
 	DWORD attackTime;
 	DWORD hurtTime;
 	DWORD timer;
 	float destination_x, destination_y;
 
-	BigBat(Simon *simon) { this->simon = simon; maxHealth = 16; health = 16; timer = GetTickCount(); }
+	BigBat(Simon *simon) { this->simon = simon; maxHealth = 16; health = 16;  }
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);

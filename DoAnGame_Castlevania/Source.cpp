@@ -2648,23 +2648,8 @@ void Update(DWORD dt)
 		if (countLoadResource2_2 == true)
 		{
 			if (GetTickCount() - timer > 5000)
-			{
-				MerMan *merman = new MerMan();
-				merman->AddAnimation(611);
-				merman->AddAnimation(612);
-				merman->AddAnimation(613);
-				merman->AddAnimation(614);
-				merman->AddAnimation(615);
-				merman->SetPosition(rand() % (SCREEN_WIDTH - 80) + game->x_cam, 400);
-				if (simon->x > 4 * MAX_WIDTH_LV2_2 / 5)
-					merman->nx = -1;
-				else
-					merman->nx = 1;
-
-				for (int i = 0; i < 3; i++)
-					merman->wa_ani[i]->AddAnimation(817);
-				merman->SetState(MERMAN_STATE_JUMP);
-				listGrids->AddObject(merman);
+			{				
+				listGrids->AddObject("Castlevania\\resource\\MerMan.txt",game->x_cam,simon->x);
 				timer = GetTickCount();
 			}
 		}
@@ -3069,14 +3054,14 @@ void Update(DWORD dt)
 					BigBat *bigbat = dynamic_cast<BigBat *>(objects.at(i));
 					int nx = bigbat->simon->nx;
 					if (bigbat->isActivate)
-					{
-						if (GetTickCount() - bigbat->timer > 5000)
+					{						
+						if (GetTickCount() - bigbat->timer > 3000 && bigbat->timer >0)
 						{
 							enemy = new EnemyBullet(nx);
-							enemy->AddAnimation(812);
+							enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
 							enemy->SetPosition(bigbat->x + BOSSBAT_BBOX_WIDTH / 2, bigbat->y);
 							listGrids->AddObject(enemy);
-							bigbat->timer += 5000;
+							bigbat->timer += 3000;
 						}
 					}
 					
@@ -3104,18 +3089,18 @@ void Update(DWORD dt)
 						int nx = dracula->nx;
 
 						enemy = new EnemyBullet(nx);
-						enemy->AddAnimation(812);
+						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
 						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
 						listGrids->AddObject(enemy);
 
 						enemy = new EnemyBullet(nx);
-						enemy->AddAnimation(812);
+						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
 						enemy->vy = 0.05f;
 						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
 						listGrids->AddObject(enemy);
 
 						enemy = new EnemyBullet(nx);
-						enemy->AddAnimation(812);
+						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
 						enemy->vy = -0.05f;
 						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
 						listGrids->AddObject(enemy);

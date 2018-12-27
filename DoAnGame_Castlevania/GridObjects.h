@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "GameObject.h"
 #include "define.h"
 #include <math.h>
@@ -49,11 +49,11 @@ public:
 	void RemoveGrid(int i);
 
 	void AddObject(LPGAMEOBJECT object);
-	void AddObject(LPCSTR fileSource,Simon *simon,CGame *game);
-	void AddObject(LPCSTR fileSource, float x, int y);
-	void AddObject(LPCSTR fileSource, float x,float y );
-	void AddObject(LPCSTR fileSource, float x, float y,Simon *simon);
-	void AddObject(LPCSTR fileSource, float x, int count1, int lv, Simon *simon);
+	void AddObject(LPCSTR fileSource,Simon *simon,CGame *game);//static object
+	void AddObject(LPCSTR fileSource, float x, int y);//trống
+	void AddObject(LPCSTR fileSource, float x,float y );//merman
+	void AddObject(LPCSTR fileSource, float x, float y,Simon *simon);//superdracula
+	void AddObject(LPCSTR fileSource, float x, int count1, int lv, Simon *simon);//zombie,bird,hunchback
 	void RemoveObject(LPGAMEOBJECT object);
 
 	static ListGrids *GetInstance();

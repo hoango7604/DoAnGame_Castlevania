@@ -22,6 +22,11 @@ void BigBat::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		else
 		{
+			if (check_active == false)
+			{
+				timer = GetTickCount();
+				check_active = true;
+			}
 			// Đổi từ đang chờ sang bay
 			if (isWait)
 			{

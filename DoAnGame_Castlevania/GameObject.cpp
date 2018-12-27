@@ -150,6 +150,7 @@ void CGameObject::AddAnimation(LPCSTR fileSource)
 	string linestring;
 	while (pFile.good())
 	{
+		getline(pFile, linestring);
 		int aniId;
 		stringstream ss;
 		ss.str(linestring);
