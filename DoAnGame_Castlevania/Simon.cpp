@@ -93,7 +93,9 @@ void Simon::CalcPotentialCollisions(
 					case ITEM_INVICIBILITY:
 						StartUntouchable(SIMON_INVISIBLE_TIME);
 						break;
-						//case ITEM_PRIZE:
+					case ITEM_PRIZE:
+						preHP = 16;
+						break;
 					}
 				}
 			}
@@ -534,6 +536,11 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						vx = 0;
 						currentCheckStairId = 0;
 						isHurt = false;
+					}
+
+					if (isDead)
+					{
+						vx = 0;
 					}
 
 					willBlock = true;
