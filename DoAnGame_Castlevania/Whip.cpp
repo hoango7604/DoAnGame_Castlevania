@@ -48,9 +48,9 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				float zl, zr, zt, zb;
 				dracula->GetBoundingBox(zl, zt, zr, zb);
 
-				if (wl < zr && wr > zl && wt < zb && wb > zt)
+				if (wl < zr && wr > zl && wt < zb && wb > zt - 10)
 				{
-					CGame::GetInstance()->bossheath -= 4;
+					CGame::GetInstance()->bossheath -= 1;
 					dracula->isHit = true;
 
 					if (CGame::GetInstance()->bossheath <= 0)

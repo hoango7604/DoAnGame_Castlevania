@@ -270,6 +270,11 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		isEnableKeyBoard = false;
 	}
 
+	if (KeyCode == DIK_I)
+	{
+		simon->SetState(SIMON_STATE_DIE);
+	}
+
 	if (isEnableKeyBoard && !simon->isHurt)
 	{
 		// Nhay
@@ -2979,6 +2984,7 @@ void Update(DWORD dt)
 	}
 
 	simon->Update(lv,dt, &objects);
+
 	if (simon->isRosaryUsed)
 		isEnableKeyBoard = false;
 
@@ -3001,7 +3007,7 @@ void Update(DWORD dt)
 
 			if (simon->isRosaryUsed)
 			{
-				if (!dynamic_cast<BossBat *>(objects.at(i)) || (!dynamic_cast<Dracula *>(objects.at(i))))
+				if (!dynamic_cast<BossBat *>(objects.at(i)) && !dynamic_cast<Dracula *>(objects.at(i)) && !dynamic_cast<SuperDracula *>(objects.at(i)))
 				{
 					enemy->isDie = true;
 					Simon::score += 100;
