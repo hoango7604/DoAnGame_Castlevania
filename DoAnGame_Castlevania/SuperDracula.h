@@ -2,7 +2,8 @@
 #include "Enemy.h"
 #include "Ground.h"
 #include "Simon.h"
-
+#include "EnemyBullet.h"
+#include "GridObjects.h"
 class SuperDracula : public Enemy
 {
 	bool check_wait = false;
@@ -11,10 +12,13 @@ class SuperDracula : public Enemy
 	bool check_onsky = false;
 	bool check_hit = false;
 	bool check_hit_time = false;
+	
 	int jump = 1;
 public:
+	bool check_hitted = false;
 	DWORD timer;
 	DWORD timer_hit;
+	DWORD timer_hitted;
 	Simon *simon;
 	bool isHitted = false;
 	bool isBleeding;

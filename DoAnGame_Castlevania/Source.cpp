@@ -204,7 +204,12 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	// Chet
 	if (simon->GetState() == SIMON_STATE_DIE) return;
-
+	if (KeyCode == DIK_0)
+	{
+		lv = 99;
+		checkload = false;
+		simon->SetPosition(4096, 150);
+	}
 	if (KeyCode == DIK_1)
 		simon->SetPosition(0, 100);
 
@@ -3200,21 +3205,7 @@ void Update(DWORD dt)
 
 						superDracula->isBleeding = true;
 					}
-					if (superDracula->state == SUPERDRACULA_STATE_HIT && GetTickCount() - superDracula->timer_hit > 1500)
-					{
-						int nx = superDracula->nx;
-						enemy = new EnemyBullet(nx);
-						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-						enemy->vy = 0.05f;
-						enemy->SetPosition(superDracula->x + DRACULA_BBOX_WIDTH / 2, superDracula->y + 55);
-						listGrids->AddObject(enemy);
-
-						enemy = new EnemyBullet(nx);
-						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-						enemy->vy = -0.05f;
-						enemy->SetPosition(superDracula->x + DRACULA_BBOX_WIDTH / 2, superDracula->y + 55);
-						listGrids->AddObject(enemy);
-					}
+					
 				}
 				else if (dynamic_cast<BossBat *>(objects.at(i)))
 				{
@@ -3826,7 +3817,7 @@ void Render()
 			map->LoadMatrixMap("Castlevania\\map35_bg.txt");*/
 			
 		}
-		else if( (lv == 2 || lv == 21) && checkload == false ) {									
+		else if( (lv == 2 || lv == 21 || lv==99) && checkload == false ) {									
 			map = new	Map (tileset1, 32, 32); 
 			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");			
 			checkload = true;

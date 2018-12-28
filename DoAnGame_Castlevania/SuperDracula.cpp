@@ -60,12 +60,58 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				if (GetTickCount() - timer_hit < 1500)
 					state = SUPERDRACULA_WAIT;
-				if (GetTickCount() - timer_hit > 1500)
-					state = SUPERDRACULA_STATE_HIT;
+				if (GetTickCount() - timer_hit > 1500 && GetTickCount() - timer_hit < 2000)
+					{
+						state = SUPERDRACULA_STATE_HIT;
+						if (check_hitted == false)
+						{
+							check_hitted = true;
+							timer_hitted = GetTickCount();
+						}
+						if (GetTickCount() - timer_hitted > 400)
+						{
+							if (simon->x > x)
+							{
+								Enemy *enemy;
+								enemy = new EnemyBullet(1);
+								enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+								enemy->vy = 0.015f;
+								enemy->SetPosition(x + SUPERDRACULA_BBOX_WIDTH / 2, y + 25);
+								ListGrids::GetInstance()->AddObject(enemy);
+
+								enemy = new EnemyBullet(1);
+								enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+								enemy->vy = 0.05f;
+								enemy->SetPosition(x + SUPERDRACULA_BBOX_WIDTH / 2, y + 25);
+								ListGrids::GetInstance()->AddObject(enemy);
+
+							}
+							else if (simon->x <= x)
+							{
+								Enemy *enemy;
+								enemy = new EnemyBullet(-1);
+								enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+								enemy->vy = 0.03f;
+								enemy->SetPosition(x + SUPERDRACULA_BBOX_WIDTH / 2, y + 25);
+								ListGrids::GetInstance()->AddObject(enemy);
+
+								enemy = new EnemyBullet(-1);
+								enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+								enemy->vy = 0.015f;
+								enemy->SetPosition(x + SUPERDRACULA_BBOX_WIDTH / 2, y + 25);
+								ListGrids::GetInstance()->AddObject(enemy);
+
+							}
+							timer_hitted += 400;
+							
+						}
+					}
 				if (GetTickCount() - timer_hit > 2000)
 					{
+						state = SUPERDRACULA_WAIT;
 						jump += 1;
 						check_hit_time = false;
+						check_hitted = false;
 					}
 			}
 		}
