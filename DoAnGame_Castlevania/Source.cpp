@@ -95,6 +95,7 @@ bool transparent = false;
 static DWORD next_lv;
 bool check_next_lv = false;
 bool level_up = false;
+
 DWORD timer; // load enemy
 bool count_enemy = true;
 DWORD gameTime = 999000;
@@ -2543,7 +2544,7 @@ void Update(DWORD dt)
 	simon->GetPosition(x, y);
 	if (!simon->isLevelUp)
 		gameTime -= dt;
-	if (GetTickCount() - next_lv > 1000 && next_lv >0 && check_next_lv == false)
+	if (GetTickCount() - next_lv > 1000 && next_lv > 0 && check_next_lv == true)
 	{
 		lv = 35;
 		checkload = false;
@@ -3320,8 +3321,12 @@ void Update(DWORD dt)
 
 					if (dynamic_cast<BossBat *>(objects.at(i)))
 					{
-						lv = 35;
-						checkload = false;
+						if (check_next_lv == false)
+						{
+							next_lv = GetTickCount();
+							check_next_lv = true;							
+						}
+						
 					}
 				}
 				else

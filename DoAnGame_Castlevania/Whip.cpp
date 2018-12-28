@@ -28,7 +28,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (wl < zr && wr > zl && wt < zb && wb > zt)
 				{
-					CGame::GetInstance()->bossheath -= 1;
+					CGame::GetInstance()->bossheath -= 16;
 					bossbat->isHurt = true;
 					bossbat->hurtTime = GetTickCount();
 
