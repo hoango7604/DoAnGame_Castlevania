@@ -120,14 +120,17 @@ void CAnimations::Add(LPCSTR fileSource)
 		LPANIMATION ani;
 		ani = new CAnimation(time);
 		for (int j = 0; j < number_of_sprite; j++)
-		{
-			for (int i = 0; i < 4 + j; i++)
-			{
-				ss >> a[i];
-			}
-			ani->Add(a[j]);
+		{			
+			/*for (int i = 0; i < 4 + j; i++)
+			{*/
+				ss >> a[j];
+			//}
+			
+			ani->Add(a[j]); 
 		}
 		animations[id] = ani;
+		
+		
 		//delete a;
 	}
 }

@@ -41,3 +41,5 @@
 41 Castlevania\Gate.png
 46 Castlevania\INVICIBILITY_ITEM.png
 48 Castlevania\rosary_action.png
+49 Castlevania\INTRO_SCREEN.png
+50 Castlevania\INTRO_SCREEN2.png

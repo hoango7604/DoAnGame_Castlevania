@@ -400,6 +400,8 @@
 #define ID_TEX_ENEMIES					44
 #define ID_TEX_ENEMIES_RIGHT			45
 #define ID_TEX_INVICIBILITY				46
+#define ID_TEX_INTRO_SENCE				49
+#define ID_TEX_INTRO_SENCE2				50
 
 #define BRICK_BBOX_WIDTH				32
 #define BRICK_BBOX_HEIGHT				32

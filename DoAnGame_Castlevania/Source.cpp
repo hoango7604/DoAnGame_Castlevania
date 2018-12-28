@@ -55,7 +55,7 @@ Enemy *enemy;
 
 ListGrids *listGrids;
 vector<GridObjects*> currentGrids;
-int lv = 1;
+int lv = 0;
 bool checkload = false;
 // check scene lv2->lv2_1
 bool checkScene = false;
@@ -76,6 +76,7 @@ bool check3 = false;
 
 bool check_enemy_lv34 = false;
 bool check_enemy_lv33 = false;
+bool countLoadResource1 = false;
 bool countLoadResource2 = false;
 bool countLoadResource2_1 = false ;
 bool countLoadResource2_2 = false;
@@ -212,9 +213,13 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 	if (KeyCode == DIK_0)
 	{
-		lv = 99;
+		lv = 1;
 		checkload = false;
-		simon->SetPosition(4096, 150);
+		
+	}
+	if (KeyCode == DIK_H)
+	{
+		lv = -1;		
 	}
 	if (KeyCode == DIK_1)
 		simon->SetPosition(0, 100);
@@ -461,7 +466,7 @@ void LoadResourceLv1()
 
 	listGrids->AddObject("Castlevania\\resource\\ResourceLv1.txt",simon,game);
 	listGrids->AddObject("Castlevania\\resource\\SuperDracula.txt", 200,170, simon);
-	
+	//
 }
 
 void LoadResourceLv2() {
@@ -1621,6 +1626,10 @@ void LoadResourceLv3_1()
 	listGrids->AddObject(dracula);*/
 }
 
+void LoadResource_1() {
+	listGrids->AddObject("Castlevania\\resource\\ResourceLv_1.txt", simon, game);
+	simon->SetPosition(0, 327);
+}
 /*
 	Load all game resources
 	In this example: load textures, sprites, animations and mario object
@@ -1752,6 +1761,11 @@ void LoadResources()
 
 	LPDIRECT3DTEXTURE9 texMic21 = textures->Get(48);
 	sprites->Add("Castlevania\\filetxt\\spr_rosary_action.txt", texMic21);
+
+	LPDIRECT3DTEXTURE9 texMic22 = textures->Get(ID_TEX_INTRO_SENCE);
+	sprites->Add("Castlevania\\filetxt\\spr_intro.txt", texMic22);
+
+
 #pragma endregion
 
 	animations->Add("Castlevania\\filetxt\\animation.txt");
@@ -2531,7 +2545,7 @@ void LoadResources()
 	ui->Initialize(d3ddv, simon);
 
 	// Load map lv1 ra trước
-	LoadResourceLv1();
+	//LoadResourceLv1();
 	
 }
 
@@ -2544,301 +2558,360 @@ void Update(DWORD dt)
 	 * Kiểm tra để load resource tương ứng
 	 */
 	float x, y;
-	simon->GetPosition(x, y);
-	if (!simon->isLevelUp)
-		gameTime -= dt;
-	if (GetTickCount() - next_lv > 1000 && next_lv > 0 && check_next_lv == true)
+	if (lv == -1)
 	{
-		lv = 35;
-		checkload = false;
-		check_next_lv = true;
-	}
-	if (lv == 1)
-	{
-		// Lên cấp
-		if (simon->isLevelUp) {
+		static DWORD ready;
+		static bool countLoadResource_1 = false;
+		if (countLoadResource_1 == false)
+		{
+			listGrids->InitList(SCREEN_WIDTH);
+			LoadResource_1();
+			countLoadResource_1 = true;
+		}
+		if (simon->x < SCREEN_WIDTH/2)
+		{
 			isEnableKeyBoard = false;
 			simon->SetState(SIMON_STATE_WALK);
-			if (!simon->isJump)
-				simon->vx = SIMON_LEVELUP_SPEED;
-			DWORD timer = GetTickCount();
-			if (timer - simon->onCheckPointTime > LEVELUP_TIME)
+			ready = GetTickCount();
+		}
+		else
+		{
+			simon->SetState(SIMON_STATE_IDLE);
+			if (GetTickCount() - ready > 2000 && ready > 0)
 			{
-				listGrids->ReleaseList();
-
-				lv = 2;
+				
+				lv = 1;
 				checkload = false;
-				simon->isLevelUp = false;
-				simon->SetState(SIMON_STATE_IDLE);
 				isEnableKeyBoard = true;
 			}
 		}
-	}
-	
-	if (lv == 2)
-	{
-		static int count1 = 0;
 		
-		// Lần đầu load resource lv2
-		if (countLoadResource2 == false)
-		{
-			game->x_cam = 0;
-			listGrids->InitList(MAX_WIDTH_LV2);
-			LoadResourceLv2();
-			countLoadResource2 = true;
-			simon->SetPosition(50, 350);
-			simon->GetPosition(x, y);
-			timer = GetTickCount();
-		}
-		else if (countLoadResource2 == true && x < MAX_WIDTH_LV2 - 2* SIMON_STAND_BBOX_WIDTH)
-		{		
-			if (GetTickCount() - timer > 5000)
-			{
-				simon->GetPosition(x, y);
-				if (x < MAX_WIDTH_LV2 - SCREEN_WIDTH/2 && x >  SCREEN_WIDTH / 2 )
-				{
-					listGrids->AddObject("Castlevania\\resource\\Zombie.txt", x, count1, lv, simon);
-					count1++;
-					timer += 5000;
-				}
-				
+		
+	}
+	if (lv > 0)
+	{
 
+		simon->GetPosition(x, y);
+		if (!simon->isLevelUp)
+			gameTime -= dt;
+		if (GetTickCount() - next_lv > 1000 && next_lv > 0 && check_next_lv == true)
+		{
+			lv = 35;
+			checkload = false;
+			check_next_lv = true;
+		}
+
+		if (lv == 1)
+		{
+			if (countLoadResource1 == false)
+			{
+				listGrids->InitList(MAX_WIDTH_LV1);
+				LoadResourceLv1();
+				countLoadResource1 = true;
+			}
+			// Lên cấp
+			if (simon->isLevelUp) {
+				isEnableKeyBoard = false;
+				simon->SetState(SIMON_STATE_WALK);
+				if (!simon->isJump)
+					simon->vx = SIMON_LEVELUP_SPEED;
+				DWORD timer = GetTickCount();
+				if (timer - simon->onCheckPointTime > LEVELUP_TIME)
+				{
+					listGrids->ReleaseList();
+
+					lv = 2;
+					checkload = false;
+					simon->isLevelUp = false;
+					simon->SetState(SIMON_STATE_IDLE);
+					isEnableKeyBoard = true;
+				}
 			}
 		}
-		else if(x > MAX_WIDTH_LV2 - 2 * SIMON_STAND_BBOX_WIDTH && y<200)  //check point
-		{
-			listGrids->ReleaseList();
 
-			lv = 21;
-		}
-	}
-	if (lv == 21)
-	{
-		// Lần đầu load resource lv2_1
-		
-		if (countLoadResource2_1 == false )
+		if (lv == 2)
 		{
-			listGrids->InitList(MAX_WIDTH_LV2_1);
-			LoadResourceLv2_1();
-			countLoadResource2_1 = true;
-			
-		}		
-		if (x > MAX_WIDTH_LV2_1 - 2 * SIMON_STAND_BBOX_WIDTH && y < 200)
-		{
-			listGrids->ReleaseList();
-			lv = 99;						
-		}
-		if (y > 420)
-		{
-			lv = 22;
-			checkload = false;
-			temp = true;
-			
-		}
-	}
-	if (lv == 22)
-	{
-		if (countLoadResource2_2 == false)
-		{
-			//game->x_cam = 0;
-			listGrids->InitList(MAX_WIDTH_LV2_2);
-			LoadResourceLv2_2();
-			countLoadResource2_2 = true;			
-			simon->SetPosition(150, 120);
-			simon->GetPosition(x, y);
-			timer = GetTickCount();
-		}
-		if (countLoadResource2_2 == true && temp == true)
-		{
-			
-			if (x < 3600)
+			static int count1 = 0;
+
+			// Lần đầu load resource lv2
+			if (countLoadResource2 == false)
 			{
 				game->x_cam = 0;
-				simon->SetPosition(150, 120);
+				listGrids->InitList(MAX_WIDTH_LV2);
+				LoadResourceLv2();
+				countLoadResource2 = true;
+				simon->SetPosition(50, 350);
 				simon->GetPosition(x, y);
-
-			}
-			else 
-			{
-				game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;
-				simon->SetPosition(778, 120);
-				simon->GetPosition(x, y);
-			}
-			
-			temp = false;
-		}
-		if (countLoadResource2_2 == true)
-		{
-			if (GetTickCount() - timer > 5000)
-			{				
-				listGrids->AddObject("Castlevania\\resource\\MerMan.txt",game->x_cam,simon->x);
 				timer = GetTickCount();
 			}
-		}
-		if ((y < 72 && x<100) || (y<72 &&x >400))
-		{
-			
-			lv = 21;
-			checkload = false;
-			if (x < 400)
+			else if (countLoadResource2 == true && x < MAX_WIDTH_LV2 - 2 * SIMON_STAND_BBOX_WIDTH)
 			{
-				simon->SetPosition(3198, 419);
-				simon->GetPosition(x, y);
-				game->x_cam = MAX_WIDTH_LV2;
-			}
-			else
-			{
-				simon->SetPosition(3835, 419);
-				simon->GetPosition(x, y);
-				game->x_cam = MAX_WIDTH_LV2_1 - SCREEN_WIDTH;
-			}
-		}
-		
-	}
-	#pragma region lv99
-	if (lv == 99)
-	{
-		static int count = 0;
-		if (countLoadResourceboss == false)
-		{
-			listGrids->InitList(MAX_WIDTH_BOSS);
-			LoadResourceboss();
-			countLoadResourceboss = true;
-			timer = GetTickCount();
-		}
-		else if (countLoadResourceboss == true)
-		{
-			if (GetTickCount() - timer > 5000)
-			{
-				simon->GetPosition(x, y);
-				if (x < 5000 && x> MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && count_enemy == true)
+				if (GetTickCount() - timer > 5000)
 				{
-					listGrids->AddObject("Castlevania\\resource\\Zombie.txt", x, count, lv, simon);
-					count++;
-					timer += 5000;
+					simon->GetPosition(x, y);
+					if (x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2 && x >  SCREEN_WIDTH / 2)
+					{
+						listGrids->AddObject("Castlevania\\resource\\Zombie.txt", x, count1, lv, simon);
+						count1++;
+						timer += 5000;
+					}
+
+
 				}
-				else if (x > 5000)
-				{
-					count_enemy = false;
-				}				
 			}
-		}
-
-		
-	}
-#pragma endregion
-
-	
-	if (lv == 35)
-	{
-		if (countLoadResource3_5 == false)
-		{
-			listGrids->ReleaseList();
-			listGrids->InitList(MAX_WIDTH_LV3_5);
-			LoadResourceLv3_5();
-			countLoadResource3_5 = true;			
-		}
-		if (simon->isLevelUp) 
-		{
-			isEnableKeyBoard = false;
-			simon->SetState(SIMON_STATE_WALK);
-			if (!simon->isJump)
-				simon->vx = SIMON_LEVELUP_SPEED;
-			DWORD timer = GetTickCount();
-			if (timer - simon->onCheckPointTime > LEVELUP_TIME)
+			else if (x > MAX_WIDTH_LV2 - 2 * SIMON_STAND_BBOX_WIDTH && y < 200)  //check point
 			{
 				listGrids->ReleaseList();
-				lv = 34;
-				checkload = false;
-				simon->SetPosition(1455, 200);
-				simon->isLevelUp = false;
-				simon->SetState(SIMON_STATE_IDLE);
-				isEnableKeyBoard = true;
+
+				lv = 21;
 			}
 		}
-	}
-	if (lv == 34)
-	{
-		static int count34 = 0;
-		static int count_enemy34 = 0;
-		if (countLoadResource3_4 == false )
+		if (lv == 21)
 		{
-			listGrids->InitList(MAX_WIDTH_LV3_4);
-			LoadResourceLv3_4();
-			countLoadResource3_4 = true;
-			
+			// Lần đầu load resource lv2_1
+			static DWORD timer_21;
+			static bool check_load_bat1 = false;
+			static bool check_load_bat2 = false;
+			static bool check_load_bat3 = false;
+			if (countLoadResource2_1 == false)
+			{
+				listGrids->InitList(MAX_WIDTH_LV2_1);
+				LoadResourceLv2_1();
+				countLoadResource2_1 = true;
+				timer_21 = GetTickCount();
+			}
+			if (x > MAX_WIDTH_LV2_1 - 2 * SIMON_STAND_BBOX_WIDTH && y < 200)
+			{
+				listGrids->ReleaseList();
+				lv = 99;
+			}
+			if (GetTickCount() - timer_21 > 7000 && timer_21 > 0 && check_load_bat1 == false)
+			{
+				listGrids->AddObject("Castlevania\\resource\\Redbat1.txt", simon, game);
+				check_load_bat1 = true;
+			}
+			else if (GetTickCount() - timer_21 > 10000 && timer_21 > 0 && check_load_bat2 == false)
+			{
+				listGrids->AddObject("Castlevania\\resource\\Redbat2.txt", simon, game);
+				check_load_bat2 = true;
+			}
+			else if (GetTickCount() - timer_21 > 12000 && timer_21 > 0 && check_load_bat3 == false)
+			{
+				listGrids->AddObject("Castlevania\\resource\\Redbat3.txt", simon, game);
+				check_load_bat3 = true;
+			}
+
+			if (y > 420)
+			{
+				lv = 22;
+				checkload = false;
+				temp = true;
+
+			}
+		}
+		if (lv == 22)
+		{
+			if (countLoadResource2_2 == false)
+			{
+				//game->x_cam = 0;
+				listGrids->InitList(MAX_WIDTH_LV2_2);
+				LoadResourceLv2_2();
+				countLoadResource2_2 = true;
+				simon->SetPosition(150, 120);
+				simon->GetPosition(x, y);
+				timer = GetTickCount();
+			}
+			if (countLoadResource2_2 == true && temp == true)
+			{
+
+				if (x < 3600)
+				{
+					game->x_cam = 0;
+					simon->SetPosition(150, 120);
+					simon->GetPosition(x, y);
+
+				}
+				else
+				{
+					game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;
+					simon->SetPosition(778, 120);
+					simon->GetPosition(x, y);
+				}
+
+				temp = false;
+			}
+			if (countLoadResource2_2 == true)
+			{
+				if (GetTickCount() - timer > 5000)
+				{
+					listGrids->AddObject("Castlevania\\resource\\MerMan.txt", game->x_cam, simon->x);
+					timer = GetTickCount();
+				}
+			}
+			if ((y < 72 && x < 100) || (y < 72 && x >400))
+			{
+
+				lv = 21;
+				checkload = false;
+				if (x < 400)
+				{
+					simon->SetPosition(3198, 419);
+					simon->GetPosition(x, y);
+					game->x_cam = MAX_WIDTH_LV2;
+				}
+				else
+				{
+					simon->SetPosition(3835, 419);
+					simon->GetPosition(x, y);
+					game->x_cam = MAX_WIDTH_LV2_1 - SCREEN_WIDTH;
+				}
+			}
 
 		}
-		else if (countLoadResource3_4 == true)
+#pragma region lv99
+		if (lv == 99)
 		{
-			if (check_enemy_lv34 == false)
+			static int count = 0;
+			if (countLoadResourceboss == false)
+			{
+				listGrids->InitList(MAX_WIDTH_BOSS);
+				LoadResourceboss();
+				countLoadResourceboss = true;
+				timer = GetTickCount();
+			}
+			else if (countLoadResourceboss == true)
+			{
+				if (GetTickCount() - timer > 5000)
+				{
+					simon->GetPosition(x, y);
+					if (x < 5000 && x> MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && count_enemy == true)
+					{
+						listGrids->AddObject("Castlevania\\resource\\Zombie.txt", x, count, lv, simon);
+						count++;
+						timer += 5000;
+					}
+					else if (x > 5000)
+					{
+						count_enemy = false;
+					}
+				}
+			}
+
+
+		}
+#pragma endregion
+
+
+		if (lv == 35)
+		{
+			if (countLoadResource3_5 == false)
+			{
+				listGrids->ReleaseList();
+				listGrids->InitList(MAX_WIDTH_LV3_5);
+				LoadResourceLv3_5();
+				countLoadResource3_5 = true;
+			}
+			if (simon->isLevelUp)
+			{
+				isEnableKeyBoard = false;
+				simon->SetState(SIMON_STATE_WALK);
+				if (!simon->isJump)
+					simon->vx = SIMON_LEVELUP_SPEED;
+				DWORD timer = GetTickCount();
+				if (timer - simon->onCheckPointTime > LEVELUP_TIME)
+				{
+					listGrids->ReleaseList();
+					lv = 34;
+					checkload = false;
+					simon->SetPosition(1455, 200);
+					simon->isLevelUp = false;
+					simon->SetState(SIMON_STATE_IDLE);
+					isEnableKeyBoard = true;
+				}
+			}
+		}
+		if (lv == 34)
+		{
+			static int count34 = 0;
+			static int count_enemy34 = 0;
+			if (countLoadResource3_4 == false)
+			{
+				listGrids->InitList(MAX_WIDTH_LV3_4);
+				LoadResourceLv3_4();
+				countLoadResource3_4 = true;
+
+
+			}
+			else if (countLoadResource3_4 == true)
+			{
+				if (check_enemy_lv34 == false)
+				{
+					timer = GetTickCount();
+					check_enemy_lv34 = true;
+				}
+				if (GetTickCount() - timer > 5000)
+				{
+					simon->GetPosition(x, y);
+
+					if (x < 750 && x >100)
+					{
+						if (count_enemy34 < 3)
+						{
+							listGrids->AddObject("Castlevania\\resource\\Bird_Hunchback.txt", x, count34, lv, simon);
+						}
+						count_enemy34++;
+						count34++;
+						timer += 5000;
+					}
+				}
+			}
+			if (((y < 85 && x> 1340) || (y < 85 && x>664 && x < 690) || (y < 85 && x>200 && x < 210)) && simon->isOnStair == true)
+			{
+				listGrids->ReleaseList();
+				listGrids->InitList(MAX_WIDTH_LV3_3);
+				LoadResourceLv3_3();
+				lv = 33;
+				checkload = false;
+
+				if (x > 1340)
+				{
+					simon->SetPosition(1312, 423);
+					simon->GetPosition(x, y);
+				}
+				else if (x > 664 && x < 690)
+				{
+					simon->SetPosition(620, 423);
+					simon->GetPosition(x, y);
+				}
+				else if (x > 200 && x < 210)
+				{
+					simon->SetPosition(165, 423);
+					simon->GetPosition(x, y);
+				}
+				//temp10 = true;
+			}
+
+
+		}
+		if (lv == 33)
+		{
+			static int count33 = 0;
+			static int count_enemy33 = 0;
+			bool prevent_load_twice;
+			if (check_enemy_lv33 == false)
 			{
 				timer = GetTickCount();
-				check_enemy_lv34 = true;
+				check_enemy_lv33 = true;
 			}
-			if (GetTickCount() - timer > 5000)
+			if (GetTickCount() - timer > 8000)
 			{
 				simon->GetPosition(x, y);
-				
 				if (x < 750 && x >100)
 				{
-					if (count_enemy34 < 3)
+					if (count_enemy33 < 3)
 					{
-						listGrids->AddObject("Castlevania\\resource\\Bird_Hunchback.txt", x, count34,lv,simon);						
+						listGrids->AddObject("Castlevania\\resource\\Bird_Hunchback.txt", x, count33, lv, simon);
 					}
-					count_enemy34++;
-					count34++;
-					timer += 5000;
-				}																					
-			}
-		}
-		if (((y < 85 && x> 1340) || ( y< 85 && x>664  && x<690) || (y < 85 && x>200 && x<210)) && simon->isOnStair == true )
-		{
-			listGrids->ReleaseList();
-			listGrids->InitList(MAX_WIDTH_LV3_3);
-			LoadResourceLv3_3();
-			lv = 33;
-			checkload = false;
-
-			if (x > 1340)
-			{
-				simon->SetPosition(1312, 423);
-				simon->GetPosition(x, y);
-			}
-			else if (x > 664 && x < 690)
-			{
-				simon->SetPosition(620, 423);
-				simon->GetPosition(x, y);
-			}
-			else if (x > 200 && x < 210)
-			{
-				simon->SetPosition(165, 423);
-				simon->GetPosition(x, y);
-			}
-			//temp10 = true;
-		}
-		
-
-	}
-	if (lv == 33)
-	{
-		static int count33 = 0;
-		static int count_enemy33 = 0;		
-		bool prevent_load_twice ;
-		if (check_enemy_lv33 == false)
-		{
-			timer = GetTickCount();
-			check_enemy_lv33 = true;
-		}
-		if (GetTickCount() - timer > 8000)
-		{
-			simon->GetPosition(x, y);
-			if (x < 750 && x >100)
-			{
-				if (count_enemy33 < 3)
-				{
-					listGrids->AddObject("Castlevania\\resource\\Bird_Hunchback.txt",x,count33,lv,simon);
-				}
 					/*if (count33 % 2 == 0)
 					{
 						Bird *bird;
@@ -2876,463 +2949,596 @@ void Update(DWORD dt)
 						listGrids->AddObject(hunchback);
 						count33++;
 					}*/
-				count_enemy33++;
-				count33++;
-				timer += 8000;
+					count_enemy33++;
+					count33++;
+					timer += 8000;
+				}
 			}
-		}
-		if (x < 0)
-		{
-			listGrids->ReleaseList();			
-			lv = 32;
-			checkload = false;
-			simon->SetPosition(500, 200);
-			simon->GetPosition(x, y);			
-		}
-		if ((y > 430 && x< 190) || (y > 430 && x>570 && x < 600) || (y > 430 && x>1280 && x < 1300) && simon->isOnStair == true)
-		{
-			listGrids->ReleaseList();
-			listGrids->InitList(MAX_WIDTH_LV3_4);
-			LoadResourceLv3_4();
-			lv = 34;
-			checkload = false;
-			if (x <190 && x>0)
+			if (x < 0)
 			{
-				simon->SetPosition(140, 120);
+				listGrids->ReleaseList();
+				lv = 32;
+				checkload = false;
+				simon->SetPosition(500, 200);
 				simon->GetPosition(x, y);
 			}
-			else if (x > 570 && x < 600)
+			if ((y > 430 && x < 190) || (y > 430 && x > 570 && x < 600) || (y > 430 && x > 1280 && x < 1300) && simon->isOnStair == true)
 			{
-				simon->SetPosition(600,120);
-				simon->GetPosition(x, y);
-			}
-			else if (x > 1280 && x < 1300)
-			{
-				simon->SetPosition(1300,120);
-				simon->GetPosition(x, y);
-			}
-			//temp10 = true;
-			
-		}
-		else if (y > 480 && simon->isOnStair == false)
-		{
-			listGrids->ReleaseList();
-			listGrids->InitList(MAX_WIDTH_LV3_4);
-			LoadResourceLv3_4();
-			lv = 34;
-			checkload = false;
-			simon->SetPosition(x, 130);
-			simon->GetPosition(x, y);
-		}
-	}
-	if (lv == 32)
-	{
-		if (countLoadResource3_2 == false)
-		{
-			listGrids->InitList(MAX_WIDTH_LV3_2);
-			LoadResourceLv3_2();
-			countLoadResource3_2 = true;
+				listGrids->ReleaseList();
+				listGrids->InitList(MAX_WIDTH_LV3_4);
+				LoadResourceLv3_4();
+				lv = 34;
+				checkload = false;
+				if (x < 190 && x>0)
+				{
+					simon->SetPosition(140, 120);
+					simon->GetPosition(x, y);
+				}
+				else if (x > 570 && x < 600)
+				{
+					simon->SetPosition(600, 120);
+					simon->GetPosition(x, y);
+				}
+				else if (x > 1280 && x < 1300)
+				{
+					simon->SetPosition(1300, 120);
+					simon->GetPosition(x, y);
+				}
+				//temp10 = true;
 
+			}
+			else if (y > 480 && simon->isOnStair == false)
+			{
+				listGrids->ReleaseList();
+				listGrids->InitList(MAX_WIDTH_LV3_4);
+				LoadResourceLv3_4();
+				lv = 34;
+				checkload = false;
+				simon->SetPosition(x, 130);
+				simon->GetPosition(x, y);
+			}
 		}
-		if (y < 90)
+		if (lv == 32)
 		{
-			listGrids->ReleaseList();
-			lv = 31;
-			checkload = false;
-			simon->SetPosition(1200, 410);
-			game->x_cam = MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2;
-			simon->GetPosition(x, y);
-			listGrids->InitList(MAX_WIDTH_LV3_1);
-			LoadResourceLv3_1();
+			if (countLoadResource3_2 == false)
+			{
+				listGrids->InitList(MAX_WIDTH_LV3_2);
+				LoadResourceLv3_2();
+				countLoadResource3_2 = true;
+
+			}
+			if (y < 90)
+			{
+				listGrids->ReleaseList();
+				lv = 31;
+				checkload = false;
+				simon->SetPosition(1200, 410);
+				game->x_cam = MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2;
+				simon->GetPosition(x, y);
+				listGrids->InitList(MAX_WIDTH_LV3_1);
+				LoadResourceLv3_1();
+			}
 		}
-	}
-	if (lv == 31)
-	{
-		/*if (countLoadResource3_1 == false )
+		if (lv == 31)
 		{
-			listGrids->InitList(MAX_WIDTH_LV3_1);
-			LoadResourceLv3_1();
-			countLoadResource3_1 = true;
-		}*/
-		if (y >430)
-		{
-			listGrids->ReleaseList();
-			listGrids->InitList(MAX_WIDTH_LV3_2);
-			LoadResourceLv3_2();
-			lv = 32;
-			checkload = false;
-			simon->SetPosition(249, 120);		
-			simon->GetPosition(x, y);
-			
+			/*if (countLoadResource3_1 == false )
+			{
+				listGrids->InitList(MAX_WIDTH_LV3_1);
+				LoadResourceLv3_1();
+				countLoadResource3_1 = true;
+			}*/
+			if (y > 430)
+			{
+				listGrids->ReleaseList();
+				listGrids->InitList(MAX_WIDTH_LV3_2);
+				LoadResourceLv3_2();
+				lv = 32;
+				checkload = false;
+				simon->SetPosition(249, 120);
+				simon->GetPosition(x, y);
+
+			}
 		}
 	}
 #pragma endregion
 
 #pragma region Update Object
 
-	vector<LPGAMEOBJECT> objects;
-
-	if (simon->x < 0)
-		currentGrids = listGrids->GetCurrentGrids(0);
-	else
-		currentGrids = listGrids->GetCurrentGrids(simon->x);
-
-	for (int i = 0; i < currentGrids.size(); i++)
+	if (lv != 0)
 	{
-		vector<LPGAMEOBJECT> listObjects = currentGrids[i]->GetListObject();
-		int listObjectSize = listObjects.size();
-		for (int j = 0; j < listObjectSize; j++)
+		vector<LPGAMEOBJECT> objects;
+
+		if (simon->x < 0)
+			currentGrids = listGrids->GetCurrentGrids(0);
+		else
+			currentGrids = listGrids->GetCurrentGrids(simon->x);
+
+		for (int i = 0; i < currentGrids.size(); i++)
 		{
-			objects.push_back(listObjects[j]);
-		}
-	}
-
-	simon->Update(lv,dt, &objects);
-
-	if (simon->isRosaryUsed)
-		isEnableKeyBoard = false;
-
-	if (isClockWeaponUsed)
-	{
-		if (GetTickCount() - clockWeaponCast > CLOCK_WEAPON_FREEZE_TIME)
-		{
-			isClockWeaponUsed = false;
-		}
-	}
-
-	for (int i = 0; i < objects.size(); i++)
-	{
-		if (!dynamic_cast<Enemy *>(objects.at(i)))
-			objects[i]->Update(dt, &objects);
-
-		if (dynamic_cast<Enemy *>(objects.at(i)))
-		{
-			enemy = dynamic_cast<Enemy *>(objects.at(i));
-
-			if (simon->isRosaryUsed)
+			vector<LPGAMEOBJECT> listObjects = currentGrids[i]->GetListObject();
+			int listObjectSize = listObjects.size();
+			for (int j = 0; j < listObjectSize; j++)
 			{
-				if (!dynamic_cast<BossBat *>(objects.at(i)) && !dynamic_cast<Dracula *>(objects.at(i)) && !dynamic_cast<SuperDracula *>(objects.at(i)))
-				{
-					enemy->isDie = true;
-					Simon::score += 100;
-				}
+				objects.push_back(listObjects[j]);
 			}
+		}
 
-			if (isClockWeaponUsed)
+		simon->Update(lv, dt, &objects);
+
+		if (simon->isRosaryUsed)
+			isEnableKeyBoard = false;
+
+		if (isClockWeaponUsed)
+		{
+			if (GetTickCount() - clockWeaponCast > CLOCK_WEAPON_FREEZE_TIME)
 			{
-				enemy->isFrozen = true;
+				isClockWeaponUsed = false;
 			}
-			else
+		}
+
+		for (int i = 0; i < objects.size(); i++)
+		{
+			if (!dynamic_cast<Enemy *>(objects.at(i)))
+				objects[i]->Update(dt, &objects);
+
+			if (dynamic_cast<Enemy *>(objects.at(i)))
 			{
-				enemy->isFrozen = false;
+				enemy = dynamic_cast<Enemy *>(objects.at(i));
 
-				if (dynamic_cast<Panther *>(objects.at(i)))
+				if (simon->isRosaryUsed)
 				{
-					Panther *panther = dynamic_cast<Panther *>(objects.at(i));
-					if (panther->isActivate && ((panther->x < (simon->x - 2 * SCREEN_WIDTH / 3)) || (panther->x > (simon->x + 2 * SCREEN_WIDTH / 3))))
+					if (!dynamic_cast<BossBat *>(objects.at(i)) && !dynamic_cast<Dracula *>(objects.at(i)) && !dynamic_cast<SuperDracula *>(objects.at(i)))
 					{
-						panther->isDie = true;
-					}
-					else if (!panther->isUse)
-					{
-						if ((simon->y - panther->y < PANTHER_DISTANCE_SIMON_Y && panther->x - simon->x < PANTHER_DISTANCE_SIMON_X))
-						{
-							panther->SetState(PANTHER_STATE_RUN);
-							panther->isActivate = true;
-						}
-
-						if (panther->isActivate &&
-							(panther->x >= PANTHER_JUMP_POINT_1_X - 3 && panther->x <= PANTHER_JUMP_POINT_1_X + 10) ||
-							(panther->x >= PANTHER_JUMP_POINT_2_X - 3 && panther->x <= PANTHER_JUMP_POINT_2_X + 10) ||
-							(panther->x >= PANTHER_JUMP_POINT_3_X - 3 && panther->x <= PANTHER_JUMP_POINT_3_X + 10))
-						{
-							panther->SetState(PANTHER_STATE_JUMP);
-						}
+						enemy->isDie = true;
+						Simon::score += 100;
 					}
 				}
-				else if (dynamic_cast<MerMan *>(objects.at(i)))
-				{
-					MerMan *merman = dynamic_cast<MerMan *>(objects.at(i));
 
-					if (merman->isOnGround)
+				if (isClockWeaponUsed)
+				{
+					enemy->isFrozen = true;
+				}
+				else
+				{
+					enemy->isFrozen = false;
+
+					if (dynamic_cast<Panther *>(objects.at(i)))
 					{
-						if (merman->y > game->y_cam + SCREEN_HEIGHT / 2)
+						Panther *panther = dynamic_cast<Panther *>(objects.at(i));
+						if (panther->isActivate && ((panther->x < (simon->x - 2 * SCREEN_WIDTH / 3)) || (panther->x > (simon->x + 2 * SCREEN_WIDTH / 3))))
 						{
-							if (merman->y > game->y_cam + SCREEN_HEIGHT)
-								merman->isDie = true;
+							panther->isDie = true;
+						}
+						else if (!panther->isUse)
+						{
+							if ((simon->y - panther->y < PANTHER_DISTANCE_SIMON_Y && panther->x - simon->x < PANTHER_DISTANCE_SIMON_X))
+							{
+								panther->SetState(PANTHER_STATE_RUN);
+								panther->isActivate = true;
+							}
+
+							if (panther->isActivate &&
+								(panther->x >= PANTHER_JUMP_POINT_1_X - 3 && panther->x <= PANTHER_JUMP_POINT_1_X + 10) ||
+								(panther->x >= PANTHER_JUMP_POINT_2_X - 3 && panther->x <= PANTHER_JUMP_POINT_2_X + 10) ||
+								(panther->x >= PANTHER_JUMP_POINT_3_X - 3 && panther->x <= PANTHER_JUMP_POINT_3_X + 10))
+							{
+								panther->SetState(PANTHER_STATE_JUMP);
+							}
+						}
+					}
+					else if (dynamic_cast<MerMan *>(objects.at(i)))
+					{
+						MerMan *merman = dynamic_cast<MerMan *>(objects.at(i));
+
+						if (merman->isOnGround)
+						{
+							if (merman->y > game->y_cam + SCREEN_HEIGHT / 2)
+							{
+								if (merman->y > game->y_cam + SCREEN_HEIGHT)
+									merman->isDie = true;
+								else
+								{
+									merman->isAttack = false;
+									merman->SetState(MERMAN_STATE_WALK);
+								}
+							}
 							else
 							{
-								merman->isAttack = false;
-								merman->SetState(MERMAN_STATE_WALK);
+								if (merman->isAttack && !merman->didAttack)
+								{
+									int nx = merman->nx;
+									enemy = new EnemyBullet(nx);
+									enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+									enemy->SetPosition(merman->x + MERMAN_BBOX_WIDTH / 2, merman->y + 10);
+									listGrids->AddObject(enemy);
+									merman->didAttack = true;
+								}
+							}
+						}
+
+						if (merman->x < game->x_cam - MERMAN_BBOX_WIDTH || merman->x > game->x_cam + SCREEN_WIDTH)
+							merman->isDie = true;
+					}
+					else if (dynamic_cast<BigBat *>(objects.at(i)))
+					{
+						BigBat *bigbat = dynamic_cast<BigBat *>(objects.at(i));
+						int nx = bigbat->simon->nx;
+						if (bigbat->isActivate)
+						{
+							if (GetTickCount() - bigbat->timer > 3000 && bigbat->timer > 0)
+							{
+								enemy = new EnemyBullet(nx);
+								enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+								enemy->SetPosition(bigbat->x + BOSSBAT_BBOX_WIDTH / 2, bigbat->y);
+								listGrids->AddObject(enemy);
+								bigbat->timer += 3000;
+							}
+						}
+
+					}
+					else if (dynamic_cast<Skeleton *>(objects.at(i)))
+					{
+						Skeleton *skeleton = dynamic_cast<Skeleton *>(objects.at(i));
+						int nx = skeleton->nx;
+						if (GetTickCount() - skeleton->timer > 2000)
+						{
+							enemy = new Bone(nx);
+							enemy->AddAnimation(820);
+							enemy->AddAnimation(821);
+							enemy->SetPosition(skeleton->x, skeleton->y - 10);
+							listGrids->AddObject(enemy);
+							skeleton->timer += 2000;
+						}
+					}
+					else if (dynamic_cast<Dracula *>(objects.at(i)))
+					{
+						Dracula *dracula = dynamic_cast<Dracula *>(objects.at(i));
+
+						if (!dracula->isActivate)
+						{
+							if (dracula->isActivating)
+							{
+								isEnableKeyBoard = false;
+								simon->SetState(SIMON_STATE_IDLE);
 							}
 						}
 						else
 						{
-							if (merman->isAttack && !merman->didAttack)
-							{
-								int nx = merman->nx;
-								enemy = new EnemyBullet(nx);
-								enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-								enemy->SetPosition(merman->x + MERMAN_BBOX_WIDTH / 2, merman->y + 10);
-								listGrids->AddObject(enemy);
-								merman->didAttack = true;
-							}
+							isEnableKeyBoard = true;
 						}
-					}
 
-					if (merman->x < game->x_cam - MERMAN_BBOX_WIDTH || merman->x > game->x_cam + SCREEN_WIDTH)
-						merman->isDie = true;
-				}
-				else if (dynamic_cast<BigBat *>(objects.at(i)))
-				{
-					BigBat *bigbat = dynamic_cast<BigBat *>(objects.at(i));
-					int nx = bigbat->simon->nx;
-					if (bigbat->isActivate)
-					{						
-						if (GetTickCount() - bigbat->timer > 3000 && bigbat->timer >0)
+						if (dracula->state == DRACULA_STATE_ATTACK && !dracula->didAttack)
 						{
+							int nx = dracula->nx;
+							float root_bullet_vy;
+
 							enemy = new EnemyBullet(nx);
 							enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-							enemy->SetPosition(bigbat->x + BOSSBAT_BBOX_WIDTH / 2, bigbat->y);
+							enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
+							if (enemy->vx > 0)
+								enemy->vx += 0.002f;
+							if (enemy->vx < 0)
+								enemy->vx -= 0.002f;
+							float angle = atan2(simon->x - enemy->x, simon->y - enemy->y);
+							enemy->vy = enemy->vx / tan(angle);
+
+							if (enemy->vy > 0.1f)
+								enemy->vy = 0.1f;
+							if (enemy->vy < -0.1f)
+								enemy->vy = -0.1f;
+
+							root_bullet_vy = enemy->vy;
+
 							listGrids->AddObject(enemy);
-							bigbat->timer += 3000;
+
+							enemy = new EnemyBullet(nx);
+							enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+							enemy->vy = root_bullet_vy + 0.04f;
+							enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
+							listGrids->AddObject(enemy);
+
+							enemy = new EnemyBullet(nx);
+							enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+							enemy->vy = root_bullet_vy - 0.04f;
+							enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
+							listGrids->AddObject(enemy);
+
+							dracula->didAttack = true;
 						}
-					}
-					
-				}
-				else if (dynamic_cast<Skeleton *>(objects.at(i)))
-				{
-					Skeleton *skeleton = dynamic_cast<Skeleton *>(objects.at(i));
-					int nx = skeleton->nx;
-					if (GetTickCount() - skeleton->timer > 2000)
-					{
-						enemy = new Bone(nx);
-						enemy->AddAnimation(820);
-						enemy->AddAnimation(821);
-						enemy->SetPosition(skeleton->x, skeleton->y - 10);
-						listGrids->AddObject(enemy);
-						skeleton->timer += 2000;
-					}
-				}
-				else if (dynamic_cast<Dracula *>(objects.at(i)))
-				{
-					Dracula *dracula = dynamic_cast<Dracula *>(objects.at(i));
 
-					if (!dracula->isActivate)
-					{
-						if (dracula->isActivating)
-						{
-							isEnableKeyBoard = false;
-							simon->SetState(SIMON_STATE_IDLE);
-						}
-					}
-					else
-					{
-						isEnableKeyBoard = true;
-					}
-
-					if (dracula->state == DRACULA_STATE_ATTACK && !dracula->didAttack)
-					{
-						int nx = dracula->nx;
-						float root_bullet_vy;
-
-						enemy = new EnemyBullet(nx); 
-						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
-						if (enemy->vx > 0)
-							enemy->vx += 0.002f;
-						if (enemy->vx < 0)
-							enemy->vx -= 0.002f;
-						float angle = atan2(simon->x - enemy->x, simon->y - enemy->y);
-						enemy->vy = enemy->vx / tan(angle);
-
-						if (enemy->vy > 0.1f)
-							enemy->vy = 0.1f;
-						if (enemy->vy < -0.1f)
-							enemy->vy = -0.1f;
-
-						root_bullet_vy = enemy->vy;
-
-						listGrids->AddObject(enemy);
-
-						enemy = new EnemyBullet(nx);
-						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-						enemy->vy = root_bullet_vy + 0.04f;
-						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
-						listGrids->AddObject(enemy);
-
-						enemy = new EnemyBullet(nx);
-						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-						enemy->vy = root_bullet_vy - 0.04f;
-						enemy->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y + 55);
-						listGrids->AddObject(enemy);
-
-						dracula->didAttack = true;
-					}
-
-					if (dracula->isHit && !dracula->isBleeding)
-					{
-						// Thêm hiệu ứng tóe lửa
-						whipEffect = new Effect(GetTickCount());
-						whipEffect->AddAnimation(806);
-						whipEffect->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y);
-						objects.push_back(whipEffect);
-						listGrids->AddObject(whipEffect);
-
-						whipEffect = new Effect(GetTickCount());
-						whipEffect->AddAnimation(807);
-						whipEffect->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y);
-						objects.push_back(whipEffect);
-						listGrids->AddObject(whipEffect);
-
-						dracula->isBleeding = true;
-					}
-				}
-				else if (dynamic_cast<SuperDracula *>(objects.at(i)))
-				{
-					SuperDracula *superDracula = dynamic_cast<SuperDracula *>(objects.at(i));
-
-					if (superDracula->isHitted && !superDracula->isBleeding)
-					{
-						for (int i = 0; i < 3; i++)
+						if (dracula->isHit && !dracula->isBleeding)
 						{
 							// Thêm hiệu ứng tóe lửa
 							whipEffect = new Effect(GetTickCount());
 							whipEffect->AddAnimation(806);
-							whipEffect->SetPosition(superDracula->x + i * SUPERDRACULA_BBOX_WIDTH / 3, superDracula->y + 3 * SUPERDRACULA_BBOX_HEIGHT / 4);
+							whipEffect->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y);
 							objects.push_back(whipEffect);
 							listGrids->AddObject(whipEffect);
 
 							whipEffect = new Effect(GetTickCount());
 							whipEffect->AddAnimation(807);
-							whipEffect->SetPosition(superDracula->x + i * SUPERDRACULA_BBOX_WIDTH / 3, superDracula->y + 3 * SUPERDRACULA_BBOX_HEIGHT / 4);
+							whipEffect->SetPosition(dracula->x + DRACULA_BBOX_WIDTH / 2, dracula->y);
 							objects.push_back(whipEffect);
 							listGrids->AddObject(whipEffect);
+
+							dracula->isBleeding = true;
+						}
+					}
+					else if (dynamic_cast<SuperDracula *>(objects.at(i)))
+					{
+						SuperDracula *superDracula = dynamic_cast<SuperDracula *>(objects.at(i));
+
+						if (superDracula->isHitted && !superDracula->isBleeding)
+						{
+							for (int i = 0; i < 3; i++)
+							{
+								// Thêm hiệu ứng tóe lửa
+								whipEffect = new Effect(GetTickCount());
+								whipEffect->AddAnimation(806);
+								whipEffect->SetPosition(superDracula->x + i * SUPERDRACULA_BBOX_WIDTH / 3, superDracula->y + 3 * SUPERDRACULA_BBOX_HEIGHT / 4);
+								objects.push_back(whipEffect);
+								listGrids->AddObject(whipEffect);
+
+								whipEffect = new Effect(GetTickCount());
+								whipEffect->AddAnimation(807);
+								whipEffect->SetPosition(superDracula->x + i * SUPERDRACULA_BBOX_WIDTH / 3, superDracula->y + 3 * SUPERDRACULA_BBOX_HEIGHT / 4);
+								objects.push_back(whipEffect);
+								listGrids->AddObject(whipEffect);
+							}
+
+							superDracula->isBleeding = true;
 						}
 
-						superDracula->isBleeding = true;
 					}
-					
-				}
-				else if (dynamic_cast<BossBat *>(objects.at(i)))
-				{
-					BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
+					else if (dynamic_cast<BossBat *>(objects.at(i)))
+					{
+						BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
 
-					if (bossbat->isHurt && !bossbat->isBleeding)
+						if (bossbat->isHurt && !bossbat->isBleeding)
+						{
+							// Thêm hiệu ứng tóe lửa
+							whipEffect = new Effect(GetTickCount());
+							whipEffect->AddAnimation(806);
+							whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+							objects.push_back(whipEffect);
+							listGrids->AddObject(whipEffect);
+
+							whipEffect = new Effect(GetTickCount());
+							whipEffect->AddAnimation(807);
+							whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+							objects.push_back(whipEffect);
+							listGrids->AddObject(whipEffect);
+
+							bossbat->isBleeding = true;
+						}
+					}
+
+					enemy->Update(dt, &objects);
+				}
+			}
+
+			listGrids->UpdateObjectInGrid(objects[i]);
+		}
+
+#pragma endregion
+
+#pragma region Remove Object
+		/**
+		 * Không remove trực tiếp trong mảng khi đang duyệt, thêm vào danh sách các object sẽ bị remove và sau đó mới bắt đầu remove
+		 */
+		vector<LPGAMEOBJECT> listRemoveObjects;
+
+		// Thêm các object sẽ bị remove vào listRemoveObjects và cập nhật thêm các object mới vào objects và listGrids
+		for (int i = 0; i < objects.size(); i++)
+		{
+			if (dynamic_cast<Enemy *>(objects.at(i)))
+			{
+				enemy = dynamic_cast<Enemy *>(objects.at(i));
+
+				if (enemy->isDie)
+				{
+					float object_x, object_y, object_right, object_bottom;
+					enemy->GetBoundingBox(object_x, object_y, object_right, object_bottom);
+
+					if (dynamic_cast<Dracula *>(objects.at(i)) || dynamic_cast<BossBat *>(objects.at(i)) || dynamic_cast<SuperDracula *>(objects.at(i)))
+					{
+						if (dynamic_cast<Dracula *>(objects.at(i)))
+						{
+							for (int i = 0; i < 3; i++)
+							{
+								for (int j = 0; j < 4; j++)
+								{
+									// Thêm hiệu ứng tóe lửa
+									whipEffect = new Effect(GetTickCount());
+									whipEffect->AddAnimation(806);
+									whipEffect->SetPosition(object_x + i * DRACULA_BBOX_WIDTH, object_y + j * DRACULA_BBOX_HEIGHT);
+									objects.push_back(whipEffect);
+									listGrids->AddObject(whipEffect);
+
+									whipEffect = new Effect(GetTickCount());
+									whipEffect->AddAnimation(807);
+									whipEffect->SetPosition(object_x + i * DRACULA_BBOX_WIDTH, object_y + j * DRACULA_BBOX_HEIGHT);
+									objects.push_back(whipEffect);
+									listGrids->AddObject(whipEffect);
+								}
+							}
+
+							game->bossheath = 16;
+							listGrids->AddObject("Castlevania\\resource\\SuperDracula.txt", enemy->x, enemy->y, simon);
+						}
+						else
+						{
+							for (int i = 0; i < 3; i++)
+							{
+								for (int j = 0; j < 4; j++)
+								{
+									// Thêm hiệu ứng tóe lửa
+									whipEffect = new Effect(GetTickCount());
+									whipEffect->AddAnimation(806);
+									whipEffect->SetPosition(object_x + i * (object_right - object_x) / 3, object_y + j * (object_bottom - object_y) / 4);
+									objects.push_back(whipEffect);
+									listGrids->AddObject(whipEffect);
+
+									whipEffect = new Effect(GetTickCount());
+									whipEffect->AddAnimation(807);
+									whipEffect->SetPosition(object_x + i * (object_right - object_x) / 3, object_y + j * (object_bottom - object_y) / 4);
+									objects.push_back(whipEffect);
+									listGrids->AddObject(whipEffect);
+								}
+							}
+
+							item = new Item();
+							item->SetPosition(object_x, object_y);
+							item->SetSpeed(0, -0.1);
+							item->appearTime = GetTickCount();
+							item->AddAnimation(ITEM_PRIZE);
+							item->SetType(ITEM_PRIZE);
+							objects.push_back(item);
+							listGrids->AddObject(item);
+						}
+
+						if (dynamic_cast<BossBat *>(objects.at(i)))
+						{
+							if (check_next_lv == false)
+							{
+								next_lv = GetTickCount();
+								check_next_lv = true;
+							}
+
+						}
+					}
+					else
 					{
 						// Thêm hiệu ứng tóe lửa
 						whipEffect = new Effect(GetTickCount());
 						whipEffect->AddAnimation(806);
-						whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+						whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
 						objects.push_back(whipEffect);
 						listGrids->AddObject(whipEffect);
 
 						whipEffect = new Effect(GetTickCount());
 						whipEffect->AddAnimation(807);
-						whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+						whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
 						objects.push_back(whipEffect);
 						listGrids->AddObject(whipEffect);
-
-						bossbat->isBleeding = true;
 					}
+
+					listRemoveObjects.push_back(enemy);
+				}
+			}
+			else if (dynamic_cast<BigFire *>(objects.at(i)) || dynamic_cast<Candle *>(objects.at(i)))
+			{
+				bool isHitted = false;
+				float object_x, object_y, object_right, object_bottom;
+
+				if (dynamic_cast<BigFire *>(objects.at(i)))
+				{
+					BigFire *bigfire = dynamic_cast<BigFire *>(objects.at(i));
+					bigfire->GetBoundingBox(object_x, object_y, object_right, object_bottom);
+
+					isHitted = bigfire->isHitted;
+					if (isHitted)
+						listRemoveObjects.push_back(bigfire);
+				}
+				else if (dynamic_cast<Candle *>(objects.at(i)))
+				{
+					Candle *candle = dynamic_cast<Candle *>(objects.at(i));
+					candle->GetBoundingBox(object_x, object_y, object_right, object_bottom);
+
+					isHitted = candle->isHitted;
+					if (isHitted)
+						listRemoveObjects.push_back(candle);
 				}
 
-				enemy->Update(dt, &objects);
-			}
-		}
-
-		listGrids->UpdateObjectInGrid(objects[i]);
-	}
-	
-#pragma endregion
-
-#pragma region Remove Object
-	/**
-	 * Không remove trực tiếp trong mảng khi đang duyệt, thêm vào danh sách các object sẽ bị remove và sau đó mới bắt đầu remove
-	 */
-	vector<LPGAMEOBJECT> listRemoveObjects;
-
-	// Thêm các object sẽ bị remove vào listRemoveObjects và cập nhật thêm các object mới vào objects và listGrids
-	for (int i = 0; i < objects.size(); i++)
-	{
-		if (dynamic_cast<Enemy *>(objects.at(i)))
-		{
-			enemy = dynamic_cast<Enemy *>(objects.at(i));
-
-			if (enemy->isDie)
-			{
-				float object_x, object_y, object_right, object_bottom;
-				enemy->GetBoundingBox(object_x, object_y, object_right, object_bottom);
-
-				if (dynamic_cast<Dracula *>(objects.at(i)) || dynamic_cast<BossBat *>(objects.at(i)) || dynamic_cast<SuperDracula *>(objects.at(i)))
+				if (isHitted)
 				{
-					if (dynamic_cast<Dracula *>(objects.at(i)))
+					item = new Item();
+					item->SetPosition(object_x, object_y);
+					item->SetSpeed(0, -0.1);
+					item->appearTime = GetTickCount();
+					objects.push_back(item);
+					listGrids->AddObject(item);
+
+					// Whip item
+					if (simon->whip->level < 2)
 					{
-						for (int i = 0; i < 3; i++)
-						{
-							for (int j = 0; j < 4; j++)
-							{
-								// Thêm hiệu ứng tóe lửa
-								whipEffect = new Effect(GetTickCount());
-								whipEffect->AddAnimation(806);
-								whipEffect->SetPosition(object_x + i * DRACULA_BBOX_WIDTH, object_y + j * DRACULA_BBOX_HEIGHT);
-								objects.push_back(whipEffect);
-								listGrids->AddObject(whipEffect);
-
-								whipEffect = new Effect(GetTickCount());
-								whipEffect->AddAnimation(807);
-								whipEffect->SetPosition(object_x + i * DRACULA_BBOX_WIDTH, object_y + j * DRACULA_BBOX_HEIGHT);
-								objects.push_back(whipEffect);
-								listGrids->AddObject(whipEffect);
-							}
-						}
-
-						game->bossheath = 16;
-						listGrids->AddObject("Castlevania\\resource\\SuperDracula.txt", enemy->x, enemy->y, simon);
+						item->AddAnimation(ITEM_WHIPITEM);
+						item->SetType(ITEM_WHIPITEM);
 					}
 					else
 					{
-						for (int i = 0; i < 3; i++)
+						/**
+						 * Random ra item: (do hiện tại chỉ có 3 món này)
+						 * 90% heart
+						 * 4% money
+						 * 1% knife
+						 * 1% axe
+						 * 1% holy water
+						 * 1% cross
+						 * 1% rosary
+						 * 1% clock
+						 */
+
+						srand(time(NULL));
+						int random_portion = rand() % 100;
+
+						// Heart
+						/*if (random_portion < 10) // 90
 						{
-							for (int j = 0; j < 4; j++)
-							{
-								// Thêm hiệu ứng tóe lửa
-								whipEffect = new Effect(GetTickCount());
-								whipEffect->AddAnimation(806);
-								whipEffect->SetPosition(object_x + i * (object_right - object_x) / 3, object_y + j * (object_bottom - object_y) / 4);
-								objects.push_back(whipEffect);
-								listGrids->AddObject(whipEffect);
+							item->AddAnimation(ITEM_HEART);
+							item->SetType(ITEM_HEART);
 
-								whipEffect = new Effect(GetTickCount());
-								whipEffect->AddAnimation(807);
-								whipEffect->SetPosition(object_x + i * (object_right - object_x) / 3, object_y + j * (object_bottom - object_y) / 4);
-								objects.push_back(whipEffect);
-								listGrids->AddObject(whipEffect);
-							}
 						}
+						// Money
+						else if (random_portion >= 10 && random_portion < 20) // 90 94
+						{
+							item->AddAnimation(ITEM_HOLYWATER);
+							item->SetType(ITEM_HOLYWATER);
+						}
+						// Knife
+						else if(random_portion >= 20 && random_portion < 30) // 94 95
+						{
+							item->AddAnimation(ITEM_KNIFE);
+							item->SetType(ITEM_KNIFE);
+						}
+						// Axe
+						else if(random_portion >= 30 && random_portion < 40)
+						{
+							item->AddAnimation(ITEM_AXE);
+							item->SetType(ITEM_AXE);
+						}
+						// Holy water
+						else if(random_portion >= 40 && random_portion < 50)
+						{
+							item->AddAnimation(ITEM_HOLYWATER);
+							item->SetType(ITEM_HOLYWATER);
+						}
+						// Cross
+						else if(random_portion >= 50 && random_portion < 70)
+						{
+							item->AddAnimation(ITEM_CROSS);
+							item->SetType(ITEM_CROSS);
+						}
+						// Rosary
+						else if(random_portion >= 70 && random_portion < 80)
+						{
+							item->AddAnimation(ITEM_ROSARY);
+							item->SetType(ITEM_ROSARY);
+						}
+						// Clock
+						else if(random_portion >= 80 && random_portion < 100)
+						{
+							item->AddAnimation(ITEM_CLOCK);
+							item->SetType(ITEM_CLOCK);
+						}*/
+						if (random_portion >= 0 && random_portion <= 100)
+						{
 
-						item = new Item();
-						item->SetPosition(object_x, object_y);
-						item->SetSpeed(0, -0.1);
-						item->appearTime = GetTickCount();
-						item->AddAnimation(ITEM_PRIZE);
-						item->SetType(ITEM_PRIZE);
-						objects.push_back(item);
-						listGrids->AddObject(item);
+							item->AddAnimation(ITEM_INVICIBILITY);
+							item->SetType(ITEM_INVICIBILITY);
+						}
 					}
 
-					if (dynamic_cast<BossBat *>(objects.at(i)))
-					{
-						if (check_next_lv == false)
-						{
-							next_lv = GetTickCount();
-							check_next_lv = true;							
-						}
-						
-					}
-				}
-				else
-				{
 					// Thêm hiệu ứng tóe lửa
 					whipEffect = new Effect(GetTickCount());
 					whipEffect->AddAnimation(806);
@@ -3346,494 +3552,364 @@ void Update(DWORD dt)
 					objects.push_back(whipEffect);
 					listGrids->AddObject(whipEffect);
 				}
+			}
+			else if (dynamic_cast<Item *>(objects.at(i)))
+			{
+				Item *item = dynamic_cast<Item *>(objects.at(i));
 
-				listRemoveObjects.push_back(enemy);
+				if (item->GetEaten() || GetTickCount() - item->appearTime > ITEM_LIVE_TIME)
+				{
+					listRemoveObjects.push_back(item);
+				}
+			}
+			else if (dynamic_cast<Weapon *>(objects.at(i)))
+			{
+				Weapon *weapon = dynamic_cast<Weapon *>(objects.at(i));
+
+				if (weapon->isExposed)
+				{
+					listRemoveObjects.push_back(weapon);
+				}
+			}
+			else if (dynamic_cast<Effect *>(objects.at(i)))
+			{
+				Effect *effect = dynamic_cast<Effect *>(objects.at(i));
+
+				if (effect->GetExposed())
+				{
+					listRemoveObjects.push_back(effect);
+				}
 			}
 		}
-		else if (dynamic_cast<BigFire *>(objects.at(i)) || dynamic_cast<Candle *>(objects.at(i)))
+
+		// Remove lần lượt từng object từ listRemoveObjects trong listGrids
+		for (int i = 0; i < listRemoveObjects.size(); i++)
 		{
-			bool isHitted = false;
-			float object_x, object_y, object_right, object_bottom;
+			listGrids->RemoveObject(listRemoveObjects[i]);
+			delete listRemoveObjects[i];
+		}
 
-			if (dynamic_cast<BigFire *>(objects.at(i)))
+		if (simon->isDead)
+		{
+			if (!simon_reborn)
 			{
-				BigFire *bigfire = dynamic_cast<BigFire *>(objects.at(i));
-				bigfire->GetBoundingBox(object_x, object_y, object_right, object_bottom);
-
-				isHitted = bigfire->isHitted;
-				if (isHitted)
-					listRemoveObjects.push_back(bigfire);
-			}
-			else if (dynamic_cast<Candle *>(objects.at(i)))
-			{
-				Candle *candle = dynamic_cast<Candle *>(objects.at(i));
-				candle->GetBoundingBox(object_x, object_y, object_right, object_bottom);
-
-				isHitted = candle->isHitted;
-				if (isHitted)
-					listRemoveObjects.push_back(candle);
+				simon_dead_timer = GetTickCount();
+				simon_reborn = true;
 			}
 
-			if (isHitted)
+			if (GetTickCount() - simon_dead_timer > 2000 && simon_reborn)
 			{
-				item = new Item();
-				item->SetPosition(object_x, object_y);
-				item->SetSpeed(0, -0.1);
-				item->appearTime = GetTickCount();
-				objects.push_back(item);
-				listGrids->AddObject(item);
+				simon->isDead = false;
+				simon->SetState(SIMON_STATE_IDLE);
+				simon->nx = 1;
+				listGrids->ReleaseList();
 
-				// Whip item
-				if (simon->whip->level < 2)
+				switch (lv)
 				{
-					item->AddAnimation(ITEM_WHIPITEM);
-					item->SetType(ITEM_WHIPITEM);
-				}
-				else
-				{
-					/**
-					 * Random ra item: (do hiện tại chỉ có 3 món này)
-					 * 90% heart
-					 * 4% money
-					 * 1% knife
-					 * 1% axe
-					 * 1% holy water
-					 * 1% cross
-					 * 1% rosary
-					 * 1% clock
-					 */
-
-					srand(time(NULL));
-					int random_portion = rand() % 100;
-
-					// Heart
-					/*if (random_portion < 10) // 90
-					{
-						item->AddAnimation(ITEM_HEART);
-						item->SetType(ITEM_HEART);
-						
-					}
-					// Money
-					else if (random_portion >= 10 && random_portion < 20) // 90 94
-					{
-						item->AddAnimation(ITEM_HOLYWATER);
-						item->SetType(ITEM_HOLYWATER);
-					}
-					// Knife
-					else if(random_portion >= 20 && random_portion < 30) // 94 95
-					{
-						item->AddAnimation(ITEM_KNIFE);
-						item->SetType(ITEM_KNIFE);
-					}
-					// Axe
-					else if(random_portion >= 30 && random_portion < 40)
-					{
-						item->AddAnimation(ITEM_AXE);
-						item->SetType(ITEM_AXE);
-					}
-					// Holy water
-					else if(random_portion >= 40 && random_portion < 50)
-					{
-						item->AddAnimation(ITEM_HOLYWATER);
-						item->SetType(ITEM_HOLYWATER);
-					}
-					// Cross
-					else if(random_portion >= 50 && random_portion < 70)
-					{
-						item->AddAnimation(ITEM_CROSS);
-						item->SetType(ITEM_CROSS);
-					}
-					// Rosary
-					else if(random_portion >= 70 && random_portion < 80)
-					{
-						item->AddAnimation(ITEM_ROSARY);
-						item->SetType(ITEM_ROSARY);
-					}
-					// Clock
-					else if(random_portion >= 80 && random_portion < 100)
-					{
-						item->AddAnimation(ITEM_CLOCK);
-						item->SetType(ITEM_CLOCK);
-					}*/
-					if (random_portion >= 0 && random_portion <= 100)
-					{
-						
-						item->AddAnimation(ITEM_INVICIBILITY);
-						item->SetType(ITEM_INVICIBILITY);
-					}
+				case 2:
+					countLoadResource2 = false;
+					break;
+				case 21:
+					countLoadResource2_1 = false;
+					break;
+				case 22:
+					countLoadResource2_2 = false;
+					break;
+				case 99:
+					countLoadResourceboss = false;
+					break;
+				case 35:
+					countLoadResource3_5 = false;
+					break;
+				case 34:
+					countLoadResource3_4 = false;
+					break;
+				case 33:
+					countLoadResource3_3 = false;
+					break;
+				case 31:
+					countLoadResource3_1 = false;
+					break;
 				}
 
-				// Thêm hiệu ứng tóe lửa
-				whipEffect = new Effect(GetTickCount());
-				whipEffect->AddAnimation(806);
-				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
-				objects.push_back(whipEffect);
-				listGrids->AddObject(whipEffect);
-
-				whipEffect = new Effect(GetTickCount());
-				whipEffect->AddAnimation(807);
-				whipEffect->SetPosition(object_x, object_y + (object_bottom - object_y) / 4);
-				objects.push_back(whipEffect);
-				listGrids->AddObject(whipEffect);
+				simon->preHP = 16;
+				simon_reborn = false;
 			}
 		}
-		else if (dynamic_cast<Item *>(objects.at(i)))
-		{
-			Item *item = dynamic_cast<Item *>(objects.at(i));
-
-			if (item->GetEaten() || GetTickCount() - item->appearTime > ITEM_LIVE_TIME)
-			{
-				listRemoveObjects.push_back(item);
-			}
-		}
-		else if (dynamic_cast<Weapon *>(objects.at(i)))
-		{
-			Weapon *weapon = dynamic_cast<Weapon *>(objects.at(i));
-
-			if (weapon->isExposed)
-			{
-				listRemoveObjects.push_back(weapon);
-			}
-		}
-		else if (dynamic_cast<Effect *>(objects.at(i)))
-		{
-			Effect *effect = dynamic_cast<Effect *>(objects.at(i));
-
-			if (effect->GetExposed())
-			{
-				listRemoveObjects.push_back(effect);
-			}
-		}
-	}
-
-	// Remove lần lượt từng object từ listRemoveObjects trong listGrids
-	for (int i = 0; i < listRemoveObjects.size(); i++)
-	{
-		listGrids->RemoveObject(listRemoveObjects[i]);
-		delete listRemoveObjects[i];
-	}
-
-	if (simon->isDead)
-	{
-		if (!simon_reborn)
-		{
-			simon_dead_timer = GetTickCount();
-			simon_reborn = true;
-		}
-
-		if (GetTickCount() - simon_dead_timer > 2000 && simon_reborn)
-		{
-			simon->isDead = false;
-			simon->SetState(SIMON_STATE_IDLE);
-			simon->nx = 1;
-			listGrids->ReleaseList();
-
-			switch (lv)
-			{
-			case 2:
-				countLoadResource2 = false;
-				break;
-			case 21:
-				countLoadResource2_1 = false;
-				break;
-			case 22:
-				countLoadResource2_2 = false;
-				break;
-			case 99:
-				countLoadResourceboss = false;
-				break;
-			case 35:
-				countLoadResource3_5 = false;
-				break;
-			case 34:
-				countLoadResource3_4 = false;
-				break;
-			case 33:
-				countLoadResource3_3 = false;
-				break;
-			case 31:
-				countLoadResource3_1 = false;
-				break;
-			}
-
-			simon->preHP = 16;
-			simon_reborn = false;
-		}
-	}
 #pragma endregion
 
 #pragma region Camera
-	if (lv == 1)
-	{
-		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
+		if (lv == 1)
 		{
-			game->x_cam = x - SCREEN_WIDTH / 2;
-			
-		}
-		else if (x > MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
-		{
-			game->x_cam = MAX_WIDTH_LV1 - SCREEN_WIDTH;
-			
-		}
-		else
-		{
-			game->x_cam = 0;
-			
-		}
-	}
-	else if (lv == 2)
-	{
-		if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2)
-		{
-			game->x_cam = x - SCREEN_WIDTH / 2;
-			
-		}
-		else if (x > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2) {
-			game->x_cam = MAX_WIDTH_LV2 - SCREEN_WIDTH;
-			
-		}
-		else if (x < SCREEN_WIDTH / 2)
-		{
-			game->x_cam = 0;
-			
-		}
-	}
-	else if (lv == 21)
-	{
-		// chuyen scene
-		
-		if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH/2)
-		{
-			game->x_cam += SIMON_WALKING_SPEED * dt;
-			simon->SetState(SIMON_STATE_IDLE);
-			isEnableKeyBoard = false;
-			
-		}
-		else 
-		{
-			if (check_open_door_time == false)
-			{
-				open_door_time = GetTickCount();
-				check_open_door_time = true;
-			}
-			
-			if (GetTickCount() - open_door_time > 1800)
-			{
-				if (x < 3200)
-				{
-					if (check1 == false)
-						simon->SetState(SIMON_STATE_WALK);
-				}
-				else if (x > 3200 && x<3210)
-				{
-					check1 = true;
-					check = true;
-					simon->SetState(SIMON_STATE_IDLE);
-					if (check_close_door_time == false)
-					{
-						close_door_time = GetTickCount();
-						check_close_door_time = true;
-					}
-					
-				}
-			}
-		}
-				
-		if (game->x_cam <= MAX_WIDTH_LV2 && check == true)
-		{				
-			if (GetTickCount() - close_door_time > 1800)
-			game->x_cam += SIMON_WALKING_SPEED * dt;
-
-		}
-		else if (game->x_cam > MAX_WIDTH_LV2)
-		{
-			checkScene = true;
-			check_close_door_time = false;
-			check_open_door_time = false;
-			
-		}
-		
-		//
-		//trả camera về simon
-		if (checkScene == true)
-		{
-			if (x > MAX_WIDTH_LV2 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
+			if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
 			{
 				game->x_cam = x - SCREEN_WIDTH / 2;
-				
-			}
-			else if (x > MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2) 
-			{
-				game->x_cam = MAX_WIDTH_LV2_1 - SCREEN_WIDTH;
-				
-			}
-			else if (x < MAX_WIDTH_LV2 + SCREEN_WIDTH / 2)
-			{
-				game->x_cam = MAX_WIDTH_LV2;
-				
-			}
-			isEnableKeyBoard = true;
-		}
-		
-	}
-	else if (lv == 22)
-	{
-		if (x < SCREEN_WIDTH / 2)
-		{
-			game->x_cam = 0;
-		}
-		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2)
-		{
-			game->x_cam = x - SCREEN_WIDTH / 2;
 
-		}
-		else if (x > MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2)
-			game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;
-	}
-	else if (lv == 99)
-	{
-		if (game->x_cam < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
-		{
-			game->x_cam += SIMON_WALKING_SPEED * dt;
-			simon->SetState(SIMON_STATE_IDLE);
-			isEnableKeyBoard = false;
-			
-		}
-		else 
-		{
-			if (check_open_door_time == false)
-			{
-				open_door_time = GetTickCount();
-				check_open_door_time = true;
 			}
-
-			if (GetTickCount() - open_door_time > 1800)
+			else if (x > MAX_WIDTH_LV1 - SCREEN_WIDTH / 2)
 			{
-				if (x < MAX_WIDTH_LV2_1 + 100)
+				game->x_cam = MAX_WIDTH_LV1 - SCREEN_WIDTH;
+
+			}
+			else
+			{
+				game->x_cam = 0;
+
+			}
+		}
+		else if (lv == 2)
+		{
+			if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2)
+			{
+				game->x_cam = x - SCREEN_WIDTH / 2;
+
+			}
+			else if (x > MAX_WIDTH_LV2 - SCREEN_WIDTH / 2) {
+				game->x_cam = MAX_WIDTH_LV2 - SCREEN_WIDTH;
+
+			}
+			else if (x < SCREEN_WIDTH / 2)
+			{
+				game->x_cam = 0;
+
+			}
+		}
+		else if (lv == 21)
+		{
+			// chuyen scene
+
+			if (game->x_cam < MAX_WIDTH_LV2 - SCREEN_WIDTH / 2)
+			{
+				game->x_cam += SIMON_WALKING_SPEED * dt;
+				simon->SetState(SIMON_STATE_IDLE);
+				isEnableKeyBoard = false;
+
+			}
+			else
+			{
+				if (check_open_door_time == false)
 				{
-					if (check3 == false)
-						simon->SetState(SIMON_STATE_WALK);
+					open_door_time = GetTickCount();
+					check_open_door_time = true;
 				}
-				else if (x > MAX_WIDTH_LV2_1 + 100 && x<MAX_WIDTH_LV2_1 +105)
+
+				if (GetTickCount() - open_door_time > 1800)
 				{
-					simon->SetState(SIMON_STATE_IDLE);
-					checkScene1 = true;
-					check3 = true;
-					if (check_close_door_time == false)
+					if (x < 3200)
 					{
-						close_door_time = GetTickCount();
-						check_close_door_time = true;
+						if (check1 == false)
+							simon->SetState(SIMON_STATE_WALK);
+					}
+					else if (x > 3200 && x < 3210)
+					{
+						check1 = true;
+						check = true;
+						simon->SetState(SIMON_STATE_IDLE);
+						if (check_close_door_time == false)
+						{
+							close_door_time = GetTickCount();
+							check_close_door_time = true;
+						}
+
 					}
 				}
 			}
-		}
-		
-		if (checkScene1 == true)
-		{		
-			if (game->x_cam < MAX_WIDTH_LV2_1)
+
+			if (game->x_cam <= MAX_WIDTH_LV2 && check == true)
 			{
 				if (GetTickCount() - close_door_time > 1800)
 					game->x_cam += SIMON_WALKING_SPEED * dt;
+
 			}
-			else 
+			else if (game->x_cam > MAX_WIDTH_LV2)
 			{
-				if (CGame::start_fight_boss == false)
-				{
-					if (x > MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_BOSS - SCREEN_WIDTH / 2)
-					{
-						game->x_cam = x - SCREEN_WIDTH / 2;
-					}
-					else if (x > MAX_WIDTH_BOSS - SCREEN_WIDTH / 2) {
-						game->x_cam = MAX_WIDTH_BOSS - SCREEN_WIDTH;
-						CGame::start_fight_boss = true;
-					}
-					else if (x < MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2)
-					{
-						game->x_cam = MAX_WIDTH_LV2_1;
-					}
-					isEnableKeyBoard = true;
-				}
-				else
-					game->x_cam = MAX_WIDTH_BOSS - SCREEN_WIDTH;
+				checkScene = true;
+				check_close_door_time = false;
+				check_open_door_time = false;
+
 			}
-		}
-	}
-	else if (lv == 35)
-	{
-		if (x < SCREEN_WIDTH / 2)
-		{
-			game->x_cam = 0;
-		}
-		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_5 - SCREEN_WIDTH / 2)
-		{
-			game->x_cam = x - SCREEN_WIDTH / 2;
+
+			//
+			//trả camera về simon
+			if (checkScene == true)
+			{
+				if (x > MAX_WIDTH_LV2 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
+				{
+					game->x_cam = x - SCREEN_WIDTH / 2;
+
+				}
+				else if (x > MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
+				{
+					game->x_cam = MAX_WIDTH_LV2_1 - SCREEN_WIDTH;
+
+				}
+				else if (x < MAX_WIDTH_LV2 + SCREEN_WIDTH / 2)
+				{
+					game->x_cam = MAX_WIDTH_LV2;
+
+				}
+				isEnableKeyBoard = true;
+			}
 
 		}
-		else if (x > MAX_WIDTH_LV3_5 - SCREEN_WIDTH / 2)
-			game->x_cam = MAX_WIDTH_LV3_5 - SCREEN_WIDTH;
-	}
-	else if (lv == 34)
-	{
-		if (x < SCREEN_WIDTH / 2)
-		{
-			game->x_cam = 0;
-		}
-		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_4 - SCREEN_WIDTH / 2)
-		{
-			game->x_cam = x - SCREEN_WIDTH / 2;
-
-		}
-		else if (x > MAX_WIDTH_LV3_4 - SCREEN_WIDTH / 2)
-			game->x_cam = MAX_WIDTH_LV3_4 - SCREEN_WIDTH;
-	}
-	else if (lv == 33)
-	{
-		if (x < SCREEN_WIDTH / 2)
-		{
-			game->x_cam = 0;
-		}
-		else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_3 - SCREEN_WIDTH / 2)
-		{
-			game->x_cam = x - SCREEN_WIDTH / 2;
-
-		}
-		else if (x > MAX_WIDTH_LV3_3 - SCREEN_WIDTH / 2)
-			game->x_cam = MAX_WIDTH_LV3_3 - SCREEN_WIDTH;
-	}
-	else if (lv == 32)
-	{
-		game->x_cam = 0;
-		
-	}
-	else if (lv == 31)
-	{
-		if (CGame::GetInstance()->start_fight_boss == false)
+		else if (lv == 22)
 		{
 			if (x < SCREEN_WIDTH / 2)
 			{
 				game->x_cam = 0;
-				CGame::GetInstance()->start_fight_boss = true;
 			}
-			else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2)
+			else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2)
 			{
 				game->x_cam = x - SCREEN_WIDTH / 2;
 
 			}
-			else if (x > MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2)
-				game->x_cam = MAX_WIDTH_LV3_1 - SCREEN_WIDTH;
+			else if (x > MAX_WIDTH_LV2_2 - SCREEN_WIDTH / 2)
+				game->x_cam = MAX_WIDTH_LV2_2 - SCREEN_WIDTH;
 		}
-		else
+		else if (lv == 99)
+		{
+			if (game->x_cam < MAX_WIDTH_LV2_1 - SCREEN_WIDTH / 2)
+			{
+				game->x_cam += SIMON_WALKING_SPEED * dt;
+				simon->SetState(SIMON_STATE_IDLE);
+				isEnableKeyBoard = false;
+
+			}
+			else
+			{
+				if (check_open_door_time == false)
+				{
+					open_door_time = GetTickCount();
+					check_open_door_time = true;
+				}
+
+				if (GetTickCount() - open_door_time > 1800)
+				{
+					if (x < MAX_WIDTH_LV2_1 + 100)
+					{
+						if (check3 == false)
+							simon->SetState(SIMON_STATE_WALK);
+					}
+					else if (x > MAX_WIDTH_LV2_1 + 100 && x < MAX_WIDTH_LV2_1 + 105)
+					{
+						simon->SetState(SIMON_STATE_IDLE);
+						checkScene1 = true;
+						check3 = true;
+						if (check_close_door_time == false)
+						{
+							close_door_time = GetTickCount();
+							check_close_door_time = true;
+						}
+					}
+				}
+			}
+
+			if (checkScene1 == true)
+			{
+				if (game->x_cam < MAX_WIDTH_LV2_1)
+				{
+					if (GetTickCount() - close_door_time > 1800)
+						game->x_cam += SIMON_WALKING_SPEED * dt;
+				}
+				else
+				{
+					if (CGame::start_fight_boss == false)
+					{
+						if (x > MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2 && x < MAX_WIDTH_BOSS - SCREEN_WIDTH / 2)
+						{
+							game->x_cam = x - SCREEN_WIDTH / 2;
+						}
+						else if (x > MAX_WIDTH_BOSS - SCREEN_WIDTH / 2) {
+							game->x_cam = MAX_WIDTH_BOSS - SCREEN_WIDTH;
+							CGame::start_fight_boss = true;
+						}
+						else if (x < MAX_WIDTH_LV2_1 + SCREEN_WIDTH / 2)
+						{
+							game->x_cam = MAX_WIDTH_LV2_1;
+						}
+						isEnableKeyBoard = true;
+					}
+					else
+						game->x_cam = MAX_WIDTH_BOSS - SCREEN_WIDTH;
+				}
+			}
+		}
+		else if (lv == 35)
+		{
+			if (x < SCREEN_WIDTH / 2)
+			{
+				game->x_cam = 0;
+			}
+			else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_5 - SCREEN_WIDTH / 2)
+			{
+				game->x_cam = x - SCREEN_WIDTH / 2;
+
+			}
+			else if (x > MAX_WIDTH_LV3_5 - SCREEN_WIDTH / 2)
+				game->x_cam = MAX_WIDTH_LV3_5 - SCREEN_WIDTH;
+		}
+		else if (lv == 34)
+		{
+			if (x < SCREEN_WIDTH / 2)
+			{
+				game->x_cam = 0;
+			}
+			else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_4 - SCREEN_WIDTH / 2)
+			{
+				game->x_cam = x - SCREEN_WIDTH / 2;
+
+			}
+			else if (x > MAX_WIDTH_LV3_4 - SCREEN_WIDTH / 2)
+				game->x_cam = MAX_WIDTH_LV3_4 - SCREEN_WIDTH;
+		}
+		else if (lv == 33)
+		{
+			if (x < SCREEN_WIDTH / 2)
+			{
+				game->x_cam = 0;
+			}
+			else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_3 - SCREEN_WIDTH / 2)
+			{
+				game->x_cam = x - SCREEN_WIDTH / 2;
+
+			}
+			else if (x > MAX_WIDTH_LV3_3 - SCREEN_WIDTH / 2)
+				game->x_cam = MAX_WIDTH_LV3_3 - SCREEN_WIDTH;
+		}
+		else if (lv == 32)
+		{
 			game->x_cam = 0;
-	}
+
+		}
+		else if (lv == 31)
+		{
+			if (CGame::GetInstance()->start_fight_boss == false)
+			{
+				if (x < SCREEN_WIDTH / 2)
+				{
+					game->x_cam = 0;
+					CGame::GetInstance()->start_fight_boss = true;
+				}
+				else if (x > SCREEN_WIDTH / 2 && x < MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2)
+				{
+					game->x_cam = x - SCREEN_WIDTH / 2;
+
+				}
+				else if (x > MAX_WIDTH_LV3_1 - SCREEN_WIDTH / 2)
+					game->x_cam = MAX_WIDTH_LV3_1 - SCREEN_WIDTH;
+			}
+			else
+				game->x_cam = 0;
+		}
 #pragma endregion
 
 #pragma region UI
-
+	}
 	if (lv == 1)
 		ui->Update(gameTime / 1000, 1, simon);
 	else
 		ui->Update(gameTime / 1000, 2, simon);
-
+	
 #pragma endregion
 }
 
@@ -3862,91 +3938,120 @@ void Render()
 		LPDIRECT3DTEXTURE9 tileset34 = textures->Get(ID_TEX_TILESET34);
 		LPDIRECT3DTEXTURE9 tileset35 = textures->Get(ID_TEX_TILESET35);
 		
-		if (lv==1 && checkload == false)
+		if (lv > 0)
 		{
-			map = new	Map ( tileset, 32, 32); 
-			map->LoadMatrixMap("Castlevania\\Mapstate.txt");
-			checkload = true;
-			/*map = new	Map(tileset35, 32, 32);
-			map->LoadMatrixMap("Castlevania\\map35_bg.txt");*/
+			if (lv == 1 && checkload == false)
+			{
+				map = new	Map(tileset, 32, 32);
+				map->LoadMatrixMap("Castlevania\\Mapstate.txt");
+				checkload = true;
+				/*map = new	Map(tileset35, 32, 32);
+				map->LoadMatrixMap("Castlevania\\map35_bg.txt");*/
+
+			}
+			else if ((lv == 2 || lv == 21 || lv == 99) && checkload == false) {
+				map = new	Map(tileset1, 32, 32);
+				map->LoadMatrixMap("Castlevania\\Mapstate2.txt");
+				checkload = true;
+			}
+			else if (lv == 22 && checkload == false)
+			{
+				map = new	Map(tileset2, 32, 32);
+				map->LoadMatrixMap("Castlevania\\Mapstate2_1.txt");
+				checkload = true;
+			}
+			else if (lv == 31 && checkload == false)
+			{
+				map = new	Map(tileset31, 32, 32);
+				map->LoadMatrixMap("Castlevania\\map31_bg.txt");
+				checkload = true;
+			}
+			else if (lv == 32 && checkload == false)
+			{
+				map = new	Map(tileset32, 32, 32);
+				map->LoadMatrixMap("Castlevania\\map32_bg.txt");
+				checkload = true;
+			}
+			else if (lv == 33 && checkload == false)
+			{
+				map = new	Map(tileset33, 32, 32);
+				map->LoadMatrixMap("Castlevania\\map33_bg.txt");
+				checkload = true;
+			}
+			else if (lv == 34 && checkload == false)
+			{
+				map = new	Map(tileset34, 32, 32);
+				map->LoadMatrixMap("Castlevania\\map34_bg.txt");
+				checkload = true;
+			}
+			else if (lv == 35 && checkload == false)
+			{
+				map = new	Map(tileset35, 32, 32);
+				map->LoadMatrixMap("Castlevania\\map35_bg.txt");
+				checkload = true;
+			}
+			map->Draw(game->x_cam, game->y_cam);
+
+			for (int i = 0; i < currentGrids.size(); i++)
+			{
+				vector<LPGAMEOBJECT> listObject = currentGrids[i]->GetListObject();
+				int listObjectSize = listObject.size();
+
+				for (int j = 0; j < listObjectSize; j++)
+				{
+					listObject[j]->Render();
+				}
+			}
+
+			if (simon->isRosaryUsed)
+			{
+				if (transparent)
+				{
+					animations->Get(4444)->Render(game->x_cam, game->y_cam, 100);
+				}
+				transparent = !transparent;
+
+				if (GetTickCount() - simon->rosaryCast > ROSARY_TIME)
+				{
+					simon->isRosaryUsed = false;
+					isEnableKeyBoard = true;
+				}
+			}
+
+			simon->Render();
+			ui->Render(game->x_cam, game->y_cam, simon, CGame::bossheath, lv);
+		}
+		else if (lv == 0) {
+
+			RECT rect;
+			SetRect(&rect, 0, 0, 640, 480);
+			D3DXVECTOR3 p(0, 0, 0);
+			spriteHandler->Draw(textures->Get(ID_TEX_INTRO_SENCE),&rect, NULL, &p, D3DCOLOR_ARGB(255, 255, 255, 255));
+			vector<LPANIMATION> animations;
+			LPANIMATION ani = CAnimations::GetInstance()->Get(4001);
+			animations.push_back(ani);
+			animations[0]->Render(458,243);
 			
 		}
-		else if( (lv == 2 || lv == 21 || lv==99) && checkload == false ) {									
-			map = new	Map (tileset1, 32, 32); 
-			map->LoadMatrixMap("Castlevania\\Mapstate2.txt");			
-			checkload = true;
-		}
-		else if (lv == 22 && checkload == false)
+		else if (lv == -1)
 		{
-			map = new	Map(tileset2, 32, 32);
-			map->LoadMatrixMap("Castlevania\\Mapstate2_1.txt");
-			checkload = true;
-		}
-		else if (lv == 31 && checkload == false)
-		{
-			map = new	Map(tileset31, 32, 32);
-			map->LoadMatrixMap("Castlevania\\map31_bg.txt");
-			checkload = true;
-		}
-		else if (lv == 32 && checkload == false)
-		{
-			map = new	Map(tileset32, 32, 32);
-			map->LoadMatrixMap("Castlevania\\map32_bg.txt");
-			checkload = true;
-		}
-		else if (lv == 33 && checkload == false)
-		{
-			map = new	Map(tileset33, 32, 32);
-			map->LoadMatrixMap("Castlevania\\map33_bg.txt");
-			checkload = true;
-		}
-		else if (lv == 34 && checkload == false)
-		{
-			map = new	Map(tileset34, 32, 32);
-			map->LoadMatrixMap("Castlevania\\map34_bg.txt");
-			checkload = true;
-		}
-		else if (lv == 35 && checkload == false)
-		{
-			map = new	Map(tileset35, 32, 32);
-			map->LoadMatrixMap("Castlevania\\map35_bg.txt");
-			checkload = true;
-		}
-		map->Draw(game->x_cam, game->y_cam);
-
-		for (int i = 0; i < currentGrids.size(); i++)
-		{
-			vector<LPGAMEOBJECT> listObject = currentGrids[i]->GetListObject();
-			int listObjectSize = listObject.size();
-
-			for (int j = 0; j < listObjectSize; j++)
+			
+			RECT rect;
+			SetRect(&rect, 0, 0, 640, 480);
+			D3DXVECTOR3 p(0, 0, 0);
+			spriteHandler->Draw(textures->Get(ID_TEX_INTRO_SENCE2), &rect, NULL, &p, D3DCOLOR_ARGB(255, 255, 255, 255));
+			for (int i = 0; i < currentGrids.size(); i++)
 			{
-				listObject[j]->Render();
+				vector<LPGAMEOBJECT> listObject = currentGrids[i]->GetListObject();
+				int listObjectSize = listObject.size();
+
+				for (int j = 0; j < listObjectSize; j++)
+				{
+					listObject[j]->Render();
+				}
 			}
+			simon->Render();
 		}
-
-		if (simon->isRosaryUsed)
-		{
-			if (transparent)
-			{
-				animations->Get(4444)->Render(game->x_cam, game->y_cam, 100);
-			}
-			transparent = !transparent;
-
-			if (GetTickCount() - simon->rosaryCast > ROSARY_TIME)
-			{
-				simon->isRosaryUsed = false;
-				isEnableKeyBoard = true;
-			}
-		}
-
-		simon->Render();
-		ui->Render(game->x_cam, game->y_cam,simon, CGame::bossheath, lv);
-		
-		/*RECT newRect;
-		SetRect(&newRect, 0, 0, 30, 30);
-		D3DXVECTOR3 p(0, 0, 0);
-		spriteHandler->Draw(textures->Get(ID_TEX_AXE), &newRect, NULL, &p, D3DCOLOR_ARGB(255, 255, 255, 255));*/
 		
 		spriteHandler->End();
 		d3ddv->EndScene();
