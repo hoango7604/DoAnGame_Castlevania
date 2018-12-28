@@ -81,7 +81,7 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 								enemy = new EnemyBullet(1);
 								enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-								enemy->vy = 0.05f;
+								enemy->vy = 0.1f;
 								enemy->SetPosition(x + SUPERDRACULA_BBOX_WIDTH / 2, y + 25);
 								ListGrids::GetInstance()->AddObject(enemy);
 
@@ -91,13 +91,13 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								Enemy *enemy;
 								enemy = new EnemyBullet(-1);
 								enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-								enemy->vy = 0.03f;
+								enemy->vy = 0.015f;
 								enemy->SetPosition(x + SUPERDRACULA_BBOX_WIDTH / 2, y + 25);
 								ListGrids::GetInstance()->AddObject(enemy);
 
 								enemy = new EnemyBullet(-1);
 								enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
-								enemy->vy = 0.015f;
+								enemy->vy = 0.1f;
 								enemy->SetPosition(x + SUPERDRACULA_BBOX_WIDTH / 2, y + 25);
 								ListGrids::GetInstance()->AddObject(enemy);
 
