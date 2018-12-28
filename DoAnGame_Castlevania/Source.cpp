@@ -3209,39 +3209,25 @@ void Update(DWORD dt)
 				}
 				else if (dynamic_cast<BossBat *>(objects.at(i)))
 				{
-				BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
+					BossBat *bossbat = dynamic_cast<BossBat *>(objects.at(i));
 
-				if (bossbat->isHurt && !bossbat->isBleeding)
-				{
-					// Thêm hiệu ứng tóe lửa
-					whipEffect = new Effect(GetTickCount());
-					whipEffect->AddAnimation(806);
-					whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
-					objects.push_back(whipEffect);
-					listGrids->AddObject(whipEffect);
+					if (bossbat->isHurt && !bossbat->isBleeding)
+					{
+						// Thêm hiệu ứng tóe lửa
+						whipEffect = new Effect(GetTickCount());
+						whipEffect->AddAnimation(806);
+						whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+						objects.push_back(whipEffect);
+						listGrids->AddObject(whipEffect);
 
-					whipEffect = new Effect(GetTickCount());
-					whipEffect->AddAnimation(807);
-					whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
-					objects.push_back(whipEffect);
-					listGrids->AddObject(whipEffect);
+						whipEffect = new Effect(GetTickCount());
+						whipEffect->AddAnimation(807);
+						whipEffect->SetPosition(bossbat->x + BOSSBAT_BBOX_WIDTH / 2, bossbat->y + BOSSBAT_BBOX_HEIGHT / 4);
+						objects.push_back(whipEffect);
+						listGrids->AddObject(whipEffect);
 
-					bossbat->isBleeding = true;
-				}
-
-				if (bossbat->isDie)
-				{
-					item = new Item();
-					item->SetPosition(bossbat->x, bossbat->y);
-					item->SetSpeed(0, -0.1);
-					item->appearTime = GetTickCount();
-					item->AddAnimation(ITEM_PRIZE);
-					item->SetType(ITEM_PRIZE);
-					objects.push_back(item);
-					listGrids->AddObject(item);
-					lv = 35;
-					checkload = false;
-				}
+						bossbat->isBleeding = true;
+					}
 				}
 
 				enemy->Update(dt, &objects);
@@ -3314,16 +3300,22 @@ void Update(DWORD dt)
 								listGrids->AddObject(whipEffect);
 							}
 						}
+
+						item = new Item();
+						item->SetPosition(object_x, object_y);
+						item->SetSpeed(0, -0.1);
+						item->appearTime = GetTickCount();
+						item->AddAnimation(ITEM_PRIZE);
+						item->SetType(ITEM_PRIZE);
+						objects.push_back(item);
+						listGrids->AddObject(item);
 					}
 
-					item = new Item();
-					item->SetPosition(object_x, object_y);
-					item->SetSpeed(0, -0.1);
-					item->appearTime = GetTickCount();
-					item->AddAnimation(ITEM_PRIZE);
-					item->SetType(ITEM_PRIZE);
-					objects.push_back(item);
-					listGrids->AddObject(item);
+					if (dynamic_cast<BossBat *>(objects.at(i)))
+					{
+						lv = 35;
+						checkload = false;
+					}
 				}
 				else
 				{

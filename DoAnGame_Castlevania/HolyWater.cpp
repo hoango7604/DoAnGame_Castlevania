@@ -32,9 +32,13 @@ void HolyWater::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<
 					{
 						BossBat *bossbat = dynamic_cast<BossBat *>(e->obj);
 
-						CGame::GetInstance()->bossheath -= 1;
-						bossbat->isHurt = true;
-						bossbat->hurtTime = GetTickCount();
+						if (!bossbat->isUntouchable)
+						{
+							CGame::GetInstance()->bossheath -= 1;
+							bossbat->isHurt = true;
+							bossbat->hurtTime = GetTickCount();
+							bossbat->StartUntouchable();
+						}
 
 						if (CGame::GetInstance()->bossheath <= 0)
 						{
@@ -49,6 +53,7 @@ void HolyWater::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<
 						{
 							CGame::GetInstance()->bossheath -= 1;
 							dracula->isHit = true;
+							dracula->StartUntouchable();
 
 							if (CGame::GetInstance()->bossheath <= 0)
 							{
@@ -61,11 +66,12 @@ void HolyWater::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<
 					{
 						SuperDracula *superDracula = dynamic_cast<SuperDracula *>(e->obj);
 
-						if (!superDracula->isHitted)
+						if (!superDracula->isHitted && !superDracula->isUntouchable)
 						{
 							CGame::GetInstance()->bossheath -= 1;
 							superDracula->isHitted = true;
 							superDracula->hitTime = GetTickCount();
+							superDracula->StartUntouchable();
 						}
 
 						if (CGame::GetInstance()->bossheath <= 0)

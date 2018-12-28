@@ -37,5 +37,12 @@ void Enemy::CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCO
 
 void Enemy::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	// reset untouchable timer if untouchable time has passed
+	if (isUntouchable && GetTickCount() - untouchable_start > untouchableTime)
+	{
+		untouchable_start = 0;
+		isUntouchable = false;
+	}
+
 	CGameObject::Update(dt, coObjects);
 }
