@@ -444,6 +444,7 @@ void LoadResourceLv1()
 	listGrids->InitList(MAX_WIDTH_LV1);
 
 	listGrids->AddObject("Castlevania\\resource\\ResourceLv1.txt",simon,game);
+	listGrids->AddObject("Castlevania\\resource\\SuperDracula.txt", 200,170, simon);
 	
 }
 
@@ -2726,7 +2727,6 @@ void Update(DWORD dt)
 			if (timer - simon->onCheckPointTime > LEVELUP_TIME)
 			{
 				listGrids->ReleaseList();
-
 				lv = 34;
 				checkload = false;
 				simon->SetPosition(1455, 200);
@@ -2771,7 +2771,7 @@ void Update(DWORD dt)
 				}																					
 			}
 		}
-		if ((y < 85 && x> 1340) || ( y< 85 && x>664  && x<690) || (y < 85 && x>200 && x<210) )
+		if (((y < 85 && x> 1340) || ( y< 85 && x>664  && x<690) || (y < 85 && x>200 && x<210)) && simon->isOnStair == true )
 		{
 			listGrids->ReleaseList();
 			listGrids->InitList(MAX_WIDTH_LV3_3);
@@ -2803,6 +2803,7 @@ void Update(DWORD dt)
 	{
 		static int count33 = 0;
 		static int count_enemy33 = 0;		
+		bool prevent_load_twice ;
 		if (check_enemy_lv33 == false)
 		{
 			timer = GetTickCount();
@@ -2867,7 +2868,7 @@ void Update(DWORD dt)
 			simon->SetPosition(500, 200);
 			simon->GetPosition(x, y);			
 		}
-		if ((y > 430 && x< 190) || (y > 430 && x>570 && x < 600) || (y > 430 && x>1280 && x < 1300))
+		if ((y > 430 && x< 190) || (y > 430 && x>570 && x < 600) || (y > 430 && x>1280 && x < 1300) && simon->isOnStair == true)
 		{
 			listGrids->ReleaseList();
 			listGrids->InitList(MAX_WIDTH_LV3_4);
@@ -2890,6 +2891,17 @@ void Update(DWORD dt)
 				simon->GetPosition(x, y);
 			}
 			//temp10 = true;
+			
+		}
+		else if (y > 480 && simon->isOnStair == false)
+		{
+			listGrids->ReleaseList();
+			listGrids->InitList(MAX_WIDTH_LV3_4);
+			LoadResourceLv3_4();
+			lv = 34;
+			checkload = false;
+			simon->SetPosition(x, 130);
+			simon->GetPosition(x, y);
 		}
 	}
 	if (lv == 32)
@@ -3154,6 +3166,21 @@ void Update(DWORD dt)
 
 						superDracula->isBleeding = true;
 					}
+					if (superDracula->state == SUPERDRACULA_STATE_HIT && GetTickCount() - superDracula->timer_hit > 1500)
+					{
+						int nx = superDracula->nx;
+						enemy = new EnemyBullet(nx);
+						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+						enemy->vy = 0.05f;
+						enemy->SetPosition(superDracula->x + DRACULA_BBOX_WIDTH / 2, superDracula->y + 55);
+						listGrids->AddObject(enemy);
+
+						enemy = new EnemyBullet(nx);
+						enemy->AddAnimation("Castlevania\\resource\\EnemyBullet.txt");
+						enemy->vy = -0.05f;
+						enemy->SetPosition(superDracula->x + DRACULA_BBOX_WIDTH / 2, superDracula->y + 55);
+						listGrids->AddObject(enemy);
+					}
 				}
 				else if (dynamic_cast<BossBat *>(objects.at(i)))
 				{
@@ -3188,6 +3215,7 @@ void Update(DWORD dt)
 					objects.push_back(item);
 					listGrids->AddObject(item);
 					lv = 35;
+					checkload = false;
 				}
 				}
 

@@ -36,11 +36,38 @@ void SuperDracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		if (GetTickCount() - timer > 3150)
 		{
-			state = SUPERDRACULA_WAIT;
+			/*state = SUPERDRACULA_WAIT;
 			timer = GetTickCount();
 			check_onsky = false;
 			check_start_fly = false;
 			check_wait = false;
+			jump += 1;*/
+			if (jump % 3 !=0)
+			{
+				state = SUPERDRACULA_WAIT;
+				timer = GetTickCount();
+				check_onsky = false;
+				check_start_fly = false;
+				check_wait = false;
+				jump += 1;
+			}
+			else
+			{
+				if (check_hit_time == false)
+				{
+					timer_hit = GetTickCount();
+					check_hit_time = true;
+				}
+				if (GetTickCount() - timer_hit < 1500)
+					state = SUPERDRACULA_WAIT;
+				if (GetTickCount() - timer_hit > 1500)
+					state = SUPERDRACULA_STATE_HIT;
+				if (GetTickCount() - timer_hit > 2000)
+					{
+						jump += 1;
+						check_hit_time = false;
+					}
+			}
 		}
 	//}
 	if(isHitted)
@@ -137,8 +164,10 @@ void SuperDracula::Render()
 			animations[6]->Render(x, y);
 			vx = 0.08;
 		}
-
-		vy = -0.5;
+		if (jump % 2 == 0)
+			vy = -0.5;
+		else
+			vy = -0.3;
 		
 		break;
 	case SUPERDRACULA_ON_SKY:
@@ -148,6 +177,11 @@ void SuperDracula::Render()
 			animations[7]->Render(x, y);
 		vy = 0;
 		break;
+	case SUPERDRACULA_STATE_HIT:
+		if (simon->x < x)
+			animations[3]->Render(x, y -32);
+		else
+			animations[7]->Render(x, y-32);
 	}
 
 }
