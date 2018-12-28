@@ -36,7 +36,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						bossbat->isDie = true;
 						Simon::score += 100;
-						//CGame::GetInstance()->start_fight_boss = false;
+						CGame::GetInstance()->start_fight_boss = false;
 						CGame::GetInstance()->bossheath = 16;
 					}
 				}

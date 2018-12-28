@@ -92,7 +92,9 @@ bool isClockWeaponUsed = false;
 DWORD clockWeaponCast;
 
 bool transparent = false;
-
+static DWORD next_lv;
+bool check_next_lv = false;
+bool level_up = false;
 DWORD timer; // load enemy
 bool count_enemy = true;
 DWORD gameTime = 999000;
@@ -2541,7 +2543,12 @@ void Update(DWORD dt)
 	simon->GetPosition(x, y);
 	if (!simon->isLevelUp)
 		gameTime -= dt;
-
+	if (GetTickCount() - next_lv > 1000 && next_lv >0 && check_next_lv == false)
+	{
+		lv = 35;
+		checkload = false;
+		check_next_lv = true;
+	}
 	if (lv == 1)
 	{
 		// Lên cấp
