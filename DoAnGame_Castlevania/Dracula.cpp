@@ -97,7 +97,7 @@ void Dracula::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (state == DRACULA_STATE_INVISIBLE)
 			{
-				x = simon->x + rand() % 200 - 100;
+				x = rand() % 4 * SCREEN_WIDTH / 3;
 				y = DRACULA_Y;
 
 				if (x < SCREEN_WIDTH / 6)

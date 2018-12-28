@@ -99,6 +99,9 @@ DWORD timer; // load enemy
 bool count_enemy = true;
 DWORD gameTime = 999000;
 
+bool simon_reborn = false;
+DWORD simon_dead_timer;
+
 CSprites * sprites = CSprites::GetInstance();
 CAnimations * animations = CAnimations::GetInstance();
 CTextures * textures = CTextures::GetInstance();
@@ -3183,10 +3186,6 @@ void Update(DWORD dt)
 
 						dracula->isBleeding = true;
 					}
-					if (dracula->isDie)
-					{						
-						listGrids->AddObject("Castlevania\\resource\\SuperDracula.txt",dracula->x,dracula->y,simon);
-					}
 				}
 				else if (dynamic_cast<SuperDracula *>(objects.at(i)))
 				{
@@ -3286,6 +3285,9 @@ void Update(DWORD dt)
 								listGrids->AddObject(whipEffect);
 							}
 						}
+
+						game->bossheath = 16;
+						listGrids->AddObject("Castlevania\\resource\\SuperDracula.txt", enemy->x, enemy->y, simon);
 					}
 					else
 					{
@@ -3504,6 +3506,54 @@ void Update(DWORD dt)
 	{
 		listGrids->RemoveObject(listRemoveObjects[i]);
 		delete listRemoveObjects[i];
+	}
+
+	if (simon->isDead)
+	{
+		if (!simon_reborn)
+		{
+			simon_dead_timer = GetTickCount();
+			simon_reborn = true;
+		}
+
+		if (GetTickCount() - simon_dead_timer > 2000 && simon_reborn)
+		{
+			simon->isDead = false;
+			simon->SetState(SIMON_STATE_IDLE);
+			simon->nx = 1;
+			listGrids->ReleaseList();
+
+			switch (lv)
+			{
+			case 2:
+				countLoadResource2 = false;
+				break;
+			case 21:
+				countLoadResource2_1 = false;
+				break;
+			case 22:
+				countLoadResource2_2 = false;
+				break;
+			case 99:
+				countLoadResourceboss = false;
+				break;
+			case 35:
+				countLoadResource3_5 = false;
+				break;
+			case 34:
+				countLoadResource3_4 = false;
+				break;
+			case 33:
+				countLoadResource3_3 = false;
+				break;
+			case 31:
+				countLoadResource3_1 = false;
+				break;
+			}
+
+			simon->preHP = 16;
+			simon_reborn = false;
+		}
 	}
 #pragma endregion
 
