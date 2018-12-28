@@ -445,3 +445,6 @@
 // Checkpoint type
 #define CHECKPOINT_LEVELUP				0
 #define CHECKPOINT_BONUS				1
+
+//giap
+#define AMOR							4000
