@@ -74,6 +74,8 @@ bool check_close_door_time = false;
 bool check2 = false;
 bool check3 = false;
 
+bool checkA;
+
 bool check_enemy_lv34 = false;
 bool check_enemy_lv33 = false;
 bool countLoadResource1 = false;
@@ -289,7 +291,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	if (isEnableKeyBoard && !simon->isHurt)
 	{
 		// Nhay
-		if (KeyCode == DIK_SPACE)
+		if (KeyCode == DIK_S)
 		{
 			if (/*simon->isJump == false && */simon->isSit == false && simon->isAttack == false && simon->isOnStair == false)
 				simon->SetAction(SIMON_ACTION_JUMP);
@@ -297,14 +299,26 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		// Danh
 		else if (KeyCode == DIK_A)
 		{
-			if (simon->isAttack == false)
+			if (game->IsKeyDown(DIK_UP))
+			{
+				if (simon->isAttack == false && simon->currentWeapon != 0)
+				{
+					if (simon->heartsAmount > 0)
+					{
+						simon->heartsAmount -= 1;
+						GenerateWeapon();
+					}
+				}
+			}
+
+			else if (simon->isAttack == false)
 			{
 				simon->SetAction(SIMON_ACTION_ATTACK);
 				simon->isUseWhip = true;
 			}
 		}
 		// Dùng vũ khí
-		else if (KeyCode == DIK_S)
+		/*else if (KeyCode == DIK_S)
 		{
 			if (simon->isAttack == false && simon->currentWeapon != 0)
 			{
@@ -314,7 +328,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 					GenerateWeapon();
 				}
 			}
-		}
+		}*/
 	}
 }
 
@@ -366,6 +380,11 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 		else if (KeyCode == DIK_RIGHT || KeyCode == DIK_LEFT)
 		{
 			simon->isMoving = false;
+		}
+
+		else if (KeyCode == DIK_A)
+		{
+			checkA = false;
 		}
 	}
 }
