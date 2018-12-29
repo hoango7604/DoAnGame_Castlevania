@@ -53,7 +53,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (dracula->state == DRACULA_STATE_ATTACK && !dracula->isHit)
 					{
-						CGame::GetInstance()->bossheath -= 16;
+						CGame::GetInstance()->bossheath -= 1;
 						dracula->isHit = true;
 
 						if (CGame::GetInstance()->bossheath <= 0)

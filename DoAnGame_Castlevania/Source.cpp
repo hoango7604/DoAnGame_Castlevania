@@ -3677,10 +3677,10 @@ void Update(DWORD dt)
 					countLoadResource3_4 = false;
 					/*listGrids->InitList(MAX_WIDTH_LV3_3);
 					LoadResourceLv3_4();*/
-					simon->SetPosition(x, y - 60);
 					
 					break;
 				case 33:
+					simon->SetPosition(1426, 300);
 					countLoadResource3_3 = false;
 					listGrids->InitList(MAX_WIDTH_LV3_3);
 					LoadResourceLv3_3();
@@ -3688,6 +3688,9 @@ void Update(DWORD dt)
 					break;
 				case 31:
 					countLoadResource3_1 = false;
+					simon->SetPosition(150, 150);
+					listGrids->InitList(MAX_WIDTH_LV3_1);
+					LoadResourceLv3_1();
 					break;
 				}
 
