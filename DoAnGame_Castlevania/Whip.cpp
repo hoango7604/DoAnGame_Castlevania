@@ -31,6 +31,7 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					CGame::GetInstance()->bossheath -= 1;
 					bossbat->isHurt = true;
 					bossbat->hurtTime = GetTickCount();
+					bossbat->StartUntouchable();
 
 					if (CGame::GetInstance()->bossheath <= 0)
 					{
@@ -50,15 +51,18 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (wl < zr && wr > zl && wt < zb && wb > zt - 10)
 				{
-					CGame::GetInstance()->bossheath -= 1;
-					dracula->isHit = true;
-
-					if (CGame::GetInstance()->bossheath <= 0)
+					if (dracula->state == DRACULA_STATE_ATTACK && !dracula->isHit)
 					{
-						dracula->isDie = true;
-						Simon::score += 100;
-						//CGame::GetInstance()->start_fight_boss = false;
-						CGame::GetInstance()->bossheath = 16;
+						CGame::GetInstance()->bossheath -= 16;
+						dracula->isHit = true;
+
+						if (CGame::GetInstance()->bossheath <= 0)
+						{
+							dracula->isDie = true;
+							Simon::score += 100;
+							//CGame::GetInstance()->start_fight_boss = false;
+							CGame::GetInstance()->bossheath = 16;
+						}
 					}
 				}
 			}
@@ -91,10 +95,14 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (wl < zr && wr > zl && wt < zb && wb > zt)
 				{
-					CGame::GetInstance()->bossheath -= 1;
-					superDracula->isHitted = true;
-					superDracula->isBleeding = false;
-					superDracula->hitTime = GetTickCount();
+					if (!superDracula->isUntouchable)
+					{
+						CGame::GetInstance()->bossheath -= 1;
+						superDracula->isHitted = true;
+						superDracula->isBleeding = false;
+						superDracula->hitTime = GetTickCount();
+						superDracula->StartUntouchable();
+					}
 
 					if (CGame::GetInstance()->bossheath <= 0)
 					{
