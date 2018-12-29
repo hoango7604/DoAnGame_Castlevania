@@ -101,6 +101,8 @@ DWORD timer; // load enemy
 bool count_enemy = true;
 DWORD gameTime = 999000;
 
+bool dracula_dead = false;
+
 bool simon_reborn = false;
 DWORD simon_dead_timer;
 
@@ -306,7 +308,11 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		{
 			if (simon->isAttack == false && simon->currentWeapon != 0)
 			{
-				GenerateWeapon();
+				if (simon->heartsAmount > 0)
+				{
+					simon->heartsAmount -= 1;
+					GenerateWeapon();
+				}
 			}
 		}
 	}
@@ -2594,7 +2600,7 @@ void Update(DWORD dt)
 		simon->GetPosition(x, y);
 		if (!simon->isLevelUp)
 			gameTime -= dt;
-		if (GetTickCount() - next_lv > 1000 && next_lv > 0 && check_next_lv == true)
+		if (GetTickCount() - next_lv > 5000 && next_lv > 0 && check_next_lv == true)
 		{
 			lv = 35;
 			checkload = false;
@@ -3360,27 +3366,52 @@ void Update(DWORD dt)
 					{
 						if (dynamic_cast<Dracula *>(objects.at(i)))
 						{
-							for (int i = 0; i < 3; i++)
-							{
-								for (int j = 0; j < 4; j++)
-								{
-									// Thêm hiệu ứng tóe lửa
-									whipEffect = new Effect(GetTickCount());
-									whipEffect->AddAnimation(806);
-									whipEffect->SetPosition(object_x + i * DRACULA_BBOX_WIDTH, object_y + j * DRACULA_BBOX_HEIGHT);
-									objects.push_back(whipEffect);
-									listGrids->AddObject(whipEffect);
+							Dracula *dracula = dynamic_cast<Dracula *>(objects.at(i));
 
-									whipEffect = new Effect(GetTickCount());
-									whipEffect->AddAnimation(807);
-									whipEffect->SetPosition(object_x + i * DRACULA_BBOX_WIDTH, object_y + j * DRACULA_BBOX_HEIGHT);
-									objects.push_back(whipEffect);
-									listGrids->AddObject(whipEffect);
-								}
+							if (!dracula_dead)
+							{
+								item = new Item();
+								item->SetPosition(object_x, object_y);
+
+								if (enemy->nx > 0)
+									item->SetSpeed(-0.4f, -0.4f);
+								else
+									item->SetSpeed(0.4f, -0.4f);
+
+								item->appearTime = GetTickCount();
+								item->AddAnimation(826);
+								objects.push_back(item);
+								listGrids->AddObject(item);
+
+								dracula_dead = true;
 							}
 
-							game->bossheath = 16;
-							listGrids->AddObject("Castlevania\\resource\\SuperDracula.txt", enemy->x, enemy->y, simon);
+							//whipEffect = new Effect(GetTickCount());
+							if (dracula->state == DRACULA_STATE_INVISIBLE)
+							{
+								for (int i = 0; i < 3; i++)
+								{
+									for (int j = 0; j < 4; j++)
+									{
+										// Thêm hiệu ứng tóe lửa
+										whipEffect = new Effect(GetTickCount());
+										whipEffect->AddAnimation(806);
+										whipEffect->SetPosition(enemy->x + i * DRACULA_BBOX_WIDTH, enemy->y + j * DRACULA_BBOX_HEIGHT);
+										objects.push_back(whipEffect);
+										listGrids->AddObject(whipEffect);
+
+										whipEffect = new Effect(GetTickCount());
+										whipEffect->AddAnimation(807);
+										whipEffect->SetPosition(enemy->x + i * DRACULA_BBOX_WIDTH, enemy->y + j * DRACULA_BBOX_HEIGHT);
+										objects.push_back(whipEffect);
+										listGrids->AddObject(whipEffect);
+									}
+								}
+
+								listRemoveObjects.push_back(enemy);
+								game->bossheath = 16;
+								listGrids->AddObject("Castlevania\\resource\\SuperDracula.txt", enemy->x, enemy->y, simon);
+							}
 						}
 						else
 						{
@@ -3439,7 +3470,8 @@ void Update(DWORD dt)
 						listGrids->AddObject(whipEffect);
 					}
 
-					listRemoveObjects.push_back(enemy);
+					if (!dynamic_cast<Dracula *>(objects.at(i)))
+						listRemoveObjects.push_back(enemy);
 				}
 			}
 			else if (dynamic_cast<BigFire *>(objects.at(i)) || dynamic_cast<Candle *>(objects.at(i)))
@@ -3630,6 +3662,8 @@ void Update(DWORD dt)
 					simon->SetPosition(3230,150);
 					break;
 				case 22:
+					countLoadResource2_1 = false;
+					LoadResourceLv2_1();
 					countLoadResource2_2 = false;
 					break;
 				case 99:
