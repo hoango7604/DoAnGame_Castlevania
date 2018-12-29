@@ -567,8 +567,9 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 					break;
 				case CHECKPOINT_LEVELUP:
 					if (!isLevelUp)
-					{
+					{						
 						x -= nx * 1.0f;
+						
 						isLevelUp = true;
 						onCheckPointTime = GetTickCount();
 					}

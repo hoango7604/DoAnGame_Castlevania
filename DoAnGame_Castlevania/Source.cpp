@@ -2579,7 +2579,7 @@ void Update(DWORD dt)
 			simon->SetState(SIMON_STATE_IDLE);
 			if (GetTickCount() - ready > 2000 && ready > 0)
 			{
-				
+				listGrids->ReleaseList();
 				lv = 1;
 				checkload = false;
 				isEnableKeyBoard = true;
@@ -2598,7 +2598,7 @@ void Update(DWORD dt)
 		{
 			lv = 35;
 			checkload = false;
-			check_next_lv = true;
+			check_next_lv = false;
 		}
 
 		if (lv == 1)
@@ -2614,7 +2614,12 @@ void Update(DWORD dt)
 				isEnableKeyBoard = false;
 				simon->SetState(SIMON_STATE_WALK);
 				if (!simon->isJump)
-					simon->vx = SIMON_LEVELUP_SPEED;
+				{
+					if (simon->nx > 0)
+						simon->vx = SIMON_LEVELUP_SPEED;
+					else if (simon->nx <0)
+						simon->vx = -SIMON_LEVELUP_SPEED;
+				}
 				DWORD timer = GetTickCount();
 				if (timer - simon->onCheckPointTime > LEVELUP_TIME)
 				{
@@ -2706,6 +2711,9 @@ void Update(DWORD dt)
 				lv = 22;
 				checkload = false;
 				temp = true;
+				listGrids->ReleaseList();
+				listGrids->InitList(MAX_WIDTH_LV2_2);
+				LoadResourceLv2_2();
 
 			}
 		}
@@ -2753,6 +2761,9 @@ void Update(DWORD dt)
 
 				lv = 21;
 				checkload = false;
+				listGrids->ReleaseList();
+				listGrids->InitList(MAX_WIDTH_LV2_1);
+				LoadResourceLv2_1();
 				if (x < 400)
 				{
 					simon->SetPosition(3198, 419);
@@ -2816,7 +2827,12 @@ void Update(DWORD dt)
 				isEnableKeyBoard = false;
 				simon->SetState(SIMON_STATE_WALK);
 				if (!simon->isJump)
-					simon->vx = SIMON_LEVELUP_SPEED;
+				{
+					if (simon->nx > 0)
+						simon->vx = SIMON_LEVELUP_SPEED;
+					else if (simon->nx < 0)
+						simon->vx = -SIMON_LEVELUP_SPEED;
+				}
 				DWORD timer = GetTickCount();
 				if (timer - simon->onCheckPointTime > LEVELUP_TIME)
 				{
@@ -3611,6 +3627,7 @@ void Update(DWORD dt)
 					break;
 				case 21:
 					countLoadResource2_1 = false;
+					simon->SetPosition(3230,150);
 					break;
 				case 22:
 					countLoadResource2_2 = false;
@@ -3623,9 +3640,16 @@ void Update(DWORD dt)
 					break;
 				case 34:
 					countLoadResource3_4 = false;
+					/*listGrids->InitList(MAX_WIDTH_LV3_3);
+					LoadResourceLv3_4();*/
+					simon->SetPosition(x, y - 60);
+					
 					break;
 				case 33:
 					countLoadResource3_3 = false;
+					listGrids->InitList(MAX_WIDTH_LV3_3);
+					LoadResourceLv3_3();
+					
 					break;
 				case 31:
 					countLoadResource3_1 = false;
