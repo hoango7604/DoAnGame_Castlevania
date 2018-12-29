@@ -3629,7 +3629,7 @@ void Update(DWORD dt)
 				simon_reborn = true;
 			}
 
-			if (GetTickCount() - simon_dead_timer > 2000 && simon_reborn)
+			if (GetTickCount() - simon_dead_timer > 500 && simon_reborn)
 			{
 				simon->isDead = false;
 				simon->SetState(SIMON_STATE_IDLE);
@@ -3657,6 +3657,7 @@ void Update(DWORD dt)
 					countLoadResource3_5 = false;
 					break;
 				case 34:
+					simon->SetPosition(1455, 200);
 					countLoadResource3_4 = false;
 					break;
 				case 33:
@@ -3667,6 +3668,7 @@ void Update(DWORD dt)
 					break;
 				}
 
+				game->bossheath = 16;
 				simon->preHP = 16;
 				simon_reborn = false;
 			}

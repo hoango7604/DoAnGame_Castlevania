@@ -378,6 +378,11 @@ void Simon::Update(int lv,DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		SetState(SIMON_STATE_DIE);
 	}
 
+	if (y > 480)
+	{
+		SetState(SIMON_STATE_DIE);
+	}
+
 	// Simple fall down
 	if (!isOnStair)
 		vy += SIMON_GRAVITY * dt;
