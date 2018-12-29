@@ -2720,6 +2720,7 @@ void Update(DWORD dt)
 				listGrids->ReleaseList();
 				listGrids->InitList(MAX_WIDTH_LV2_2);
 				LoadResourceLv2_2();
+				countLoadResource2_2 = true;
 
 			}
 		}
@@ -3527,59 +3528,58 @@ void Update(DWORD dt)
 						 * 1% clock
 						 */
 
-						srand(time(NULL));
 						int random_portion = rand() % 100;
 
 						// Heart
-						/*if (random_portion < 10) // 90
+						if (random_portion < 80) // 75
 						{
 							item->AddAnimation(ITEM_HEART);
 							item->SetType(ITEM_HEART);
-
 						}
 						// Money
-						else if (random_portion >= 10 && random_portion < 20) // 90 94
+						else if (random_portion >= 80 && random_portion < 85) // 90 94
 						{
 							item->AddAnimation(ITEM_HOLYWATER);
 							item->SetType(ITEM_HOLYWATER);
 						}
 						// Knife
-						else if(random_portion >= 20 && random_portion < 30) // 94 95
+						else if(random_portion >= 85 && random_portion < 88) // 94 95
 						{
 							item->AddAnimation(ITEM_KNIFE);
 							item->SetType(ITEM_KNIFE);
 						}
 						// Axe
-						else if(random_portion >= 30 && random_portion < 40)
+						else if(random_portion >= 88 && random_portion < 90)
 						{
 							item->AddAnimation(ITEM_AXE);
 							item->SetType(ITEM_AXE);
 						}
 						// Holy water
-						else if(random_portion >= 40 && random_portion < 50)
+						else if(random_portion >= 90 && random_portion < 92)
 						{
 							item->AddAnimation(ITEM_HOLYWATER);
 							item->SetType(ITEM_HOLYWATER);
 						}
 						// Cross
-						else if(random_portion >= 50 && random_portion < 70)
+						else if(random_portion >= 92 && random_portion < 94)
 						{
 							item->AddAnimation(ITEM_CROSS);
 							item->SetType(ITEM_CROSS);
 						}
 						// Rosary
-						else if(random_portion >= 70 && random_portion < 80)
+						else if(random_portion >= 94 && random_portion < 96)
 						{
 							item->AddAnimation(ITEM_ROSARY);
 							item->SetType(ITEM_ROSARY);
 						}
 						// Clock
-						else if(random_portion >= 80 && random_portion < 100)
+						else if(random_portion >= 96 && random_portion < 98)
 						{
 							item->AddAnimation(ITEM_CLOCK);
 							item->SetType(ITEM_CLOCK);
-						}*/
-						if (random_portion >= 0 && random_portion <= 100)
+						}
+						// Invisible
+						else if (random_portion >= 98 && random_portion <= 100)
 						{
 
 							item->AddAnimation(ITEM_INVICIBILITY);
@@ -3658,15 +3658,14 @@ void Update(DWORD dt)
 					countLoadResource2 = false;
 					break;
 				case 21:
+				case 22:
+					lv = 21;
 					countLoadResource2_1 = false;
 					simon->SetPosition(3230,150);
-					break;
-				case 22:
-					countLoadResource2_1 = false;
-					LoadResourceLv2_1();
-					countLoadResource2_2 = false;
+					checkload = false;
 					break;
 				case 99:
+					simon->SetPosition(4200, 100);
 					countLoadResourceboss = false;
 					break;
 				case 35:
@@ -3675,8 +3674,6 @@ void Update(DWORD dt)
 				case 34:
 					simon->SetPosition(1455, 200);
 					countLoadResource3_4 = false;
-					/*listGrids->InitList(MAX_WIDTH_LV3_3);
-					LoadResourceLv3_4();*/
 					
 					break;
 				case 33:
@@ -3685,6 +3682,10 @@ void Update(DWORD dt)
 					listGrids->InitList(MAX_WIDTH_LV3_3);
 					LoadResourceLv3_3();
 					
+					break;
+				case 32:
+					countLoadResource3_2 = false;
+					simon->SetPosition(500, 200);
 					break;
 				case 31:
 					countLoadResource3_1 = false;
@@ -4177,6 +4178,7 @@ int Run()
 	int done = 0;
 	DWORD frameStart = GetTickCount();
 	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
+	srand(time(NULL));
 
 	while (!done)
 	{
